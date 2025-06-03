@@ -257,6 +257,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#generowanie-pracowników" id="toc-generowanie-pracowników" class="nav-link" data-scroll-target="#generowanie-pracowników"><span class="header-section-number">5</span> Generowanie pracowników</a></li>
   <li><a href="#generowanie-klientów" id="toc-generowanie-klientów" class="nav-link" data-scroll-target="#generowanie-klientów"><span class="header-section-number">6</span> Generowanie klientów</a></li>
   <li><a href="#zapis-danych-do-bazy" id="toc-zapis-danych-do-bazy" class="nav-link" data-scroll-target="#zapis-danych-do-bazy"><span class="header-section-number">7</span> Zapis danych do bazy</a></li>
+  <li><a href="#wygenerowanie-statków-kosmicznych" id="toc-wygenerowanie-statków-kosmicznych" class="nav-link" data-scroll-target="#wygenerowanie-statków-kosmicznych"><span class="header-section-number">8</span> Wygenerowanie statków kosmicznych</a></li>
+  <li><a href="#stałe-do-oferty-nazwy-itp.-i-wprowadzenie-ich-do-bazy" id="toc-stałe-do-oferty-nazwy-itp.-i-wprowadzenie-ich-do-bazy" class="nav-link" data-scroll-target="#stałe-do-oferty-nazwy-itp.-i-wprowadzenie-ich-do-bazy"><span class="header-section-number">9</span> Stałe do oferty (nazwy itp.) i wprowadzenie ich do bazy</a>
+  <ul class="collapse">
+  <li><a href="#generowanie-reszty" id="toc-generowanie-reszty" class="nav-link" data-scroll-target="#generowanie-reszty"><span class="header-section-number">9.1</span> Generowanie reszty</a></li>
+  </ul></li>
   </ul>
 </nav>
 </div>
@@ -296,13 +301,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="importy" class="level2" data-number="2">
 <h2 data-number="2" class="anchored" data-anchor-id="importy"><span class="header-section-number">2</span> Importy</h2>
-<div id="5d5be9e1" class="cell" data-execution_count="1">
+<div id="61879fe2" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> mysql.connector</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> random</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> math</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> datetime <span class="im">import</span> date, datetime</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> datetime <span class="im">import</span> date, datetime, timedelta</span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> dateutil.relativedelta <span class="im">import</span> relativedelta</span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -312,7 +317,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="połączenie-z-bazą-danych-i-wyczyszczenie-jej" class="level2" data-number="3">
 <h2 data-number="3" class="anchored" data-anchor-id="połączenie-z-bazą-danych-i-wyczyszczenie-jej"><span class="header-section-number">3</span> Połączenie z bazą danych i wyczyszczenie jej</h2>
-<div id="31996cb2" class="cell" data-execution_count="2">
+<div id="5ef0ce23" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>con <span class="op">=</span> mysql.connector.<span class="ex">connect</span>(</span>
@@ -366,7 +371,7 @@ Wyczyszczono wszystkie tabele.</code></pre>
 </section>
 <section id="wyznaczenie-parametrów" class="level2" data-number="4">
 <h2 data-number="4" class="anchored" data-anchor-id="wyznaczenie-parametrów"><span class="header-section-number">4</span> Wyznaczenie parametrów</h2>
-<div id="1eabb396" class="cell" data-execution_count="3">
+<div id="878a9a2b" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>n_employees <span class="op">=</span> <span class="dv">200</span></span>
@@ -381,13 +386,13 @@ Wyczyszczono wszystkie tabele.</code></pre>
 <span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(start_of_business)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>2020-06-03</code></pre>
+<pre><code>2020-06-04</code></pre>
 </div>
 </div>
 </section>
 <section id="generowanie-pracowników" class="level2" data-number="5">
 <h2 data-number="5" class="anchored" data-anchor-id="generowanie-pracowników"><span class="header-section-number">5</span> Generowanie pracowników</h2>
-<div id="b4cbc879" class="cell" data-execution_count="4">
+<div id="46f28a69" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>fake <span class="op">=</span> Faker(<span class="st">"pl_PL"</span>)</span>
@@ -454,7 +459,7 @@ Wyczyszczono wszystkie tabele.</code></pre>
 <pre><code>Generowanie danych dla 200 pracowników...
 Wygenerowano 200 rekordów dla pracowników.</code></pre>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="18">
+<div class="cell-output cell-output-display" data-execution_count="4">
 <div>
 
 
@@ -475,58 +480,58 @@ Wygenerowano 200 rekordów dla pracowników.</code></pre>
 <tbody>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">0</td>
-<td>Borys</td>
-<td>Świerad</td>
-<td>Inżynier systemów</td>
-<td>8762.17</td>
-<td>2021-11-26</td>
-<td>2025-02-22</td>
-<td>borys.świerad@spaceu.com</td>
-<td>+48 734 746 702</td>
+<td>Rozalia</td>
+<td>Gryta</td>
+<td>Lekarz pokładowy</td>
+<td>9597.24</td>
+<td>2020-07-17</td>
+<td>None</td>
+<td>rozalia.gryta@spaceu.com</td>
+<td>695 132 303</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">1</td>
-<td>Cezary</td>
-<td>Radko</td>
-<td>Inżynier systemów</td>
-<td>8124.48</td>
-<td>2022-09-25</td>
+<td>Lidia</td>
+<td>Stoltmann</td>
+<td>Specjalista HR</td>
+<td>10635.73</td>
+<td>2024-10-06</td>
 <td>None</td>
-<td>cezary.radko@spaceu.com</td>
-<td>881 487 336</td>
+<td>lidia.stoltmann@spaceu.com</td>
+<td>+48 518 593 991</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">2</td>
-<td>Ryszard</td>
-<td>Cherek</td>
-<td>Analityk danych</td>
-<td>9853.65</td>
-<td>2024-02-07</td>
-<td>2024-11-08</td>
-<td>ryszard.cherek@spaceu.com</td>
-<td>698 904 542</td>
+<td>Marcelina</td>
+<td>Wiertelak</td>
+<td>Technik pokładowy</td>
+<td>12001.29</td>
+<td>2022-05-31</td>
+<td>None</td>
+<td>marcelina.wiertelak@spaceu.com</td>
+<td>+48 798 995 151</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">3</td>
-<td>Inga</td>
-<td>Geisler</td>
-<td>Inżynier systemów</td>
-<td>7549.87</td>
-<td>2022-01-19</td>
-<td>2023-09-15</td>
-<td>inga.geisler@spaceu.com</td>
-<td>607 676 284</td>
+<td>Sebastian</td>
+<td>Hanc</td>
+<td>Specjalista HR</td>
+<td>13723.06</td>
+<td>2020-07-27</td>
+<td>None</td>
+<td>sebastian.hanc@spaceu.com</td>
+<td>+48 691 767 080</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">4</td>
-<td>Kornelia</td>
-<td>Gabryel</td>
-<td>Technik pokładowy</td>
-<td>7021.35</td>
-<td>2022-12-28</td>
-<td>None</td>
-<td>kornelia.gabryel@spaceu.com</td>
-<td>513 390 828</td>
+<td>Nicole</td>
+<td>Jonik</td>
+<td>Inspektor jakości</td>
+<td>8325.07</td>
+<td>2022-06-30</td>
+<td>2023-11-27</td>
+<td>nicole.jonik@spaceu.com</td>
+<td>666 693 031</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">...</td>
@@ -541,58 +546,58 @@ Wygenerowano 200 rekordów dla pracowników.</code></pre>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">195</td>
-<td>Ada</td>
-<td>Szmelter</td>
+<td>Aniela</td>
+<td>Konsek</td>
 <td>Kontroler lotów</td>
-<td>10780.89</td>
-<td>2024-05-16</td>
+<td>10477.56</td>
+<td>2020-11-14</td>
 <td>None</td>
-<td>ada.szmelter@spaceu.com</td>
-<td>792 062 494</td>
+<td>aniela.konsek@spaceu.com</td>
+<td>+48 519 821 170</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">196</td>
-<td>Malwina</td>
-<td>Klemens</td>
-<td>Mechanik rakietowy</td>
-<td>14887.92</td>
-<td>2023-03-21</td>
+<td>Emil</td>
+<td>Banyś</td>
+<td>Astrogator</td>
+<td>9503.84</td>
+<td>2024-09-12</td>
 <td>None</td>
-<td>malwina.klemens@spaceu.com</td>
-<td>+48 661 259 942</td>
+<td>emil.banyś@spaceu.com</td>
+<td>+48 607 950 724</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">197</td>
-<td>Marcin</td>
-<td>Stąpór</td>
-<td>Pilot statku</td>
-<td>13244.24</td>
-<td>2024-05-16</td>
+<td>Kamila</td>
+<td>Kulma</td>
+<td>Technik pokładowy</td>
+<td>8655.54</td>
+<td>2022-11-12</td>
 <td>None</td>
-<td>marcin.stąpór@spaceu.com</td>
-<td>690 142 632</td>
+<td>kamila.kulma@spaceu.com</td>
+<td>733 371 022</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">198</td>
-<td>Piotr</td>
-<td>Jeske</td>
-<td>Astrogator</td>
-<td>8146.21</td>
-<td>2024-02-14</td>
-<td>2025-04-12</td>
-<td>piotr.jeske@spaceu.com</td>
-<td>+48 572 029 591</td>
+<td>Albert</td>
+<td>Nesterowicz</td>
+<td>Lekarz pokładowy</td>
+<td>5108.96</td>
+<td>2024-04-02</td>
+<td>2024-12-11</td>
+<td>albert.nesterowicz@spaceu.com</td>
+<td>+48 664 038 192</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">199</td>
-<td>Marek</td>
-<td>Kieszek</td>
-<td>Kontroler lotów</td>
-<td>10619.34</td>
-<td>2020-12-14</td>
-<td>None</td>
-<td>marek.kieszek@spaceu.com</td>
-<td>+48 882 965 779</td>
+<td>Mikołaj</td>
+<td>Kamyk</td>
+<td>Pilot statku</td>
+<td>7555.21</td>
+<td>2022-04-16</td>
+<td>2023-06-10</td>
+<td>mikołaj.kamyk@spaceu.com</td>
+<td>+48 32 758 44 85</td>
 </tr>
 </tbody>
 </table>
@@ -604,7 +609,7 @@ Wygenerowano 200 rekordów dla pracowników.</code></pre>
 </section>
 <section id="generowanie-klientów" class="level2" data-number="6">
 <h2 data-number="6" class="anchored" data-anchor-id="generowanie-klientów"><span class="header-section-number">6</span> Generowanie klientów</h2>
-<div id="5c4faa2d" class="cell" data-execution_count="5">
+<div id="0f516ff1" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>cli_rows, used_emails_cli <span class="op">=</span> [], <span class="bu">set</span>()</span>
@@ -639,7 +644,7 @@ Wygenerowano 200 rekordów dla pracowników.</code></pre>
 Generowanie danych dla 600 klientów...
 Wygenerowano 600 rekordów dla klientów.</code></pre>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="19">
+<div class="cell-output cell-output-display" data-execution_count="5">
 <div>
 
 
@@ -657,43 +662,43 @@ Wygenerowano 600 rekordów dla klientów.</code></pre>
 <tbody>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">0</td>
-<td>Franciszek</td>
-<td>Radke</td>
-<td>1997-07-02</td>
-<td>franciszek.radke@gmail.com</td>
-<td>726 149 270</td>
+<td>Kornelia</td>
+<td>Filek</td>
+<td>1991-01-31</td>
+<td>kornelia.filek@gmail.com</td>
+<td>663 044 827</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">1</td>
-<td>Urszula</td>
-<td>Gerlach</td>
-<td>2003-08-05</td>
-<td>urszula.gerlach@gmail.com</td>
-<td>+48 735 406 098</td>
+<td>Ksawery</td>
+<td>Cieciura</td>
+<td>2002-03-07</td>
+<td>ksawery.cieciura@gmail.com</td>
+<td>+48 737 536 784</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">2</td>
-<td>Eryk</td>
-<td>Gill</td>
-<td>1993-06-27</td>
-<td>eryk.gill@gmail.com</td>
-<td>+48 724 602 098</td>
+<td>Aurelia</td>
+<td>Przewoźnik</td>
+<td>2002-10-21</td>
+<td>aurelia.przewoźnik@gmail.com</td>
+<td>519 530 011</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">3</td>
-<td>Ksawery</td>
-<td>Twardzik</td>
-<td>1965-01-01</td>
-<td>ksawery.twardzik@gmail.com</td>
-<td>+48 790 234 456</td>
+<td>Piotr</td>
+<td>Fołta</td>
+<td>2002-06-17</td>
+<td>piotr.fołta@gmail.com</td>
+<td>574 192 971</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">4</td>
-<td>Ida</td>
-<td>Smalec</td>
-<td>1976-08-24</td>
-<td>ida.smalec@gmail.com</td>
-<td>+48 22 956 77 80</td>
+<td>Justyna</td>
+<td>Gierek</td>
+<td>1988-12-21</td>
+<td>justyna.gierek@gmail.com</td>
+<td>665 882 508</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">...</td>
@@ -705,43 +710,43 @@ Wygenerowano 600 rekordów dla klientów.</code></pre>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">595</td>
-<td>Marika</td>
-<td>Janisz</td>
-<td>1975-10-27</td>
-<td>marika.janisz@gmail.com</td>
-<td>32 725 36 51</td>
+<td>Kornelia</td>
+<td>Juśkiewicz</td>
+<td>1971-09-06</td>
+<td>kornelia.juśkiewicz@gmail.com</td>
+<td>508 917 355</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">596</td>
-<td>Kazimierz</td>
-<td>Ochnik</td>
-<td>1968-11-13</td>
-<td>kazimierz.ochnik@gmail.com</td>
-<td>787 529 487</td>
+<td>Patryk</td>
+<td>Pracz</td>
+<td>2001-01-27</td>
+<td>patryk.pracz@gmail.com</td>
+<td>+48 22 108 05 87</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">597</td>
-<td>Karol</td>
-<td>Szczepaniec</td>
-<td>1969-09-06</td>
-<td>karol.szczepaniec@gmail.com</td>
-<td>725 092 645</td>
+<td>Gabriel</td>
+<td>Skoneczna</td>
+<td>1984-05-09</td>
+<td>gabriel.skoneczna@gmail.com</td>
+<td>+48 662 789 395</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">598</td>
-<td>Franciszek</td>
-<td>Franas</td>
-<td>2005-02-07</td>
-<td>franciszek.franas@gmail.com</td>
-<td>+48 508 733 343</td>
+<td>Jakub</td>
+<td>Pruchnik</td>
+<td>1978-02-02</td>
+<td>jakub.pruchnik@gmail.com</td>
+<td>+48 509 004 098</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">599</td>
-<td>Kacper</td>
-<td>Przeklasa</td>
-<td>1970-10-29</td>
-<td>kacper.przeklasa@gmail.com</td>
-<td>22 824 11 94</td>
+<td>Dorota</td>
+<td>Szczypiór</td>
+<td>1994-06-11</td>
+<td>dorota.szczypiór@gmail.com</td>
+<td>22 197 54 69</td>
 </tr>
 </tbody>
 </table>
@@ -753,65 +758,56 @@ Wygenerowano 600 rekordów dla klientów.</code></pre>
 </section>
 <section id="zapis-danych-do-bazy" class="level2" data-number="7">
 <h2 data-number="7" class="anchored" data-anchor-id="zapis-danych-do-bazy"><span class="header-section-number">7</span> Zapis danych do bazy</h2>
-<div id="55024fc6" class="cell" data-execution_count="6">
+<div id="c8945e77" class="cell" data-execution_count="6">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> con <span class="kw">and</span> con.is_connected():</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    cursor <span class="op">=</span> con.cursor()</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Połączono z bazą danych. Rozpoczynanie wstawiania danych..."</span>)</span>
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Wstawianie pracowników</span></span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Kolumny w tabeli 'employees' (zgodnie z DDL, bez auto-increment ID):</span></span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># first_name, last_name, position, salary, hire_date, termination_date, email, phone</span></span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    sql_insert_employee <span class="op">=</span> <span class="st">"""</span></span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="st">    INSERT INTO employees (first_name, last_name, position, salary, hire_date, termination_date, email, phone)</span></span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="st">    VALUES (</span><span class="sc">%(first_name)s</span><span class="st">, </span><span class="sc">%(last_name)s</span><span class="st">, </span><span class="sc">%(position)s</span><span class="st">, </span><span class="sc">%(salary)s</span><span class="st">, </span><span class="sc">%(hire_date)s</span><span class="st">, </span><span class="sc">%(termination_date)s</span><span class="st">, </span><span class="sc">%(email)s</span><span class="st">, </span><span class="sc">%(phone)s</span><span class="st">)</span></span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="st">    """</span></span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>    employee_records_to_insert <span class="op">=</span> df_emp.to_dict(orient<span class="op">=</span><span class="st">'records'</span>)</span>
-<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:</span>
-<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>        cursor.executemany(sql_insert_employee, employee_records_to_insert)</span>
-<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>        con.commit()</span>
-<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>cursor<span class="sc">.</span>rowcount<span class="sc">}</span><span class="ss"> rekordów wstawiono/zaktualizowano w tabeli employees."</span>)</span>
-<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span> mysql.connector.Error <span class="im">as</span> err:</span>
-<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"Błąd podczas wstawiania do employees: </span><span class="sc">{</span>err<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>        con.rollback()</span>
-<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Wstawianie klientów</span></span>
-<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Kolumny w tabeli 'clients' (zgodnie z DDL, bez auto-increment ID):</span></span>
-<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>    <span class="co"># first_name, last_name, date_of_birth, email, phone</span></span>
-<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>    sql_insert_client <span class="op">=</span> <span class="st">"""</span></span>
-<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a><span class="st">    INSERT INTO clients (first_name, last_name, date_of_birth, email, phone)</span></span>
-<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a><span class="st">    VALUES (</span><span class="sc">%(first_name)s</span><span class="st">, </span><span class="sc">%(last_name)s</span><span class="st">, </span><span class="sc">%(date_of_birth)s</span><span class="st">, </span><span class="sc">%(email)s</span><span class="st">, </span><span class="sc">%(phone)s</span><span class="st">)</span></span>
-<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a><span class="st">    """</span></span>
-<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>    client_records_to_insert <span class="op">=</span> df_cli.to_dict(orient<span class="op">=</span><span class="st">'records'</span>)</span>
-<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:</span>
-<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a>        cursor.executemany(sql_insert_client, client_records_to_insert)</span>
-<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a>        con.commit()</span>
-<span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>cursor<span class="sc">.</span>rowcount<span class="sc">}</span><span class="ss"> rekordów wstawiono/zaktualizowano w tabeli clients."</span>)</span>
-<span id="cb10-35"><a href="#cb10-35" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span> mysql.connector.Error <span class="im">as</span> err:</span>
-<span id="cb10-36"><a href="#cb10-36" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"Błąd podczas wstawiania do clients: </span><span class="sc">{</span>err<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb10-37"><a href="#cb10-37" aria-hidden="true" tabindex="-1"></a>        con.rollback()</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    sql_insert_employee <span class="op">=</span> <span class="st">"""</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="st">    INSERT INTO employees (first_name, last_name, position, salary, hire_date, termination_date, email, phone)</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="st">    VALUES (</span><span class="sc">%(first_name)s</span><span class="st">, </span><span class="sc">%(last_name)s</span><span class="st">, </span><span class="sc">%(position)s</span><span class="st">, </span><span class="sc">%(salary)s</span><span class="st">, </span><span class="sc">%(hire_date)s</span><span class="st">, </span><span class="sc">%(termination_date)s</span><span class="st">, </span><span class="sc">%(email)s</span><span class="st">, </span><span class="sc">%(phone)s</span><span class="st">)</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="st">    """</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>    employee_records_to_insert <span class="op">=</span> df_emp.to_dict(orient<span class="op">=</span><span class="st">'records'</span>)</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>        cursor.executemany(sql_insert_employee, employee_records_to_insert)</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>        con.commit()</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>cursor<span class="sc">.</span>rowcount<span class="sc">}</span><span class="ss"> rekordów wstawiono/zaktualizowano w tabeli employees."</span>)</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span> mysql.connector.Error <span class="im">as</span> err:</span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"Błąd podczas wstawiania do employees: </span><span class="sc">{</span>err<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>        con.rollback()</span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>    sql_insert_client <span class="op">=</span> <span class="st">"""</span></span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a><span class="st">    INSERT INTO clients (first_name, last_name, date_of_birth, email, phone)</span></span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a><span class="st">    VALUES (</span><span class="sc">%(first_name)s</span><span class="st">, </span><span class="sc">%(last_name)s</span><span class="st">, </span><span class="sc">%(date_of_birth)s</span><span class="st">, </span><span class="sc">%(email)s</span><span class="st">, </span><span class="sc">%(phone)s</span><span class="st">)</span></span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a><span class="st">    """</span></span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>    client_records_to_insert <span class="op">=</span> df_cli.to_dict(orient<span class="op">=</span><span class="st">'records'</span>)</span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:</span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>        cursor.executemany(sql_insert_client, client_records_to_insert)</span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>        con.commit()</span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>cursor<span class="sc">.</span>rowcount<span class="sc">}</span><span class="ss"> rekordów wstawiono/zaktualizowano w tabeli clients."</span>)</span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span> mysql.connector.Error <span class="im">as</span> err:</span>
+<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"Błąd podczas wstawiania do clients: </span><span class="sc">{</span>err<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a>        con.rollback()</span>
+<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Pokaż, ile w sumie w bazie (używając mysql.connector)</span></span>
+<span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:</span>
+<span id="cb10-35"><a href="#cb10-35" aria-hidden="true" tabindex="-1"></a>        cursor.execute(<span class="st">"SELECT COUNT(*) FROM employees"</span>)</span>
+<span id="cb10-36"><a href="#cb10-36" aria-hidden="true" tabindex="-1"></a>        total_emp <span class="op">=</span> cursor.fetchone()[<span class="dv">0</span>]</span>
+<span id="cb10-37"><a href="#cb10-37" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"Łącznie w tabeli employees: </span><span class="sc">{</span>total_emp<span class="sc">}</span><span class="ss">"</span>)</span>
 <span id="cb10-38"><a href="#cb10-38" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-39"><a href="#cb10-39" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Pokaż, ile w sumie w bazie (używając mysql.connector)</span></span>
-<span id="cb10-40"><a href="#cb10-40" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:</span>
-<span id="cb10-41"><a href="#cb10-41" aria-hidden="true" tabindex="-1"></a>        cursor.execute(<span class="st">"SELECT COUNT(*) FROM employees"</span>)</span>
-<span id="cb10-42"><a href="#cb10-42" aria-hidden="true" tabindex="-1"></a>        total_emp <span class="op">=</span> cursor.fetchone()[<span class="dv">0</span>]</span>
-<span id="cb10-43"><a href="#cb10-43" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"Łącznie w tabeli employees: </span><span class="sc">{</span>total_emp<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb10-39"><a href="#cb10-39" aria-hidden="true" tabindex="-1"></a>        cursor.execute(<span class="st">"SELECT COUNT(*) FROM clients"</span>)</span>
+<span id="cb10-40"><a href="#cb10-40" aria-hidden="true" tabindex="-1"></a>        total_cli <span class="op">=</span> cursor.fetchone()[<span class="dv">0</span>]</span>
+<span id="cb10-41"><a href="#cb10-41" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"Łącznie w tabeli clients: </span><span class="sc">{</span>total_cli<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb10-42"><a href="#cb10-42" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span> mysql.connector.Error <span class="im">as</span> err:</span>
+<span id="cb10-43"><a href="#cb10-43" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"Błąd podczas odczytu liczby rekordów: </span><span class="sc">{</span>err<span class="sc">}</span><span class="ss">"</span>)</span>
 <span id="cb10-44"><a href="#cb10-44" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-45"><a href="#cb10-45" aria-hidden="true" tabindex="-1"></a>        cursor.execute(<span class="st">"SELECT COUNT(*) FROM clients"</span>)</span>
-<span id="cb10-46"><a href="#cb10-46" aria-hidden="true" tabindex="-1"></a>        total_cli <span class="op">=</span> cursor.fetchone()[<span class="dv">0</span>]</span>
-<span id="cb10-47"><a href="#cb10-47" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"Łącznie w tabeli clients: </span><span class="sc">{</span>total_cli<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb10-48"><a href="#cb10-48" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span> mysql.connector.Error <span class="im">as</span> err:</span>
-<span id="cb10-49"><a href="#cb10-49" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"Błąd podczas odczytu liczby rekordów: </span><span class="sc">{</span>err<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb10-50"><a href="#cb10-50" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb10-51"><a href="#cb10-51" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Zamknięcie kursora. Połączenie 'con' może pozostać otwarte dla kolejnych bloków Quarto.</span></span>
-<span id="cb10-52"><a href="#cb10-52" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Jeśli to ostatnia operacja na bazie w dokumencie, możesz rozważyć con.close().</span></span>
-<span id="cb10-53"><a href="#cb10-53" aria-hidden="true" tabindex="-1"></a>    cursor.close()</span>
-<span id="cb10-54"><a href="#cb10-54" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Zakończono operacje na bazie danych dla tego bloku."</span>)</span>
-<span id="cb10-55"><a href="#cb10-55" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
-<span id="cb10-56"><a href="#cb10-56" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Błąd: Połączenie z bazą danych ('con') nie jest aktywne lub nie zostało poprawnie zainicjowane."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb10-45"><a href="#cb10-45" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Zakończono operacje na bazie danych dla tego bloku."</span>)</span>
+<span id="cb10-46"><a href="#cb10-46" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb10-47"><a href="#cb10-47" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Błąd: Połączenie z bazą danych ('con') nie jest aktywne lub nie zostało poprawnie zainicjowane."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>
@@ -823,6 +819,140 @@ Połączono z bazą danych. Rozpoczynanie wstawiania danych...
 Zakończono operacje na bazie danych dla tego bloku.</code></pre>
 </div>
 </div>
+</section>
+<section id="wygenerowanie-statków-kosmicznych" class="level2" data-number="8">
+<h2 data-number="8" class="anchored" data-anchor-id="wygenerowanie-statków-kosmicznych"><span class="header-section-number">8</span> Wygenerowanie statków kosmicznych</h2>
+<div id="8cc43c01" class="cell" data-execution_count="7">
+<details class="code-fold">
+<summary>Rozwiń kod</summary>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> random_date(start_date<span class="op">=</span>start_of_business):</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    end_date <span class="op">=</span> start_date <span class="op">+</span> timedelta(days<span class="op">=</span><span class="dv">2</span><span class="op">*</span><span class="dv">365</span>)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    delta_days <span class="op">=</span> (end_date <span class="op">-</span> start_date).days</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> start_date <span class="op">+</span> timedelta(days<span class="op">=</span>random.randint(<span class="dv">0</span>, delta_days))</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> generate_spacecraft_entries():</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>    names <span class="op">=</span> [</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Starship-Aurora"</span>, <span class="st">"Starliner-Vista"</span>, <span class="st">"Dragon-TourerXL"</span>, <span class="st">"Orion-Cruiser"</span>,</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>        <span class="st">"CosmoLiner-5"</span>, <span class="st">"Nebula-Swift"</span>, <span class="st">"Phoenix-Xplorer"</span>, <span class="st">"Voyager-Next"</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>    ]</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>    manufacturers <span class="op">=</span> [</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Space-U"</span>, <span class="st">"Boeing / Space-U"</span>, <span class="st">"Space-U / SpaceX"</span>, <span class="st">"NASA / Lockheed"</span>,</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>        <span class="st">"ESA / Airbus"</span>, <span class="st">"Blue Origin"</span>, <span class="st">"JAXA"</span>, <span class="st">"Roscosmos"</span></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>    ]</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>    capacities <span class="op">=</span> [random.randint(<span class="dv">40</span>, <span class="dv">60</span>) <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(names))]</span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>    statuses <span class="op">=</span> [<span class="st">"ACTIVE"</span>, <span class="st">"RETIRED"</span>, <span class="st">"MAINT"</span>]</span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>    spacecraft <span class="op">=</span> []</span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> name, manufacturer, capacity <span class="kw">in</span> <span class="bu">zip</span>(names, manufacturers, capacities):</span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>        status <span class="op">=</span> random.choice(statuses)</span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>        start_date <span class="op">=</span> random_date()</span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>        end_date <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> status <span class="op">==</span> <span class="st">"RETIRED"</span>:</span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a>            min_end_date <span class="op">=</span> start_date <span class="op">+</span> timedelta(days<span class="op">=</span><span class="dv">365</span>)</span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a>            max_end_date <span class="op">=</span> min_end_date <span class="op">+</span> timedelta(days<span class="op">=</span><span class="dv">3</span><span class="op">*</span><span class="dv">365</span>)</span>
+<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a>            end_date <span class="op">=</span> min_end_date <span class="op">+</span> timedelta(days<span class="op">=</span>random.randint(<span class="dv">0</span>, (max_end_date <span class="op">-</span> min_end_date).days))</span>
+<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a>        spacecraft.append((capacity, name, manufacturer, start_date, end_date, status))</span>
+<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> spacecraft</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
+<section id="stałe-do-oferty-nazwy-itp.-i-wprowadzenie-ich-do-bazy" class="level2" data-number="9">
+<h2 data-number="9" class="anchored" data-anchor-id="stałe-do-oferty-nazwy-itp.-i-wprowadzenie-ich-do-bazy"><span class="header-section-number">9</span> Stałe do oferty (nazwy itp.) i wprowadzenie ich do bazy</h2>
+<div id="035950ff" class="cell" data-execution_count="8">
+<details class="code-fold">
+<summary>Rozwiń kod</summary>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>launch_stations <span class="op">=</span> [</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Kennedy Space Center"</span>,      <span class="st">"USA"</span>, <span class="st">"Cape Canaveral"</span>, <span class="st">"ACTIVE"</span>),</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Baikonur Cosmodrome"</span>,       <span class="st">"Kazakhstan"</span>, <span class="st">"Baikonur"</span>, <span class="st">"ACTIVE"</span>),</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Guiana Space Centre"</span>,       <span class="st">"France"</span>, <span class="st">"Kourou"</span>, <span class="st">"ACTIVE"</span>),</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Wenchang"</span>,                  <span class="st">"China"</span>, <span class="st">"Wenchang"</span>, <span class="st">"ACTIVE"</span>),</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Space-U Pad Baltic"</span>,        <span class="st">"Poland"</span>, <span class="st">"Ustka"</span>, <span class="st">"PLANNED"</span>)</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>rockets <span class="op">=</span> [</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Falcon Heavy-U"</span>,     <span class="st">"Space-U / SpaceX"</span>,         <span class="st">"ACTIVE"</span>),</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"New Glenn-U"</span>,        <span class="st">"Blue Origin / Space-U"</span>,    <span class="st">"MAINT"</span>),</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Starship-U"</span>,         <span class="st">"Space-U"</span>,                  <span class="st">"ACTIVE"</span>),</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Vulcan Explorer"</span>,    <span class="st">"ULA / Space-U"</span>,            <span class="st">"ACTIVE"</span>),</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Ariane 7"</span>,           <span class="st">"ESA / Arianespace"</span>,        <span class="st">"RETIRED"</span>),</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Phoenix Booster"</span>,    <span class="st">"JAXA"</span>,                     <span class="st">"ACTIVE"</span>),</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Sirius 9"</span>,           <span class="st">"Roscosmos"</span>,                <span class="st">"RETIRED"</span>),</span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"CosmoLift X"</span>,        <span class="st">"Space-U"</span>,                  <span class="st">"MAINT"</span>),</span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Thunderbird-1"</span>,      <span class="st">"ISRO"</span>,                     <span class="st">"ACTIVE"</span>),</span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Atlas Prime"</span>,        <span class="st">"NASA / Space-U"</span>,           <span class="st">"PROTOTYPE"</span>)</span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>spacecraft <span class="op">=</span> generate_spacecraft_entries()</span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>destinations <span class="op">=</span> [</span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Merkury"</span>, <span class="st">"Najmniejsza i najbliższa Słońcu planeta Układu Słonecznego"</span>, <span class="fl">0.38</span>, <span class="st">"HIGH"</span>),</span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Wenus"</span>, <span class="st">"Druga planeta od Słońca, o gęstej atmosferze i ekstremalnym cieple"</span>, <span class="fl">0.90</span>, <span class="st">"HIGH"</span>),</span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Mars"</span>, <span class="st">"Czwarta planeta od Słońca, znana jako Czerwona Planeta"</span>, <span class="fl">0.38</span>, <span class="st">"MEDIUM"</span>),</span>
+<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Jowisz"</span>, <span class="st">"Największa planeta w Układzie Słonecznym, gazowy olbrzym"</span>, <span class="fl">0.16</span>, <span class="st">"CRITICAL"</span>),</span>
+<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Saturn"</span>, <span class="st">"Gazowy olbrzym znany z wyraźnych pierścieni"</span>, <span class="fl">0.92</span>, <span class="st">"MEDIUM"</span>)</span>
+<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a>trip_types <span class="op">=</span> [</span>
+<span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Misja Orbitalna"</span>,              <span class="st">"14 dni, orbita i obserwacja powierzchni planety"</span>,           <span class="dv">14</span>, <span class="dv">6_000_000</span>),</span>
+<span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Zejście Atmosferyczne"</span>,        <span class="st">"21 dni, zejście w atmosferę i analiza składu chemicznego"</span>,  <span class="dv">21</span>, <span class="dv">7_500_000</span>),</span>
+<span id="cb13-35"><a href="#cb13-35" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Ekspedycja Księżycowa"</span>,        <span class="st">"60 dni, eksploracja naturalnych satelitów"</span>,                 <span class="dv">60</span>, <span class="dv">9_000_000</span>),</span>
+<span id="cb13-36"><a href="#cb13-36" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Obóz Badawczy w Kosmosie"</span>,     <span class="st">"180 dni, eksperymenty z pokładu bazy orbitalnej"</span>,          <span class="dv">180</span>,<span class="dv">16_000_000</span>),</span>
+<span id="cb13-37"><a href="#cb13-37" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Przelot przez Pasy Radiacyjne"</span>,<span class="st">"90 dni, przelot przez pasy radiacyjne i pomiary"</span>,           <span class="dv">90</span>,<span class="dv">10_000_000</span>),</span>
+<span id="cb13-38"><a href="#cb13-38" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Obserwacja Pierścieni"</span>,        <span class="st">"120 dni, obserwacja struktur pierścieni planetarnych"</span>,     <span class="dv">120</span>,<span class="dv">12_000_000</span>),</span>
+<span id="cb13-39"><a href="#cb13-39" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Eksplorator Magnetosfery"</span>,     <span class="st">"30 dni, pomiary pola magnetycznego i zorze"</span>,                <span class="dv">30</span>, <span class="dv">7_000_000</span>),</span>
+<span id="cb13-40"><a href="#cb13-40" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Manewr Grawitacyjny"</span>,          <span class="st">"10 dni, test manewrów grawitacyjnych przy dużych obiektach"</span>,<span class="dv">10</span>, <span class="dv">5_500_000</span>)</span>
+<span id="cb13-41"><a href="#cb13-41" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb13-42"><a href="#cb13-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-43"><a href="#cb13-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-44"><a href="#cb13-44" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> insert_many(q, rows):</span>
+<span id="cb13-45"><a href="#cb13-45" aria-hidden="true" tabindex="-1"></a>    cursor.executemany(q, rows)</span>
+<span id="cb13-46"><a href="#cb13-46" aria-hidden="true" tabindex="-1"></a>    con.commit()</span>
+<span id="cb13-47"><a href="#cb13-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-48"><a href="#cb13-48" aria-hidden="true" tabindex="-1"></a>insert_many(</span>
+<span id="cb13-49"><a href="#cb13-49" aria-hidden="true" tabindex="-1"></a>    <span class="st">"INSERT INTO launch_stations (name, country, city, status) VALUES (</span><span class="sc">%s</span><span class="st">, </span><span class="sc">%s</span><span class="st">, </span><span class="sc">%s</span><span class="st">, </span><span class="sc">%s</span><span class="st">)"</span>,</span>
+<span id="cb13-50"><a href="#cb13-50" aria-hidden="true" tabindex="-1"></a>    [(n, c, ci, s) <span class="cf">for</span> n, c, ci, s <span class="kw">in</span> launch_stations]</span>
+<span id="cb13-51"><a href="#cb13-51" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb13-52"><a href="#cb13-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-53"><a href="#cb13-53" aria-hidden="true" tabindex="-1"></a>insert_many(</span>
+<span id="cb13-54"><a href="#cb13-54" aria-hidden="true" tabindex="-1"></a>    <span class="st">"INSERT INTO rockets (name, manufacturer, status) VALUES (</span><span class="sc">%s</span><span class="st">, </span><span class="sc">%s</span><span class="st">, </span><span class="sc">%s</span><span class="st">)"</span>,</span>
+<span id="cb13-55"><a href="#cb13-55" aria-hidden="true" tabindex="-1"></a>    [(n, m, s) <span class="cf">for</span> n, m, s <span class="kw">in</span> rockets]</span>
+<span id="cb13-56"><a href="#cb13-56" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb13-57"><a href="#cb13-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-58"><a href="#cb13-58" aria-hidden="true" tabindex="-1"></a>insert_many(</span>
+<span id="cb13-59"><a href="#cb13-59" aria-hidden="true" tabindex="-1"></a>    <span class="st">"INSERT INTO spacecraft (capacity_passengers, name, manufacturer, service_start_date, service_end_date, status) "</span></span>
+<span id="cb13-60"><a href="#cb13-60" aria-hidden="true" tabindex="-1"></a>    <span class="st">"VALUES (</span><span class="sc">%s</span><span class="st">, </span><span class="sc">%s</span><span class="st">, </span><span class="sc">%s</span><span class="st">, </span><span class="sc">%s</span><span class="st">, </span><span class="sc">%s</span><span class="st">, </span><span class="sc">%s</span><span class="st">)"</span>,</span>
+<span id="cb13-61"><a href="#cb13-61" aria-hidden="true" tabindex="-1"></a>    [(cap, n, m, start, end, s) <span class="cf">for</span> cap, n, m, start, end, s <span class="kw">in</span> spacecraft]</span>
+<span id="cb13-62"><a href="#cb13-62" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb13-63"><a href="#cb13-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-64"><a href="#cb13-64" aria-hidden="true" tabindex="-1"></a>insert_many(</span>
+<span id="cb13-65"><a href="#cb13-65" aria-hidden="true" tabindex="-1"></a>    <span class="st">"INSERT INTO destinations (name, description, avg_gravity, hazard_level) VALUES (</span><span class="sc">%s</span><span class="st">, </span><span class="sc">%s</span><span class="st">, </span><span class="sc">%s</span><span class="st">, </span><span class="sc">%s</span><span class="st">)"</span>,</span>
+<span id="cb13-66"><a href="#cb13-66" aria-hidden="true" tabindex="-1"></a>    [(n, d, g, h) <span class="cf">for</span> n, d, g, h <span class="kw">in</span> destinations]</span>
+<span id="cb13-67"><a href="#cb13-67" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb13-68"><a href="#cb13-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-69"><a href="#cb13-69" aria-hidden="true" tabindex="-1"></a>insert_many(</span>
+<span id="cb13-70"><a href="#cb13-70" aria-hidden="true" tabindex="-1"></a>    <span class="st">"INSERT INTO trip_types (name, description, typical_duration_days, base_price) VALUES (</span><span class="sc">%s</span><span class="st">, </span><span class="sc">%s</span><span class="st">, </span><span class="sc">%s</span><span class="st">, </span><span class="sc">%s</span><span class="st">)"</span>,</span>
+<span id="cb13-71"><a href="#cb13-71" aria-hidden="true" tabindex="-1"></a>    [(n, d, dur, price) <span class="cf">for</span> n, d, dur, price <span class="kw">in</span> trip_types]</span>
+<span id="cb13-72"><a href="#cb13-72" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb13-73"><a href="#cb13-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-74"><a href="#cb13-74" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"► Załadowano słownikowe tabele."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>► Załadowano słownikowe tabele.</code></pre>
+</div>
+</div>
+<section id="generowanie-reszty" class="level3" data-number="9.1">
+<h3 data-number="9.1" class="anchored" data-anchor-id="generowanie-reszty"><span class="header-section-number">9.1</span> Generowanie reszty</h3>
+<div id="b01bad7c" class="cell" data-execution_count="9">
+<details class="code-fold">
+<summary>Rozwiń kod</summary>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>active_spacecraft <span class="op">=</span> [sc <span class="cf">for</span> sc <span class="kw">in</span> spacecraft <span class="cf">if</span> sc[<span class="dv">5</span>] <span class="op">==</span> <span class="st">"ACTIVE"</span>]</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="kw">not</span> active_spacecraft:</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"KRYTYCZNE OSTRZEŻENIE: Brak aktywnych statków kosmicznych na liście 'spacecraft'. Nie można generować wypraw."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</section>
 </section>
 
 </main>

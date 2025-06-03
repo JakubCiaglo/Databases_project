@@ -24,7 +24,7 @@ page-layout: full
 import mysql.connector
 import random
 import math
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 from dateutil.relativedelta import relativedelta
 import numpy as np
 import pandas as pd
@@ -239,8 +239,133 @@ if con and con.is_connected():
     except mysql.connector.Error as err:
         print(f"Błąd podczas odczytu liczby rekordów: {err}")
 
-    cursor.close()
     print("Zakończono operacje na bazie danych dla tego bloku.")
 else:
     print("Błąd: Połączenie z bazą danych ('con') nie jest aktywne lub nie zostało poprawnie zainicjowane.")
+```
+
+## Wygenerowanie statków kosmicznych
+```{python}
+
+def random_date(start_date=start_of_business):
+    end_date = start_date + timedelta(days=2*365)
+    delta_days = (end_date - start_date).days
+    return start_date + timedelta(days=random.randint(0, delta_days))
+
+
+def generate_spacecraft_entries():
+    names = [
+        "Starship-Aurora", "Starliner-Vista", "Dragon-TourerXL", "Orion-Cruiser",
+        "CosmoLiner-5", "Nebula-Swift", "Phoenix-Xplorer", "Voyager-Next"
+    ]
+    manufacturers = [
+        "Space-U", "Boeing / Space-U", "Space-U / SpaceX", "NASA / Lockheed",
+        "ESA / Airbus", "Blue Origin", "JAXA", "Roscosmos"
+    ]
+    capacities = [random.randint(40, 60) for _ in range(len(names))]
+    statuses = ["ACTIVE", "RETIRED", "MAINT"]
+
+    spacecraft = []
+    for name, manufacturer, capacity in zip(names, manufacturers, capacities):
+        status = random.choice(statuses)
+        start_date = random_date()
+        end_date = None
+        if status == "RETIRED":
+            min_end_date = start_date + timedelta(days=365)
+            max_end_date = min_end_date + timedelta(days=3*365)
+            end_date = min_end_date + timedelta(days=random.randint(0, (max_end_date - min_end_date).days))
+        spacecraft.append((capacity, name, manufacturer, start_date, end_date, status))
+    
+    return spacecraft
+
+```
+
+
+## Stałe do oferty (nazwy itp.) i wprowadzenie ich do bazy
+
+```{python}
+launch_stations = [
+    ("Kennedy Space Center",      "USA", "Cape Canaveral", "ACTIVE"),
+    ("Baikonur Cosmodrome",       "Kazakhstan", "Baikonur", "ACTIVE"),
+    ("Guiana Space Centre",       "France", "Kourou", "ACTIVE"),
+    ("Wenchang",                  "China", "Wenchang", "ACTIVE"),
+    ("Space-U Pad Baltic",        "Poland", "Ustka", "PLANNED")
+]
+
+rockets = [
+    ("Falcon Heavy-U",     "Space-U / SpaceX",         "ACTIVE"),
+    ("New Glenn-U",        "Blue Origin / Space-U",    "MAINT"),
+    ("Starship-U",         "Space-U",                  "ACTIVE"),
+    ("Vulcan Explorer",    "ULA / Space-U",            "ACTIVE"),
+    ("Ariane 7",           "ESA / Arianespace",        "RETIRED"),
+    ("Phoenix Booster",    "JAXA",                     "ACTIVE"),
+    ("Sirius 9",           "Roscosmos",                "RETIRED"),
+    ("CosmoLift X",        "Space-U",                  "MAINT"),
+    ("Thunderbird-1",      "ISRO",                     "ACTIVE"),
+    ("Atlas Prime",        "NASA / Space-U",           "PROTOTYPE")
+]
+
+spacecraft = generate_spacecraft_entries()
+
+destinations = [
+    ("Merkury", "Najmniejsza i najbliższa Słońcu planeta Układu Słonecznego", 0.38, "HIGH"),
+    ("Wenus", "Druga planeta od Słońca, o gęstej atmosferze i ekstremalnym cieple", 0.90, "HIGH"),
+    ("Mars", "Czwarta planeta od Słońca, znana jako Czerwona Planeta", 0.38, "MEDIUM"),
+    ("Jowisz", "Największa planeta w Układzie Słonecznym, gazowy olbrzym", 0.16, "CRITICAL"),
+    ("Saturn", "Gazowy olbrzym znany z wyraźnych pierścieni", 0.92, "MEDIUM")
+]
+
+trip_types = [
+    ("Misja Orbitalna",              "14 dni, orbita i obserwacja powierzchni planety",           14, 6_000_000),
+    ("Zejście Atmosferyczne",        "21 dni, zejście w atmosferę i analiza składu chemicznego",  21, 7_500_000),
+    ("Ekspedycja Księżycowa",        "60 dni, eksploracja naturalnych satelitów",                 60, 9_000_000),
+    ("Obóz Badawczy w Kosmosie",     "180 dni, eksperymenty z pokładu bazy orbitalnej",          180,16_000_000),
+    ("Przelot przez Pasy Radiacyjne","90 dni, przelot przez pasy radiacyjne i pomiary",           90,10_000_000),
+    ("Obserwacja Pierścieni",        "120 dni, obserwacja struktur pierścieni planetarnych",     120,12_000_000),
+    ("Eksplorator Magnetosfery",     "30 dni, pomiary pola magnetycznego i zorze",                30, 7_000_000),
+    ("Manewr Grawitacyjny",          "10 dni, test manewrów grawitacyjnych przy dużych obiektach",10, 5_500_000)
+]
+
+
+def insert_many(q, rows):
+    cursor.executemany(q, rows)
+    con.commit()
+
+insert_many(
+    "INSERT INTO launch_stations (name, country, city, status) VALUES (%s, %s, %s, %s)",
+    [(n, c, ci, s) for n, c, ci, s in launch_stations]
+)
+
+insert_many(
+    "INSERT INTO rockets (name, manufacturer, status) VALUES (%s, %s, %s)",
+    [(n, m, s) for n, m, s in rockets]
+)
+
+insert_many(
+    "INSERT INTO spacecraft (capacity_passengers, name, manufacturer, service_start_date, service_end_date, status) "
+    "VALUES (%s, %s, %s, %s, %s, %s)",
+    [(cap, n, m, start, end, s) for cap, n, m, start, end, s in spacecraft]
+)
+
+insert_many(
+    "INSERT INTO destinations (name, description, avg_gravity, hazard_level) VALUES (%s, %s, %s, %s)",
+    [(n, d, g, h) for n, d, g, h in destinations]
+)
+
+insert_many(
+    "INSERT INTO trip_types (name, description, typical_duration_days, base_price) VALUES (%s, %s, %s, %s)",
+    [(n, d, dur, price) for n, d, dur, price in trip_types]
+)
+
+print("► Załadowano słownikowe tabele.")
+```
+
+### Generowanie reszty
+
+```{python}
+
+active_spacecraft = [sc for sc in spacecraft if sc[5] == "ACTIVE"]
+if not active_spacecraft:
+    print("KRYTYCZNE OSTRZEŻENIE: Brak aktywnych statków kosmicznych na liście 'spacecraft'. Nie można generować wypraw.")
+
 ```
