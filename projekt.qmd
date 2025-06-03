@@ -1,0 +1,246 @@
+---
+title: "Projekt z Baz Danych – Raport Końcowy"
+format:
+  html:
+    toc: true
+    number-sections: true
+    code-fold: true
+    code-summary: "Rozwiń kod"
+    theme:
+      light: flatly
+      dark: darkly
+page-layout: full
+---
+
+## Autorzy
+
+- Jakub Ciągło  
+- Mateusz Ćwiek  
+- Marek Dworaczyk  
+- Rafał Głodek
+
+## Importy
+```{python}
+import mysql.connector
+import random
+import math
+from datetime import date, datetime
+from dateutil.relativedelta import relativedelta
+import numpy as np
+import pandas as pd
+from faker import Faker
+```
+
+## Połączenie z bazą danych i wyczyszczenie jej
+
+```{python}
+
+con = mysql.connector.connect(
+    host = "giniewicz.it",
+    user = "team13",
+    password = "te@mlie",
+    database = "team13"
+)
+
+if(con):
+    print("Połączenie udane")
+else:
+    print("Połączenie nieudane")
+
+cursor = con.cursor()
+
+cursor.execute('SET FOREIGN_KEY_CHECKS = 0')
+
+tables = [
+    'employee_assignments',
+    'feedback',
+    'transactions',
+    'trip_participants',
+    'incidents',
+    'costs',
+    'trips',
+    'trip_types',
+    'destinations',
+    'launch_stations',
+    'spacecraft',
+    'rockets',
+    'emergency_contacts',
+    'clients',
+    'employees'
+]
+
+for table in tables:
+    cursor.execute(f'TRUNCATE TABLE {table}')
+
+cursor.execute('SET FOREIGN_KEY_CHECKS = 1')
+
+con.commit()
+cursor.close()
+print('Wyczyszczono wszystkie tabele.')
+```
+
+## Wyznaczenie parametrów
+
+```{python}
+n_employees = 200
+clients_per_emp = 3 
+n_clients = n_employees * clients_per_emp
+min_salary_pln = 4666.00 
+avg_salary_pln = 9045.11
+
+current_date = date.today()
+start_of_business = current_date - relativedelta(years=5)
+
+print(start_of_business)
+
+```
+
+## Generowanie pracowników
+
+```{python}
+
+fake = Faker("pl_PL")
+rng = np.random.default_rng()
+
+POSITIONS = [
+    ("Pilot statku", 0.07), ("Inżynier systemów", 0.12),
+    ("Technik pokładowy", 0.15), ("Kontroler lotów", 0.1),
+    ("Astrogator", 0.05), ("Specjalista ds. bezpieczeństwa", 0.05),
+    ("Inspektor jakości", 0.06), ("Specjalista HR", 0.04),
+    ("Analityk danych", 0.06), ("Marketing kosmiczny", 0.04),
+    ("Finanse / księgowość", 0.06), ("Lekarz pokładowy", 0.05),
+    ("Kucharz orbitalny", 0.03), ("Administrator IT", 0.05),
+    ("Mechanik rakietowy", 0.07)
+]
+titles, weights = zip(*POSITIONS)
+
+def random_salary():
+    raw = rng.lognormal(mean=math.log(avg_salary_pln), sigma=0.25)
+    return round(max(raw, min_salary_pln), 2)
+
+def hire_and_term():
+    # Używamy current_date dla spójności
+    hire = fake.date_between_dates(start_of_business, current_date - relativedelta(months=6))
+    if random.random() < 0.15:  # ~15 % już nie pracuje
+        term = fake.date_between_dates(hire + relativedelta(months=3), current_date)
+    else:
+        term = None
+    return hire, term
+
+emp_rows, used_emails_emp = [], set()
+print(f"Generowanie danych dla {n_employees} pracowników...")
+for i in range(n_employees):
+    first, last = fake.first_name(), fake.last_name()
+    position = random.choices(titles, weights)[0]
+    salary = random_salary()
+    hire, term = hire_and_term()
+
+    base_email = f"{first}.{last}".lower().replace(" ", "").replace("'", "") # Dodatkowe czyszczenie
+    email = base_email + "@spaceu.com"
+    suffix = 1
+    while email in used_emails_emp:
+        email = f"{base_email}{suffix}@spaceu.com"
+        suffix += 1
+    used_emails_emp.add(email)
+
+    emp_rows.append({
+        "first_name": first,
+        "last_name": last,
+        "position": position,
+        "salary": salary,
+        "hire_date": hire,
+        "termination_date": term,
+        "email": email,
+        "phone": fake.phone_number()
+    })
+
+df_emp = pd.DataFrame(emp_rows)
+print(f"Wygenerowano {len(df_emp)} rekordów dla pracowników.")
+
+df_emp
+```
+
+## Generowanie klientów
+
+```{python}
+
+cli_rows, used_emails_cli = [], set()
+
+print(f"\nGenerowanie danych dla {n_clients} klientów...")
+for i in range(n_clients):
+    first, last = fake.first_name(), fake.last_name()
+    client_email = None
+    base = f"{first}.{last}".lower().replace(" ", "").replace("'", "")
+    email_candidate = base + "@gmail.com"
+    suffix = 1
+    while email_candidate in used_emails_cli or email_candidate in used_emails_emp:
+        email_candidate = f"{base}{suffix}@gmail.com"
+        suffix += 1
+    client_email = email_candidate
+    used_emails_cli.add(client_email)
+
+    cli_rows.append({
+        "first_name": first,
+        "last_name": last,
+        "date_of_birth": fake.date_of_birth(minimum_age=18, maximum_age=75),
+        "email": client_email,
+        "phone": fake.phone_number()
+    })
+
+df_cli = pd.DataFrame(cli_rows)
+print(f"Wygenerowano {len(df_cli)} rekordów dla klientów.")
+df_cli
+```
+
+## Zapis danych do bazy
+
+```{python}
+if con and con.is_connected():
+    cursor = con.cursor()
+    print("\nPołączono z bazą danych. Rozpoczynanie wstawiania danych...")
+
+    sql_insert_employee = """
+    INSERT INTO employees (first_name, last_name, position, salary, hire_date, termination_date, email, phone)
+    VALUES (%(first_name)s, %(last_name)s, %(position)s, %(salary)s, %(hire_date)s, %(termination_date)s, %(email)s, %(phone)s)
+    """
+    employee_records_to_insert = df_emp.to_dict(orient='records')
+    
+    try:
+        cursor.executemany(sql_insert_employee, employee_records_to_insert)
+        con.commit()
+        print(f"{cursor.rowcount} rekordów wstawiono/zaktualizowano w tabeli employees.")
+    except mysql.connector.Error as err:
+        print(f"Błąd podczas wstawiania do employees: {err}")
+        con.rollback()
+
+    sql_insert_client = """
+    INSERT INTO clients (first_name, last_name, date_of_birth, email, phone)
+    VALUES (%(first_name)s, %(last_name)s, %(date_of_birth)s, %(email)s, %(phone)s)
+    """
+    client_records_to_insert = df_cli.to_dict(orient='records')
+
+    try:
+        cursor.executemany(sql_insert_client, client_records_to_insert)
+        con.commit()
+        print(f"{cursor.rowcount} rekordów wstawiono/zaktualizowano w tabeli clients.")
+    except mysql.connector.Error as err:
+        print(f"Błąd podczas wstawiania do clients: {err}")
+        con.rollback()
+
+    # Pokaż, ile w sumie w bazie (używając mysql.connector)
+    try:
+        cursor.execute("SELECT COUNT(*) FROM employees")
+        total_emp = cursor.fetchone()[0]
+        print(f"Łącznie w tabeli employees: {total_emp}")
+
+        cursor.execute("SELECT COUNT(*) FROM clients")
+        total_cli = cursor.fetchone()[0]
+        print(f"Łącznie w tabeli clients: {total_cli}")
+    except mysql.connector.Error as err:
+        print(f"Błąd podczas odczytu liczby rekordów: {err}")
+
+    cursor.close()
+    print("Zakończono operacje na bazie danych dla tego bloku.")
+else:
+    print("Błąd: Połączenie z bazą danych ('con') nie jest aktywne lub nie zostało poprawnie zainicjowane.")
+```
