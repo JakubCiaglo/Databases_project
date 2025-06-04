@@ -1019,33 +1019,63 @@ cursor.execute("""
 """)
 trip_base_prices = cursor.fetchall()  # lista: (trip_id, base_price)
 
-# 2. Zdefiniuj możliwe kategorie kosztów wraz z procentowym przedziałem w odniesieniu do base_price
-cost_templates = [
-    {"description": "paliwo",           "min_pct": 0.15, "max_pct": 0.25},
-    {"description": "obsługa załogi",    "min_pct": 0.10, "max_pct": 0.18},
-    {"description": "zapasy żywności",   "min_pct": 0.05, "max_pct": 0.10},
-    {"description": "utrzymanie statku", "min_pct": 0.08, "max_pct": 0.12},
-    {"description": "ubezpieczenie",     "min_pct": 0.03, "max_pct": 0.06},
-    {"description": "telekomunikacja",   "min_pct": 0.02, "max_pct": 0.04},
-    {"description": "amortyzacja sprzętu","min_pct": 0.05, "max_pct": 0.10},
-    {"description": "usługi medyczne",   "min_pct": 0.02, "max_pct": 0.05},
+# 2. Podstawowe kategorie kosztów
+base_cost_templates = [
+    {"description": "paliwo",                    "min_pct": 0.15, "max_pct": 0.25},
+    {"description": "obsługa załogi",             "min_pct": 0.10, "max_pct": 0.18},
+    {"description": "zapasy żywności",            "min_pct": 0.05, "max_pct": 0.10},
+    {"description": "utrzymanie statku",          "min_pct": 0.08, "max_pct": 0.12},
+    {"description": "ubezpieczenie",              "min_pct": 0.03, "max_pct": 0.06},
+    {"description": "telekomunikacja",            "min_pct": 0.02, "max_pct": 0.04},
+    {"description": "amortyzacja sprzętu",         "min_pct": 0.05, "max_pct": 0.10},
+    {"description": "usługi medyczne",            "min_pct": 0.02, "max_pct": 0.05},
     {"description": "utrzymanie stacji startowej", "min_pct": 0.04, "max_pct": 0.08},
-    {"description": "serwis i naprawy",  "min_pct": 0.06, "max_pct": 0.10}
+    {"description": "serwis i naprawy",           "min_pct": 0.06, "max_pct": 0.10}
 ]
 
-# 3. Wygeneruj koszty: na każdą wyprawę wstaw kilka pozycji kosztowych (3-5 wpisów różnego typu)
+# 3. Definiujemy dodatkowe koszty zależne od incydentów:
+#    - jeśli wystąpił incydent "equipment", to dodajemy koszt naprawy sprzętu
+#    - "medical" → dodatkowe usługi medyczne
+#    - "security" → koszt operacji bezpieczeństwa
+#    - "navigation" → koszty korekty kursu
+#    - "communication" → koszty przywrócenia łączności
+incident_cost_map = {
+    "equipment":    {"description": "dodatkowa naprawa sprzętu (z incydentu)", "min_pct": 0.05, "max_pct": 0.10},
+    "medical":      {"description": "dodatkowe usługi medyczne (z incydentu)", "min_pct": 0.03, "max_pct": 0.07},
+    "security":     {"description": "operacje bezpieczeństwa (z incydentu)", "min_pct": 0.005, "max_pct": 0.01},
+    "navigation":   {"description": "korekta kursu (z incydentu)", "min_pct": 0.005, "max_pct": 0.1},
+    "communication":{"description": "przywrócenie łączności (z incydentu)", "min_pct": 0.02, "max_pct": 0.06},
+}
+
+# 4. Przygotowanie danych o incydentach: dla każdego trip_id zbieramy listę kategorii incydentu
+cursor.execute("SELECT trip_id, category FROM incidents")
+incidents_data = cursor.fetchall()  # lista: (trip_id, category)
+trip_to_incidents = {}
+for trip_id, category in incidents_data:
+    trip_to_incidents.setdefault(trip_id, set()).add(category)
+
+# 5. Generuj wiersze do costs
 cost_rows = []
 
 for trip_id, base_price in trip_base_prices:
-    # Rzutujemy base_price (Decimal) na float, by móc mnożyć przez float
-    bp = float(base_price)
+    bp = float(base_price)  # rzutujemy na float
 
-    for tpl in cost_templates:
+    # 5a. Wstawiamy wszystkie podstawowe kategorie kosztów
+    for tpl in base_cost_templates:
         pct = random.uniform(tpl["min_pct"], tpl["max_pct"])
         cost_amount = round(bp * pct, 2)
         cost_rows.append((trip_id, tpl["description"], cost_amount))
 
-# 4. Wstawianie danych do tabeli costs
+    # 5b. Jeśli dla tego trip_id były jakieś incydenty, dodajemy odpowiednie pozycje kosztowe
+    categories_for_trip = trip_to_incidents.get(trip_id, [])
+    for cat in categories_for_trip:
+        if cat in incident_cost_map:
+            tpl_inc = incident_cost_map[cat]
+            pct_inc = random.uniform(tpl_inc["min_pct"], tpl_inc["max_pct"])
+            amount_inc = round(bp * pct_inc, 2)
+            cost_rows.append((trip_id, tpl_inc["description"], amount_inc))
+
+# 6. Wstawianie danych do tabeli costs
 cursor.executemany(
     """
     INSERT INTO costs (
