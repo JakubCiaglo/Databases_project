@@ -262,7 +262,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </ul></li>
   <li><a href="#wprowadzenie-pozostałych-tabel" id="toc-wprowadzenie-pozostałych-tabel" class="nav-link" data-scroll-target="#wprowadzenie-pozostałych-tabel"><span class="header-section-number">4</span> Wprowadzenie pozostałych tabel</a>
   <ul class="collapse">
-  <li><a href="#wygenerowanie-statków-kosmicznych" id="toc-wygenerowanie-statków-kosmicznych" class="nav-link" data-scroll-target="#wygenerowanie-statków-kosmicznych"><span class="header-section-number">4.1</span> Wygenerowanie statków kosmicznych</a></li>
+  <li><a href="#wygenerowanie-statków-kosmicznych-i-rakiet" id="toc-wygenerowanie-statków-kosmicznych-i-rakiet" class="nav-link" data-scroll-target="#wygenerowanie-statków-kosmicznych-i-rakiet"><span class="header-section-number">4.1</span> Wygenerowanie statków kosmicznych i rakiet</a></li>
   <li><a href="#stałe-do-oferty-nazwy-itp.-i-wprowadzenie-ich-do-bazy" id="toc-stałe-do-oferty-nazwy-itp.-i-wprowadzenie-ich-do-bazy" class="nav-link" data-scroll-target="#stałe-do-oferty-nazwy-itp.-i-wprowadzenie-ich-do-bazy"><span class="header-section-number">4.2</span> Stałe do oferty (nazwy itp.) i wprowadzenie ich do bazy</a></li>
   <li><a href="#generowanie-trips-50-lotów---można-zmienić" id="toc-generowanie-trips-50-lotów---można-zmienić" class="nav-link" data-scroll-target="#generowanie-trips-50-lotów---można-zmienić"><span class="header-section-number">4.3</span> Generowanie trips (50 lotów - można zmienić)</a></li>
   <li><a href="#generowanie-pracowników-do-lotu-jest-35-na-lot--mozna-zmienić" id="toc-generowanie-pracowników-do-lotu-jest-35-na-lot--mozna-zmienić" class="nav-link" data-scroll-target="#generowanie-pracowników-do-lotu-jest-35-na-lot--mozna-zmienić"><span class="header-section-number">4.4</span> Generowanie pracowników do lotu (jest 35 na lot- mozna zmienić)</a></li>
@@ -312,7 +312,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="importy" class="level1" data-number="2">
 <h1 data-number="2"><span class="header-section-number">2</span> Importy</h1>
-<div id="ff75f8fb" class="cell" data-execution_count="1">
+<div id="73d84149" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> mysql.connector</span>
@@ -330,7 +330,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h1 data-number="3"><span class="header-section-number">3</span> Skryptowe wypełnienie bazy</h1>
 <section id="połączenie-z-bazą-danych-i-wyczyszczenie-jej" class="level2" data-number="3.1">
 <h2 data-number="3.1" class="anchored" data-anchor-id="połączenie-z-bazą-danych-i-wyczyszczenie-jej"><span class="header-section-number">3.1</span> Połączenie z bazą danych i wyczyszczenie jej</h2>
-<div id="c822d07f" class="cell" data-execution_count="2">
+<div id="88f8990a" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>con <span class="op">=</span> mysql.connector.<span class="ex">connect</span>(</span>
@@ -384,7 +384,7 @@ Wyczyszczono wszystkie tabele.</code></pre>
 </section>
 <section id="wyznaczenie-parametrów" class="level2" data-number="3.2">
 <h2 data-number="3.2" class="anchored" data-anchor-id="wyznaczenie-parametrów"><span class="header-section-number">3.2</span> Wyznaczenie parametrów</h2>
-<div id="31a0e63e" class="cell" data-execution_count="3">
+<div id="e6f63df8" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>n_employees <span class="op">=</span> <span class="dv">200</span></span>
@@ -399,13 +399,13 @@ Wyczyszczono wszystkie tabele.</code></pre>
 <span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(start_of_business)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>2020-06-04</code></pre>
+<pre><code>2020-06-05</code></pre>
 </div>
 </div>
 </section>
 <section id="generowanie-pracowników" class="level2" data-number="3.3">
 <h2 data-number="3.3" class="anchored" data-anchor-id="generowanie-pracowników"><span class="header-section-number">3.3</span> Generowanie pracowników</h2>
-<div id="a7d7159d" class="cell" data-execution_count="4">
+<div id="78452acf" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>fake <span class="op">=</span> Faker(<span class="st">"pl_PL"</span>)</span>
@@ -493,58 +493,58 @@ Wygenerowano 200 rekordów dla pracowników.</code></pre>
 <tbody>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">0</td>
-<td>Dawid</td>
-<td>Kośnik</td>
-<td>Finanse / Księgowość</td>
-<td>8541.19</td>
-<td>2021-11-29</td>
+<td>Kaja</td>
+<td>Konsek</td>
+<td>Pilot statku</td>
+<td>11019.33</td>
+<td>2022-01-08</td>
 <td>None</td>
-<td>dawid.kośnik@spaceu.com</td>
-<td>+48 724 837 603</td>
+<td>kaja.konsek@spaceu.com</td>
+<td>696 458 791</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">1</td>
-<td>Franciszek</td>
-<td>Rajchel</td>
+<td>Borys</td>
+<td>Kut</td>
 <td>Inżynier systemów</td>
-<td>8332.58</td>
-<td>2020-09-04</td>
-<td>2025-01-24</td>
-<td>franciszek.rajchel@spaceu.com</td>
-<td>723 625 729</td>
+<td>7490.20</td>
+<td>2021-12-13</td>
+<td>None</td>
+<td>borys.kut@spaceu.com</td>
+<td>+48 881 904 391</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">2</td>
-<td>Gabriel</td>
-<td>Salawa</td>
-<td>Kontroler lotów</td>
-<td>9985.44</td>
-<td>2021-01-16</td>
+<td>Olga</td>
+<td>Madejczyk</td>
+<td>Kucharz orbitalny</td>
+<td>8724.69</td>
+<td>2020-08-14</td>
 <td>None</td>
-<td>gabriel.salawa@spaceu.com</td>
-<td>22 945 91 56</td>
+<td>olga.madejczyk@spaceu.com</td>
+<td>+48 699 643 395</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">3</td>
-<td>Fabian</td>
-<td>Machowicz</td>
-<td>Pilot statku</td>
-<td>6080.34</td>
-<td>2022-04-06</td>
-<td>2025-02-21</td>
-<td>fabian.machowicz@spaceu.com</td>
-<td>+48 600 028 346</td>
+<td>Mariusz</td>
+<td>Świerkot</td>
+<td>Specjalista ds. bezpieczeństwa</td>
+<td>8044.58</td>
+<td>2022-09-26</td>
+<td>None</td>
+<td>mariusz.świerkot@spaceu.com</td>
+<td>22 632 07 65</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">4</td>
-<td>Michał</td>
-<td>Czura</td>
-<td>Inżynier systemów</td>
-<td>11907.23</td>
-<td>2022-03-22</td>
+<td>Paweł</td>
+<td>Kolanek</td>
+<td>Kontroler lotów</td>
+<td>7572.49</td>
+<td>2024-07-22</td>
 <td>None</td>
-<td>michał.czura@spaceu.com</td>
-<td>+48 572 695 590</td>
+<td>paweł.kolanek@spaceu.com</td>
+<td>+48 510 838 572</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">...</td>
@@ -559,58 +559,58 @@ Wygenerowano 200 rekordów dla pracowników.</code></pre>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">195</td>
-<td>Eliza</td>
-<td>Kraszkiewicz</td>
-<td>Technik pokładowy</td>
-<td>6566.37</td>
-<td>2021-03-24</td>
+<td>Błażej</td>
+<td>Wojtiuk</td>
+<td>Kontroler lotów</td>
+<td>5578.59</td>
+<td>2023-08-04</td>
 <td>None</td>
-<td>eliza.kraszkiewicz@spaceu.com</td>
-<td>+48 509 420 408</td>
+<td>błażej.wojtiuk@spaceu.com</td>
+<td>22 896 35 02</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">196</td>
-<td>Albert</td>
-<td>Paszkowiak</td>
-<td>Analityk danych</td>
-<td>7010.04</td>
-<td>2021-10-16</td>
-<td>2025-05-29</td>
-<td>albert.paszkowiak@spaceu.com</td>
-<td>888 358 080</td>
+<td>Emil</td>
+<td>Koniec</td>
+<td>Specjalista ds. bezpieczeństwa</td>
+<td>12197.16</td>
+<td>2024-05-09</td>
+<td>None</td>
+<td>emil.koniec@spaceu.com</td>
+<td>+48 22 945 94 46</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">197</td>
-<td>Błażej</td>
-<td>Janczarek</td>
-<td>Analityk danych</td>
-<td>6776.41</td>
-<td>2021-10-30</td>
+<td>Monika</td>
+<td>Grabczak</td>
+<td>Astrogator</td>
+<td>9260.97</td>
+<td>2021-12-19</td>
 <td>None</td>
-<td>błażej.janczarek@spaceu.com</td>
-<td>788 488 694</td>
+<td>monika.grabczak@spaceu.com</td>
+<td>22 357 25 24</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">198</td>
-<td>Emil</td>
-<td>Romankiewicz</td>
-<td>Finanse / Księgowość</td>
-<td>10214.51</td>
-<td>2023-04-02</td>
-<td>None</td>
-<td>emil.romankiewicz@spaceu.com</td>
-<td>22 949 38 45</td>
+<td>Tymon</td>
+<td>Fraszczyk</td>
+<td>Astrogator</td>
+<td>12177.63</td>
+<td>2020-10-08</td>
+<td>2023-08-31</td>
+<td>tymon.fraszczyk@spaceu.com</td>
+<td>780 146 280</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">199</td>
-<td>Olga</td>
-<td>Madzia</td>
-<td>Finanse / Księgowość</td>
-<td>6392.52</td>
-<td>2023-02-22</td>
-<td>2025-04-29</td>
-<td>olga.madzia@spaceu.com</td>
-<td>+48 515 507 222</td>
+<td>Ewa</td>
+<td>Wasilewicz</td>
+<td>Technik pokładowy</td>
+<td>12481.71</td>
+<td>2023-11-03</td>
+<td>2024-03-27</td>
+<td>ewa.wasilewicz@spaceu.com</td>
+<td>32 254 12 62</td>
 </tr>
 </tbody>
 </table>
@@ -622,7 +622,7 @@ Wygenerowano 200 rekordów dla pracowników.</code></pre>
 </section>
 <section id="generowanie-klientów" class="level2" data-number="3.4">
 <h2 data-number="3.4" class="anchored" data-anchor-id="generowanie-klientów"><span class="header-section-number">3.4</span> Generowanie klientów</h2>
-<div id="c9f3bebc" class="cell" data-execution_count="5">
+<div id="45281b9d" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>cli_rows, used_emails_cli <span class="op">=</span> [], <span class="bu">set</span>()</span>
@@ -675,43 +675,43 @@ Wygenerowano 600 rekordów dla klientów.</code></pre>
 <tbody>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">0</td>
-<td>Marika</td>
-<td>Pawlos</td>
-<td>1967-03-25</td>
-<td>marika.pawlos@gmail.com</td>
-<td>665 543 009</td>
+<td>Ada</td>
+<td>Zapaśnik</td>
+<td>2006-08-13</td>
+<td>ada.zapaśnik@gmail.com</td>
+<td>729 257 106</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">1</td>
-<td>Aleks</td>
-<td>Korniak</td>
-<td>1949-06-10</td>
-<td>aleks.korniak@gmail.com</td>
-<td>+48 32 661 15 35</td>
+<td>Jacek</td>
+<td>Wołoszczuk</td>
+<td>1974-06-20</td>
+<td>jacek.wołoszczuk@gmail.com</td>
+<td>732 523 548</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">2</td>
-<td>Tymon</td>
-<td>Grześków</td>
-<td>1957-08-03</td>
-<td>tymon.grześków@gmail.com</td>
-<td>+48 735 676 234</td>
+<td>Kamila</td>
+<td>Kazana</td>
+<td>1952-12-20</td>
+<td>kamila.kazana@gmail.com</td>
+<td>+48 537 817 915</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">3</td>
-<td>Marika</td>
-<td>Rode</td>
-<td>1969-12-14</td>
-<td>marika.rode@gmail.com</td>
-<td>721 918 893</td>
+<td>Tobiasz</td>
+<td>Samulak</td>
+<td>1966-06-30</td>
+<td>tobiasz.samulak@gmail.com</td>
+<td>799 534 036</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">4</td>
-<td>Justyna</td>
-<td>Domian</td>
-<td>1968-01-26</td>
-<td>justyna.domian@gmail.com</td>
-<td>+48 516 546 180</td>
+<td>Franciszek</td>
+<td>Pleśniak</td>
+<td>1990-07-05</td>
+<td>franciszek.pleśniak@gmail.com</td>
+<td>+48 698 504 155</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">...</td>
@@ -723,43 +723,43 @@ Wygenerowano 600 rekordów dla klientów.</code></pre>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">595</td>
-<td>Ignacy</td>
-<td>Macias</td>
-<td>1995-01-22</td>
-<td>ignacy.macias@gmail.com</td>
-<td>+48 781 552 893</td>
+<td>Konstanty</td>
+<td>Wasil</td>
+<td>1977-03-03</td>
+<td>konstanty.wasil@gmail.com</td>
+<td>794 852 733</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">596</td>
-<td>Nicole</td>
-<td>Żyto</td>
-<td>1990-05-25</td>
-<td>nicole.żyto@gmail.com</td>
-<td>786 549 818</td>
+<td>Antoni</td>
+<td>Miara</td>
+<td>1988-12-21</td>
+<td>antoni.miara@gmail.com</td>
+<td>+48 888 162 739</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">597</td>
-<td>Ewelina</td>
-<td>Paprotny</td>
-<td>1959-06-14</td>
-<td>ewelina.paprotny@gmail.com</td>
-<td>697 683 187</td>
+<td>Nikodem</td>
+<td>Siedlaczek</td>
+<td>1987-10-20</td>
+<td>nikodem.siedlaczek@gmail.com</td>
+<td>886 318 443</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">598</td>
-<td>Kornelia</td>
-<td>Góraj</td>
-<td>1967-01-06</td>
-<td>kornelia.góraj@gmail.com</td>
-<td>+48 721 184 936</td>
+<td>Karina</td>
+<td>Trochimiuk</td>
+<td>1957-08-10</td>
+<td>karina.trochimiuk@gmail.com</td>
+<td>883 701 914</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">599</td>
-<td>Borys</td>
-<td>Kott</td>
-<td>1957-09-30</td>
-<td>borys.kott@gmail.com</td>
-<td>724 271 691</td>
+<td>Wojciech</td>
+<td>Wołkowicz</td>
+<td>1957-03-02</td>
+<td>wojciech.wołkowicz@gmail.com</td>
+<td>513 706 699</td>
 </tr>
 </tbody>
 </table>
@@ -771,7 +771,7 @@ Wygenerowano 600 rekordów dla klientów.</code></pre>
 </section>
 <section id="zapis-pracowników-i-klientów-do-bazy-test" class="level2" data-number="3.5">
 <h2 data-number="3.5" class="anchored" data-anchor-id="zapis-pracowników-i-klientów-do-bazy-test"><span class="header-section-number">3.5</span> Zapis pracowników i klientów do bazy (test)</h2>
-<div id="a6ec58cc" class="cell" data-execution_count="6">
+<div id="53f0a080" class="cell" data-execution_count="6">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> con <span class="kw">and</span> con.is_connected():</span>
@@ -836,9 +836,9 @@ Zakończono operacje na bazie danych dla tego bloku.</code></pre>
 </section>
 <section id="wprowadzenie-pozostałych-tabel" class="level1" data-number="4">
 <h1 data-number="4"><span class="header-section-number">4</span> Wprowadzenie pozostałych tabel</h1>
-<section id="wygenerowanie-statków-kosmicznych" class="level2" data-number="4.1">
-<h2 data-number="4.1" class="anchored" data-anchor-id="wygenerowanie-statków-kosmicznych"><span class="header-section-number">4.1</span> Wygenerowanie statków kosmicznych</h2>
-<div id="ca557805" class="cell" data-execution_count="7">
+<section id="wygenerowanie-statków-kosmicznych-i-rakiet" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="wygenerowanie-statków-kosmicznych-i-rakiet"><span class="header-section-number">4.1</span> Wygenerowanie statków kosmicznych i rakiet</h2>
+<div id="545f8d95" class="cell" data-execution_count="7">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> random_date(start_date<span class="op">=</span>start_of_business):</span>
@@ -846,37 +846,73 @@ Zakończono operacje na bazie danych dla tego bloku.</code></pre>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    delta_days <span class="op">=</span> (end_date <span class="op">-</span> start_date).days</span>
 <span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> start_date <span class="op">+</span> timedelta(days<span class="op">=</span>random.randint(<span class="dv">0</span>, delta_days))</span>
 <span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> generate_spacecraft_entries():</span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>    names <span class="op">=</span> [</span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Starship-Aurora"</span>, <span class="st">"Starliner-Vista"</span>, <span class="st">"Dragon-TourerXL"</span>, <span class="st">"Orion-Cruiser"</span>,</span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>        <span class="st">"CosmoLiner-5"</span>, <span class="st">"Nebula-Swift"</span>, <span class="st">"Phoenix-Xplorer"</span>, <span class="st">"Voyager-Next"</span></span>
-<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>    ]</span>
-<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>    manufacturers <span class="op">=</span> [</span>
-<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Space-U"</span>, <span class="st">"Boeing / Space-U"</span>, <span class="st">"Space-U / SpaceX"</span>, <span class="st">"NASA / Lockheed"</span>,</span>
-<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>        <span class="st">"ESA / Airbus"</span>, <span class="st">"Blue Origin"</span>, <span class="st">"JAXA"</span>, <span class="st">"Roscosmos"</span></span>
-<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>    ]</span>
-<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>    capacities <span class="op">=</span> [random.randint(<span class="dv">40</span>, <span class="dv">60</span>) <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(names))]</span>
-<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>    statuses <span class="op">=</span> [<span class="st">"ACTIVE"</span>, <span class="st">"RETIRED"</span>, <span class="st">"MAINT"</span>]</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> generate_spacecraft_entries(n<span class="op">=</span><span class="dv">30</span>):</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    prefixes <span class="op">=</span> [<span class="st">'Nova'</span>, <span class="st">'Luna'</span>, <span class="st">'Astra'</span>, <span class="st">'Zenith'</span>, <span class="st">'Hyperion'</span>, <span class="st">'Celestia'</span>, <span class="st">'Pulsar'</span>, <span class="st">'Eclipse'</span>, <span class="st">'Titan'</span>, <span class="st">'Vortex'</span>]</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>    suffixes <span class="op">=</span> [<span class="st">'X'</span>, <span class="st">'One'</span>, <span class="st">'Prime'</span>, <span class="st">'7'</span>, <span class="st">'NX'</span>, <span class="st">'Infinity'</span>, <span class="st">'Core'</span>, <span class="st">'Ultra'</span>, <span class="st">'VX'</span>, <span class="st">'Edge'</span>]</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>    statuses <span class="op">=</span> [<span class="st">'ACTIVE'</span>, <span class="st">'RETIRED'</span>, <span class="st">'MAINT'</span>]</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Zestaw, w którym będziemy trzymać już użyte nazwy</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>    used_names <span class="op">=</span> <span class="bu">set</span>()</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>    spacecraft <span class="op">=</span> []</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Maksymalna liczba możliwych unikalnych kombinacji to len(prefixes)*len(suffixes)=100</span></span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> n <span class="op">&gt;</span> <span class="bu">len</span>(prefixes) <span class="op">*</span> <span class="bu">len</span>(suffixes):</span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>        <span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="ss">f"Nie da się wygenerować </span><span class="sc">{</span>n<span class="sc">}</span><span class="ss"> unikalnych nazw (maksymalnie </span><span class="sc">{</span><span class="bu">len</span>(prefixes)<span class="op">*</span><span class="bu">len</span>(suffixes)<span class="sc">}</span><span class="ss">)."</span>)</span>
 <span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>    spacecraft <span class="op">=</span> []</span>
-<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> name, manufacturer, capacity <span class="kw">in</span> <span class="bu">zip</span>(names, manufacturers, capacities):</span>
-<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>        status <span class="op">=</span> random.choice(statuses)</span>
-<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>        start_date <span class="op">=</span> random_date()</span>
-<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>        end_date <span class="op">=</span> <span class="va">None</span></span>
-<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> status <span class="op">==</span> <span class="st">"RETIRED"</span>:</span>
-<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a>            min_end_date <span class="op">=</span> start_date <span class="op">+</span> timedelta(days<span class="op">=</span><span class="dv">365</span>)</span>
-<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a>            max_end_date <span class="op">=</span> min_end_date <span class="op">+</span> timedelta(days<span class="op">=</span><span class="dv">3</span><span class="op">*</span><span class="dv">365</span>)</span>
-<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a>            end_date <span class="op">=</span> min_end_date <span class="op">+</span> timedelta(days<span class="op">=</span>random.randint(<span class="dv">0</span>, (max_end_date <span class="op">-</span> min_end_date).days))</span>
-<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a>        spacecraft.append((capacity, name, manufacturer, start_date, end_date, status))</span>
-<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> spacecraft</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(n):</span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Generujemy nazwę, aż będzie unikalna</span></span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>        <span class="cf">while</span> <span class="va">True</span>:</span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>            name <span class="op">=</span> <span class="ss">f"</span><span class="sc">{</span>random<span class="sc">.</span>choice(prefixes)<span class="sc">}</span><span class="ss">-</span><span class="sc">{</span>random<span class="sc">.</span>choice(suffixes)<span class="sc">}</span><span class="ss">"</span></span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> name <span class="kw">not</span> <span class="kw">in</span> used_names:</span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a>                used_names.add(name)</span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a>                <span class="cf">break</span></span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a>        manufacturer <span class="op">=</span> <span class="st">"MRKM"</span></span>
+<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a>        capacity <span class="op">=</span> random.randint(<span class="dv">40</span>, <span class="dv">60</span>)</span>
+<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a>        status <span class="op">=</span> random.choices(statuses, weights<span class="op">=</span>[<span class="fl">0.8</span>, <span class="fl">0.1</span>, <span class="fl">0.1</span>])[<span class="dv">0</span>]</span>
+<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a>        start_date <span class="op">=</span> random_date()</span>
+<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a>        end_date <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> status <span class="op">==</span> <span class="st">'RETIRED'</span>:</span>
+<span id="cb12-34"><a href="#cb12-34" aria-hidden="true" tabindex="-1"></a>            min_end_date <span class="op">=</span> start_date <span class="op">+</span> timedelta(days<span class="op">=</span><span class="dv">365</span>)</span>
+<span id="cb12-35"><a href="#cb12-35" aria-hidden="true" tabindex="-1"></a>            max_end_date <span class="op">=</span> min_end_date <span class="op">+</span> timedelta(days<span class="op">=</span><span class="dv">3</span><span class="op">*</span><span class="dv">365</span>)</span>
+<span id="cb12-36"><a href="#cb12-36" aria-hidden="true" tabindex="-1"></a>            end_date <span class="op">=</span> min_end_date <span class="op">+</span> timedelta(days<span class="op">=</span>random.randint(<span class="dv">0</span>, (max_end_date <span class="op">-</span> min_end_date).days))</span>
+<span id="cb12-37"><a href="#cb12-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-38"><a href="#cb12-38" aria-hidden="true" tabindex="-1"></a>        spacecraft.append((capacity, name, manufacturer, start_date, end_date, status))</span>
+<span id="cb12-39"><a href="#cb12-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-40"><a href="#cb12-40" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> spacecraft</span>
+<span id="cb12-41"><a href="#cb12-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-42"><a href="#cb12-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-43"><a href="#cb12-43" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> generate_rocket_entries(n<span class="op">=</span><span class="dv">30</span>):</span>
+<span id="cb12-44"><a href="#cb12-44" aria-hidden="true" tabindex="-1"></a>    prefixes <span class="op">=</span> [<span class="st">'Falcon'</span>, <span class="st">'Vega'</span>, <span class="st">'Atlas'</span>, <span class="st">'Delta'</span>, <span class="st">'Zephyr'</span>, <span class="st">'Aegis'</span>, <span class="st">'Cyclone'</span>, <span class="st">'Talon'</span>, <span class="st">'Nova'</span>, <span class="st">'Strato'</span>]</span>
+<span id="cb12-45"><a href="#cb12-45" aria-hidden="true" tabindex="-1"></a>    suffixes <span class="op">=</span> [<span class="st">'IX'</span>, <span class="st">'V'</span>, <span class="st">'Max'</span>, <span class="st">'Pro'</span>, <span class="st">'Ultra'</span>, <span class="st">'1000'</span>, <span class="st">'Eon'</span>, <span class="st">'Zero'</span>, <span class="st">'R'</span>, <span class="st">'Edge'</span>]</span>
+<span id="cb12-46"><a href="#cb12-46" aria-hidden="true" tabindex="-1"></a>    statuses <span class="op">=</span> [<span class="st">'ACTIVE'</span>, <span class="st">'RETIRED'</span>, <span class="st">'MAINT'</span>]</span>
+<span id="cb12-47"><a href="#cb12-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-48"><a href="#cb12-48" aria-hidden="true" tabindex="-1"></a>    used_names <span class="op">=</span> <span class="bu">set</span>()</span>
+<span id="cb12-49"><a href="#cb12-49" aria-hidden="true" tabindex="-1"></a>    rockets <span class="op">=</span> []</span>
+<span id="cb12-50"><a href="#cb12-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-51"><a href="#cb12-51" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Maksymalna liczba możliwych unikalnych kombinacji to znów 10*10 = 100</span></span>
+<span id="cb12-52"><a href="#cb12-52" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> n <span class="op">&gt;</span> <span class="bu">len</span>(prefixes) <span class="op">*</span> <span class="bu">len</span>(suffixes):</span>
+<span id="cb12-53"><a href="#cb12-53" aria-hidden="true" tabindex="-1"></a>        <span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="ss">f"Nie da się wygenerować </span><span class="sc">{</span>n<span class="sc">}</span><span class="ss"> unikalnych nazw rakiet (maksymalnie </span><span class="sc">{</span><span class="bu">len</span>(prefixes)<span class="op">*</span><span class="bu">len</span>(suffixes)<span class="sc">}</span><span class="ss">)."</span>)</span>
+<span id="cb12-54"><a href="#cb12-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-55"><a href="#cb12-55" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(n):</span>
+<span id="cb12-56"><a href="#cb12-56" aria-hidden="true" tabindex="-1"></a>        <span class="cf">while</span> <span class="va">True</span>:</span>
+<span id="cb12-57"><a href="#cb12-57" aria-hidden="true" tabindex="-1"></a>            name <span class="op">=</span> <span class="ss">f"</span><span class="sc">{</span>random<span class="sc">.</span>choice(prefixes)<span class="sc">}</span><span class="ss">-</span><span class="sc">{</span>random<span class="sc">.</span>choice(suffixes)<span class="sc">}</span><span class="ss">"</span></span>
+<span id="cb12-58"><a href="#cb12-58" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> name <span class="kw">not</span> <span class="kw">in</span> used_names:</span>
+<span id="cb12-59"><a href="#cb12-59" aria-hidden="true" tabindex="-1"></a>                used_names.add(name)</span>
+<span id="cb12-60"><a href="#cb12-60" aria-hidden="true" tabindex="-1"></a>                <span class="cf">break</span></span>
+<span id="cb12-61"><a href="#cb12-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-62"><a href="#cb12-62" aria-hidden="true" tabindex="-1"></a>        manufacturer <span class="op">=</span> <span class="st">"MRKM"</span></span>
+<span id="cb12-63"><a href="#cb12-63" aria-hidden="true" tabindex="-1"></a>        status <span class="op">=</span> random.choices(statuses, weights<span class="op">=</span>[<span class="fl">0.8</span>, <span class="fl">0.1</span>, <span class="fl">0.1</span>])[<span class="dv">0</span>]</span>
+<span id="cb12-64"><a href="#cb12-64" aria-hidden="true" tabindex="-1"></a>        rockets.append((name, manufacturer, status))</span>
+<span id="cb12-65"><a href="#cb12-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-66"><a href="#cb12-66" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> rockets</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </section>
 <section id="stałe-do-oferty-nazwy-itp.-i-wprowadzenie-ich-do-bazy" class="level2" data-number="4.2">
 <h2 data-number="4.2" class="anchored" data-anchor-id="stałe-do-oferty-nazwy-itp.-i-wprowadzenie-ich-do-bazy"><span class="header-section-number">4.2</span> Stałe do oferty (nazwy itp.) i wprowadzenie ich do bazy</h2>
-<div id="e01edee4" class="cell" data-execution_count="8">
+<div id="f2c3196a" class="cell" data-execution_count="8">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>launch_stations <span class="op">=</span> [</span>
@@ -887,72 +923,61 @@ Zakończono operacje na bazie danych dla tego bloku.</code></pre>
 <span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Space-U Pad Baltic"</span>,        <span class="st">"Poland"</span>, <span class="st">"Ustka"</span>, <span class="st">"PLANNED"</span>)</span>
 <span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>]</span>
 <span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>rockets <span class="op">=</span> [</span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Falcon Heavy-U"</span>,     <span class="st">"Space-U / SpaceX"</span>,         <span class="st">"ACTIVE"</span>),</span>
-<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"New Glenn-U"</span>,        <span class="st">"Blue Origin / Space-U"</span>,    <span class="st">"MAINT"</span>),</span>
-<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Starship-U"</span>,         <span class="st">"Space-U"</span>,                  <span class="st">"ACTIVE"</span>),</span>
-<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Vulcan Explorer"</span>,    <span class="st">"ULA / Space-U"</span>,            <span class="st">"ACTIVE"</span>),</span>
-<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Ariane 7"</span>,           <span class="st">"ESA / Arianespace"</span>,        <span class="st">"RETIRED"</span>),</span>
-<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Phoenix Booster"</span>,    <span class="st">"JAXA"</span>,                     <span class="st">"ACTIVE"</span>),</span>
-<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Sirius 9"</span>,           <span class="st">"Roscosmos"</span>,                <span class="st">"RETIRED"</span>),</span>
-<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"CosmoLift X"</span>,        <span class="st">"Space-U"</span>,                  <span class="st">"MAINT"</span>),</span>
-<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Thunderbird-1"</span>,      <span class="st">"ISRO"</span>,                     <span class="st">"ACTIVE"</span>),</span>
-<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Atlas Prime"</span>,        <span class="st">"NASA / Space-U"</span>,           <span class="st">"PROTOTYPE"</span>)</span>
-<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>]</span>
-<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>spacecraft <span class="op">=</span> generate_spacecraft_entries()</span>
-<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>destinations <span class="op">=</span> [</span>
-<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Merkury"</span>, <span class="st">"Najmniejsza i najbliższa Słońcu planeta Układu Słonecznego"</span>, <span class="fl">0.38</span>, <span class="st">"HIGH"</span>),</span>
-<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Wenus"</span>, <span class="st">"Druga planeta od Słońca, o gęstej atmosferze i ekstremalnym cieple"</span>, <span class="fl">0.90</span>, <span class="st">"HIGH"</span>),</span>
-<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Mars"</span>, <span class="st">"Czwarta planeta od Słońca, znana jako Czerwona Planeta"</span>, <span class="fl">0.38</span>, <span class="st">"MEDIUM"</span>),</span>
-<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Jowisz"</span>, <span class="st">"Największa planeta w Układzie Słonecznym, gazowy olbrzym"</span>, <span class="fl">0.16</span>, <span class="st">"CRITICAL"</span>),</span>
-<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Saturn"</span>, <span class="st">"Gazowy olbrzym znany z wyraźnych pierścieni"</span>, <span class="fl">0.92</span>, <span class="st">"MEDIUM"</span>)</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>rockets <span class="op">=</span> generate_rocket_entries()</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>spacecraft <span class="op">=</span> generate_spacecraft_entries()</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>destinations <span class="op">=</span> [</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Merkury"</span>, <span class="st">"Najmniejsza i najbliższa Słońcu planeta Układu Słonecznego"</span>, <span class="fl">0.38</span>, <span class="st">"HIGH"</span>),</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Wenus"</span>, <span class="st">"Druga planeta od Słońca, o gęstej atmosferze i ekstremalnym cieple"</span>, <span class="fl">0.90</span>, <span class="st">"HIGH"</span>),</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Mars"</span>, <span class="st">"Czwarta planeta od Słońca, znana jako Czerwona Planeta"</span>, <span class="fl">0.38</span>, <span class="st">"MEDIUM"</span>),</span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Jowisz"</span>, <span class="st">"Największa planeta w Układzie Słonecznym, gazowy olbrzym"</span>, <span class="fl">0.16</span>, <span class="st">"CRITICAL"</span>),</span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Saturn"</span>, <span class="st">"Gazowy olbrzym znany z wyraźnych pierścieni"</span>, <span class="fl">0.92</span>, <span class="st">"MEDIUM"</span>)</span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>trip_types <span class="op">=</span> [</span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Misja Orbitalna"</span>,              <span class="st">"14 dni, orbita i obserwacja powierzchni planety"</span>,           <span class="dv">14</span>, <span class="dv">6_000_000</span>),</span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Zejście Atmosferyczne"</span>,        <span class="st">"21 dni, zejście w atmosferę i analiza składu chemicznego"</span>,  <span class="dv">21</span>, <span class="dv">7_500_000</span>),</span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Ekspedycja Księżycowa"</span>,        <span class="st">"20 dni, eksploracja naturalnych satelitów"</span>,                 <span class="dv">20</span>, <span class="dv">9_000_000</span>),</span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Obóz Badawczy w Kosmosie"</span>,     <span class="st">"45 dni, eksperymenty z pokładu bazy orbitalnej"</span>,          <span class="dv">45</span>,<span class="dv">16_000_000</span>),</span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Przelot przez Pasy Radiacyjne"</span>,<span class="st">"40 dni, przelot przez pasy radiacyjne i pomiary"</span>,           <span class="dv">40</span>,<span class="dv">10_000_000</span>),</span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Obserwacja Pierścieni"</span>,        <span class="st">"20 dni, obserwacja struktur pierścieni planetarnych"</span>,     <span class="dv">20</span>,<span class="dv">12_000_000</span>),</span>
+<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Eksplorator Magnetosfery"</span>,     <span class="st">"30 dni, pomiary pola magnetycznego i zorze"</span>,                <span class="dv">30</span>, <span class="dv">7_000_000</span>),</span>
+<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Manewr Grawitacyjny"</span>,          <span class="st">"10 dni, test manewrów grawitacyjnych przy dużych obiektach"</span>,<span class="dv">10</span>, <span class="dv">5_500_000</span>)</span>
 <span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a>]</span>
 <span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a>trip_types <span class="op">=</span> [</span>
-<span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Misja Orbitalna"</span>,              <span class="st">"14 dni, orbita i obserwacja powierzchni planety"</span>,           <span class="dv">14</span>, <span class="dv">6_000_000</span>),</span>
-<span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Zejście Atmosferyczne"</span>,        <span class="st">"21 dni, zejście w atmosferę i analiza składu chemicznego"</span>,  <span class="dv">21</span>, <span class="dv">7_500_000</span>),</span>
-<span id="cb13-35"><a href="#cb13-35" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Ekspedycja Księżycowa"</span>,        <span class="st">"60 dni, eksploracja naturalnych satelitów"</span>,                 <span class="dv">60</span>, <span class="dv">9_000_000</span>),</span>
-<span id="cb13-36"><a href="#cb13-36" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Obóz Badawczy w Kosmosie"</span>,     <span class="st">"180 dni, eksperymenty z pokładu bazy orbitalnej"</span>,          <span class="dv">180</span>,<span class="dv">16_000_000</span>),</span>
-<span id="cb13-37"><a href="#cb13-37" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Przelot przez Pasy Radiacyjne"</span>,<span class="st">"90 dni, przelot przez pasy radiacyjne i pomiary"</span>,           <span class="dv">90</span>,<span class="dv">10_000_000</span>),</span>
-<span id="cb13-38"><a href="#cb13-38" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Obserwacja Pierścieni"</span>,        <span class="st">"120 dni, obserwacja struktur pierścieni planetarnych"</span>,     <span class="dv">120</span>,<span class="dv">12_000_000</span>),</span>
-<span id="cb13-39"><a href="#cb13-39" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Eksplorator Magnetosfery"</span>,     <span class="st">"30 dni, pomiary pola magnetycznego i zorze"</span>,                <span class="dv">30</span>, <span class="dv">7_000_000</span>),</span>
-<span id="cb13-40"><a href="#cb13-40" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Manewr Grawitacyjny"</span>,          <span class="st">"10 dni, test manewrów grawitacyjnych przy dużych obiektach"</span>,<span class="dv">10</span>, <span class="dv">5_500_000</span>)</span>
-<span id="cb13-41"><a href="#cb13-41" aria-hidden="true" tabindex="-1"></a>]</span>
-<span id="cb13-42"><a href="#cb13-42" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-43"><a href="#cb13-43" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-44"><a href="#cb13-44" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> insert_many(q, rows):</span>
-<span id="cb13-45"><a href="#cb13-45" aria-hidden="true" tabindex="-1"></a>    cursor.executemany(q, rows)</span>
-<span id="cb13-46"><a href="#cb13-46" aria-hidden="true" tabindex="-1"></a>    con.commit()</span>
-<span id="cb13-47"><a href="#cb13-47" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-48"><a href="#cb13-48" aria-hidden="true" tabindex="-1"></a>insert_many(</span>
-<span id="cb13-49"><a href="#cb13-49" aria-hidden="true" tabindex="-1"></a>    <span class="st">"INSERT INTO launch_stations (name, country, city, status) VALUES (</span><span class="sc">%s</span><span class="st">, </span><span class="sc">%s</span><span class="st">, </span><span class="sc">%s</span><span class="st">, </span><span class="sc">%s</span><span class="st">)"</span>,</span>
-<span id="cb13-50"><a href="#cb13-50" aria-hidden="true" tabindex="-1"></a>    [(n, c, ci, s) <span class="cf">for</span> n, c, ci, s <span class="kw">in</span> launch_stations]</span>
+<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> insert_many(q, rows):</span>
+<span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a>    cursor.executemany(q, rows)</span>
+<span id="cb13-35"><a href="#cb13-35" aria-hidden="true" tabindex="-1"></a>    con.commit()</span>
+<span id="cb13-36"><a href="#cb13-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-37"><a href="#cb13-37" aria-hidden="true" tabindex="-1"></a>insert_many(</span>
+<span id="cb13-38"><a href="#cb13-38" aria-hidden="true" tabindex="-1"></a>    <span class="st">"INSERT INTO launch_stations (name, country, city, status) VALUES (</span><span class="sc">%s</span><span class="st">, </span><span class="sc">%s</span><span class="st">, </span><span class="sc">%s</span><span class="st">, </span><span class="sc">%s</span><span class="st">)"</span>,</span>
+<span id="cb13-39"><a href="#cb13-39" aria-hidden="true" tabindex="-1"></a>    [(n, c, ci, s) <span class="cf">for</span> n, c, ci, s <span class="kw">in</span> launch_stations]</span>
+<span id="cb13-40"><a href="#cb13-40" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb13-41"><a href="#cb13-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-42"><a href="#cb13-42" aria-hidden="true" tabindex="-1"></a>insert_many(</span>
+<span id="cb13-43"><a href="#cb13-43" aria-hidden="true" tabindex="-1"></a>    <span class="st">"INSERT INTO rockets (name, manufacturer, status) VALUES (</span><span class="sc">%s</span><span class="st">, </span><span class="sc">%s</span><span class="st">, </span><span class="sc">%s</span><span class="st">)"</span>,</span>
+<span id="cb13-44"><a href="#cb13-44" aria-hidden="true" tabindex="-1"></a>    [(n, m, s) <span class="cf">for</span> n, m, s <span class="kw">in</span> rockets]</span>
+<span id="cb13-45"><a href="#cb13-45" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb13-46"><a href="#cb13-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-47"><a href="#cb13-47" aria-hidden="true" tabindex="-1"></a>insert_many(</span>
+<span id="cb13-48"><a href="#cb13-48" aria-hidden="true" tabindex="-1"></a>    <span class="st">"INSERT INTO spacecraft (capacity_passengers, name, manufacturer, service_start_date, service_end_date, status) "</span></span>
+<span id="cb13-49"><a href="#cb13-49" aria-hidden="true" tabindex="-1"></a>    <span class="st">"VALUES (</span><span class="sc">%s</span><span class="st">, </span><span class="sc">%s</span><span class="st">, </span><span class="sc">%s</span><span class="st">, </span><span class="sc">%s</span><span class="st">, </span><span class="sc">%s</span><span class="st">, </span><span class="sc">%s</span><span class="st">)"</span>,</span>
+<span id="cb13-50"><a href="#cb13-50" aria-hidden="true" tabindex="-1"></a>    [(cap, n, m, start, end, s) <span class="cf">for</span> cap, n, m, start, end, s <span class="kw">in</span> spacecraft]</span>
 <span id="cb13-51"><a href="#cb13-51" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb13-52"><a href="#cb13-52" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-53"><a href="#cb13-53" aria-hidden="true" tabindex="-1"></a>insert_many(</span>
-<span id="cb13-54"><a href="#cb13-54" aria-hidden="true" tabindex="-1"></a>    <span class="st">"INSERT INTO rockets (name, manufacturer, status) VALUES (</span><span class="sc">%s</span><span class="st">, </span><span class="sc">%s</span><span class="st">, </span><span class="sc">%s</span><span class="st">)"</span>,</span>
-<span id="cb13-55"><a href="#cb13-55" aria-hidden="true" tabindex="-1"></a>    [(n, m, s) <span class="cf">for</span> n, m, s <span class="kw">in</span> rockets]</span>
+<span id="cb13-54"><a href="#cb13-54" aria-hidden="true" tabindex="-1"></a>    <span class="st">"INSERT INTO destinations (name, description, avg_gravity, hazard_level) VALUES (</span><span class="sc">%s</span><span class="st">, </span><span class="sc">%s</span><span class="st">, </span><span class="sc">%s</span><span class="st">, </span><span class="sc">%s</span><span class="st">)"</span>,</span>
+<span id="cb13-55"><a href="#cb13-55" aria-hidden="true" tabindex="-1"></a>    [(n, d, g, h) <span class="cf">for</span> n, d, g, h <span class="kw">in</span> destinations]</span>
 <span id="cb13-56"><a href="#cb13-56" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb13-57"><a href="#cb13-57" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-58"><a href="#cb13-58" aria-hidden="true" tabindex="-1"></a>insert_many(</span>
-<span id="cb13-59"><a href="#cb13-59" aria-hidden="true" tabindex="-1"></a>    <span class="st">"INSERT INTO spacecraft (capacity_passengers, name, manufacturer, service_start_date, service_end_date, status) "</span></span>
-<span id="cb13-60"><a href="#cb13-60" aria-hidden="true" tabindex="-1"></a>    <span class="st">"VALUES (</span><span class="sc">%s</span><span class="st">, </span><span class="sc">%s</span><span class="st">, </span><span class="sc">%s</span><span class="st">, </span><span class="sc">%s</span><span class="st">, </span><span class="sc">%s</span><span class="st">, </span><span class="sc">%s</span><span class="st">)"</span>,</span>
-<span id="cb13-61"><a href="#cb13-61" aria-hidden="true" tabindex="-1"></a>    [(cap, n, m, start, end, s) <span class="cf">for</span> cap, n, m, start, end, s <span class="kw">in</span> spacecraft]</span>
-<span id="cb13-62"><a href="#cb13-62" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb13-63"><a href="#cb13-63" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-64"><a href="#cb13-64" aria-hidden="true" tabindex="-1"></a>insert_many(</span>
-<span id="cb13-65"><a href="#cb13-65" aria-hidden="true" tabindex="-1"></a>    <span class="st">"INSERT INTO destinations (name, description, avg_gravity, hazard_level) VALUES (</span><span class="sc">%s</span><span class="st">, </span><span class="sc">%s</span><span class="st">, </span><span class="sc">%s</span><span class="st">, </span><span class="sc">%s</span><span class="st">)"</span>,</span>
-<span id="cb13-66"><a href="#cb13-66" aria-hidden="true" tabindex="-1"></a>    [(n, d, g, h) <span class="cf">for</span> n, d, g, h <span class="kw">in</span> destinations]</span>
-<span id="cb13-67"><a href="#cb13-67" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb13-68"><a href="#cb13-68" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-69"><a href="#cb13-69" aria-hidden="true" tabindex="-1"></a>insert_many(</span>
-<span id="cb13-70"><a href="#cb13-70" aria-hidden="true" tabindex="-1"></a>    <span class="st">"INSERT INTO trip_types (name, description, typical_duration_days, base_price) VALUES (</span><span class="sc">%s</span><span class="st">, </span><span class="sc">%s</span><span class="st">, </span><span class="sc">%s</span><span class="st">, </span><span class="sc">%s</span><span class="st">)"</span>,</span>
-<span id="cb13-71"><a href="#cb13-71" aria-hidden="true" tabindex="-1"></a>    [(n, d, dur, price) <span class="cf">for</span> n, d, dur, price <span class="kw">in</span> trip_types]</span>
-<span id="cb13-72"><a href="#cb13-72" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb13-73"><a href="#cb13-73" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-74"><a href="#cb13-74" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"► Załadowano słownikowe tabele."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb13-59"><a href="#cb13-59" aria-hidden="true" tabindex="-1"></a>    <span class="st">"INSERT INTO trip_types (name, description, typical_duration_days, base_price) VALUES (</span><span class="sc">%s</span><span class="st">, </span><span class="sc">%s</span><span class="st">, </span><span class="sc">%s</span><span class="st">, </span><span class="sc">%s</span><span class="st">)"</span>,</span>
+<span id="cb13-60"><a href="#cb13-60" aria-hidden="true" tabindex="-1"></a>    [(n, d, dur, price) <span class="cf">for</span> n, d, dur, price <span class="kw">in</span> trip_types]</span>
+<span id="cb13-61"><a href="#cb13-61" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb13-62"><a href="#cb13-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-63"><a href="#cb13-63" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"► Załadowano słownikowe tabele."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>► Załadowano słownikowe tabele.</code></pre>
@@ -961,7 +986,7 @@ Zakończono operacje na bazie danych dla tego bloku.</code></pre>
 </section>
 <section id="generowanie-trips-50-lotów---można-zmienić" class="level2" data-number="4.3">
 <h2 data-number="4.3" class="anchored" data-anchor-id="generowanie-trips-50-lotów---można-zmienić"><span class="header-section-number">4.3</span> Generowanie trips (50 lotów - można zmienić)</h2>
-<div id="d07dd27a" class="cell" data-execution_count="9">
+<div id="fda213a8" class="cell" data-execution_count="9">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>cursor.execute(<span class="st">'SELECT trip_type_id, typical_duration_days FROM trip_types'</span>)</span>
@@ -971,10 +996,10 @@ Zakończono operacje na bazie danych dla tego bloku.</code></pre>
 <span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>cursor.execute(<span class="st">'SELECT destination_id FROM destinations'</span>)</span>
 <span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>destinations <span class="op">=</span> [row[<span class="dv">0</span>] <span class="cf">for</span> row <span class="kw">in</span> cursor.fetchall()]</span>
 <span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>cursor.execute(<span class="st">'SELECT launch_station_id FROM launch_stations'</span>)</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>cursor.execute(<span class="st">"SELECT launch_station_id FROM launch_stations WHERE status = 'ACTIVE'"</span>)</span>
 <span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>launch_stations <span class="op">=</span> [row[<span class="dv">0</span>] <span class="cf">for</span> row <span class="kw">in</span> cursor.fetchall()]</span>
 <span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>cursor.execute(<span class="st">'SELECT spacecraft_id FROM spacecraft'</span>)</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>cursor.execute(<span class="st">"SELECT spacecraft_id FROM spacecraft WHERE status = 'ACTIVE'"</span>)</span>
 <span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>spacecrafts <span class="op">=</span> [row[<span class="dv">0</span>] <span class="cf">for</span> row <span class="kw">in</span> cursor.fetchall()]</span>
 <span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>cursor.execute(<span class="st">"SELECT rocket_id FROM rockets WHERE status = 'ACTIVE'"</span>)</span>
@@ -982,84 +1007,120 @@ Zakończono operacje na bazie danych dla tego bloku.</code></pre>
 <span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>statuses <span class="op">=</span> [<span class="st">'completed'</span>, <span class="st">'in progress'</span>, <span class="st">'planned'</span>]</span>
 <span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>records_to_insert <span class="op">=</span> []</span>
-<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">50</span>):</span>
-<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>    trip_type_id <span class="op">=</span> random.choice(<span class="bu">list</span>(trip_type_durations.keys()))</span>
-<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a>    duration <span class="op">=</span> trip_type_durations[trip_type_id]</span>
-<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a>    destination_id <span class="op">=</span> random.choice(destinations)</span>
-<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a>    launch_station_id <span class="op">=</span> random.choice(launch_stations)</span>
-<span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a>    spacecraft_id <span class="op">=</span> random.choice(spacecrafts)</span>
-<span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-29"><a href="#cb15-29" aria-hidden="true" tabindex="-1"></a>    rocket_id <span class="op">=</span> random.choice(rockets) </span>
-<span id="cb15-30"><a href="#cb15-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-31"><a href="#cb15-31" aria-hidden="true" tabindex="-1"></a>    status <span class="op">=</span> random.choices(statuses, weights<span class="op">=</span>[<span class="fl">0.4</span>, <span class="fl">0.3</span>, <span class="fl">0.3</span>])[<span class="dv">0</span>]</span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a><span class="co"># 2) Inicjalizujemy "kalendarze" dla zasobów</span></span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>spacecraft_schedule     <span class="op">=</span> { sc: [] <span class="cf">for</span> sc <span class="kw">in</span> spacecrafts }</span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>rocket_schedule         <span class="op">=</span> { rk: [] <span class="cf">for</span> rk <span class="kw">in</span> rockets }</span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>records_to_insert <span class="op">=</span> []</span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Funkcja sprawdzająca kolizję przedziałów</span></span>
+<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> is_overlapping(new_start, new_end, existing_intervals):</span>
+<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a>    new_end <span class="op">=</span> new_end <span class="kw">or</span> datetime.<span class="bu">max</span></span>
+<span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> ex_start, ex_end <span class="kw">in</span> existing_intervals:</span>
+<span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a>        ex_end <span class="op">=</span> ex_end <span class="kw">or</span> datetime.<span class="bu">max</span></span>
+<span id="cb15-29"><a href="#cb15-29" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="kw">not</span> (new_end <span class="op">&lt;</span> ex_start <span class="kw">or</span> ex_end <span class="op">&lt;</span> new_start):</span>
+<span id="cb15-30"><a href="#cb15-30" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="va">True</span></span>
+<span id="cb15-31"><a href="#cb15-31" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="va">False</span></span>
 <span id="cb15-32"><a href="#cb15-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-33"><a href="#cb15-33" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> status <span class="op">==</span> <span class="st">'completed'</span>:</span>
-<span id="cb15-34"><a href="#cb15-34" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Wylosuj datę podstawową (bez czasu)</span></span>
-<span id="cb15-35"><a href="#cb15-35" aria-hidden="true" tabindex="-1"></a>        base_date <span class="op">=</span> start_of_business <span class="op">+</span> timedelta(days<span class="op">=</span>random.randint(<span class="dv">0</span>, <span class="dv">5</span><span class="op">*</span><span class="dv">365</span> <span class="op">-</span> duration))</span>
-<span id="cb15-36"><a href="#cb15-36" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Dodaj losową godzinę (00:00–23:59:59)</span></span>
-<span id="cb15-37"><a href="#cb15-37" aria-hidden="true" tabindex="-1"></a>        rnd_hour <span class="op">=</span> random.randint(<span class="dv">0</span>, <span class="dv">23</span>)</span>
-<span id="cb15-38"><a href="#cb15-38" aria-hidden="true" tabindex="-1"></a>        rnd_minute <span class="op">=</span> random.randint(<span class="dv">0</span>, <span class="dv">59</span>)</span>
-<span id="cb15-39"><a href="#cb15-39" aria-hidden="true" tabindex="-1"></a>        rnd_second <span class="op">=</span> random.randint(<span class="dv">0</span>, <span class="dv">59</span>)</span>
-<span id="cb15-40"><a href="#cb15-40" aria-hidden="true" tabindex="-1"></a>        departure <span class="op">=</span> datetime.combine(base_date, time(rnd_hour, rnd_minute, rnd_second))</span>
-<span id="cb15-41"><a href="#cb15-41" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Zwrot następuje po duration dniach, o innej (również losowej) godzinie</span></span>
-<span id="cb15-42"><a href="#cb15-42" aria-hidden="true" tabindex="-1"></a>        return_date <span class="op">=</span> base_date <span class="op">+</span> timedelta(days<span class="op">=</span>duration)</span>
-<span id="cb15-43"><a href="#cb15-43" aria-hidden="true" tabindex="-1"></a>        rnd_hour_ret <span class="op">=</span> random.randint(<span class="dv">0</span>, <span class="dv">23</span>)</span>
-<span id="cb15-44"><a href="#cb15-44" aria-hidden="true" tabindex="-1"></a>        rnd_minute_ret <span class="op">=</span> random.randint(<span class="dv">0</span>, <span class="dv">59</span>)</span>
-<span id="cb15-45"><a href="#cb15-45" aria-hidden="true" tabindex="-1"></a>        rnd_second_ret <span class="op">=</span> random.randint(<span class="dv">0</span>, <span class="dv">59</span>)</span>
-<span id="cb15-46"><a href="#cb15-46" aria-hidden="true" tabindex="-1"></a>        return_dt <span class="op">=</span> datetime.combine(return_date, time(rnd_hour_ret, rnd_minute_ret, rnd_second_ret))</span>
-<span id="cb15-47"><a href="#cb15-47" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-48"><a href="#cb15-48" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> status <span class="op">==</span> <span class="st">'in progress'</span>:</span>
-<span id="cb15-49"><a href="#cb15-49" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Wylosuj początek w ciągu ostatnich 'duration' dni, z losową godziną</span></span>
-<span id="cb15-50"><a href="#cb15-50" aria-hidden="true" tabindex="-1"></a>        days_back <span class="op">=</span> random.randint(<span class="dv">1</span>, duration)</span>
-<span id="cb15-51"><a href="#cb15-51" aria-hidden="true" tabindex="-1"></a>        rand_dt <span class="op">=</span> datetime.now() <span class="op">-</span> timedelta(days<span class="op">=</span>days_back)</span>
-<span id="cb15-52"><a href="#cb15-52" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Dodaj losowe godziny/minuty/sekundy do tej daty</span></span>
-<span id="cb15-53"><a href="#cb15-53" aria-hidden="true" tabindex="-1"></a>        departure <span class="op">=</span> datetime(</span>
-<span id="cb15-54"><a href="#cb15-54" aria-hidden="true" tabindex="-1"></a>            rand_dt.year, rand_dt.month, rand_dt.day,</span>
-<span id="cb15-55"><a href="#cb15-55" aria-hidden="true" tabindex="-1"></a>            random.randint(<span class="dv">0</span>, <span class="dv">23</span>), random.randint(<span class="dv">0</span>, <span class="dv">59</span>), random.randint(<span class="dv">0</span>, <span class="dv">59</span>)</span>
-<span id="cb15-56"><a href="#cb15-56" aria-hidden="true" tabindex="-1"></a>        )</span>
-<span id="cb15-57"><a href="#cb15-57" aria-hidden="true" tabindex="-1"></a>        return_dt <span class="op">=</span> <span class="va">None</span></span>
-<span id="cb15-58"><a href="#cb15-58" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-59"><a href="#cb15-59" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:  <span class="co"># status == 'planned'</span></span>
-<span id="cb15-60"><a href="#cb15-60" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Wylosuj datę przyszłą w ciągu najbliższych 365 dni, z losową godziną</span></span>
-<span id="cb15-61"><a href="#cb15-61" aria-hidden="true" tabindex="-1"></a>        days_forward <span class="op">=</span> random.randint(<span class="dv">1</span>, <span class="dv">365</span>)</span>
-<span id="cb15-62"><a href="#cb15-62" aria-hidden="true" tabindex="-1"></a>        future_date <span class="op">=</span> datetime.now() <span class="op">+</span> timedelta(days<span class="op">=</span>days_forward)</span>
-<span id="cb15-63"><a href="#cb15-63" aria-hidden="true" tabindex="-1"></a>        departure <span class="op">=</span> datetime(</span>
-<span id="cb15-64"><a href="#cb15-64" aria-hidden="true" tabindex="-1"></a>            future_date.year, future_date.month, future_date.day,</span>
-<span id="cb15-65"><a href="#cb15-65" aria-hidden="true" tabindex="-1"></a>            random.randint(<span class="dv">0</span>, <span class="dv">23</span>), random.randint(<span class="dv">0</span>, <span class="dv">59</span>), random.randint(<span class="dv">0</span>, <span class="dv">59</span>)</span>
-<span id="cb15-66"><a href="#cb15-66" aria-hidden="true" tabindex="-1"></a>        )</span>
-<span id="cb15-67"><a href="#cb15-67" aria-hidden="true" tabindex="-1"></a>        return_dt <span class="op">=</span> <span class="va">None</span></span>
-<span id="cb15-68"><a href="#cb15-68" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-69"><a href="#cb15-69" aria-hidden="true" tabindex="-1"></a>    records_to_insert.append((</span>
-<span id="cb15-70"><a href="#cb15-70" aria-hidden="true" tabindex="-1"></a>        trip_type_id,</span>
-<span id="cb15-71"><a href="#cb15-71" aria-hidden="true" tabindex="-1"></a>        destination_id,</span>
-<span id="cb15-72"><a href="#cb15-72" aria-hidden="true" tabindex="-1"></a>        launch_station_id,</span>
-<span id="cb15-73"><a href="#cb15-73" aria-hidden="true" tabindex="-1"></a>        spacecraft_id,</span>
-<span id="cb15-74"><a href="#cb15-74" aria-hidden="true" tabindex="-1"></a>        rocket_id,</span>
-<span id="cb15-75"><a href="#cb15-75" aria-hidden="true" tabindex="-1"></a>        departure,</span>
-<span id="cb15-76"><a href="#cb15-76" aria-hidden="true" tabindex="-1"></a>        return_dt,</span>
-<span id="cb15-77"><a href="#cb15-77" aria-hidden="true" tabindex="-1"></a>        status</span>
-<span id="cb15-78"><a href="#cb15-78" aria-hidden="true" tabindex="-1"></a>    ))</span>
-<span id="cb15-79"><a href="#cb15-79" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-80"><a href="#cb15-80" aria-hidden="true" tabindex="-1"></a>cursor.executemany(</span>
-<span id="cb15-81"><a href="#cb15-81" aria-hidden="true" tabindex="-1"></a>    <span class="st">'''</span></span>
-<span id="cb15-82"><a href="#cb15-82" aria-hidden="true" tabindex="-1"></a><span class="st">    INSERT INTO trips (</span></span>
-<span id="cb15-83"><a href="#cb15-83" aria-hidden="true" tabindex="-1"></a><span class="st">        trip_type_id, destination_id, launch_station_id,</span></span>
-<span id="cb15-84"><a href="#cb15-84" aria-hidden="true" tabindex="-1"></a><span class="st">        spacecraft_id, rocket_id, departure_datetime,</span></span>
-<span id="cb15-85"><a href="#cb15-85" aria-hidden="true" tabindex="-1"></a><span class="st">        return_datetime, status</span></span>
-<span id="cb15-86"><a href="#cb15-86" aria-hidden="true" tabindex="-1"></a><span class="st">    ) VALUES (</span><span class="sc">%s</span><span class="st">, </span><span class="sc">%s</span><span class="st">, </span><span class="sc">%s</span><span class="st">, </span><span class="sc">%s</span><span class="st">, </span><span class="sc">%s</span><span class="st">, </span><span class="sc">%s</span><span class="st">, </span><span class="sc">%s</span><span class="st">, </span><span class="sc">%s</span><span class="st">)</span></span>
-<span id="cb15-87"><a href="#cb15-87" aria-hidden="true" tabindex="-1"></a><span class="st">    '''</span>,</span>
-<span id="cb15-88"><a href="#cb15-88" aria-hidden="true" tabindex="-1"></a>    records_to_insert</span>
-<span id="cb15-89"><a href="#cb15-89" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb15-90"><a href="#cb15-90" aria-hidden="true" tabindex="-1"></a>con.commit()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb15-33"><a href="#cb15-33" aria-hidden="true" tabindex="-1"></a><span class="co"># 3) Generujemy 50 wypraw</span></span>
+<span id="cb15-34"><a href="#cb15-34" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">50</span>):</span>
+<span id="cb15-35"><a href="#cb15-35" aria-hidden="true" tabindex="-1"></a>    trip_type_id <span class="op">=</span> random.choice(<span class="bu">list</span>(trip_type_durations.keys()))</span>
+<span id="cb15-36"><a href="#cb15-36" aria-hidden="true" tabindex="-1"></a>    duration <span class="op">=</span> trip_type_durations[trip_type_id]</span>
+<span id="cb15-37"><a href="#cb15-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-38"><a href="#cb15-38" aria-hidden="true" tabindex="-1"></a>    destination_id <span class="op">=</span> random.choice(destinations)</span>
+<span id="cb15-39"><a href="#cb15-39" aria-hidden="true" tabindex="-1"></a>    launch_station_id <span class="op">=</span> random.choice(launch_stations)</span>
+<span id="cb15-40"><a href="#cb15-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-41"><a href="#cb15-41" aria-hidden="true" tabindex="-1"></a>    status <span class="op">=</span> random.choices(statuses, weights<span class="op">=</span>[<span class="fl">0.7</span>, <span class="fl">0.1</span>, <span class="fl">0.2</span>])[<span class="dv">0</span>]</span>
+<span id="cb15-42"><a href="#cb15-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-43"><a href="#cb15-43" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> status <span class="op">==</span> <span class="st">'completed'</span>:</span>
+<span id="cb15-44"><a href="#cb15-44" aria-hidden="true" tabindex="-1"></a>        base_date <span class="op">=</span> start_of_business <span class="op">+</span> timedelta(days<span class="op">=</span>random.randint(<span class="dv">0</span>, <span class="dv">5</span><span class="op">*</span><span class="dv">365</span> <span class="op">-</span> duration))</span>
+<span id="cb15-45"><a href="#cb15-45" aria-hidden="true" tabindex="-1"></a>        departure <span class="op">=</span> datetime.combine(</span>
+<span id="cb15-46"><a href="#cb15-46" aria-hidden="true" tabindex="-1"></a>            base_date,</span>
+<span id="cb15-47"><a href="#cb15-47" aria-hidden="true" tabindex="-1"></a>            time(random.randint(<span class="dv">0</span>,<span class="dv">23</span>), random.randint(<span class="dv">0</span>,<span class="dv">59</span>), random.randint(<span class="dv">0</span>,<span class="dv">59</span>))</span>
+<span id="cb15-48"><a href="#cb15-48" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb15-49"><a href="#cb15-49" aria-hidden="true" tabindex="-1"></a>        return_date <span class="op">=</span> base_date <span class="op">+</span> timedelta(days<span class="op">=</span>duration)</span>
+<span id="cb15-50"><a href="#cb15-50" aria-hidden="true" tabindex="-1"></a>        return_dt <span class="op">=</span> datetime.combine(</span>
+<span id="cb15-51"><a href="#cb15-51" aria-hidden="true" tabindex="-1"></a>            return_date,</span>
+<span id="cb15-52"><a href="#cb15-52" aria-hidden="true" tabindex="-1"></a>            time(random.randint(<span class="dv">0</span>,<span class="dv">23</span>), random.randint(<span class="dv">0</span>,<span class="dv">59</span>), random.randint(<span class="dv">0</span>,<span class="dv">59</span>))</span>
+<span id="cb15-53"><a href="#cb15-53" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb15-54"><a href="#cb15-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-55"><a href="#cb15-55" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> status <span class="op">==</span> <span class="st">'in progress'</span>:</span>
+<span id="cb15-56"><a href="#cb15-56" aria-hidden="true" tabindex="-1"></a>        days_back <span class="op">=</span> random.randint(<span class="dv">1</span>, duration)</span>
+<span id="cb15-57"><a href="#cb15-57" aria-hidden="true" tabindex="-1"></a>        rand_dt <span class="op">=</span> datetime.now() <span class="op">-</span> timedelta(days<span class="op">=</span>days_back)</span>
+<span id="cb15-58"><a href="#cb15-58" aria-hidden="true" tabindex="-1"></a>        departure <span class="op">=</span> datetime(</span>
+<span id="cb15-59"><a href="#cb15-59" aria-hidden="true" tabindex="-1"></a>            rand_dt.year, rand_dt.month, rand_dt.day,</span>
+<span id="cb15-60"><a href="#cb15-60" aria-hidden="true" tabindex="-1"></a>            random.randint(<span class="dv">0</span>,<span class="dv">23</span>), random.randint(<span class="dv">0</span>,<span class="dv">59</span>), random.randint(<span class="dv">0</span>,<span class="dv">59</span>)</span>
+<span id="cb15-61"><a href="#cb15-61" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb15-62"><a href="#cb15-62" aria-hidden="true" tabindex="-1"></a>        return_dt <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb15-63"><a href="#cb15-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-64"><a href="#cb15-64" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:  <span class="co"># status == 'planned'</span></span>
+<span id="cb15-65"><a href="#cb15-65" aria-hidden="true" tabindex="-1"></a>        days_forward <span class="op">=</span> random.randint(<span class="dv">1</span>, <span class="dv">365</span>)</span>
+<span id="cb15-66"><a href="#cb15-66" aria-hidden="true" tabindex="-1"></a>        future_dt <span class="op">=</span> datetime.now() <span class="op">+</span> timedelta(days<span class="op">=</span>days_forward)</span>
+<span id="cb15-67"><a href="#cb15-67" aria-hidden="true" tabindex="-1"></a>        departure <span class="op">=</span> datetime(</span>
+<span id="cb15-68"><a href="#cb15-68" aria-hidden="true" tabindex="-1"></a>            future_dt.year, future_dt.month, future_dt.day,</span>
+<span id="cb15-69"><a href="#cb15-69" aria-hidden="true" tabindex="-1"></a>            random.randint(<span class="dv">0</span>,<span class="dv">23</span>), random.randint(<span class="dv">0</span>,<span class="dv">59</span>), random.randint(<span class="dv">0</span>,<span class="dv">59</span>)</span>
+<span id="cb15-70"><a href="#cb15-70" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb15-71"><a href="#cb15-71" aria-hidden="true" tabindex="-1"></a>        return_dt <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb15-72"><a href="#cb15-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-73"><a href="#cb15-73" aria-hidden="true" tabindex="-1"></a>    new_start <span class="op">=</span> departure</span>
+<span id="cb15-74"><a href="#cb15-74" aria-hidden="true" tabindex="-1"></a>    new_end <span class="op">=</span> return_dt <span class="cf">if</span> return_dt <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span> <span class="cf">else</span> datetime.<span class="bu">max</span></span>
+<span id="cb15-75"><a href="#cb15-75" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-76"><a href="#cb15-76" aria-hidden="true" tabindex="-1"></a>    chosen_spacecraft <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb15-77"><a href="#cb15-77" aria-hidden="true" tabindex="-1"></a>    chosen_rocket <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb15-78"><a href="#cb15-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-79"><a href="#cb15-79" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 4) Wybór zasobów bez kolizji</span></span>
+<span id="cb15-80"><a href="#cb15-80" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> attempt <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">100</span>):</span>
+<span id="cb15-81"><a href="#cb15-81" aria-hidden="true" tabindex="-1"></a>        sc <span class="op">=</span> random.choice(spacecrafts)</span>
+<span id="cb15-82"><a href="#cb15-82" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> is_overlapping(new_start, new_end, spacecraft_schedule[sc]):</span>
+<span id="cb15-83"><a href="#cb15-83" aria-hidden="true" tabindex="-1"></a>            <span class="cf">continue</span></span>
+<span id="cb15-84"><a href="#cb15-84" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-85"><a href="#cb15-85" aria-hidden="true" tabindex="-1"></a>        rk <span class="op">=</span> random.choice(rockets)</span>
+<span id="cb15-86"><a href="#cb15-86" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> is_overlapping(new_start, new_end, rocket_schedule[rk]):</span>
+<span id="cb15-87"><a href="#cb15-87" aria-hidden="true" tabindex="-1"></a>            <span class="cf">continue</span></span>
+<span id="cb15-88"><a href="#cb15-88" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-89"><a href="#cb15-89" aria-hidden="true" tabindex="-1"></a>        chosen_spacecraft <span class="op">=</span> sc</span>
+<span id="cb15-90"><a href="#cb15-90" aria-hidden="true" tabindex="-1"></a>        chosen_rocket <span class="op">=</span> rk</span>
+<span id="cb15-91"><a href="#cb15-91" aria-hidden="true" tabindex="-1"></a>        <span class="cf">break</span></span>
+<span id="cb15-92"><a href="#cb15-92" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-93"><a href="#cb15-93" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> chosen_spacecraft <span class="kw">is</span> <span class="va">None</span>:</span>
+<span id="cb15-94"><a href="#cb15-94" aria-hidden="true" tabindex="-1"></a>        <span class="cf">raise</span> <span class="pp">RuntimeError</span>(</span>
+<span id="cb15-95"><a href="#cb15-95" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Nie znaleziono wolnego statku + rakiety. "</span></span>
+<span id="cb15-96"><a href="#cb15-96" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Zmniejsz liczbę lotów lub zasobów."</span></span>
+<span id="cb15-97"><a href="#cb15-97" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb15-98"><a href="#cb15-98" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-99"><a href="#cb15-99" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 5) Rejestrujemy zajęcie zasobów</span></span>
+<span id="cb15-100"><a href="#cb15-100" aria-hidden="true" tabindex="-1"></a>    spacecraft_schedule[chosen_spacecraft].append((new_start, new_end))</span>
+<span id="cb15-101"><a href="#cb15-101" aria-hidden="true" tabindex="-1"></a>    rocket_schedule[chosen_rocket].append((new_start, new_end))</span>
+<span id="cb15-102"><a href="#cb15-102" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-103"><a href="#cb15-103" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 6) Dodajemy wiersz do listy INSERT</span></span>
+<span id="cb15-104"><a href="#cb15-104" aria-hidden="true" tabindex="-1"></a>    records_to_insert.append((</span>
+<span id="cb15-105"><a href="#cb15-105" aria-hidden="true" tabindex="-1"></a>        trip_type_id,</span>
+<span id="cb15-106"><a href="#cb15-106" aria-hidden="true" tabindex="-1"></a>        destination_id,</span>
+<span id="cb15-107"><a href="#cb15-107" aria-hidden="true" tabindex="-1"></a>        launch_station_id,</span>
+<span id="cb15-108"><a href="#cb15-108" aria-hidden="true" tabindex="-1"></a>        chosen_spacecraft,</span>
+<span id="cb15-109"><a href="#cb15-109" aria-hidden="true" tabindex="-1"></a>        chosen_rocket,</span>
+<span id="cb15-110"><a href="#cb15-110" aria-hidden="true" tabindex="-1"></a>        departure,</span>
+<span id="cb15-111"><a href="#cb15-111" aria-hidden="true" tabindex="-1"></a>        return_dt,</span>
+<span id="cb15-112"><a href="#cb15-112" aria-hidden="true" tabindex="-1"></a>        status</span>
+<span id="cb15-113"><a href="#cb15-113" aria-hidden="true" tabindex="-1"></a>    ))</span>
+<span id="cb15-114"><a href="#cb15-114" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-115"><a href="#cb15-115" aria-hidden="true" tabindex="-1"></a><span class="co"># 7) Wstawiamy wygenerowane trasy do tabeli trips</span></span>
+<span id="cb15-116"><a href="#cb15-116" aria-hidden="true" tabindex="-1"></a>cursor.executemany(</span>
+<span id="cb15-117"><a href="#cb15-117" aria-hidden="true" tabindex="-1"></a>    <span class="st">'''</span></span>
+<span id="cb15-118"><a href="#cb15-118" aria-hidden="true" tabindex="-1"></a><span class="st">    INSERT INTO trips (</span></span>
+<span id="cb15-119"><a href="#cb15-119" aria-hidden="true" tabindex="-1"></a><span class="st">        trip_type_id, destination_id, launch_station_id,</span></span>
+<span id="cb15-120"><a href="#cb15-120" aria-hidden="true" tabindex="-1"></a><span class="st">        spacecraft_id, rocket_id, departure_datetime,</span></span>
+<span id="cb15-121"><a href="#cb15-121" aria-hidden="true" tabindex="-1"></a><span class="st">        return_datetime, status</span></span>
+<span id="cb15-122"><a href="#cb15-122" aria-hidden="true" tabindex="-1"></a><span class="st">    ) VALUES (</span><span class="sc">%s</span><span class="st">, </span><span class="sc">%s</span><span class="st">, </span><span class="sc">%s</span><span class="st">, </span><span class="sc">%s</span><span class="st">, </span><span class="sc">%s</span><span class="st">, </span><span class="sc">%s</span><span class="st">, </span><span class="sc">%s</span><span class="st">, </span><span class="sc">%s</span><span class="st">)</span></span>
+<span id="cb15-123"><a href="#cb15-123" aria-hidden="true" tabindex="-1"></a><span class="st">    '''</span>,</span>
+<span id="cb15-124"><a href="#cb15-124" aria-hidden="true" tabindex="-1"></a>    records_to_insert</span>
+<span id="cb15-125"><a href="#cb15-125" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb15-126"><a href="#cb15-126" aria-hidden="true" tabindex="-1"></a>con.commit()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </section>
 <section id="generowanie-pracowników-do-lotu-jest-35-na-lot--mozna-zmienić" class="level2" data-number="4.4">
 <h2 data-number="4.4" class="anchored" data-anchor-id="generowanie-pracowników-do-lotu-jest-35-na-lot--mozna-zmienić"><span class="header-section-number">4.4</span> Generowanie pracowników do lotu (jest 35 na lot- mozna zmienić)</h2>
-<div id="fd70a634" class="cell" data-execution_count="10">
+<div id="637f78ed" class="cell" data-execution_count="10">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>excluded_positions <span class="op">=</span> [</span>
@@ -1081,62 +1142,69 @@ Zakończono operacje na bazie danych dla tego bloku.</code></pre>
 <span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>crew_data <span class="op">=</span> cursor.fetchall()  <span class="co"># lista (employee_id, position)</span></span>
 <span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Grupuj pracowników wg pozycji</span></span>
-<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> collections <span class="im">import</span> defaultdict</span>
-<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a>position_map <span class="op">=</span> defaultdict(<span class="bu">list</span>)</span>
-<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> emp_id, pos <span class="kw">in</span> crew_data:</span>
-<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a>    position_map[pos].append(emp_id)</span>
-<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> collections <span class="im">import</span> defaultdict</span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a>position_map <span class="op">=</span> defaultdict(<span class="bu">list</span>)</span>
+<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> emp_id, pos <span class="kw">in</span> crew_data:</span>
+<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a>    position_map[pos].append(emp_id)</span>
+<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a>allowed_positions <span class="op">=</span> <span class="bu">list</span>(position_map.keys())</span>
 <span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-27"><a href="#cb16-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Lista dozwolonych pozycji</span></span>
-<span id="cb16-28"><a href="#cb16-28" aria-hidden="true" tabindex="-1"></a>allowed_positions <span class="op">=</span> <span class="bu">list</span>(position_map.keys())</span>
-<span id="cb16-29"><a href="#cb16-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-30"><a href="#cb16-30" aria-hidden="true" tabindex="-1"></a><span class="co"># Pobierz trip_id</span></span>
-<span id="cb16-31"><a href="#cb16-31" aria-hidden="true" tabindex="-1"></a>cursor.execute(<span class="st">'SELECT trip_id FROM trips'</span>)</span>
-<span id="cb16-32"><a href="#cb16-32" aria-hidden="true" tabindex="-1"></a>trip_ids <span class="op">=</span> [row[<span class="dv">0</span>] <span class="cf">for</span> row <span class="kw">in</span> cursor.fetchall()]</span>
-<span id="cb16-33"><a href="#cb16-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-34"><a href="#cb16-34" aria-hidden="true" tabindex="-1"></a>assignments <span class="op">=</span> []</span>
-<span id="cb16-35"><a href="#cb16-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-36"><a href="#cb16-36" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> trip_id <span class="kw">in</span> trip_ids:</span>
-<span id="cb16-37"><a href="#cb16-37" aria-hidden="true" tabindex="-1"></a>    selected_employees <span class="op">=</span> <span class="bu">set</span>()</span>
-<span id="cb16-38"><a href="#cb16-38" aria-hidden="true" tabindex="-1"></a>    trip_assignment <span class="op">=</span> []</span>
-<span id="cb16-39"><a href="#cb16-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-40"><a href="#cb16-40" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Po 1 osobie z każdego stanowiska</span></span>
-<span id="cb16-41"><a href="#cb16-41" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> position, emp_list <span class="kw">in</span> position_map.items():</span>
-<span id="cb16-42"><a href="#cb16-42" aria-hidden="true" tabindex="-1"></a>        emp_id <span class="op">=</span> random.choice(emp_list)</span>
-<span id="cb16-43"><a href="#cb16-43" aria-hidden="true" tabindex="-1"></a>        selected_employees.add(emp_id)</span>
-<span id="cb16-44"><a href="#cb16-44" aria-hidden="true" tabindex="-1"></a>        trip_assignment.append((trip_id, emp_id, position))</span>
-<span id="cb16-45"><a href="#cb16-45" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-46"><a href="#cb16-46" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Dodaj losowych pracowników aż do 35 (unikalnych)</span></span>
-<span id="cb16-47"><a href="#cb16-47" aria-hidden="true" tabindex="-1"></a>    remaining_pool <span class="op">=</span> [</span>
-<span id="cb16-48"><a href="#cb16-48" aria-hidden="true" tabindex="-1"></a>        (emp_id, pos)</span>
-<span id="cb16-49"><a href="#cb16-49" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> pos, emp_ids <span class="kw">in</span> position_map.items()</span>
-<span id="cb16-50"><a href="#cb16-50" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> emp_id <span class="kw">in</span> emp_ids</span>
-<span id="cb16-51"><a href="#cb16-51" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> emp_id <span class="kw">not</span> <span class="kw">in</span> selected_employees</span>
-<span id="cb16-52"><a href="#cb16-52" aria-hidden="true" tabindex="-1"></a>    ]</span>
-<span id="cb16-53"><a href="#cb16-53" aria-hidden="true" tabindex="-1"></a>    additional_needed <span class="op">=</span> <span class="dv">35</span> <span class="op">-</span> <span class="bu">len</span>(trip_assignment)</span>
-<span id="cb16-54"><a href="#cb16-54" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> additional_needed <span class="op">&gt;</span> <span class="dv">0</span>:</span>
-<span id="cb16-55"><a href="#cb16-55" aria-hidden="true" tabindex="-1"></a>        additional_crew <span class="op">=</span> random.sample(remaining_pool, <span class="bu">min</span>(additional_needed, <span class="bu">len</span>(remaining_pool)))</span>
-<span id="cb16-56"><a href="#cb16-56" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> emp_id, pos <span class="kw">in</span> additional_crew:</span>
-<span id="cb16-57"><a href="#cb16-57" aria-hidden="true" tabindex="-1"></a>            selected_employees.add(emp_id)</span>
-<span id="cb16-58"><a href="#cb16-58" aria-hidden="true" tabindex="-1"></a>            trip_assignment.append((trip_id, emp_id, pos))</span>
-<span id="cb16-59"><a href="#cb16-59" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-60"><a href="#cb16-60" aria-hidden="true" tabindex="-1"></a>    assignments.extend(trip_assignment)</span>
-<span id="cb16-61"><a href="#cb16-61" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-62"><a href="#cb16-62" aria-hidden="true" tabindex="-1"></a>cursor.executemany(</span>
-<span id="cb16-63"><a href="#cb16-63" aria-hidden="true" tabindex="-1"></a>    <span class="st">'''</span></span>
-<span id="cb16-64"><a href="#cb16-64" aria-hidden="true" tabindex="-1"></a><span class="st">    INSERT INTO employee_assignments (trip_id, employee_id, role)</span></span>
-<span id="cb16-65"><a href="#cb16-65" aria-hidden="true" tabindex="-1"></a><span class="st">    VALUES (</span><span class="sc">%s</span><span class="st">, </span><span class="sc">%s</span><span class="st">, </span><span class="sc">%s</span><span class="st">)</span></span>
-<span id="cb16-66"><a href="#cb16-66" aria-hidden="true" tabindex="-1"></a><span class="st">    '''</span>,</span>
-<span id="cb16-67"><a href="#cb16-67" aria-hidden="true" tabindex="-1"></a>    assignments</span>
-<span id="cb16-68"><a href="#cb16-68" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb16-69"><a href="#cb16-69" aria-hidden="true" tabindex="-1"></a>con.commit()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb16-27"><a href="#cb16-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Pobierz trip_id oraz daty</span></span>
+<span id="cb16-28"><a href="#cb16-28" aria-hidden="true" tabindex="-1"></a>cursor.execute(<span class="st">'SELECT trip_id, departure_datetime, return_datetime FROM trips'</span>)</span>
+<span id="cb16-29"><a href="#cb16-29" aria-hidden="true" tabindex="-1"></a>trip_info <span class="op">=</span> cursor.fetchall()</span>
+<span id="cb16-30"><a href="#cb16-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-31"><a href="#cb16-31" aria-hidden="true" tabindex="-1"></a><span class="co"># Harmonogram pracowników</span></span>
+<span id="cb16-32"><a href="#cb16-32" aria-hidden="true" tabindex="-1"></a>employee_schedule <span class="op">=</span> defaultdict(<span class="bu">list</span>)</span>
+<span id="cb16-33"><a href="#cb16-33" aria-hidden="true" tabindex="-1"></a>assignments <span class="op">=</span> []</span>
+<span id="cb16-34"><a href="#cb16-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-35"><a href="#cb16-35" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> trip_id, departure, return_dt <span class="kw">in</span> trip_info:</span>
+<span id="cb16-36"><a href="#cb16-36" aria-hidden="true" tabindex="-1"></a>    selected_employees <span class="op">=</span> <span class="bu">set</span>()</span>
+<span id="cb16-37"><a href="#cb16-37" aria-hidden="true" tabindex="-1"></a>    trip_assignment <span class="op">=</span> []</span>
+<span id="cb16-38"><a href="#cb16-38" aria-hidden="true" tabindex="-1"></a>    new_start <span class="op">=</span> departure</span>
+<span id="cb16-39"><a href="#cb16-39" aria-hidden="true" tabindex="-1"></a>    new_end <span class="op">=</span> return_dt <span class="kw">or</span> datetime.<span class="bu">max</span></span>
+<span id="cb16-40"><a href="#cb16-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-41"><a href="#cb16-41" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Po jednej osobie z każdego stanowiska</span></span>
+<span id="cb16-42"><a href="#cb16-42" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> position, emp_list <span class="kw">in</span> position_map.items():</span>
+<span id="cb16-43"><a href="#cb16-43" aria-hidden="true" tabindex="-1"></a>        random.shuffle(emp_list)</span>
+<span id="cb16-44"><a href="#cb16-44" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> emp_id <span class="kw">in</span> emp_list:</span>
+<span id="cb16-45"><a href="#cb16-45" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="kw">not</span> is_overlapping(new_start, new_end, employee_schedule[emp_id]):</span>
+<span id="cb16-46"><a href="#cb16-46" aria-hidden="true" tabindex="-1"></a>                selected_employees.add(emp_id)</span>
+<span id="cb16-47"><a href="#cb16-47" aria-hidden="true" tabindex="-1"></a>                employee_schedule[emp_id].append((new_start, new_end))</span>
+<span id="cb16-48"><a href="#cb16-48" aria-hidden="true" tabindex="-1"></a>                trip_assignment.append((trip_id, emp_id, position))</span>
+<span id="cb16-49"><a href="#cb16-49" aria-hidden="true" tabindex="-1"></a>                <span class="cf">break</span></span>
+<span id="cb16-50"><a href="#cb16-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-51"><a href="#cb16-51" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Losowe osoby do uzupełnienia do 35</span></span>
+<span id="cb16-52"><a href="#cb16-52" aria-hidden="true" tabindex="-1"></a>    remaining_pool <span class="op">=</span> [</span>
+<span id="cb16-53"><a href="#cb16-53" aria-hidden="true" tabindex="-1"></a>        (emp_id, pos)</span>
+<span id="cb16-54"><a href="#cb16-54" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> pos, emp_ids <span class="kw">in</span> position_map.items()</span>
+<span id="cb16-55"><a href="#cb16-55" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> emp_id <span class="kw">in</span> emp_ids</span>
+<span id="cb16-56"><a href="#cb16-56" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> emp_id <span class="kw">not</span> <span class="kw">in</span> selected_employees <span class="kw">and</span> <span class="kw">not</span> is_overlapping(new_start, new_end, employee_schedule[emp_id])</span>
+<span id="cb16-57"><a href="#cb16-57" aria-hidden="true" tabindex="-1"></a>    ]</span>
+<span id="cb16-58"><a href="#cb16-58" aria-hidden="true" tabindex="-1"></a>    additional_needed <span class="op">=</span> <span class="dv">35</span> <span class="op">-</span> <span class="bu">len</span>(trip_assignment)</span>
+<span id="cb16-59"><a href="#cb16-59" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> additional_needed <span class="op">&gt;</span> <span class="dv">0</span>:</span>
+<span id="cb16-60"><a href="#cb16-60" aria-hidden="true" tabindex="-1"></a>        random.shuffle(remaining_pool)</span>
+<span id="cb16-61"><a href="#cb16-61" aria-hidden="true" tabindex="-1"></a>        additional_crew <span class="op">=</span> remaining_pool[:additional_needed]</span>
+<span id="cb16-62"><a href="#cb16-62" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> emp_id, pos <span class="kw">in</span> additional_crew:</span>
+<span id="cb16-63"><a href="#cb16-63" aria-hidden="true" tabindex="-1"></a>            selected_employees.add(emp_id)</span>
+<span id="cb16-64"><a href="#cb16-64" aria-hidden="true" tabindex="-1"></a>            employee_schedule[emp_id].append((new_start, new_end))</span>
+<span id="cb16-65"><a href="#cb16-65" aria-hidden="true" tabindex="-1"></a>            trip_assignment.append((trip_id, emp_id, pos))</span>
+<span id="cb16-66"><a href="#cb16-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-67"><a href="#cb16-67" aria-hidden="true" tabindex="-1"></a>    assignments.extend(trip_assignment)</span>
+<span id="cb16-68"><a href="#cb16-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-69"><a href="#cb16-69" aria-hidden="true" tabindex="-1"></a>cursor.executemany(</span>
+<span id="cb16-70"><a href="#cb16-70" aria-hidden="true" tabindex="-1"></a>    <span class="st">'''</span></span>
+<span id="cb16-71"><a href="#cb16-71" aria-hidden="true" tabindex="-1"></a><span class="st">    INSERT INTO employee_assignments (trip_id, employee_id, role)</span></span>
+<span id="cb16-72"><a href="#cb16-72" aria-hidden="true" tabindex="-1"></a><span class="st">    VALUES (</span><span class="sc">%s</span><span class="st">, </span><span class="sc">%s</span><span class="st">, </span><span class="sc">%s</span><span class="st">)</span></span>
+<span id="cb16-73"><a href="#cb16-73" aria-hidden="true" tabindex="-1"></a><span class="st">    '''</span>,</span>
+<span id="cb16-74"><a href="#cb16-74" aria-hidden="true" tabindex="-1"></a>    assignments</span>
+<span id="cb16-75"><a href="#cb16-75" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb16-76"><a href="#cb16-76" aria-hidden="true" tabindex="-1"></a>con.commit()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </section>
 <section id="generowanie-pasażerów-dla-lotów" class="level2" data-number="4.5">
 <h2 data-number="4.5" class="anchored" data-anchor-id="generowanie-pasażerów-dla-lotów"><span class="header-section-number">4.5</span> Generowanie pasażerów dla lotów</h2>
-<div id="34b0229e" class="cell" data-execution_count="11">
+<div id="770523b9" class="cell" data-execution_count="11">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Pobierz klientów</span></span>
@@ -1161,86 +1229,77 @@ Zakończono operacje na bazie danych dla tego bloku.</code></pre>
 <span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a>trip_participants <span class="op">=</span> defaultdict(<span class="bu">list</span>)  <span class="co"># trip_id -&gt; list of (client_id, seat_number)</span></span>
 <span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a>client_trip_assignments <span class="op">=</span> defaultdict(<span class="bu">list</span>)  <span class="co"># client_id -&gt; list of (departure, return)</span></span>
 <span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Funkcja sprawdzająca nakładanie się przedziałów czasowych</span></span>
-<span id="cb17-24"><a href="#cb17-24" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> is_overlapping(new_start, new_end, existing_intervals):</span>
-<span id="cb17-25"><a href="#cb17-25" aria-hidden="true" tabindex="-1"></a>    new_end <span class="op">=</span> new_end <span class="kw">or</span> datetime.<span class="bu">max</span></span>
-<span id="cb17-26"><a href="#cb17-26" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> start, end <span class="kw">in</span> existing_intervals:</span>
-<span id="cb17-27"><a href="#cb17-27" aria-hidden="true" tabindex="-1"></a>        end <span class="op">=</span> end <span class="kw">or</span> datetime.<span class="bu">max</span></span>
-<span id="cb17-28"><a href="#cb17-28" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> new_start <span class="op">&lt;=</span> end <span class="kw">and</span> start <span class="op">&lt;=</span> new_end:</span>
-<span id="cb17-29"><a href="#cb17-29" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="va">True</span></span>
-<span id="cb17-30"><a href="#cb17-30" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="va">False</span></span>
-<span id="cb17-31"><a href="#cb17-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-32"><a href="#cb17-32" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Zapełnij w pełni loty 'completed' i 'in progress'</span></span>
-<span id="cb17-33"><a href="#cb17-33" aria-hidden="true" tabindex="-1"></a>filled_trips <span class="op">=</span> [tid <span class="cf">for</span> tid, (_, status, _, _) <span class="kw">in</span> trip_info.items() <span class="cf">if</span> status <span class="kw">in</span> (<span class="st">'completed'</span>, <span class="st">'in progress'</span>)]</span>
-<span id="cb17-34"><a href="#cb17-34" aria-hidden="true" tabindex="-1"></a>available_clients <span class="op">=</span> client_ids.copy()</span>
-<span id="cb17-35"><a href="#cb17-35" aria-hidden="true" tabindex="-1"></a>random.shuffle(available_clients)</span>
-<span id="cb17-36"><a href="#cb17-36" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-37"><a href="#cb17-37" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> trip_id <span class="kw">in</span> filled_trips:</span>
-<span id="cb17-38"><a href="#cb17-38" aria-hidden="true" tabindex="-1"></a>    capacity, _, departure, return_dt <span class="op">=</span> trip_info[trip_id]</span>
-<span id="cb17-39"><a href="#cb17-39" aria-hidden="true" tabindex="-1"></a>    assigned <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb17-40"><a href="#cb17-40" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> client_id <span class="kw">in</span> available_clients:</span>
-<span id="cb17-41"><a href="#cb17-41" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> assigned <span class="op">&gt;=</span> capacity:</span>
-<span id="cb17-42"><a href="#cb17-42" aria-hidden="true" tabindex="-1"></a>            <span class="cf">break</span></span>
-<span id="cb17-43"><a href="#cb17-43" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="kw">not</span> is_overlapping(departure, return_dt, client_trip_assignments[client_id]):</span>
-<span id="cb17-44"><a href="#cb17-44" aria-hidden="true" tabindex="-1"></a>            seat_number <span class="op">=</span> <span class="bu">len</span>(trip_participants[trip_id]) <span class="op">+</span> <span class="dv">1</span></span>
-<span id="cb17-45"><a href="#cb17-45" aria-hidden="true" tabindex="-1"></a>            trip_participants[trip_id].append((client_id, seat_number))</span>
-<span id="cb17-46"><a href="#cb17-46" aria-hidden="true" tabindex="-1"></a>            client_trip_assignments[client_id].append((departure, return_dt))</span>
-<span id="cb17-47"><a href="#cb17-47" aria-hidden="true" tabindex="-1"></a>            assigned <span class="op">+=</span> <span class="dv">1</span></span>
-<span id="cb17-48"><a href="#cb17-48" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-49"><a href="#cb17-49" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Upewnij się, że każdy klient jest przypisany do co najmniej jednego lotu</span></span>
-<span id="cb17-50"><a href="#cb17-50" aria-hidden="true" tabindex="-1"></a>all_trip_ids <span class="op">=</span> <span class="bu">list</span>(trip_info.keys())</span>
-<span id="cb17-51"><a href="#cb17-51" aria-hidden="true" tabindex="-1"></a>random.shuffle(all_trip_ids)</span>
-<span id="cb17-52"><a href="#cb17-52" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-53"><a href="#cb17-53" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> client_id <span class="kw">in</span> client_ids:</span>
-<span id="cb17-54"><a href="#cb17-54" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="kw">not</span> client_trip_assignments[client_id]:</span>
-<span id="cb17-55"><a href="#cb17-55" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> trip_id <span class="kw">in</span> all_trip_ids:</span>
-<span id="cb17-56"><a href="#cb17-56" aria-hidden="true" tabindex="-1"></a>            capacity, _, departure, return_dt <span class="op">=</span> trip_info[trip_id]</span>
-<span id="cb17-57"><a href="#cb17-57" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="bu">len</span>(trip_participants[trip_id]) <span class="op">&gt;=</span> capacity:</span>
-<span id="cb17-58"><a href="#cb17-58" aria-hidden="true" tabindex="-1"></a>                <span class="cf">continue</span></span>
-<span id="cb17-59"><a href="#cb17-59" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="kw">not</span> is_overlapping(departure, return_dt, client_trip_assignments[client_id]):</span>
-<span id="cb17-60"><a href="#cb17-60" aria-hidden="true" tabindex="-1"></a>                seat_number <span class="op">=</span> <span class="bu">len</span>(trip_participants[trip_id]) <span class="op">+</span> <span class="dv">1</span></span>
-<span id="cb17-61"><a href="#cb17-61" aria-hidden="true" tabindex="-1"></a>                trip_participants[trip_id].append((client_id, seat_number))</span>
-<span id="cb17-62"><a href="#cb17-62" aria-hidden="true" tabindex="-1"></a>                client_trip_assignments[client_id].append((departure, return_dt))</span>
-<span id="cb17-63"><a href="#cb17-63" aria-hidden="true" tabindex="-1"></a>                <span class="cf">break</span></span>
-<span id="cb17-64"><a href="#cb17-64" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-65"><a href="#cb17-65" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Uzupełnij loty 'planned' (częściowo)</span></span>
-<span id="cb17-66"><a href="#cb17-66" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> trip_id, (capacity, status, departure, return_dt) <span class="kw">in</span> trip_info.items():</span>
-<span id="cb17-67"><a href="#cb17-67" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> status <span class="op">!=</span> <span class="st">'planned'</span>:</span>
-<span id="cb17-68"><a href="#cb17-68" aria-hidden="true" tabindex="-1"></a>        <span class="cf">continue</span></span>
-<span id="cb17-69"><a href="#cb17-69" aria-hidden="true" tabindex="-1"></a>    remaining_seats <span class="op">=</span> capacity <span class="op">-</span> <span class="bu">len</span>(trip_participants[trip_id])</span>
-<span id="cb17-70"><a href="#cb17-70" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> remaining_seats <span class="op">&lt;=</span> <span class="dv">0</span>:</span>
-<span id="cb17-71"><a href="#cb17-71" aria-hidden="true" tabindex="-1"></a>        <span class="cf">continue</span></span>
-<span id="cb17-72"><a href="#cb17-72" aria-hidden="true" tabindex="-1"></a>    random.shuffle(client_ids)</span>
-<span id="cb17-73"><a href="#cb17-73" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> client_id <span class="kw">in</span> client_ids:</span>
-<span id="cb17-74"><a href="#cb17-74" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> remaining_seats <span class="op">==</span> <span class="dv">0</span>:</span>
-<span id="cb17-75"><a href="#cb17-75" aria-hidden="true" tabindex="-1"></a>            <span class="cf">break</span></span>
-<span id="cb17-76"><a href="#cb17-76" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="kw">not</span> is_overlapping(departure, return_dt, client_trip_assignments[client_id]):</span>
-<span id="cb17-77"><a href="#cb17-77" aria-hidden="true" tabindex="-1"></a>            seat_number <span class="op">=</span> <span class="bu">len</span>(trip_participants[trip_id]) <span class="op">+</span> <span class="dv">1</span></span>
-<span id="cb17-78"><a href="#cb17-78" aria-hidden="true" tabindex="-1"></a>            trip_participants[trip_id].append((client_id, seat_number))</span>
-<span id="cb17-79"><a href="#cb17-79" aria-hidden="true" tabindex="-1"></a>            client_trip_assignments[client_id].append((departure, return_dt))</span>
-<span id="cb17-80"><a href="#cb17-80" aria-hidden="true" tabindex="-1"></a>            remaining_seats <span class="op">-=</span> <span class="dv">1</span></span>
-<span id="cb17-81"><a href="#cb17-81" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-82"><a href="#cb17-82" aria-hidden="true" tabindex="-1"></a><span class="co"># Przygotuj dane do INSERT</span></span>
-<span id="cb17-83"><a href="#cb17-83" aria-hidden="true" tabindex="-1"></a>records_to_insert <span class="op">=</span> [</span>
-<span id="cb17-84"><a href="#cb17-84" aria-hidden="true" tabindex="-1"></a>    (trip_id, client_id, seat_number)</span>
-<span id="cb17-85"><a href="#cb17-85" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> trip_id, participants <span class="kw">in</span> trip_participants.items()</span>
-<span id="cb17-86"><a href="#cb17-86" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> client_id, seat_number <span class="kw">in</span> participants</span>
-<span id="cb17-87"><a href="#cb17-87" aria-hidden="true" tabindex="-1"></a>]</span>
-<span id="cb17-88"><a href="#cb17-88" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-89"><a href="#cb17-89" aria-hidden="true" tabindex="-1"></a>cursor.executemany(</span>
-<span id="cb17-90"><a href="#cb17-90" aria-hidden="true" tabindex="-1"></a>    <span class="st">'''</span></span>
-<span id="cb17-91"><a href="#cb17-91" aria-hidden="true" tabindex="-1"></a><span class="st">    INSERT INTO trip_participants (trip_id, client_id, seat_number)</span></span>
-<span id="cb17-92"><a href="#cb17-92" aria-hidden="true" tabindex="-1"></a><span class="st">    VALUES (</span><span class="sc">%s</span><span class="st">, </span><span class="sc">%s</span><span class="st">, </span><span class="sc">%s</span><span class="st">)</span></span>
-<span id="cb17-93"><a href="#cb17-93" aria-hidden="true" tabindex="-1"></a><span class="st">    '''</span>,</span>
-<span id="cb17-94"><a href="#cb17-94" aria-hidden="true" tabindex="-1"></a>    records_to_insert</span>
-<span id="cb17-95"><a href="#cb17-95" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb17-96"><a href="#cb17-96" aria-hidden="true" tabindex="-1"></a>con.commit()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Zapełnij w pełni loty 'completed' i 'in progress'</span></span>
+<span id="cb17-24"><a href="#cb17-24" aria-hidden="true" tabindex="-1"></a>filled_trips <span class="op">=</span> [tid <span class="cf">for</span> tid, (_, status, _, _) <span class="kw">in</span> trip_info.items() <span class="cf">if</span> status <span class="kw">in</span> (<span class="st">'completed'</span>, <span class="st">'in progress'</span>)]</span>
+<span id="cb17-25"><a href="#cb17-25" aria-hidden="true" tabindex="-1"></a>available_clients <span class="op">=</span> client_ids.copy()</span>
+<span id="cb17-26"><a href="#cb17-26" aria-hidden="true" tabindex="-1"></a>random.shuffle(available_clients)</span>
+<span id="cb17-27"><a href="#cb17-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-28"><a href="#cb17-28" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> trip_id <span class="kw">in</span> filled_trips:</span>
+<span id="cb17-29"><a href="#cb17-29" aria-hidden="true" tabindex="-1"></a>    capacity, _, departure, return_dt <span class="op">=</span> trip_info[trip_id]</span>
+<span id="cb17-30"><a href="#cb17-30" aria-hidden="true" tabindex="-1"></a>    assigned <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb17-31"><a href="#cb17-31" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> client_id <span class="kw">in</span> available_clients:</span>
+<span id="cb17-32"><a href="#cb17-32" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> assigned <span class="op">&gt;=</span> capacity:</span>
+<span id="cb17-33"><a href="#cb17-33" aria-hidden="true" tabindex="-1"></a>            <span class="cf">break</span></span>
+<span id="cb17-34"><a href="#cb17-34" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="kw">not</span> is_overlapping(departure, return_dt, client_trip_assignments[client_id]):</span>
+<span id="cb17-35"><a href="#cb17-35" aria-hidden="true" tabindex="-1"></a>            seat_number <span class="op">=</span> <span class="bu">len</span>(trip_participants[trip_id]) <span class="op">+</span> <span class="dv">1</span></span>
+<span id="cb17-36"><a href="#cb17-36" aria-hidden="true" tabindex="-1"></a>            trip_participants[trip_id].append((client_id, seat_number))</span>
+<span id="cb17-37"><a href="#cb17-37" aria-hidden="true" tabindex="-1"></a>            client_trip_assignments[client_id].append((departure, return_dt))</span>
+<span id="cb17-38"><a href="#cb17-38" aria-hidden="true" tabindex="-1"></a>            assigned <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb17-39"><a href="#cb17-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-40"><a href="#cb17-40" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Upewnij się, że każdy klient jest przypisany do co najmniej jednego lotu</span></span>
+<span id="cb17-41"><a href="#cb17-41" aria-hidden="true" tabindex="-1"></a>all_trip_ids <span class="op">=</span> <span class="bu">list</span>(trip_info.keys())</span>
+<span id="cb17-42"><a href="#cb17-42" aria-hidden="true" tabindex="-1"></a>random.shuffle(all_trip_ids)</span>
+<span id="cb17-43"><a href="#cb17-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-44"><a href="#cb17-44" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> client_id <span class="kw">in</span> client_ids:</span>
+<span id="cb17-45"><a href="#cb17-45" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="kw">not</span> client_trip_assignments[client_id]:</span>
+<span id="cb17-46"><a href="#cb17-46" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> trip_id <span class="kw">in</span> all_trip_ids:</span>
+<span id="cb17-47"><a href="#cb17-47" aria-hidden="true" tabindex="-1"></a>            capacity, _, departure, return_dt <span class="op">=</span> trip_info[trip_id]</span>
+<span id="cb17-48"><a href="#cb17-48" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="bu">len</span>(trip_participants[trip_id]) <span class="op">&gt;=</span> capacity:</span>
+<span id="cb17-49"><a href="#cb17-49" aria-hidden="true" tabindex="-1"></a>                <span class="cf">continue</span></span>
+<span id="cb17-50"><a href="#cb17-50" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="kw">not</span> is_overlapping(departure, return_dt, client_trip_assignments[client_id]):</span>
+<span id="cb17-51"><a href="#cb17-51" aria-hidden="true" tabindex="-1"></a>                seat_number <span class="op">=</span> <span class="bu">len</span>(trip_participants[trip_id]) <span class="op">+</span> <span class="dv">1</span></span>
+<span id="cb17-52"><a href="#cb17-52" aria-hidden="true" tabindex="-1"></a>                trip_participants[trip_id].append((client_id, seat_number))</span>
+<span id="cb17-53"><a href="#cb17-53" aria-hidden="true" tabindex="-1"></a>                client_trip_assignments[client_id].append((departure, return_dt))</span>
+<span id="cb17-54"><a href="#cb17-54" aria-hidden="true" tabindex="-1"></a>                <span class="cf">break</span></span>
+<span id="cb17-55"><a href="#cb17-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-56"><a href="#cb17-56" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Uzupełnij loty 'planned' (częściowo)</span></span>
+<span id="cb17-57"><a href="#cb17-57" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> trip_id, (capacity, status, departure, return_dt) <span class="kw">in</span> trip_info.items():</span>
+<span id="cb17-58"><a href="#cb17-58" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> status <span class="op">!=</span> <span class="st">'planned'</span>:</span>
+<span id="cb17-59"><a href="#cb17-59" aria-hidden="true" tabindex="-1"></a>        <span class="cf">continue</span></span>
+<span id="cb17-60"><a href="#cb17-60" aria-hidden="true" tabindex="-1"></a>    remaining_seats <span class="op">=</span> capacity <span class="op">-</span> <span class="bu">len</span>(trip_participants[trip_id])</span>
+<span id="cb17-61"><a href="#cb17-61" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> remaining_seats <span class="op">&lt;=</span> <span class="dv">0</span>:</span>
+<span id="cb17-62"><a href="#cb17-62" aria-hidden="true" tabindex="-1"></a>        <span class="cf">continue</span></span>
+<span id="cb17-63"><a href="#cb17-63" aria-hidden="true" tabindex="-1"></a>    random.shuffle(client_ids)</span>
+<span id="cb17-64"><a href="#cb17-64" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> client_id <span class="kw">in</span> client_ids:</span>
+<span id="cb17-65"><a href="#cb17-65" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> remaining_seats <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb17-66"><a href="#cb17-66" aria-hidden="true" tabindex="-1"></a>            <span class="cf">break</span></span>
+<span id="cb17-67"><a href="#cb17-67" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="kw">not</span> is_overlapping(departure, return_dt, client_trip_assignments[client_id]):</span>
+<span id="cb17-68"><a href="#cb17-68" aria-hidden="true" tabindex="-1"></a>            seat_number <span class="op">=</span> <span class="bu">len</span>(trip_participants[trip_id]) <span class="op">+</span> <span class="dv">1</span></span>
+<span id="cb17-69"><a href="#cb17-69" aria-hidden="true" tabindex="-1"></a>            trip_participants[trip_id].append((client_id, seat_number))</span>
+<span id="cb17-70"><a href="#cb17-70" aria-hidden="true" tabindex="-1"></a>            client_trip_assignments[client_id].append((departure, return_dt))</span>
+<span id="cb17-71"><a href="#cb17-71" aria-hidden="true" tabindex="-1"></a>            remaining_seats <span class="op">-=</span> <span class="dv">1</span></span>
+<span id="cb17-72"><a href="#cb17-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-73"><a href="#cb17-73" aria-hidden="true" tabindex="-1"></a><span class="co"># Przygotuj dane do INSERT</span></span>
+<span id="cb17-74"><a href="#cb17-74" aria-hidden="true" tabindex="-1"></a>records_to_insert <span class="op">=</span> [</span>
+<span id="cb17-75"><a href="#cb17-75" aria-hidden="true" tabindex="-1"></a>    (trip_id, client_id, seat_number)</span>
+<span id="cb17-76"><a href="#cb17-76" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> trip_id, participants <span class="kw">in</span> trip_participants.items()</span>
+<span id="cb17-77"><a href="#cb17-77" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> client_id, seat_number <span class="kw">in</span> participants</span>
+<span id="cb17-78"><a href="#cb17-78" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb17-79"><a href="#cb17-79" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-80"><a href="#cb17-80" aria-hidden="true" tabindex="-1"></a>cursor.executemany(</span>
+<span id="cb17-81"><a href="#cb17-81" aria-hidden="true" tabindex="-1"></a>    <span class="st">'''</span></span>
+<span id="cb17-82"><a href="#cb17-82" aria-hidden="true" tabindex="-1"></a><span class="st">    INSERT INTO trip_participants (trip_id, client_id, seat_number)</span></span>
+<span id="cb17-83"><a href="#cb17-83" aria-hidden="true" tabindex="-1"></a><span class="st">    VALUES (</span><span class="sc">%s</span><span class="st">, </span><span class="sc">%s</span><span class="st">, </span><span class="sc">%s</span><span class="st">)</span></span>
+<span id="cb17-84"><a href="#cb17-84" aria-hidden="true" tabindex="-1"></a><span class="st">    '''</span>,</span>
+<span id="cb17-85"><a href="#cb17-85" aria-hidden="true" tabindex="-1"></a>    records_to_insert</span>
+<span id="cb17-86"><a href="#cb17-86" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb17-87"><a href="#cb17-87" aria-hidden="true" tabindex="-1"></a>con.commit()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </section>
 <section id="emergency-contacts" class="level2" data-number="4.6">
 <h2 data-number="4.6" class="anchored" data-anchor-id="emergency-contacts"><span class="header-section-number">4.6</span> Emergency contacts</h2>
-<div id="f49ba8a3" class="cell" data-execution_count="12">
+<div id="5aaf4bbc" class="cell" data-execution_count="12">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>cursor.execute(<span class="st">'SELECT client_id, date_of_birth FROM clients'</span>)</span>
@@ -1307,7 +1366,7 @@ Zakończono operacje na bazie danych dla tego bloku.</code></pre>
 </section>
 <section id="generowanie-transakcji-transactions-dla-uczestników-lotów" class="level2" data-number="4.7">
 <h2 data-number="4.7" class="anchored" data-anchor-id="generowanie-transakcji-transactions-dla-uczestników-lotów"><span class="header-section-number">4.7</span> Generowanie transakcji (transactions) dla uczestników lotów</h2>
-<div id="7d1425c7" class="cell" data-execution_count="13">
+<div id="247c18da" class="cell" data-execution_count="13">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Pobierz dane o uczestnikach lotów wraz z informacjami o ich wyprawie i cenie bazowej</span></span>
@@ -1380,7 +1439,7 @@ Zakończono operacje na bazie danych dla tego bloku.</code></pre>
 </section>
 <section id="generowanie-opinii-dla-zakończonych-lotów" class="level2" data-number="4.8">
 <h2 data-number="4.8" class="anchored" data-anchor-id="generowanie-opinii-dla-zakończonych-lotów"><span class="header-section-number">4.8</span> Generowanie opinii dla zakończonych lotów</h2>
-<div id="4099655d" class="cell" data-execution_count="14">
+<div id="8698ca6d" class="cell" data-execution_count="14">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Pobierz dane o zakończonych lotach wraz z uczestnikami i datą powrotu</span></span>
@@ -1473,7 +1532,7 @@ Zakończono operacje na bazie danych dla tego bloku.</code></pre>
 </section>
 <section id="generowanie-incydentów" class="level2" data-number="4.9">
 <h2 data-number="4.9" class="anchored" data-anchor-id="generowanie-incydentów"><span class="header-section-number">4.9</span> Generowanie incydentów</h2>
-<div id="b204e54c" class="cell" data-execution_count="15">
+<div id="317b10d5" class="cell" data-execution_count="15">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Pobierz dane o lotach (trip_id, departure, return) oraz przypisanych pracownikach i klientach</span></span>
@@ -1618,7 +1677,7 @@ Zakończono operacje na bazie danych dla tego bloku.</code></pre>
 </section>
 <section id="generowanie-kosztów-dla-każdej-wyprawy" class="level2" data-number="4.10">
 <h2 data-number="4.10" class="anchored" data-anchor-id="generowanie-kosztów-dla-każdej-wyprawy"><span class="header-section-number">4.10</span> Generowanie kosztów dla każdej wyprawy</h2>
-<div id="9dff8e20" class="cell" data-execution_count="16">
+<div id="a707c970" class="cell" data-execution_count="16">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>cursor.execute(<span class="st">"""</span></span>

@@ -246,7 +246,7 @@ else:
 ```
 
 # Wprowadzenie pozostałych tabel
-## Wygenerowanie statków kosmicznych
+## Wygenerowanie statków kosmicznych i rakiet
 ```{python}
 
 def random_date(start_date=start_of_business):
@@ -254,31 +254,68 @@ def random_date(start_date=start_of_business):
     delta_days = (end_date - start_date).days
     return start_date + timedelta(days=random.randint(0, delta_days))
 
+def generate_spacecraft_entries(n=30):
+    prefixes = ['Nova', 'Luna', 'Astra', 'Zenith', 'Hyperion', 'Celestia', 'Pulsar', 'Eclipse', 'Titan', 'Vortex']
+    suffixes = ['X', 'One', 'Prime', '7', 'NX', 'Infinity', 'Core', 'Ultra', 'VX', 'Edge']
+    statuses = ['ACTIVE', 'RETIRED', 'MAINT']
 
-def generate_spacecraft_entries():
-    names = [
-        "Starship-Aurora", "Starliner-Vista", "Dragon-TourerXL", "Orion-Cruiser",
-        "CosmoLiner-5", "Nebula-Swift", "Phoenix-Xplorer", "Voyager-Next"
-    ]
-    manufacturers = [
-        "Space-U", "Boeing / Space-U", "Space-U / SpaceX", "NASA / Lockheed",
-        "ESA / Airbus", "Blue Origin", "JAXA", "Roscosmos"
-    ]
-    capacities = [random.randint(40, 60) for _ in range(len(names))]
-    statuses = ["ACTIVE", "RETIRED", "MAINT"]
-
+    # Zestaw, w którym będziemy trzymać już użyte nazwy
+    used_names = set()
     spacecraft = []
-    for name, manufacturer, capacity in zip(names, manufacturers, capacities):
-        status = random.choice(statuses)
+
+    # Maksymalna liczba możliwych unikalnych kombinacji to len(prefixes)*len(suffixes)=100
+    if n > len(prefixes) * len(suffixes):
+        raise ValueError(f"Nie da się wygenerować {n} unikalnych nazw (maksymalnie {len(prefixes)*len(suffixes)}).")
+
+    for _ in range(n):
+        # Generujemy nazwę, aż będzie unikalna
+        while True:
+            name = f"{random.choice(prefixes)}-{random.choice(suffixes)}"
+            if name not in used_names:
+                used_names.add(name)
+                break
+
+        manufacturer = "MRKM"
+        capacity = random.randint(40, 60)
+        status = random.choices(statuses, weights=[0.8, 0.1, 0.1])[0]
         start_date = random_date()
         end_date = None
-        if status == "RETIRED":
+
+        if status == 'RETIRED':
             min_end_date = start_date + timedelta(days=365)
             max_end_date = min_end_date + timedelta(days=3*365)
             end_date = min_end_date + timedelta(days=random.randint(0, (max_end_date - min_end_date).days))
+
         spacecraft.append((capacity, name, manufacturer, start_date, end_date, status))
-    
+
     return spacecraft
+
+
+def generate_rocket_entries(n=30):
+    prefixes = ['Falcon', 'Vega', 'Atlas', 'Delta', 'Zephyr', 'Aegis', 'Cyclone', 'Talon', 'Nova', 'Strato']
+    suffixes = ['IX', 'V', 'Max', 'Pro', 'Ultra', '1000', 'Eon', 'Zero', 'R', 'Edge']
+    statuses = ['ACTIVE', 'RETIRED', 'MAINT']
+
+    used_names = set()
+    rockets = []
+
+    # Maksymalna liczba możliwych unikalnych kombinacji to znów 10*10 = 100
+    if n > len(prefixes) * len(suffixes):
+        raise ValueError(f"Nie da się wygenerować {n} unikalnych nazw rakiet (maksymalnie {len(prefixes)*len(suffixes)}).")
+
+    for _ in range(n):
+        while True:
+            name = f"{random.choice(prefixes)}-{random.choice(suffixes)}"
+            if name not in used_names:
+                used_names.add(name)
+                break
+
+        manufacturer = "MRKM"
+        status = random.choices(statuses, weights=[0.8, 0.1, 0.1])[0]
+        rockets.append((name, manufacturer, status))
+
+    return rockets
+
 
 ```
 
@@ -294,18 +331,7 @@ launch_stations = [
     ("Space-U Pad Baltic",        "Poland", "Ustka", "PLANNED")
 ]
 
-rockets = [
-    ("Falcon Heavy-U",     "Space-U / SpaceX",         "ACTIVE"),
-    ("New Glenn-U",        "Blue Origin / Space-U",    "MAINT"),
-    ("Starship-U",         "Space-U",                  "ACTIVE"),
-    ("Vulcan Explorer",    "ULA / Space-U",            "ACTIVE"),
-    ("Ariane 7",           "ESA / Arianespace",        "RETIRED"),
-    ("Phoenix Booster",    "JAXA",                     "ACTIVE"),
-    ("Sirius 9",           "Roscosmos",                "RETIRED"),
-    ("CosmoLift X",        "Space-U",                  "MAINT"),
-    ("Thunderbird-1",      "ISRO",                     "ACTIVE"),
-    ("Atlas Prime",        "NASA / Space-U",           "PROTOTYPE")
-]
+rockets = generate_rocket_entries()
 
 spacecraft = generate_spacecraft_entries()
 
@@ -320,10 +346,10 @@ destinations = [
 trip_types = [
     ("Misja Orbitalna",              "14 dni, orbita i obserwacja powierzchni planety",           14, 6_000_000),
     ("Zejście Atmosferyczne",        "21 dni, zejście w atmosferę i analiza składu chemicznego",  21, 7_500_000),
-    ("Ekspedycja Księżycowa",        "60 dni, eksploracja naturalnych satelitów",                 60, 9_000_000),
-    ("Obóz Badawczy w Kosmosie",     "180 dni, eksperymenty z pokładu bazy orbitalnej",          180,16_000_000),
-    ("Przelot przez Pasy Radiacyjne","90 dni, przelot przez pasy radiacyjne i pomiary",           90,10_000_000),
-    ("Obserwacja Pierścieni",        "120 dni, obserwacja struktur pierścieni planetarnych",     120,12_000_000),
+    ("Ekspedycja Księżycowa",        "20 dni, eksploracja naturalnych satelitów",                 20, 9_000_000),
+    ("Obóz Badawczy w Kosmosie",     "45 dni, eksperymenty z pokładu bazy orbitalnej",          45,16_000_000),
+    ("Przelot przez Pasy Radiacyjne","40 dni, przelot przez pasy radiacyjne i pomiary",           40,10_000_000),
+    ("Obserwacja Pierścieni",        "20 dni, obserwacja struktur pierścieni planetarnych",     20,12_000_000),
     ("Eksplorator Magnetosfery",     "30 dni, pomiary pola magnetycznego i zorze",                30, 7_000_000),
     ("Manewr Grawitacyjny",          "10 dni, test manewrów grawitacyjnych przy dużych obiektach",10, 5_500_000)
 ]
@@ -373,10 +399,10 @@ trip_type_durations = dict(trip_types)
 cursor.execute('SELECT destination_id FROM destinations')
 destinations = [row[0] for row in cursor.fetchall()]
 
-cursor.execute('SELECT launch_station_id FROM launch_stations')
+cursor.execute("SELECT launch_station_id FROM launch_stations WHERE status = 'ACTIVE'")
 launch_stations = [row[0] for row in cursor.fetchall()]
 
-cursor.execute('SELECT spacecraft_id FROM spacecraft')
+cursor.execute("SELECT spacecraft_id FROM spacecraft WHERE status = 'ACTIVE'")
 spacecrafts = [row[0] for row in cursor.fetchall()]
 
 cursor.execute("SELECT rocket_id FROM rockets WHERE status = 'ACTIVE'")
@@ -384,67 +410,103 @@ rockets = [row[0] for row in cursor.fetchall()]
 
 statuses = ['completed', 'in progress', 'planned']
 
+# 2) Inicjalizujemy "kalendarze" dla zasobów
+spacecraft_schedule     = { sc: [] for sc in spacecrafts }
+rocket_schedule         = { rk: [] for rk in rockets }
 records_to_insert = []
 
+# Funkcja sprawdzająca kolizję przedziałów
+def is_overlapping(new_start, new_end, existing_intervals):
+    new_end = new_end or datetime.max
+    for ex_start, ex_end in existing_intervals:
+        ex_end = ex_end or datetime.max
+        if not (new_end < ex_start or ex_end < new_start):
+            return True
+    return False
+
+# 3) Generujemy 50 wypraw
 for _ in range(50):
     trip_type_id = random.choice(list(trip_type_durations.keys()))
     duration = trip_type_durations[trip_type_id]
 
     destination_id = random.choice(destinations)
     launch_station_id = random.choice(launch_stations)
-    spacecraft_id = random.choice(spacecrafts)
 
-    rocket_id = random.choice(rockets) 
-
-    status = random.choices(statuses, weights=[0.4, 0.3, 0.3])[0]
+    status = random.choices(statuses, weights=[0.7, 0.1, 0.2])[0]
 
     if status == 'completed':
-        # Wylosuj datę podstawową (bez czasu)
         base_date = start_of_business + timedelta(days=random.randint(0, 5*365 - duration))
-        # Dodaj losową godzinę (00:00–23:59:59)
-        rnd_hour = random.randint(0, 23)
-        rnd_minute = random.randint(0, 59)
-        rnd_second = random.randint(0, 59)
-        departure = datetime.combine(base_date, time(rnd_hour, rnd_minute, rnd_second))
-        # Zwrot następuje po duration dniach, o innej (również losowej) godzinie
+        departure = datetime.combine(
+            base_date,
+            time(random.randint(0,23), random.randint(0,59), random.randint(0,59))
+        )
         return_date = base_date + timedelta(days=duration)
-        rnd_hour_ret = random.randint(0, 23)
-        rnd_minute_ret = random.randint(0, 59)
-        rnd_second_ret = random.randint(0, 59)
-        return_dt = datetime.combine(return_date, time(rnd_hour_ret, rnd_minute_ret, rnd_second_ret))
+        return_dt = datetime.combine(
+            return_date,
+            time(random.randint(0,23), random.randint(0,59), random.randint(0,59))
+        )
 
     elif status == 'in progress':
-        # Wylosuj początek w ciągu ostatnich 'duration' dni, z losową godziną
         days_back = random.randint(1, duration)
         rand_dt = datetime.now() - timedelta(days=days_back)
-        # Dodaj losowe godziny/minuty/sekundy do tej daty
         departure = datetime(
             rand_dt.year, rand_dt.month, rand_dt.day,
-            random.randint(0, 23), random.randint(0, 59), random.randint(0, 59)
+            random.randint(0,23), random.randint(0,59), random.randint(0,59)
         )
         return_dt = None
 
     else:  # status == 'planned'
-        # Wylosuj datę przyszłą w ciągu najbliższych 365 dni, z losową godziną
         days_forward = random.randint(1, 365)
-        future_date = datetime.now() + timedelta(days=days_forward)
+        future_dt = datetime.now() + timedelta(days=days_forward)
         departure = datetime(
-            future_date.year, future_date.month, future_date.day,
-            random.randint(0, 23), random.randint(0, 59), random.randint(0, 59)
+            future_dt.year, future_dt.month, future_dt.day,
+            random.randint(0,23), random.randint(0,59), random.randint(0,59)
         )
         return_dt = None
 
+    new_start = departure
+    new_end = return_dt if return_dt is not None else datetime.max
+
+    chosen_spacecraft = None
+    chosen_rocket = None
+
+    # 4) Wybór zasobów bez kolizji
+    for attempt in range(100):
+        sc = random.choice(spacecrafts)
+        if is_overlapping(new_start, new_end, spacecraft_schedule[sc]):
+            continue
+
+        rk = random.choice(rockets)
+        if is_overlapping(new_start, new_end, rocket_schedule[rk]):
+            continue
+
+        chosen_spacecraft = sc
+        chosen_rocket = rk
+        break
+
+    if chosen_spacecraft is None:
+        raise RuntimeError(
+            "Nie znaleziono wolnego statku + rakiety. "
+            "Zmniejsz liczbę lotów lub zasobów."
+        )
+
+    # 5) Rejestrujemy zajęcie zasobów
+    spacecraft_schedule[chosen_spacecraft].append((new_start, new_end))
+    rocket_schedule[chosen_rocket].append((new_start, new_end))
+
+    # 6) Dodajemy wiersz do listy INSERT
     records_to_insert.append((
         trip_type_id,
         destination_id,
         launch_station_id,
-        spacecraft_id,
-        rocket_id,
+        chosen_spacecraft,
+        chosen_rocket,
         departure,
         return_dt,
         status
     ))
 
+# 7) Wstawiamy wygenerowane trasy do tabeli trips
 cursor.executemany(
     '''
     INSERT INTO trips (
@@ -481,44 +543,51 @@ cursor.execute(
 )
 crew_data = cursor.fetchall()  # lista (employee_id, position)
 
-# Grupuj pracowników wg pozycji
 from collections import defaultdict
 position_map = defaultdict(list)
 for emp_id, pos in crew_data:
     position_map[pos].append(emp_id)
 
-
-# Lista dozwolonych pozycji
 allowed_positions = list(position_map.keys())
 
-# Pobierz trip_id
-cursor.execute('SELECT trip_id FROM trips')
-trip_ids = [row[0] for row in cursor.fetchall()]
+# Pobierz trip_id oraz daty
+cursor.execute('SELECT trip_id, departure_datetime, return_datetime FROM trips')
+trip_info = cursor.fetchall()
 
+# Harmonogram pracowników
+employee_schedule = defaultdict(list)
 assignments = []
 
-for trip_id in trip_ids:
+for trip_id, departure, return_dt in trip_info:
     selected_employees = set()
     trip_assignment = []
+    new_start = departure
+    new_end = return_dt or datetime.max
 
-    # Po 1 osobie z każdego stanowiska
+    # Po jednej osobie z każdego stanowiska
     for position, emp_list in position_map.items():
-        emp_id = random.choice(emp_list)
-        selected_employees.add(emp_id)
-        trip_assignment.append((trip_id, emp_id, position))
+        random.shuffle(emp_list)
+        for emp_id in emp_list:
+            if not is_overlapping(new_start, new_end, employee_schedule[emp_id]):
+                selected_employees.add(emp_id)
+                employee_schedule[emp_id].append((new_start, new_end))
+                trip_assignment.append((trip_id, emp_id, position))
+                break
 
-    # Dodaj losowych pracowników aż do 35 (unikalnych)
+    # Losowe osoby do uzupełnienia do 35
     remaining_pool = [
         (emp_id, pos)
         for pos, emp_ids in position_map.items()
         for emp_id in emp_ids
-        if emp_id not in selected_employees
+        if emp_id not in selected_employees and not is_overlapping(new_start, new_end, employee_schedule[emp_id])
     ]
     additional_needed = 35 - len(trip_assignment)
     if additional_needed > 0:
-        additional_crew = random.sample(remaining_pool, min(additional_needed, len(remaining_pool)))
+        random.shuffle(remaining_pool)
+        additional_crew = remaining_pool[:additional_needed]
         for emp_id, pos in additional_crew:
             selected_employees.add(emp_id)
+            employee_schedule[emp_id].append((new_start, new_end))
             trip_assignment.append((trip_id, emp_id, pos))
 
     assignments.extend(trip_assignment)
@@ -561,15 +630,6 @@ trip_info = {
 # Przygotuj dane do INSERT
 trip_participants = defaultdict(list)  # trip_id -> list of (client_id, seat_number)
 client_trip_assignments = defaultdict(list)  # client_id -> list of (departure, return)
-
-# Funkcja sprawdzająca nakładanie się przedziałów czasowych
-def is_overlapping(new_start, new_end, existing_intervals):
-    new_end = new_end or datetime.max
-    for start, end in existing_intervals:
-        end = end or datetime.max
-        if new_start <= end and start <= new_end:
-            return True
-    return False
 
 # 1. Zapełnij w pełni loty 'completed' i 'in progress'
 filled_trips = [tid for tid, (_, status, _, _) in trip_info.items() if status in ('completed', 'in progress')]
