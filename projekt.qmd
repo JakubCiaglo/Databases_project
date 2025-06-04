@@ -12,25 +12,26 @@ format:
 page-layout: full
 ---
 
-## Autorzy
+# Autorzy
 
 - Jakub Ciągło  
 - Mateusz Ćwiek  
 - Marek Dworaczyk  
 - Rafał Głodek
 
-## Importy
+# Importy
 ```{python}
 import mysql.connector
 import random
 import math
-from datetime import date, datetime, timedelta
+from datetime import date, datetime, timedelta, time
 from dateutil.relativedelta import relativedelta
 import numpy as np
 import pandas as pd
 from faker import Faker
 ```
 
+# Skryptowe wypełnienie bazy
 ## Połączenie z bazą danych i wyczyszczenie jej
 
 ```{python}
@@ -108,7 +109,7 @@ POSITIONS = [
     ("Astrogator", 0.05), ("Specjalista ds. bezpieczeństwa", 0.05),
     ("Inspektor jakości", 0.06), ("Specjalista HR", 0.04),
     ("Analityk danych", 0.06), ("Marketing kosmiczny", 0.04),
-    ("Finanse / księgowość", 0.06), ("Lekarz pokładowy", 0.05),
+    ("Finanse / Księgowość", 0.06), ("Lekarz pokładowy", 0.05),
     ("Kucharz orbitalny", 0.03), ("Administrator IT", 0.05),
     ("Mechanik rakietowy", 0.07)
 ]
@@ -136,10 +137,10 @@ for i in range(n_employees):
     hire, term = hire_and_term()
 
     base_email = f"{first}.{last}".lower().replace(" ", "").replace("'", "") # Dodatkowe czyszczenie
-    email = base_email + "@mkrm-spacetrips.com"
+    email = base_email + "@spaceu.com"
     suffix = 1
     while email in used_emails_emp:
-        email = f"{base_email}{suffix}@mkrm-spacetrips.com"
+        email = f"{base_email}{suffix}@spaceu.com"
         suffix += 1
     used_emails_emp.add(email)
 
@@ -192,7 +193,7 @@ print(f"Wygenerowano {len(df_cli)} rekordów dla klientów.")
 df_cli
 ```
 
-## Zapis danych do bazy
+## Zapis pracowników i klientów do bazy (test)
 
 ```{python}
 if con and con.is_connected():
@@ -244,6 +245,7 @@ else:
     print("Błąd: Połączenie z bazą danych ('con') nie jest aktywne lub nie zostało poprawnie zainicjowane.")
 ```
 
+# Wprowadzenie pozostałych tabel
 ## Wygenerowanie statków kosmicznych
 ```{python}
 
@@ -259,7 +261,7 @@ def generate_spacecraft_entries():
         "CosmoLiner-5", "Nebula-Swift", "Phoenix-Xplorer", "Voyager-Next"
     ]
     manufacturers = [
-        "MKRM", "Boeing / MKRM", "MKRM / SpaceX", "NASA / Lockheed",
+        "Space-U", "Boeing / Space-U", "Space-U / SpaceX", "NASA / Lockheed",
         "ESA / Airbus", "Blue Origin", "JAXA", "Roscosmos"
     ]
     capacities = [random.randint(40, 60) for _ in range(len(names))]
@@ -289,20 +291,20 @@ launch_stations = [
     ("Baikonur Cosmodrome",       "Kazakhstan", "Baikonur", "ACTIVE"),
     ("Guiana Space Centre",       "France", "Kourou", "ACTIVE"),
     ("Wenchang",                  "China", "Wenchang", "ACTIVE"),
-    ("MKRM Pad Baltic",        "Poland", "Ustka", "PLANNED")
+    ("Space-U Pad Baltic",        "Poland", "Ustka", "PLANNED")
 ]
 
 rockets = [
-    ("Falcon Heavy-U",     "MKRM / SpaceX",         "ACTIVE"),
-    ("New Glenn-U",        "Blue Origin / MKRM",    "MAINT"),
-    ("Starship-U",         "MKRM",                  "ACTIVE"),
-    ("Vulcan Explorer",    "ULA / MKRM",            "ACTIVE"),
+    ("Falcon Heavy-U",     "Space-U / SpaceX",         "ACTIVE"),
+    ("New Glenn-U",        "Blue Origin / Space-U",    "MAINT"),
+    ("Starship-U",         "Space-U",                  "ACTIVE"),
+    ("Vulcan Explorer",    "ULA / Space-U",            "ACTIVE"),
     ("Ariane 7",           "ESA / Arianespace",        "RETIRED"),
     ("Phoenix Booster",    "JAXA",                     "ACTIVE"),
     ("Sirius 9",           "Roscosmos",                "RETIRED"),
-    ("CosmoLift X",        "MKRM",                  "MAINT"),
+    ("CosmoLift X",        "Space-U",                  "MAINT"),
     ("Thunderbird-1",      "ISRO",                     "ACTIVE"),
-    ("Atlas Prime",        "NASA / MKRM",           "PROTOTYPE")
+    ("Atlas Prime",        "NASA / Space-U",           "PROTOTYPE")
 ]
 
 spacecraft = generate_spacecraft_entries()
@@ -397,13 +399,39 @@ for _ in range(50):
     status = random.choices(statuses, weights=[0.4, 0.3, 0.3])[0]
 
     if status == 'completed':
-        departure = start_of_business + timedelta(days=random.randint(0, 5*365 - duration))
-        return_dt = departure + timedelta(days=duration)
+        # Wylosuj datę podstawową (bez czasu)
+        base_date = start_of_business + timedelta(days=random.randint(0, 5*365 - duration))
+        # Dodaj losową godzinę (00:00–23:59:59)
+        rnd_hour = random.randint(0, 23)
+        rnd_minute = random.randint(0, 59)
+        rnd_second = random.randint(0, 59)
+        departure = datetime.combine(base_date, time(rnd_hour, rnd_minute, rnd_second))
+        # Zwrot następuje po duration dniach, o innej (również losowej) godzinie
+        return_date = base_date + timedelta(days=duration)
+        rnd_hour_ret = random.randint(0, 23)
+        rnd_minute_ret = random.randint(0, 59)
+        rnd_second_ret = random.randint(0, 59)
+        return_dt = datetime.combine(return_date, time(rnd_hour_ret, rnd_minute_ret, rnd_second_ret))
+
     elif status == 'in progress':
-        departure = datetime.now() - timedelta(days=random.randint(1, duration))
+        # Wylosuj początek w ciągu ostatnich 'duration' dni, z losową godziną
+        days_back = random.randint(1, duration)
+        rand_dt = datetime.now() - timedelta(days=days_back)
+        # Dodaj losowe godziny/minuty/sekundy do tej daty
+        departure = datetime(
+            rand_dt.year, rand_dt.month, rand_dt.day,
+            random.randint(0, 23), random.randint(0, 59), random.randint(0, 59)
+        )
         return_dt = None
-    else:
-        departure = datetime.now() + timedelta(days=random.randint(1, 365))
+
+    else:  # status == 'planned'
+        # Wylosuj datę przyszłą w ciągu najbliższych 365 dni, z losową godziną
+        days_forward = random.randint(1, 365)
+        future_date = datetime.now() + timedelta(days=days_forward)
+        departure = datetime(
+            future_date.year, future_date.month, future_date.day,
+            random.randint(0, 23), random.randint(0, 59), random.randint(0, 59)
+        )
         return_dt = None
 
     records_to_insert.append((
@@ -677,5 +705,355 @@ cursor.executemany(
 
 con.commit()
 
+
+```
+
+## Generowanie transakcji (transactions) dla uczestników lotów
+```{python}
+# 1. Pobierz dane o uczestnikach lotów wraz z informacjami o ich wyprawie i cenie bazowej
+cursor.execute("""
+    SELECT 
+        tp.trip_id, 
+        tp.client_id, 
+        t.departure_datetime, 
+        tt.base_price
+    FROM trip_participants tp
+    JOIN trips t ON tp.trip_id = t.trip_id
+    JOIN trip_types tt ON t.trip_type_id = tt.trip_type_id
+""")
+participants_data = cursor.fetchall()  # lista wierszy: (trip_id, client_id, departure_datetime, base_price)
+
+# 2. Zdefiniuj możliwe metody płatności i statusy transakcji
+payment_methods = ['credit_card', 'wire_transfer', 'paypal', 'crypto']
+transaction_statuses = ['completed', 'pending']
+
+records_to_insert = []
+now = datetime.now()
+
+for trip_id, client_id, departure_dt, base_price in participants_data:
+    # Generuj datę transakcji: losowo na maks. 180 dni przed datą odlotu (jeśli odlot w przyszłości),
+    # w przeciwnym razie w ostatnich 7 dniach.
+    max_advance_days = 180
+    if departure_dt > now:
+        days_range = min(max_advance_days, (departure_dt - now).days)
+        days_before_departure = random.randint(1, days_range) if days_range >= 1 else 1
+    else:
+        days_before_departure = random.randint(1, max_advance_days)
+
+    transaction_date = departure_dt - timedelta(
+        days=days_before_departure,
+        hours=random.randint(0, 23),
+        minutes=random.randint(0, 59),
+        seconds=random.randint(0, 59)
+    )
+    # Jeśli data transakcji wyszła w przyszłość, przesuń ją do ostatnich 7 dni
+    if transaction_date > now:
+        transaction_date = now - timedelta(
+            days=random.randint(0, 7),
+            hours=random.randint(0, 23),
+            minutes=random.randint(0, 59),
+            seconds=random.randint(0, 59)
+        )
+
+    # Kwota transakcji: cena bazowa (rzutowana na float) z odchyleniem ±5%
+    variation_pct = random.uniform(-0.05, 0.05)
+    amount = round(float(base_price) * (1 + variation_pct), 2)
+
+    # Wybierz losową metodę płatności i status
+    payment_method = random.choice(payment_methods)
+    status = random.choices(transaction_statuses, weights=[0.9, 0.1])[0]
+
+    records_to_insert.append((trip_id, client_id, transaction_date, amount, payment_method, status))
+
+# 3. Wstawianie do tabeli transactions
+cursor.executemany(
+    """
+    INSERT INTO transactions (
+        trip_id, client_id, transaction_date, amount, payment_method, status
+    ) VALUES (%s, %s, %s, %s, %s, %s)
+    """,
+    records_to_insert
+)
+con.commit()
+
+```
+
+## Generowanie opinii dla zakończonych lotów
+```{python}
+# 1. Pobierz dane o zakończonych lotach wraz z uczestnikami i datą powrotu
+cursor.execute("""
+    SELECT 
+        tp.trip_id, 
+        tp.client_id, 
+        t.return_datetime
+    FROM trip_participants tp
+    JOIN trips t ON tp.trip_id = t.trip_id
+    WHERE t.status = 'completed'
+      AND t.return_datetime IS NOT NULL
+""")
+completed_participants = cursor.fetchall()  # lista: (trip_id, client_id, return_datetime)
+
+# 2. Przygotuj trzy listy komentarzy: negatywne (dla rating 1-2), neutralne (3), pozytywne (4-5)
+negative_comments = [
+    "Lot był bardzo niewygodny, a obsługa niezbyt pomocna.",
+    "Paliwo się skończyło, a procedury awaryjne były chaotyczne.",
+    "Posiłki były zimne i bez smaku. Ogólnie rozczarowanie.",
+    "Sprzęt naukowy na pokładzie nie działał, stracony czas.",
+    "Osoby odpowiedzialne za bezpieczeństwo były niekompetentne.",
+    "Kabina zbyt mała, bardzo ciasno i duszno.",
+    "Trudności z łącznością, nie mogłem porozmawiać z rodziną."
+]
+
+neutral_comments = [
+    "Lot odbył się zgodnie z planem, ale niczym szczególnym się nie wyróżniał.",
+    "Stacja na orbicie spełniła minimalne oczekiwania, trudno coś więcej dodać.",
+    "Czas spędzony w stanie nieważkości był interesujący, ale krótki.",
+    "Obsługa była w miarę profesjonalna, choć bez entuzjazmu.",
+    "Warunki codziennego pobytu w module były przeciętne."
+]
+
+positive_comments = [
+    "Przelot przebiegł bez zarzutu, widoki zapierające dech w piersiach.",
+    "Personel bardzo pomocny, poczułem się w pełni bezpiecznie.",
+    "Eksperymenty naukowe w module okazały się fascynujące.",
+    "Kabina komfortowa, z dużą przestrzenią i świetnym widokiem.",
+    "Powrót na Ziemię był płynny, lądowanie perfekcyjne.",
+    "Panel widokowy statku doskonale zaprojektowany dla fotografów.",
+    "Program edukacyjny na pokładzie dostarczył wiele wiedzy.",
+]
+
+# 3. Wygeneruj i wstaw opinie
+feedback_rows = []
+now = datetime.now()
+
+for trip_id, client_id, return_dt in completed_participants:
+    # Zakładamy, że ~70% uczestników zostawia opinię
+    if random.random() > 0.5:
+        continue
+
+    # Ocena od 1 do 5
+    rating = random.randint(1, 5)
+    # Przykładowy komentarz (1-3 zdania)
+    if rating <= 2:
+        comments = random.choice(negative_comments)
+    elif rating == 3:
+        comments = random.choice(neutral_comments)
+    else:  # rating 4 lub 5
+        comments = random.choice(positive_comments)
+    
+    # Data przesłania opinii: losowo między 1 a 30 dni po dacie powrotu, ale nie później niż teraz
+    raw_date = return_dt + timedelta(days=random.randint(1, 30),
+                                     hours=random.randint(0, 23),
+                                     minutes=random.randint(0, 59),
+                                     seconds=random.randint(0, 59))
+    submitted_at = raw_date if raw_date < now else now - timedelta(
+        days=random.randint(0, 3),
+        hours=random.randint(0, 23),
+        minutes=random.randint(0, 59),
+        seconds=random.randint(0, 59)
+    )
+
+    feedback_rows.append((trip_id, client_id, rating, comments, submitted_at))
+
+# 3. Wstawianie danych do tabeli feedback
+cursor.executemany(
+    """
+    INSERT INTO feedback (
+        trip_id, client_id, rating, comments, submitted_at
+    ) VALUES (%s, %s, %s, %s, %s)
+    """,
+    feedback_rows
+)
+con.commit()
+
+```
+
+## Generowanie incydentów
+```{python}
+# 1. Pobierz dane o lotach (trip_id, departure, return) oraz przypisanych pracownikach i klientach
+cursor.execute("""
+    SELECT trip_id, departure_datetime, return_datetime
+    FROM trips
+    WHERE status IN ('completed', 'in progress')
+""")
+trips_data = cursor.fetchall()  # lista: (trip_id, departure_datetime, return_datetime)
+
+# Przypisani pracownicy:
+cursor.execute("SELECT trip_id, employee_id FROM employee_assignments")
+assignments = cursor.fetchall()  # lista: (trip_id, employee_id)
+trip_to_employees = {}
+for trip_id, emp_id in assignments:
+    trip_to_employees.setdefault(trip_id, []).append(emp_id)
+
+# Uczestnicy (klienci):
+cursor.execute("SELECT trip_id, client_id FROM trip_participants")
+parts = cursor.fetchall()  # lista: (trip_id, client_id)
+trip_to_clients = {}
+for trip_id, client_id in parts:
+    trip_to_clients.setdefault(trip_id, []).append(client_id)
+
+# 2. Przygotuj szablony incydentów, gdzie każdy wpis zawiera:
+#    - description,
+#    - category odpowiadające opisowi,
+#    - requires_client (True/False),
+#    - lista możliwych poziomów severity
+incident_templates = [
+    {
+        "description": "Problemy z ciśnieniem w module medycznym, szybka reakcja lekarza.",
+        "category": "medical",
+        "requires_client": True,
+        "possible_severities": ["medium", "high"]
+    },
+    {
+        "description": "Awaria systemu orientacji – konieczne ręczne sterowanie przez pilota.",
+        "category": "navigation",
+        "requires_client": False,
+        "possible_severities": ["medium", "high", "critical"]
+    },
+    {
+        "description": "Utrata łączności z Ziemią na krótki okres, przywrócono po 15 minutach.",
+        "category": "communication",
+        "requires_client": False,
+        "possible_severities": ["low", "medium"]
+    },
+    {
+        "description": "Niewielki pożar w komorze silnikowej, ugaszono systemami automatycznymi.",
+        "category": "equipment",
+        "requires_client": False,
+        "possible_severities": ["high", "critical"]
+    },
+    {
+        "description": "Podejrzenie choroby lokomocyjnej u jednego z pasażerów, interwencja medyczna.",
+        "category": "medical",
+        "requires_client": True,
+        "possible_severities": ["low", "medium"]
+    },
+    {
+        "description": "Nieprawidłowy odczyt czujnika paliwa – wymagana weryfikacja inżynierska.",
+        "category": "equipment",
+        "requires_client": False,
+        "possible_severities": ["medium", "high"]
+    },
+    {
+        "description": "Zauważono podejrzany obiekt kosmiczny, wykonano dodatkową analizę.",
+        "category": "navigation",
+        "requires_client": False,
+        "possible_severities": ["low", "medium"]
+    },
+    {
+        "description": "Krótki alarm związany z poziomem tlenu, natychmiastowe sprawdzenie.",
+        "category": "security",
+        "requires_client": False,
+        "possible_severities": ["medium", "high"]
+    }
+]
+
+# 3. Wygeneruj incydenty
+incident_rows = []
+now = datetime.now()
+
+for trip_id, departure_dt, return_dt in trips_data:
+    # Losujemy 0-2 incydenty na lot
+    n_incidents = random.randint(0, 2)
+    for _ in range(n_incidents):
+        # Wybierz szablon
+        template = random.choice(incident_templates)
+        description = template["description"]
+        category = template["category"]
+        requires_client = template["requires_client"]
+        severity = random.choice(template["possible_severities"])
+
+        # Wybierz moment wystąpienia incydentu:
+        # – Jeśli lot zakończony (return_dt nie jest None), to losowo między departure_dt a return_dt
+        # – Jeśli 'in progress', to losowo między departure_dt a teraz
+        start_time = departure_dt
+        end_time = return_dt if return_dt is not None else now
+        if end_time <= start_time:
+            incident_time = start_time + timedelta(hours=1)
+        else:
+            total_seconds = int((end_time - start_time).total_seconds())
+            offset = random.randint(1, total_seconds - 1)
+            incident_time = start_time + timedelta(seconds=offset)
+
+        # Wybierz zgłaszającego pracownika (jeśli przypisanych brak, ustaw None)
+        employees_for_trip = trip_to_employees.get(trip_id, [])
+        reported_by = random.choice(employees_for_trip) if employees_for_trip else None
+
+        # Jeśli w szablonie requires_client=True, losuj klienta z trip_to_clients
+        involved_client = None
+        if requires_client:
+            clients_for_trip = trip_to_clients.get(trip_id, [])
+            if clients_for_trip:
+                involved_client = random.choice(clients_for_trip)
+
+        incident_rows.append((
+            trip_id,
+            incident_time,
+            reported_by,
+            involved_client,
+            category,
+            description,
+            severity
+        ))
+
+# 4. Wstawianie do tabeli incidents
+cursor.executemany(
+    """
+    INSERT INTO incidents (
+        trip_id, datetime_occurred, reported_by_employee,
+        involved_client_id, category, description, severity
+    ) VALUES (%s, %s, %s, %s, %s, %s, %s)
+    """,
+    incident_rows
+)
+con.commit()
+```
+
+## Generowanie kosztów dla każdej wyprawy
+
+```{python}
+cursor.execute("""
+    SELECT trip_id, tt.base_price
+    FROM trips t
+    JOIN trip_types tt ON t.trip_type_id = tt.trip_type_id
+""")
+trip_base_prices = cursor.fetchall()  # lista: (trip_id, base_price)
+
+# 2. Zdefiniuj możliwe kategorie kosztów wraz z procentowym przedziałem w odniesieniu do base_price
+cost_templates = [
+    {"description": "paliwo",           "min_pct": 0.15, "max_pct": 0.25},
+    {"description": "obsługa załogi",    "min_pct": 0.10, "max_pct": 0.18},
+    {"description": "zapasy żywności",   "min_pct": 0.05, "max_pct": 0.10},
+    {"description": "utrzymanie statku", "min_pct": 0.08, "max_pct": 0.12},
+    {"description": "ubezpieczenie",     "min_pct": 0.03, "max_pct": 0.06},
+    {"description": "telekomunikacja",   "min_pct": 0.02, "max_pct": 0.04},
+    {"description": "amortyzacja sprzętu","min_pct": 0.05, "max_pct": 0.10},
+    {"description": "usługi medyczne",   "min_pct": 0.02, "max_pct": 0.05},
+    {"description": "utrzymanie stacji startowej", "min_pct": 0.04, "max_pct": 0.08},
+    {"description": "serwis i naprawy",  "min_pct": 0.06, "max_pct": 0.10}
+]
+
+# 3. Wygeneruj koszty: na każdą wyprawę wstaw kilka pozycji kosztowych (3-5 wpisów różnego typu)
+cost_rows = []
+
+for trip_id, base_price in trip_base_prices:
+    # Rzutujemy base_price (Decimal) na float, by móc mnożyć przez float
+    bp = float(base_price)
+
+    for tpl in cost_templates:
+        pct = random.uniform(tpl["min_pct"], tpl["max_pct"])
+        cost_amount = round(bp * pct, 2)
+        cost_rows.append((trip_id, tpl["description"], cost_amount))
+
+# 4. Wstawianie danych do tabeli costs
+cursor.executemany(
+    """
+    INSERT INTO costs (
+        trip_id, description, cost_amount
+    ) VALUES (%s, %s, %s)
+    """,
+    cost_rows
+)
+con.commit()
 
 ```
