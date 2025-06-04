@@ -360,12 +360,322 @@ insert_many(
 print("► Załadowano słownikowe tabele.")
 ```
 
-### Generowanie reszty
+## Generowanie trips (50 lotów - można zmienić)
 
 ```{python}
 
-active_spacecraft = [sc for sc in spacecraft if sc[5] == "ACTIVE"]
-if not active_spacecraft:
-    print("KRYTYCZNE OSTRZEŻENIE: Brak aktywnych statków kosmicznych na liście 'spacecraft'. Nie można generować wypraw.")
+cursor.execute('SELECT trip_type_id, typical_duration_days FROM trip_types')
+trip_types = cursor.fetchall()
+trip_type_durations = dict(trip_types)
+
+cursor.execute('SELECT destination_id FROM destinations')
+destinations = [row[0] for row in cursor.fetchall()]
+
+cursor.execute('SELECT launch_station_id FROM launch_stations')
+launch_stations = [row[0] for row in cursor.fetchall()]
+
+cursor.execute('SELECT spacecraft_id FROM spacecraft')
+spacecrafts = [row[0] for row in cursor.fetchall()]
+
+cursor.execute("SELECT rocket_id FROM rockets WHERE status = 'ACTIVE'")
+rockets = [row[0] for row in cursor.fetchall()]
+
+statuses = ['completed', 'in progress', 'planned']
+
+records_to_insert = []
+
+for _ in range(50):
+    trip_type_id = random.choice(list(trip_type_durations.keys()))
+    duration = trip_type_durations[trip_type_id]
+
+    destination_id = random.choice(destinations)
+    launch_station_id = random.choice(launch_stations)
+    spacecraft_id = random.choice(spacecrafts)
+
+    rocket_id = random.choice(rockets) 
+
+    status = random.choices(statuses, weights=[0.4, 0.3, 0.3])[0]
+
+    if status == 'completed':
+        departure = start_of_business + timedelta(days=random.randint(0, 5*365 - duration))
+        return_dt = departure + timedelta(days=duration)
+    elif status == 'in progress':
+        departure = datetime.now() - timedelta(days=random.randint(1, duration))
+        return_dt = None
+    else:
+        departure = datetime.now() + timedelta(days=random.randint(1, 365))
+        return_dt = None
+
+    records_to_insert.append((
+        trip_type_id,
+        destination_id,
+        launch_station_id,
+        spacecraft_id,
+        rocket_id,
+        departure,
+        return_dt,
+        status
+    ))
+
+cursor.executemany(
+    '''
+    INSERT INTO trips (
+        trip_type_id, destination_id, launch_station_id,
+        spacecraft_id, rocket_id, departure_datetime,
+        return_datetime, status
+    ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+    ''',
+    records_to_insert
+)
+con.commit()
+```
+
+## Generowanie pracowników do lotu (jest 35 na lot- mozna zmienić)
+
+```{python}
+
+excluded_positions = [
+    'Finanse / Księgowość',
+    'Analityk danych',
+    'Marketing kosmiczny',
+    'Administrator IT',
+    'Specjalista HR'
+]
+
+# Pobierz pracowników z dozwolonych stanowisk
+cursor.execute(
+    '''
+    SELECT employee_id, position
+    FROM employees
+    WHERE position NOT IN (%s)
+    ''' % ','.join(['%s'] * len(excluded_positions)),
+    excluded_positions
+)
+crew_data = cursor.fetchall()  # lista (employee_id, position)
+
+# Grupuj pracowników wg pozycji
+from collections import defaultdict
+position_map = defaultdict(list)
+for emp_id, pos in crew_data:
+    position_map[pos].append(emp_id)
+
+
+# Lista dozwolonych pozycji
+allowed_positions = list(position_map.keys())
+
+# Pobierz trip_id
+cursor.execute('SELECT trip_id FROM trips')
+trip_ids = [row[0] for row in cursor.fetchall()]
+
+assignments = []
+
+for trip_id in trip_ids:
+    selected_employees = set()
+    trip_assignment = []
+
+    # Po 1 osobie z każdego stanowiska
+    for position, emp_list in position_map.items():
+        emp_id = random.choice(emp_list)
+        selected_employees.add(emp_id)
+        trip_assignment.append((trip_id, emp_id, position))
+
+    # Dodaj losowych pracowników aż do 35 (unikalnych)
+    remaining_pool = [
+        (emp_id, pos)
+        for pos, emp_ids in position_map.items()
+        for emp_id in emp_ids
+        if emp_id not in selected_employees
+    ]
+    additional_needed = 35 - len(trip_assignment)
+    if additional_needed > 0:
+        additional_crew = random.sample(remaining_pool, min(additional_needed, len(remaining_pool)))
+        for emp_id, pos in additional_crew:
+            selected_employees.add(emp_id)
+            trip_assignment.append((trip_id, emp_id, pos))
+
+    assignments.extend(trip_assignment)
+
+cursor.executemany(
+    '''
+    INSERT INTO employee_assignments (trip_id, employee_id, role)
+    VALUES (%s, %s, %s)
+    ''',
+    assignments
+)
+con.commit()
+
+
+```
+
+## Generowanie pasażerów dla lotów
+
+
+```{python}
+
+# Pobierz klientów
+cursor.execute('SELECT client_id FROM clients')
+client_ids = [row[0] for row in cursor.fetchall()]
+
+# Pobierz loty wraz z przypisanymi statkami, statusem i datami
+cursor.execute('SELECT trip_id, spacecraft_id, status, departure_datetime, return_datetime FROM trips')
+trips_data = cursor.fetchall()  # lista (trip_id, spacecraft_id, status, departure_datetime, return_datetime)
+
+# Pobierz pojemności statków
+cursor.execute('SELECT spacecraft_id, capacity_passengers FROM spacecraft')
+capacity_map = dict(cursor.fetchall())  # dict: spacecraft_id -> capacity
+
+# Stwórz strukturę: trip_id -> (capacity, status, departure, return)
+trip_info = {
+    trip_id: (capacity_map[spacecraft_id], status, departure, return_dt)
+    for trip_id, spacecraft_id, status, departure, return_dt in trips_data
+}
+
+# Przygotuj dane do INSERT
+trip_participants = defaultdict(list)  # trip_id -> list of (client_id, seat_number)
+client_trip_assignments = defaultdict(list)  # client_id -> list of (departure, return)
+
+# Funkcja sprawdzająca nakładanie się przedziałów czasowych
+def is_overlapping(new_start, new_end, existing_intervals):
+    new_end = new_end or datetime.max
+    for start, end in existing_intervals:
+        end = end or datetime.max
+        if new_start <= end and start <= new_end:
+            return True
+    return False
+
+# 1. Zapełnij w pełni loty 'completed' i 'in progress'
+filled_trips = [tid for tid, (_, status, _, _) in trip_info.items() if status in ('completed', 'in progress')]
+available_clients = client_ids.copy()
+random.shuffle(available_clients)
+
+for trip_id in filled_trips:
+    capacity, _, departure, return_dt = trip_info[trip_id]
+    assigned = 0
+    for client_id in available_clients:
+        if assigned >= capacity:
+            break
+        if not is_overlapping(departure, return_dt, client_trip_assignments[client_id]):
+            seat_number = len(trip_participants[trip_id]) + 1
+            trip_participants[trip_id].append((client_id, seat_number))
+            client_trip_assignments[client_id].append((departure, return_dt))
+            assigned += 1
+
+# 2. Upewnij się, że każdy klient jest przypisany do co najmniej jednego lotu
+all_trip_ids = list(trip_info.keys())
+random.shuffle(all_trip_ids)
+
+for client_id in client_ids:
+    if not client_trip_assignments[client_id]:
+        for trip_id in all_trip_ids:
+            capacity, _, departure, return_dt = trip_info[trip_id]
+            if len(trip_participants[trip_id]) >= capacity:
+                continue
+            if not is_overlapping(departure, return_dt, client_trip_assignments[client_id]):
+                seat_number = len(trip_participants[trip_id]) + 1
+                trip_participants[trip_id].append((client_id, seat_number))
+                client_trip_assignments[client_id].append((departure, return_dt))
+                break
+
+# 3. Uzupełnij loty 'planned' (częściowo)
+for trip_id, (capacity, status, departure, return_dt) in trip_info.items():
+    if status != 'planned':
+        continue
+    remaining_seats = capacity - len(trip_participants[trip_id])
+    if remaining_seats <= 0:
+        continue
+    random.shuffle(client_ids)
+    for client_id in client_ids:
+        if remaining_seats == 0:
+            break
+        if not is_overlapping(departure, return_dt, client_trip_assignments[client_id]):
+            seat_number = len(trip_participants[trip_id]) + 1
+            trip_participants[trip_id].append((client_id, seat_number))
+            client_trip_assignments[client_id].append((departure, return_dt))
+            remaining_seats -= 1
+
+# Przygotuj dane do INSERT
+records_to_insert = [
+    (trip_id, client_id, seat_number)
+    for trip_id, participants in trip_participants.items()
+    for client_id, seat_number in participants
+]
+
+cursor.executemany(
+    '''
+    INSERT INTO trip_participants (trip_id, client_id, seat_number)
+    VALUES (%s, %s, %s)
+    ''',
+    records_to_insert
+)
+con.commit()
+
+
+```
+
+## Emergency contacts
+
+```{python}
+
+
+cursor.execute('SELECT client_id, date_of_birth FROM clients')
+clients = cursor.fetchall()
+
+# relacje rozdzielone według płci
+male_relationships = ['ojciec', 'brat', 'mąż', 'partner', 'przyjaciel', 'syn']
+female_relationships = ['matka', 'siostra', 'żona', 'partnerka', 'przyjaciółka', 'córka']
+
+records_to_insert = []
+
+for client_id, dob in clients:
+    birth_year = dob.year
+    if birth_year < 1965:
+        available_relationships = male_relationships + female_relationships
+        available_relationships = [r for r in available_relationships if r not in ['matka', 'ojciec']]
+    elif birth_year > 1990:
+        available_relationships = male_relationships + female_relationships
+        available_relationships = [r for r in available_relationships if r not in ['syn', 'córka']]
+    else:
+        available_relationships = male_relationships + female_relationships
+
+    used_relationships = set()
+    for _ in range(2):
+        while True:
+            # losuj płeć kontaktu
+            gender = random.choice(['male', 'female'])
+            first_name = fake.first_name_male() if gender == 'male' else fake.first_name_female()
+            last_name = fake.last_name()
+            email = fake.email()
+            phone = fake.phone_number()
+
+            rel_pool = male_relationships if gender == 'male' else female_relationships
+            # zawęź do dozwolonych relacji i tych jeszcze nieużytych
+            rel_choices = [r for r in rel_pool if r in available_relationships and r not in used_relationships]
+
+            if rel_choices:
+                relationship = random.choice(rel_choices)
+                used_relationships.add(relationship)
+                break
+
+        records_to_insert.append((
+            client_id,
+            first_name,
+            last_name,
+            relationship,
+            email,
+            phone
+        ))
+
+cursor.executemany(
+    '''
+    INSERT INTO emergency_contacts (
+        client_id, first_name, last_name,
+        relationship, email, phone
+    ) VALUES (%s, %s, %s, %s, %s, %s)
+    ''',
+    records_to_insert
+)
+
+con.commit()
+
 
 ```

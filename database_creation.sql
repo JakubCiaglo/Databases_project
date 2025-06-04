@@ -151,7 +151,7 @@ CREATE TABLE trip_participants
 (
   trip_id     INT         NOT NULL,
   client_id   INT         NOT NULL,
-  seat_number VARCHAR(10) NULL    ,
+  seat_number INT         NULL    ,
   PRIMARY KEY (trip_id, client_id)
 );
 
