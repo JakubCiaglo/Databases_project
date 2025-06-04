@@ -312,7 +312,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="importy" class="level1" data-number="2">
 <h1 data-number="2"><span class="header-section-number">2</span> Importy</h1>
-<div id="8d5d74ff" class="cell" data-execution_count="1">
+<div id="ff75f8fb" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> mysql.connector</span>
@@ -330,7 +330,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h1 data-number="3"><span class="header-section-number">3</span> Skryptowe wypełnienie bazy</h1>
 <section id="połączenie-z-bazą-danych-i-wyczyszczenie-jej" class="level2" data-number="3.1">
 <h2 data-number="3.1" class="anchored" data-anchor-id="połączenie-z-bazą-danych-i-wyczyszczenie-jej"><span class="header-section-number">3.1</span> Połączenie z bazą danych i wyczyszczenie jej</h2>
-<div id="d4705356" class="cell" data-execution_count="2">
+<div id="c822d07f" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>con <span class="op">=</span> mysql.connector.<span class="ex">connect</span>(</span>
@@ -384,7 +384,7 @@ Wyczyszczono wszystkie tabele.</code></pre>
 </section>
 <section id="wyznaczenie-parametrów" class="level2" data-number="3.2">
 <h2 data-number="3.2" class="anchored" data-anchor-id="wyznaczenie-parametrów"><span class="header-section-number">3.2</span> Wyznaczenie parametrów</h2>
-<div id="1587be18" class="cell" data-execution_count="3">
+<div id="31a0e63e" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>n_employees <span class="op">=</span> <span class="dv">200</span></span>
@@ -405,7 +405,7 @@ Wyczyszczono wszystkie tabele.</code></pre>
 </section>
 <section id="generowanie-pracowników" class="level2" data-number="3.3">
 <h2 data-number="3.3" class="anchored" data-anchor-id="generowanie-pracowników"><span class="header-section-number">3.3</span> Generowanie pracowników</h2>
-<div id="2f96e31d" class="cell" data-execution_count="4">
+<div id="a7d7159d" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>fake <span class="op">=</span> Faker(<span class="st">"pl_PL"</span>)</span>
@@ -472,7 +472,7 @@ Wyczyszczono wszystkie tabele.</code></pre>
 <pre><code>Generowanie danych dla 200 pracowników...
 Wygenerowano 200 rekordów dla pracowników.</code></pre>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="4">
+<div class="cell-output cell-output-display" data-execution_count="20">
 <div>
 
 
@@ -493,58 +493,58 @@ Wygenerowano 200 rekordów dla pracowników.</code></pre>
 <tbody>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">0</td>
-<td>Miłosz</td>
-<td>Ciereszko</td>
-<td>Technik pokładowy</td>
-<td>12478.60</td>
-<td>2020-12-06</td>
+<td>Dawid</td>
+<td>Kośnik</td>
+<td>Finanse / Księgowość</td>
+<td>8541.19</td>
+<td>2021-11-29</td>
 <td>None</td>
-<td>miłosz.ciereszko@spaceu.com</td>
-<td>+48 691 323 172</td>
+<td>dawid.kośnik@spaceu.com</td>
+<td>+48 724 837 603</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">1</td>
-<td>Kamila</td>
-<td>Opioła</td>
-<td>Specjalista ds. bezpieczeństwa</td>
-<td>11114.56</td>
-<td>2021-12-09</td>
-<td>None</td>
-<td>kamila.opioła@spaceu.com</td>
-<td>+48 512 349 841</td>
+<td>Franciszek</td>
+<td>Rajchel</td>
+<td>Inżynier systemów</td>
+<td>8332.58</td>
+<td>2020-09-04</td>
+<td>2025-01-24</td>
+<td>franciszek.rajchel@spaceu.com</td>
+<td>723 625 729</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">2</td>
-<td>Bartek</td>
-<td>Sot</td>
-<td>Inżynier systemów</td>
-<td>11036.08</td>
-<td>2023-11-27</td>
+<td>Gabriel</td>
+<td>Salawa</td>
+<td>Kontroler lotów</td>
+<td>9985.44</td>
+<td>2021-01-16</td>
 <td>None</td>
-<td>bartek.sot@spaceu.com</td>
-<td>+48 785 846 002</td>
+<td>gabriel.salawa@spaceu.com</td>
+<td>22 945 91 56</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">3</td>
-<td>Anna Maria</td>
-<td>Forysiak</td>
-<td>Finanse / Księgowość</td>
-<td>10742.30</td>
-<td>2022-09-05</td>
-<td>None</td>
-<td>annamaria.forysiak@spaceu.com</td>
-<td>+48 798 938 647</td>
+<td>Fabian</td>
+<td>Machowicz</td>
+<td>Pilot statku</td>
+<td>6080.34</td>
+<td>2022-04-06</td>
+<td>2025-02-21</td>
+<td>fabian.machowicz@spaceu.com</td>
+<td>+48 600 028 346</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">4</td>
-<td>Maks</td>
-<td>Olkowicz</td>
-<td>Astrogator</td>
-<td>8729.34</td>
-<td>2022-04-20</td>
+<td>Michał</td>
+<td>Czura</td>
+<td>Inżynier systemów</td>
+<td>11907.23</td>
+<td>2022-03-22</td>
 <td>None</td>
-<td>maks.olkowicz@spaceu.com</td>
-<td>880 641 648</td>
+<td>michał.czura@spaceu.com</td>
+<td>+48 572 695 590</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">...</td>
@@ -559,58 +559,58 @@ Wygenerowano 200 rekordów dla pracowników.</code></pre>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">195</td>
-<td>Iwo</td>
-<td>Mikiciuk</td>
+<td>Eliza</td>
+<td>Kraszkiewicz</td>
 <td>Technik pokładowy</td>
-<td>9058.48</td>
-<td>2021-03-21</td>
+<td>6566.37</td>
+<td>2021-03-24</td>
 <td>None</td>
-<td>iwo.mikiciuk@spaceu.com</td>
-<td>+48 881 277 187</td>
+<td>eliza.kraszkiewicz@spaceu.com</td>
+<td>+48 509 420 408</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">196</td>
-<td>Justyna</td>
-<td>Dytko</td>
-<td>Pilot statku</td>
-<td>12706.56</td>
-<td>2022-02-10</td>
-<td>None</td>
-<td>justyna.dytko@spaceu.com</td>
-<td>+48 600 291 836</td>
+<td>Albert</td>
+<td>Paszkowiak</td>
+<td>Analityk danych</td>
+<td>7010.04</td>
+<td>2021-10-16</td>
+<td>2025-05-29</td>
+<td>albert.paszkowiak@spaceu.com</td>
+<td>888 358 080</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">197</td>
-<td>Blanka</td>
-<td>Namysł</td>
-<td>Technik pokładowy</td>
-<td>8418.49</td>
-<td>2022-02-26</td>
-<td>2023-10-09</td>
-<td>blanka.namysł@spaceu.com</td>
-<td>+48 739 697 160</td>
+<td>Błażej</td>
+<td>Janczarek</td>
+<td>Analityk danych</td>
+<td>6776.41</td>
+<td>2021-10-30</td>
+<td>None</td>
+<td>błażej.janczarek@spaceu.com</td>
+<td>788 488 694</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">198</td>
-<td>Sara</td>
-<td>Rasała</td>
-<td>Inżynier systemów</td>
-<td>10044.16</td>
-<td>2024-09-06</td>
-<td>2025-02-03</td>
-<td>sara.rasała@spaceu.com</td>
-<td>+48 513 708 802</td>
+<td>Emil</td>
+<td>Romankiewicz</td>
+<td>Finanse / Księgowość</td>
+<td>10214.51</td>
+<td>2023-04-02</td>
+<td>None</td>
+<td>emil.romankiewicz@spaceu.com</td>
+<td>22 949 38 45</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">199</td>
-<td>Eliza</td>
-<td>Romaniak</td>
-<td>Technik pokładowy</td>
-<td>12542.97</td>
-<td>2024-06-16</td>
-<td>None</td>
-<td>eliza.romaniak@spaceu.com</td>
-<td>+48 577 759 824</td>
+<td>Olga</td>
+<td>Madzia</td>
+<td>Finanse / Księgowość</td>
+<td>6392.52</td>
+<td>2023-02-22</td>
+<td>2025-04-29</td>
+<td>olga.madzia@spaceu.com</td>
+<td>+48 515 507 222</td>
 </tr>
 </tbody>
 </table>
@@ -622,7 +622,7 @@ Wygenerowano 200 rekordów dla pracowników.</code></pre>
 </section>
 <section id="generowanie-klientów" class="level2" data-number="3.4">
 <h2 data-number="3.4" class="anchored" data-anchor-id="generowanie-klientów"><span class="header-section-number">3.4</span> Generowanie klientów</h2>
-<div id="bfb04ea2" class="cell" data-execution_count="5">
+<div id="c9f3bebc" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>cli_rows, used_emails_cli <span class="op">=</span> [], <span class="bu">set</span>()</span>
@@ -657,7 +657,7 @@ Wygenerowano 200 rekordów dla pracowników.</code></pre>
 Generowanie danych dla 600 klientów...
 Wygenerowano 600 rekordów dla klientów.</code></pre>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="5">
+<div class="cell-output cell-output-display" data-execution_count="21">
 <div>
 
 
@@ -675,43 +675,43 @@ Wygenerowano 600 rekordów dla klientów.</code></pre>
 <tbody>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">0</td>
-<td>Dariusz</td>
-<td>Cimoch</td>
-<td>1971-09-01</td>
-<td>dariusz.cimoch@gmail.com</td>
-<td>+48 502 095 454</td>
+<td>Marika</td>
+<td>Pawlos</td>
+<td>1967-03-25</td>
+<td>marika.pawlos@gmail.com</td>
+<td>665 543 009</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">1</td>
-<td>Melania</td>
-<td>Stoch</td>
-<td>1967-08-04</td>
-<td>melania.stoch@gmail.com</td>
-<td>660 943 856</td>
+<td>Aleks</td>
+<td>Korniak</td>
+<td>1949-06-10</td>
+<td>aleks.korniak@gmail.com</td>
+<td>+48 32 661 15 35</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">2</td>
-<td>Nikodem</td>
-<td>Dziewior</td>
-<td>1999-07-12</td>
-<td>nikodem.dziewior@gmail.com</td>
-<td>519 068 534</td>
+<td>Tymon</td>
+<td>Grześków</td>
+<td>1957-08-03</td>
+<td>tymon.grześków@gmail.com</td>
+<td>+48 735 676 234</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">3</td>
-<td>Kamil</td>
-<td>Getka</td>
-<td>1975-12-22</td>
-<td>kamil.getka@gmail.com</td>
-<td>+48 22 921 79 92</td>
+<td>Marika</td>
+<td>Rode</td>
+<td>1969-12-14</td>
+<td>marika.rode@gmail.com</td>
+<td>721 918 893</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">4</td>
-<td>Sara</td>
-<td>Karaśkiewicz</td>
-<td>1994-12-29</td>
-<td>sara.karaśkiewicz@gmail.com</td>
-<td>32 969 31 41</td>
+<td>Justyna</td>
+<td>Domian</td>
+<td>1968-01-26</td>
+<td>justyna.domian@gmail.com</td>
+<td>+48 516 546 180</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">...</td>
@@ -723,43 +723,43 @@ Wygenerowano 600 rekordów dla klientów.</code></pre>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">595</td>
-<td>Mateusz</td>
-<td>Kwapisiewicz</td>
-<td>1970-11-06</td>
-<td>mateusz.kwapisiewicz@gmail.com</td>
-<td>22 232 43 58</td>
+<td>Ignacy</td>
+<td>Macias</td>
+<td>1995-01-22</td>
+<td>ignacy.macias@gmail.com</td>
+<td>+48 781 552 893</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">596</td>
-<td>Patryk</td>
-<td>Sierżant</td>
-<td>2005-11-24</td>
-<td>patryk.sierżant@gmail.com</td>
-<td>693 399 995</td>
+<td>Nicole</td>
+<td>Żyto</td>
+<td>1990-05-25</td>
+<td>nicole.żyto@gmail.com</td>
+<td>786 549 818</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">597</td>
-<td>Cyprian</td>
-<td>Kudela</td>
-<td>1976-11-15</td>
-<td>cyprian.kudela@gmail.com</td>
-<td>886 462 007</td>
+<td>Ewelina</td>
+<td>Paprotny</td>
+<td>1959-06-14</td>
+<td>ewelina.paprotny@gmail.com</td>
+<td>697 683 187</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">598</td>
-<td>Bianka</td>
-<td>Surdyk</td>
-<td>2004-12-06</td>
-<td>bianka.surdyk@gmail.com</td>
-<td>738 298 268</td>
+<td>Kornelia</td>
+<td>Góraj</td>
+<td>1967-01-06</td>
+<td>kornelia.góraj@gmail.com</td>
+<td>+48 721 184 936</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">599</td>
-<td>Agnieszka</td>
-<td>Miętka</td>
-<td>1963-11-20</td>
-<td>agnieszka.miętka@gmail.com</td>
-<td>794 592 965</td>
+<td>Borys</td>
+<td>Kott</td>
+<td>1957-09-30</td>
+<td>borys.kott@gmail.com</td>
+<td>724 271 691</td>
 </tr>
 </tbody>
 </table>
@@ -771,7 +771,7 @@ Wygenerowano 600 rekordów dla klientów.</code></pre>
 </section>
 <section id="zapis-pracowników-i-klientów-do-bazy-test" class="level2" data-number="3.5">
 <h2 data-number="3.5" class="anchored" data-anchor-id="zapis-pracowników-i-klientów-do-bazy-test"><span class="header-section-number">3.5</span> Zapis pracowników i klientów do bazy (test)</h2>
-<div id="ff1e0261" class="cell" data-execution_count="6">
+<div id="a6ec58cc" class="cell" data-execution_count="6">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> con <span class="kw">and</span> con.is_connected():</span>
@@ -838,7 +838,7 @@ Zakończono operacje na bazie danych dla tego bloku.</code></pre>
 <h1 data-number="4"><span class="header-section-number">4</span> Wprowadzenie pozostałych tabel</h1>
 <section id="wygenerowanie-statków-kosmicznych" class="level2" data-number="4.1">
 <h2 data-number="4.1" class="anchored" data-anchor-id="wygenerowanie-statków-kosmicznych"><span class="header-section-number">4.1</span> Wygenerowanie statków kosmicznych</h2>
-<div id="f8f141ed" class="cell" data-execution_count="7">
+<div id="ca557805" class="cell" data-execution_count="7">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> random_date(start_date<span class="op">=</span>start_of_business):</span>
@@ -876,7 +876,7 @@ Zakończono operacje na bazie danych dla tego bloku.</code></pre>
 </section>
 <section id="stałe-do-oferty-nazwy-itp.-i-wprowadzenie-ich-do-bazy" class="level2" data-number="4.2">
 <h2 data-number="4.2" class="anchored" data-anchor-id="stałe-do-oferty-nazwy-itp.-i-wprowadzenie-ich-do-bazy"><span class="header-section-number">4.2</span> Stałe do oferty (nazwy itp.) i wprowadzenie ich do bazy</h2>
-<div id="af06f4aa" class="cell" data-execution_count="8">
+<div id="e01edee4" class="cell" data-execution_count="8">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>launch_stations <span class="op">=</span> [</span>
@@ -961,7 +961,7 @@ Zakończono operacje na bazie danych dla tego bloku.</code></pre>
 </section>
 <section id="generowanie-trips-50-lotów---można-zmienić" class="level2" data-number="4.3">
 <h2 data-number="4.3" class="anchored" data-anchor-id="generowanie-trips-50-lotów---można-zmienić"><span class="header-section-number">4.3</span> Generowanie trips (50 lotów - można zmienić)</h2>
-<div id="a196f7d0" class="cell" data-execution_count="9">
+<div id="d07dd27a" class="cell" data-execution_count="9">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>cursor.execute(<span class="st">'SELECT trip_type_id, typical_duration_days FROM trip_types'</span>)</span>
@@ -1059,7 +1059,7 @@ Zakończono operacje na bazie danych dla tego bloku.</code></pre>
 </section>
 <section id="generowanie-pracowników-do-lotu-jest-35-na-lot--mozna-zmienić" class="level2" data-number="4.4">
 <h2 data-number="4.4" class="anchored" data-anchor-id="generowanie-pracowników-do-lotu-jest-35-na-lot--mozna-zmienić"><span class="header-section-number">4.4</span> Generowanie pracowników do lotu (jest 35 na lot- mozna zmienić)</h2>
-<div id="b955eba2" class="cell" data-execution_count="10">
+<div id="fd70a634" class="cell" data-execution_count="10">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>excluded_positions <span class="op">=</span> [</span>
@@ -1136,7 +1136,7 @@ Zakończono operacje na bazie danych dla tego bloku.</code></pre>
 </section>
 <section id="generowanie-pasażerów-dla-lotów" class="level2" data-number="4.5">
 <h2 data-number="4.5" class="anchored" data-anchor-id="generowanie-pasażerów-dla-lotów"><span class="header-section-number">4.5</span> Generowanie pasażerów dla lotów</h2>
-<div id="eb9778b9" class="cell" data-execution_count="11">
+<div id="34b0229e" class="cell" data-execution_count="11">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Pobierz klientów</span></span>
@@ -1240,7 +1240,7 @@ Zakończono operacje na bazie danych dla tego bloku.</code></pre>
 </section>
 <section id="emergency-contacts" class="level2" data-number="4.6">
 <h2 data-number="4.6" class="anchored" data-anchor-id="emergency-contacts"><span class="header-section-number">4.6</span> Emergency contacts</h2>
-<div id="759a71fd" class="cell" data-execution_count="12">
+<div id="f49ba8a3" class="cell" data-execution_count="12">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>cursor.execute(<span class="st">'SELECT client_id, date_of_birth FROM clients'</span>)</span>
@@ -1307,7 +1307,7 @@ Zakończono operacje na bazie danych dla tego bloku.</code></pre>
 </section>
 <section id="generowanie-transakcji-transactions-dla-uczestników-lotów" class="level2" data-number="4.7">
 <h2 data-number="4.7" class="anchored" data-anchor-id="generowanie-transakcji-transactions-dla-uczestników-lotów"><span class="header-section-number">4.7</span> Generowanie transakcji (transactions) dla uczestników lotów</h2>
-<div id="29ca6bd6" class="cell" data-execution_count="13">
+<div id="7d1425c7" class="cell" data-execution_count="13">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Pobierz dane o uczestnikach lotów wraz z informacjami o ich wyprawie i cenie bazowej</span></span>
@@ -1380,7 +1380,7 @@ Zakończono operacje na bazie danych dla tego bloku.</code></pre>
 </section>
 <section id="generowanie-opinii-dla-zakończonych-lotów" class="level2" data-number="4.8">
 <h2 data-number="4.8" class="anchored" data-anchor-id="generowanie-opinii-dla-zakończonych-lotów"><span class="header-section-number">4.8</span> Generowanie opinii dla zakończonych lotów</h2>
-<div id="093b6e7e" class="cell" data-execution_count="14">
+<div id="4099655d" class="cell" data-execution_count="14">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Pobierz dane o zakończonych lotach wraz z uczestnikami i datą powrotu</span></span>
@@ -1473,7 +1473,7 @@ Zakończono operacje na bazie danych dla tego bloku.</code></pre>
 </section>
 <section id="generowanie-incydentów" class="level2" data-number="4.9">
 <h2 data-number="4.9" class="anchored" data-anchor-id="generowanie-incydentów"><span class="header-section-number">4.9</span> Generowanie incydentów</h2>
-<div id="fb771aaa" class="cell" data-execution_count="15">
+<div id="b204e54c" class="cell" data-execution_count="15">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Pobierz dane o lotach (trip_id, departure, return) oraz przypisanych pracownikach i klientach</span></span>
@@ -1618,7 +1618,7 @@ Zakończono operacje na bazie danych dla tego bloku.</code></pre>
 </section>
 <section id="generowanie-kosztów-dla-każdej-wyprawy" class="level2" data-number="4.10">
 <h2 data-number="4.10" class="anchored" data-anchor-id="generowanie-kosztów-dla-każdej-wyprawy"><span class="header-section-number">4.10</span> Generowanie kosztów dla każdej wyprawy</h2>
-<div id="ec4b009e" class="cell" data-execution_count="16">
+<div id="9dff8e20" class="cell" data-execution_count="16">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>cursor.execute(<span class="st">"""</span></span>
@@ -1628,42 +1628,72 @@ Zakończono operacje na bazie danych dla tego bloku.</code></pre>
 <span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span>)</span>
 <span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>trip_base_prices <span class="op">=</span> cursor.fetchall()  <span class="co"># lista: (trip_id, base_price)</span></span>
 <span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Zdefiniuj możliwe kategorie kosztów wraz z procentowym przedziałem w odniesieniu do base_price</span></span>
-<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>cost_templates <span class="op">=</span> [</span>
-<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>    {<span class="st">"description"</span>: <span class="st">"paliwo"</span>,           <span class="st">"min_pct"</span>: <span class="fl">0.15</span>, <span class="st">"max_pct"</span>: <span class="fl">0.25</span>},</span>
-<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>    {<span class="st">"description"</span>: <span class="st">"obsługa załogi"</span>,    <span class="st">"min_pct"</span>: <span class="fl">0.10</span>, <span class="st">"max_pct"</span>: <span class="fl">0.18</span>},</span>
-<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>    {<span class="st">"description"</span>: <span class="st">"zapasy żywności"</span>,   <span class="st">"min_pct"</span>: <span class="fl">0.05</span>, <span class="st">"max_pct"</span>: <span class="fl">0.10</span>},</span>
-<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>    {<span class="st">"description"</span>: <span class="st">"utrzymanie statku"</span>, <span class="st">"min_pct"</span>: <span class="fl">0.08</span>, <span class="st">"max_pct"</span>: <span class="fl">0.12</span>},</span>
-<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>    {<span class="st">"description"</span>: <span class="st">"ubezpieczenie"</span>,     <span class="st">"min_pct"</span>: <span class="fl">0.03</span>, <span class="st">"max_pct"</span>: <span class="fl">0.06</span>},</span>
-<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>    {<span class="st">"description"</span>: <span class="st">"telekomunikacja"</span>,   <span class="st">"min_pct"</span>: <span class="fl">0.02</span>, <span class="st">"max_pct"</span>: <span class="fl">0.04</span>},</span>
-<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>    {<span class="st">"description"</span>: <span class="st">"amortyzacja sprzętu"</span>,<span class="st">"min_pct"</span>: <span class="fl">0.05</span>, <span class="st">"max_pct"</span>: <span class="fl">0.10</span>},</span>
-<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>    {<span class="st">"description"</span>: <span class="st">"usługi medyczne"</span>,   <span class="st">"min_pct"</span>: <span class="fl">0.02</span>, <span class="st">"max_pct"</span>: <span class="fl">0.05</span>},</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Podstawowe kategorie kosztów</span></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>base_cost_templates <span class="op">=</span> [</span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>    {<span class="st">"description"</span>: <span class="st">"paliwo"</span>,                    <span class="st">"min_pct"</span>: <span class="fl">0.15</span>, <span class="st">"max_pct"</span>: <span class="fl">0.25</span>},</span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>    {<span class="st">"description"</span>: <span class="st">"obsługa załogi"</span>,             <span class="st">"min_pct"</span>: <span class="fl">0.10</span>, <span class="st">"max_pct"</span>: <span class="fl">0.18</span>},</span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>    {<span class="st">"description"</span>: <span class="st">"zapasy żywności"</span>,            <span class="st">"min_pct"</span>: <span class="fl">0.05</span>, <span class="st">"max_pct"</span>: <span class="fl">0.10</span>},</span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>    {<span class="st">"description"</span>: <span class="st">"utrzymanie statku"</span>,          <span class="st">"min_pct"</span>: <span class="fl">0.08</span>, <span class="st">"max_pct"</span>: <span class="fl">0.12</span>},</span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>    {<span class="st">"description"</span>: <span class="st">"ubezpieczenie"</span>,              <span class="st">"min_pct"</span>: <span class="fl">0.03</span>, <span class="st">"max_pct"</span>: <span class="fl">0.06</span>},</span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>    {<span class="st">"description"</span>: <span class="st">"telekomunikacja"</span>,            <span class="st">"min_pct"</span>: <span class="fl">0.02</span>, <span class="st">"max_pct"</span>: <span class="fl">0.04</span>},</span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>    {<span class="st">"description"</span>: <span class="st">"amortyzacja sprzętu"</span>,         <span class="st">"min_pct"</span>: <span class="fl">0.05</span>, <span class="st">"max_pct"</span>: <span class="fl">0.10</span>},</span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>    {<span class="st">"description"</span>: <span class="st">"usługi medyczne"</span>,            <span class="st">"min_pct"</span>: <span class="fl">0.02</span>, <span class="st">"max_pct"</span>: <span class="fl">0.05</span>},</span>
 <span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a>    {<span class="st">"description"</span>: <span class="st">"utrzymanie stacji startowej"</span>, <span class="st">"min_pct"</span>: <span class="fl">0.04</span>, <span class="st">"max_pct"</span>: <span class="fl">0.08</span>},</span>
-<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a>    {<span class="st">"description"</span>: <span class="st">"serwis i naprawy"</span>,  <span class="st">"min_pct"</span>: <span class="fl">0.06</span>, <span class="st">"max_pct"</span>: <span class="fl">0.10</span>}</span>
+<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a>    {<span class="st">"description"</span>: <span class="st">"serwis i naprawy"</span>,           <span class="st">"min_pct"</span>: <span class="fl">0.06</span>, <span class="st">"max_pct"</span>: <span class="fl">0.10</span>}</span>
 <span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a>]</span>
 <span id="cb22-21"><a href="#cb22-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-22"><a href="#cb22-22" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Wygeneruj koszty: na każdą wyprawę wstaw kilka pozycji kosztowych (3-5 wpisów różnego typu)</span></span>
-<span id="cb22-23"><a href="#cb22-23" aria-hidden="true" tabindex="-1"></a>cost_rows <span class="op">=</span> []</span>
-<span id="cb22-24"><a href="#cb22-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-25"><a href="#cb22-25" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> trip_id, base_price <span class="kw">in</span> trip_base_prices:</span>
-<span id="cb22-26"><a href="#cb22-26" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Rzutujemy base_price (Decimal) na float, by móc mnożyć przez float</span></span>
-<span id="cb22-27"><a href="#cb22-27" aria-hidden="true" tabindex="-1"></a>    bp <span class="op">=</span> <span class="bu">float</span>(base_price)</span>
-<span id="cb22-28"><a href="#cb22-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-29"><a href="#cb22-29" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> tpl <span class="kw">in</span> cost_templates:</span>
-<span id="cb22-30"><a href="#cb22-30" aria-hidden="true" tabindex="-1"></a>        pct <span class="op">=</span> random.uniform(tpl[<span class="st">"min_pct"</span>], tpl[<span class="st">"max_pct"</span>])</span>
-<span id="cb22-31"><a href="#cb22-31" aria-hidden="true" tabindex="-1"></a>        cost_amount <span class="op">=</span> <span class="bu">round</span>(bp <span class="op">*</span> pct, <span class="dv">2</span>)</span>
-<span id="cb22-32"><a href="#cb22-32" aria-hidden="true" tabindex="-1"></a>        cost_rows.append((trip_id, tpl[<span class="st">"description"</span>], cost_amount))</span>
-<span id="cb22-33"><a href="#cb22-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-34"><a href="#cb22-34" aria-hidden="true" tabindex="-1"></a><span class="co"># 4. Wstawianie danych do tabeli costs</span></span>
-<span id="cb22-35"><a href="#cb22-35" aria-hidden="true" tabindex="-1"></a>cursor.executemany(</span>
-<span id="cb22-36"><a href="#cb22-36" aria-hidden="true" tabindex="-1"></a>    <span class="st">"""</span></span>
-<span id="cb22-37"><a href="#cb22-37" aria-hidden="true" tabindex="-1"></a><span class="st">    INSERT INTO costs (</span></span>
-<span id="cb22-38"><a href="#cb22-38" aria-hidden="true" tabindex="-1"></a><span class="st">        trip_id, description, cost_amount</span></span>
-<span id="cb22-39"><a href="#cb22-39" aria-hidden="true" tabindex="-1"></a><span class="st">    ) VALUES (</span><span class="sc">%s</span><span class="st">, </span><span class="sc">%s</span><span class="st">, </span><span class="sc">%s</span><span class="st">)</span></span>
-<span id="cb22-40"><a href="#cb22-40" aria-hidden="true" tabindex="-1"></a><span class="st">    """</span>,</span>
-<span id="cb22-41"><a href="#cb22-41" aria-hidden="true" tabindex="-1"></a>    cost_rows</span>
-<span id="cb22-42"><a href="#cb22-42" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb22-43"><a href="#cb22-43" aria-hidden="true" tabindex="-1"></a>con.commit()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb22-22"><a href="#cb22-22" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Definiujemy dodatkowe koszty zależne od incydentów:</span></span>
+<span id="cb22-23"><a href="#cb22-23" aria-hidden="true" tabindex="-1"></a><span class="co">#    - jeśli wystąpił incydent "equipment", to dodajemy koszt naprawy sprzętu</span></span>
+<span id="cb22-24"><a href="#cb22-24" aria-hidden="true" tabindex="-1"></a><span class="co">#    - "medical" → dodatkowe usługi medyczne</span></span>
+<span id="cb22-25"><a href="#cb22-25" aria-hidden="true" tabindex="-1"></a><span class="co">#    - "security" → koszt operacji bezpieczeństwa</span></span>
+<span id="cb22-26"><a href="#cb22-26" aria-hidden="true" tabindex="-1"></a><span class="co">#    - "navigation" → koszty korekty kursu</span></span>
+<span id="cb22-27"><a href="#cb22-27" aria-hidden="true" tabindex="-1"></a><span class="co">#    - "communication" → koszty przywrócenia łączności</span></span>
+<span id="cb22-28"><a href="#cb22-28" aria-hidden="true" tabindex="-1"></a>incident_cost_map <span class="op">=</span> {</span>
+<span id="cb22-29"><a href="#cb22-29" aria-hidden="true" tabindex="-1"></a>    <span class="st">"equipment"</span>:    {<span class="st">"description"</span>: <span class="st">"dodatkowa naprawa sprzętu (z incydentu)"</span>, <span class="st">"min_pct"</span>: <span class="fl">0.05</span>, <span class="st">"max_pct"</span>: <span class="fl">0.10</span>},</span>
+<span id="cb22-30"><a href="#cb22-30" aria-hidden="true" tabindex="-1"></a>    <span class="st">"medical"</span>:      {<span class="st">"description"</span>: <span class="st">"dodatkowe usługi medyczne (z incydentu)"</span>, <span class="st">"min_pct"</span>: <span class="fl">0.03</span>, <span class="st">"max_pct"</span>: <span class="fl">0.07</span>},</span>
+<span id="cb22-31"><a href="#cb22-31" aria-hidden="true" tabindex="-1"></a>    <span class="st">"security"</span>:     {<span class="st">"description"</span>: <span class="st">"operacje bezpieczeństwa (z incydentu)"</span>, <span class="st">"min_pct"</span>: <span class="fl">0.005</span>, <span class="st">"max_pct"</span>: <span class="fl">0.01</span>},</span>
+<span id="cb22-32"><a href="#cb22-32" aria-hidden="true" tabindex="-1"></a>    <span class="st">"navigation"</span>:   {<span class="st">"description"</span>: <span class="st">"korekta kursu (z incydentu)"</span>, <span class="st">"min_pct"</span>: <span class="fl">0.005</span>, <span class="st">"max_pct"</span>: <span class="fl">0.1</span>},</span>
+<span id="cb22-33"><a href="#cb22-33" aria-hidden="true" tabindex="-1"></a>    <span class="st">"communication"</span>:{<span class="st">"description"</span>: <span class="st">"przywrócenie łączności (z incydentu)"</span>, <span class="st">"min_pct"</span>: <span class="fl">0.02</span>, <span class="st">"max_pct"</span>: <span class="fl">0.06</span>},</span>
+<span id="cb22-34"><a href="#cb22-34" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb22-35"><a href="#cb22-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-36"><a href="#cb22-36" aria-hidden="true" tabindex="-1"></a><span class="co"># 4. Przygotowanie danych o incydentach: dla każdego trip_id zbieramy listę kategorii incydentu</span></span>
+<span id="cb22-37"><a href="#cb22-37" aria-hidden="true" tabindex="-1"></a>cursor.execute(<span class="st">"SELECT trip_id, category FROM incidents"</span>)</span>
+<span id="cb22-38"><a href="#cb22-38" aria-hidden="true" tabindex="-1"></a>incidents_data <span class="op">=</span> cursor.fetchall()  <span class="co"># lista: (trip_id, category)</span></span>
+<span id="cb22-39"><a href="#cb22-39" aria-hidden="true" tabindex="-1"></a>trip_to_incidents <span class="op">=</span> {}</span>
+<span id="cb22-40"><a href="#cb22-40" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> trip_id, category <span class="kw">in</span> incidents_data:</span>
+<span id="cb22-41"><a href="#cb22-41" aria-hidden="true" tabindex="-1"></a>    trip_to_incidents.setdefault(trip_id, <span class="bu">set</span>()).add(category)</span>
+<span id="cb22-42"><a href="#cb22-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-43"><a href="#cb22-43" aria-hidden="true" tabindex="-1"></a><span class="co"># 5. Generuj wiersze do costs</span></span>
+<span id="cb22-44"><a href="#cb22-44" aria-hidden="true" tabindex="-1"></a>cost_rows <span class="op">=</span> []</span>
+<span id="cb22-45"><a href="#cb22-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-46"><a href="#cb22-46" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> trip_id, base_price <span class="kw">in</span> trip_base_prices:</span>
+<span id="cb22-47"><a href="#cb22-47" aria-hidden="true" tabindex="-1"></a>    bp <span class="op">=</span> <span class="bu">float</span>(base_price)  <span class="co"># rzutujemy na float</span></span>
+<span id="cb22-48"><a href="#cb22-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-49"><a href="#cb22-49" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 5a. Wstawiamy wszystkie podstawowe kategorie kosztów</span></span>
+<span id="cb22-50"><a href="#cb22-50" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> tpl <span class="kw">in</span> base_cost_templates:</span>
+<span id="cb22-51"><a href="#cb22-51" aria-hidden="true" tabindex="-1"></a>        pct <span class="op">=</span> random.uniform(tpl[<span class="st">"min_pct"</span>], tpl[<span class="st">"max_pct"</span>])</span>
+<span id="cb22-52"><a href="#cb22-52" aria-hidden="true" tabindex="-1"></a>        cost_amount <span class="op">=</span> <span class="bu">round</span>(bp <span class="op">*</span> pct, <span class="dv">2</span>)</span>
+<span id="cb22-53"><a href="#cb22-53" aria-hidden="true" tabindex="-1"></a>        cost_rows.append((trip_id, tpl[<span class="st">"description"</span>], cost_amount))</span>
+<span id="cb22-54"><a href="#cb22-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-55"><a href="#cb22-55" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 5b. Jeśli dla tego trip_id były jakieś incydenty, dodajemy odpowiednie pozycje kosztowe</span></span>
+<span id="cb22-56"><a href="#cb22-56" aria-hidden="true" tabindex="-1"></a>    categories_for_trip <span class="op">=</span> trip_to_incidents.get(trip_id, [])</span>
+<span id="cb22-57"><a href="#cb22-57" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> cat <span class="kw">in</span> categories_for_trip:</span>
+<span id="cb22-58"><a href="#cb22-58" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> cat <span class="kw">in</span> incident_cost_map:</span>
+<span id="cb22-59"><a href="#cb22-59" aria-hidden="true" tabindex="-1"></a>            tpl_inc <span class="op">=</span> incident_cost_map[cat]</span>
+<span id="cb22-60"><a href="#cb22-60" aria-hidden="true" tabindex="-1"></a>            pct_inc <span class="op">=</span> random.uniform(tpl_inc[<span class="st">"min_pct"</span>], tpl_inc[<span class="st">"max_pct"</span>])</span>
+<span id="cb22-61"><a href="#cb22-61" aria-hidden="true" tabindex="-1"></a>            amount_inc <span class="op">=</span> <span class="bu">round</span>(bp <span class="op">*</span> pct_inc, <span class="dv">2</span>)</span>
+<span id="cb22-62"><a href="#cb22-62" aria-hidden="true" tabindex="-1"></a>            cost_rows.append((trip_id, tpl_inc[<span class="st">"description"</span>], amount_inc))</span>
+<span id="cb22-63"><a href="#cb22-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-64"><a href="#cb22-64" aria-hidden="true" tabindex="-1"></a><span class="co"># 6. Wstawianie danych do tabeli costs</span></span>
+<span id="cb22-65"><a href="#cb22-65" aria-hidden="true" tabindex="-1"></a>cursor.executemany(</span>
+<span id="cb22-66"><a href="#cb22-66" aria-hidden="true" tabindex="-1"></a>    <span class="st">"""</span></span>
+<span id="cb22-67"><a href="#cb22-67" aria-hidden="true" tabindex="-1"></a><span class="st">    INSERT INTO costs (</span></span>
+<span id="cb22-68"><a href="#cb22-68" aria-hidden="true" tabindex="-1"></a><span class="st">        trip_id, description, cost_amount</span></span>
+<span id="cb22-69"><a href="#cb22-69" aria-hidden="true" tabindex="-1"></a><span class="st">    ) VALUES (</span><span class="sc">%s</span><span class="st">, </span><span class="sc">%s</span><span class="st">, </span><span class="sc">%s</span><span class="st">)</span></span>
+<span id="cb22-70"><a href="#cb22-70" aria-hidden="true" tabindex="-1"></a><span class="st">    """</span>,</span>
+<span id="cb22-71"><a href="#cb22-71" aria-hidden="true" tabindex="-1"></a>    cost_rows</span>
+<span id="cb22-72"><a href="#cb22-72" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb22-73"><a href="#cb22-73" aria-hidden="true" tabindex="-1"></a>con.commit()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </section>
