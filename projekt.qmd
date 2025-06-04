@@ -254,6 +254,8 @@ def random_date(start_date=start_of_business):
     delta_days = (end_date - start_date).days
     return start_date + timedelta(days=random.randint(0, delta_days))
 
+MANUFACTURERS = ["NASA", "SpaceX", "Blue Origin", "ULA", "Roscosmos", "Arianespace"]
+
 def generate_spacecraft_entries(n=30):
     prefixes = ['Nova', 'Luna', 'Astra', 'Zenith', 'Hyperion', 'Celestia', 'Pulsar', 'Eclipse', 'Titan', 'Vortex']
     suffixes = ['X', 'One', 'Prime', '7', 'NX', 'Infinity', 'Core', 'Ultra', 'VX', 'Edge']
@@ -275,7 +277,7 @@ def generate_spacecraft_entries(n=30):
                 used_names.add(name)
                 break
 
-        manufacturer = "MRKM"
+        manufacturer = random.choice(MANUFACTURERS)
         capacity = random.randint(40, 60)
         status = random.choices(statuses, weights=[0.8, 0.1, 0.1])[0]
         start_date = random_date()
@@ -310,7 +312,7 @@ def generate_rocket_entries(n=30):
                 used_names.add(name)
                 break
 
-        manufacturer = "MRKM"
+        manufacturer = random.choice(MANUFACTURERS)
         status = random.choices(statuses, weights=[0.8, 0.1, 0.1])[0]
         rockets.append((name, manufacturer, status))
 
@@ -783,49 +785,58 @@ cursor.execute("""
 """)
 participants_data = cursor.fetchall()  # lista wierszy: (trip_id, client_id, departure_datetime, base_price)
 
-# 2. Zdefiniuj możliwe metody płatności i statusy transakcji
+# 2. Definicja metod płatności i statusów transakcji
 payment_methods = ['credit_card', 'wire_transfer', 'paypal', 'crypto']
-transaction_statuses = ['completed', 'pending']
+# statusy: tylko przyszłe loty mogą być "pending", przeszłe będą zawsze "completed"
+future_statuses = ['completed', 'pending']
 
 records_to_insert = []
 now = datetime.now()
+start_dt = datetime.combine(start_of_business, time(0, 0, 0))
 
 for trip_id, client_id, departure_dt, base_price in participants_data:
-    # Generuj datę transakcji: losowo na maks. 180 dni przed datą odlotu (jeśli odlot w przyszłości),
-    # w przeciwnym razie w ostatnich 7 dniach.
-    max_advance_days = 180
+    # 3. Oblicz maksymalną liczbę dni, o które można cofnąć transakcję
     if departure_dt > now:
-        days_range = min(max_advance_days, (departure_dt - now).days)
-        days_before_departure = random.randint(1, days_range) if days_range >= 1 else 1
+        days_diff = (departure_dt - start_dt).days
+        max_advance_days = min(180, days_diff) if days_diff > 0 else 1
+        days_before_departure = random.randint(1, max_advance_days)
     else:
+        days_diff = (now - start_dt).days
+        max_advance_days = min(180, days_diff) if days_diff > 0 else 1
         days_before_departure = random.randint(1, max_advance_days)
 
+    # 4. Generujemy wstępną datę transakcji
     transaction_date = departure_dt - timedelta(
         days=days_before_departure,
         hours=random.randint(0, 23),
         minutes=random.randint(0, 59),
         seconds=random.randint(0, 59)
     )
-    # Jeśli data transakcji wyszła w przyszłość, przesuń ją do ostatnich 7 dni
-    if transaction_date > now:
-        transaction_date = now - timedelta(
-            days=random.randint(0, 7),
-            hours=random.randint(0, 23),
-            minutes=random.randint(0, 59),
-            seconds=random.randint(0, 59)
-        )
 
-    # Kwota transakcji: cena bazowa (rzutowana na float) z odchyleniem ±5%
+    # 5. Gdyby przypadkiem wyszła przed startem działalności → losujemy między start_dt a teraz
+    if transaction_date < start_dt:
+        earliest = start_dt
+        latest = now
+        diff_seconds = int((latest - earliest).total_seconds())
+        random_offset = random.randint(0, diff_seconds)
+        transaction_date = earliest + timedelta(seconds=random_offset)
+
+    # 6. Kwota transakcji (bazowa ±5%)
     variation_pct = random.uniform(-0.05, 0.05)
     amount = round(float(base_price) * (1 + variation_pct), 2)
 
-    # Wybierz losową metodę płatności i status
+    # 7. Wybór metody płatności oraz statusu
     payment_method = random.choice(payment_methods)
-    status = random.choices(transaction_statuses, weights=[0.9, 0.1])[0]
+    if departure_dt > now:
+        # lot jeszcze w przyszłości → możliwe 'completed' lub 'pending'
+        status = random.choices(future_statuses, weights=[0.7, 0.3])[0]
+    else:
+        # lot w przeszłości → zawsze 'completed'
+        status = 'completed'
 
     records_to_insert.append((trip_id, client_id, transaction_date, amount, payment_method, status))
 
-# 3. Wstawianie do tabeli transactions
+# 8. Wstawianie do tabeli transactions
 cursor.executemany(
     """
     INSERT INTO transactions (
