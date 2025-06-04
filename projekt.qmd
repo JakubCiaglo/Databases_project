@@ -136,10 +136,10 @@ for i in range(n_employees):
     hire, term = hire_and_term()
 
     base_email = f"{first}.{last}".lower().replace(" ", "").replace("'", "") # Dodatkowe czyszczenie
-    email = base_email + "@spaceu.com"
+    email = base_email + "@mkrm-spacetrips.com"
     suffix = 1
     while email in used_emails_emp:
-        email = f"{base_email}{suffix}@spaceu.com"
+        email = f"{base_email}{suffix}@mkrm-spacetrips.com"
         suffix += 1
     used_emails_emp.add(email)
 
@@ -259,7 +259,7 @@ def generate_spacecraft_entries():
         "CosmoLiner-5", "Nebula-Swift", "Phoenix-Xplorer", "Voyager-Next"
     ]
     manufacturers = [
-        "Space-U", "Boeing / Space-U", "Space-U / SpaceX", "NASA / Lockheed",
+        "MKRM", "Boeing / MKRM", "MKRM / SpaceX", "NASA / Lockheed",
         "ESA / Airbus", "Blue Origin", "JAXA", "Roscosmos"
     ]
     capacities = [random.randint(40, 60) for _ in range(len(names))]
@@ -289,20 +289,20 @@ launch_stations = [
     ("Baikonur Cosmodrome",       "Kazakhstan", "Baikonur", "ACTIVE"),
     ("Guiana Space Centre",       "France", "Kourou", "ACTIVE"),
     ("Wenchang",                  "China", "Wenchang", "ACTIVE"),
-    ("Space-U Pad Baltic",        "Poland", "Ustka", "PLANNED")
+    ("MKRM Pad Baltic",        "Poland", "Ustka", "PLANNED")
 ]
 
 rockets = [
-    ("Falcon Heavy-U",     "Space-U / SpaceX",         "ACTIVE"),
-    ("New Glenn-U",        "Blue Origin / Space-U",    "MAINT"),
-    ("Starship-U",         "Space-U",                  "ACTIVE"),
-    ("Vulcan Explorer",    "ULA / Space-U",            "ACTIVE"),
+    ("Falcon Heavy-U",     "MKRM / SpaceX",         "ACTIVE"),
+    ("New Glenn-U",        "Blue Origin / MKRM",    "MAINT"),
+    ("Starship-U",         "MKRM",                  "ACTIVE"),
+    ("Vulcan Explorer",    "ULA / MKRM",            "ACTIVE"),
     ("Ariane 7",           "ESA / Arianespace",        "RETIRED"),
     ("Phoenix Booster",    "JAXA",                     "ACTIVE"),
     ("Sirius 9",           "Roscosmos",                "RETIRED"),
-    ("CosmoLift X",        "Space-U",                  "MAINT"),
+    ("CosmoLift X",        "MKRM",                  "MAINT"),
     ("Thunderbird-1",      "ISRO",                     "ACTIVE"),
-    ("Atlas Prime",        "NASA / Space-U",           "PROTOTYPE")
+    ("Atlas Prime",        "NASA / MKRM",           "PROTOTYPE")
 ]
 
 spacecraft = generate_spacecraft_entries()
