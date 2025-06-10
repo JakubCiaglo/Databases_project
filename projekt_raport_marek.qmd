@@ -48,7 +48,24 @@ Pytanie: po których wycieczkach klienci wracają na kolejne, a po których maj�
 Jak do tego problemu podejść? Na początek znajdźmy ludzi którzy byli na więcej niż jednej wycieczce
 
 ```{python}
+query = "SELECT client_id, COUNT(trip_id) as trips FROM  trip_participants GROUP BY client_id"
 
+cursor = con.cursor()
+
+cursor.execute(query)
+
+trips_of_participant = cursor.fetchall()
+
+for wiersz in trips_of_participant:
+    print(wiersz)
+
+```
+
+Super, teraz mamy id uczestnika i na ilu wycieczkach on był. Jako pierwsze możemy sprawdzić wszystkich tych, którzy byli tylko jeden raz. 
+
+```{python}
+for wiersz in trips_of_participant:
+  if wiersz[1] == 1:
 ```
 
 ##
