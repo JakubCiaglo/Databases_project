@@ -1,0 +1,44 @@
+---
+title: "Projekt z Baz Danych – Raport Końcowy"
+format:
+  html:
+    toc: true
+    number-sections: true
+    code-fold: true
+    code-summary: "Rozwiń kod"
+    theme:
+      light: flatly
+      dark: darkly
+page-layout: full
+---
+
+# Autorzy
+
+- Jakub Ciągło  
+- Mateusz Ćwiek  
+- Marek Dworaczyk  
+- Rafał Głodek
+
+# Importy
+```{python}
+import random
+import math
+from datetime import date, datetime, timedelta, time
+import numpy as np
+import pandas as pd
+import mysql.connector
+```
+
+```{python}
+
+con = mysql.connector.connect(
+    host = "giniewicz.it",
+    user = "team13",
+    password = "te@mlie",
+    database = "team13"
+)
+```
+
+# Analiza danych
+
+##
