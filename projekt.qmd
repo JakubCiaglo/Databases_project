@@ -86,10 +86,10 @@ print('Wyczyszczono wszystkie tabele.')
 n_employees = 200
 clients_per_emp = 3 
 n_clients = n_employees * clients_per_emp
-min_salary_pln = 4666.00 
-avg_salary_pln = 9045.11
+min_salary_pln = 14666.00 
+avg_salary_pln = 30045.11
 
-current_date = date.today()
+current_date = date.today() + relativedelta(years=1000)
 start_of_business = current_date - relativedelta(years=5)
 
 print(start_of_business)
@@ -120,39 +120,61 @@ def random_salary():
     return round(max(raw, min_salary_pln), 2)
 
 def hire_and_term():
-    # Używamy current_date dla spójności
-    hire = fake.date_between_dates(start_of_business, current_date - relativedelta(months=6))
-    if random.random() < 0.15:  # ~15 % już nie pracuje
-        term = fake.date_between_dates(hire + relativedelta(months=3), current_date)
+    # Obliczamy różnicę w dniach między start_of_business a current_date - 6 miesięcy
+    end_hire_period = current_date - relativedelta(months=6)
+    total_days = (end_hire_period - start_of_business).days
+    
+    # Losujemy liczbę dni i dodajemy do start_of_business, aby uzyskać datę zatrudnienia
+    random_days = random.randint(0, total_days)
+    hire = start_of_business + timedelta(days=random_days)
+    
+    # ~15% pracowników już nie pracuje
+    if random.random() < 0.15:
+        # Data zakończenia pracy musi być co najmniej 3 miesiące po zatrudnieniu
+        min_term_date = hire + relativedelta(months=3)
+        term_days = (current_date - min_term_date).days
+        
+        if term_days > 0:
+            random_term_days = random.randint(0, term_days)
+            term = min_term_date + timedelta(days=random_term_days)
+        else:
+            term = None  # Jeśli nie ma możliwej daty zakończenia
     else:
-        term = None
+        term = None  # Nadal pracuje
+    
     return hire, term
 
 emp_rows, used_emails_emp = [], set()
-print(f"Generowanie danych dla {n_employees} pracowników...")
+print(f'Generowanie danych dla {n_employees} pracowników...')
 for i in range(n_employees):
     first, last = fake.first_name(), fake.last_name()
     position = random.choices(titles, weights)[0]
     salary = random_salary()
     hire, term = hire_and_term()
 
-    base_email = f"{first}.{last}".lower().replace(" ", "").replace("'", "") # Dodatkowe czyszczenie
-    email = base_email + "@spaceu.com"
+    base_email = f'{first}.{last}'.lower().replace(' ', '').replace("'", '')
+    email = base_email + '@spaceu.com'
     suffix = 1
     while email in used_emails_emp:
-        email = f"{base_email}{suffix}@spaceu.com"
+        email = f'{base_email}{suffix}@spaceu.com'
         suffix += 1
     used_emails_emp.add(email)
 
+    phone = fake.phone_number()
+
+    if random.random() < 0.02:
+        email = None
+        phone = None
+
     emp_rows.append({
-        "first_name": first,
-        "last_name": last,
-        "position": position,
-        "salary": salary,
-        "hire_date": hire,
-        "termination_date": term,
-        "email": email,
-        "phone": fake.phone_number()
+        'first_name': first,
+        'last_name': last,
+        'position': position,
+        'salary': salary,
+        'hire_date': hire,
+        'termination_date': term,
+        'email': email,
+        'phone': phone
     })
 
 df_emp = pd.DataFrame(emp_rows)
@@ -166,31 +188,40 @@ df_emp
 ```{python}
 
 cli_rows, used_emails_cli = [], set()
+domains = ['gmail.com', 'outlook.com', 'yahoo.com', 'protonmail.com']
 
 print(f"\nGenerowanie danych dla {n_clients} klientów...")
 for i in range(n_clients):
     first, last = fake.first_name(), fake.last_name()
-    client_email = None
     base = f"{first}.{last}".lower().replace(" ", "").replace("'", "")
-    email_candidate = base + "@gmail.com"
+    domain = random.choice(domains)
+    email_candidate = f"{base}@{domain}"
     suffix = 1
     while email_candidate in used_emails_cli or email_candidate in used_emails_emp:
-        email_candidate = f"{base}{suffix}@gmail.com"
+        email_candidate = f"{base}{suffix}@{domain}"
         suffix += 1
-    client_email = email_candidate
-    used_emails_cli.add(client_email)
+
+    phone = fake.phone_number()
+
+    if random.random() < 0.02:
+        email_candidate = None
+        phone = None
+
+    birth_date = fake.date_of_birth(minimum_age=18, maximum_age=75)
+    shifted_birth_date = birth_date.replace(year=birth_date.year + 1000)
 
     cli_rows.append({
         "first_name": first,
         "last_name": last,
-        "date_of_birth": fake.date_of_birth(minimum_age=18, maximum_age=75),
-        "email": client_email,
-        "phone": fake.phone_number()
+        "date_of_birth": shifted_birth_date,
+        "email": email_candidate,
+        "phone": phone
     })
 
 df_cli = pd.DataFrame(cli_rows)
 print(f"Wygenerowano {len(df_cli)} rekordów dla klientów.")
 df_cli
+
 ```
 
 ## Zapis pracowników i klientów do bazy (test)
@@ -346,14 +377,14 @@ destinations = [
 ]
 
 trip_types = [
-    ("Misja Orbitalna",              "14 dni, orbita i obserwacja powierzchni planety",           14, 6_000_000),
-    ("Zejście Atmosferyczne",        "21 dni, zejście w atmosferę i analiza składu chemicznego",  21, 7_500_000),
-    ("Ekspedycja Księżycowa",        "20 dni, eksploracja naturalnych satelitów",                 20, 9_000_000),
-    ("Obóz Badawczy w Kosmosie",     "45 dni, eksperymenty z pokładu bazy orbitalnej",          45,16_000_000),
-    ("Przelot przez Pasy Radiacyjne","40 dni, przelot przez pasy radiacyjne i pomiary",           40,10_000_000),
-    ("Obserwacja Pierścieni",        "20 dni, obserwacja struktur pierścieni planetarnych",     20,12_000_000),
-    ("Eksplorator Magnetosfery",     "30 dni, pomiary pola magnetycznego i zorze",                30, 7_000_000),
-    ("Manewr Grawitacyjny",          "10 dni, test manewrów grawitacyjnych przy dużych obiektach",10, 5_500_000)
+    ("Misja Orbitalna",              "Orbita i obserwacja powierzchni planety",           14, 6_000_000),
+    ("Zejście Atmosferyczne",        "Zejście w atmosferę i analiza składu chemicznego",  21, 7_500_000),
+    ("Ekspedycja Księżycowa",        "Eksploracja naturalnych satelitów",                 20, 9_000_000),
+    ("Obóz Badawczy w Kosmosie",     "Eksperymenty z pokładu bazy orbitalnej",          45,16_000_000),
+    ("Przelot przez Pasy Radiacyjne","Przelot przez pasy radiacyjne i pomiary",           40,10_000_000),
+    ("Obserwacja Pierścieni",        "Obserwacja struktur pierścieni planetarnych",     20,12_000_000),
+    ("Eksplorator Magnetosfery",     "Pomiary pola magnetycznego i zorze",                30, 7_000_000),
+    ("Manewr Grawitacyjny",          "Test manewrów grawitacyjnych przy dużych obiektach",10, 5_500_000)
 ]
 
 
@@ -427,6 +458,7 @@ def is_overlapping(new_start, new_end, existing_intervals):
     return False
 
 # 3) Generujemy 50 wypraw
+
 for _ in range(50):
     trip_type_id = random.choice(list(trip_type_durations.keys()))
     duration = trip_type_durations[trip_type_id]
@@ -437,20 +469,22 @@ for _ in range(50):
     status = random.choices(statuses, weights=[0.7, 0.1, 0.2])[0]
 
     if status == 'completed':
+        # Używamy start_of_business jako punktu odniesienia
         base_date = start_of_business + timedelta(days=random.randint(0, 5*365 - duration))
-        departure = datetime.combine(
-            base_date,
-            time(random.randint(0,23), random.randint(0,59), random.randint(0,59))
+        departure = datetime(
+            base_date.year, base_date.month, base_date.day,
+            random.randint(0,23), random.randint(0,59), random.randint(0,59)
         )
         return_date = base_date + timedelta(days=duration)
-        return_dt = datetime.combine(
-            return_date,
-            time(random.randint(0,23), random.randint(0,59), random.randint(0,59))
+        return_dt = datetime(
+            return_date.year, return_date.month, return_date.day,
+            random.randint(0,23), random.randint(0,59), random.randint(0,59)
         )
 
     elif status == 'in progress':
+        # Używamy current_date zamiast datetime.now()
         days_back = random.randint(1, duration)
-        rand_dt = datetime.now() - timedelta(days=days_back)
+        rand_dt = current_date - timedelta(days=days_back)
         departure = datetime(
             rand_dt.year, rand_dt.month, rand_dt.day,
             random.randint(0,23), random.randint(0,59), random.randint(0,59)
@@ -459,7 +493,7 @@ for _ in range(50):
 
     else:  # status == 'planned'
         days_forward = random.randint(1, 365)
-        future_dt = datetime.now() + timedelta(days=days_forward)
+        future_dt = current_date + timedelta(days=days_forward)
         departure = datetime(
             future_dt.year, future_dt.month, future_dt.day,
             random.randint(0,23), random.randint(0,59), random.randint(0,59)
@@ -467,7 +501,7 @@ for _ in range(50):
         return_dt = None
 
     new_start = departure
-    new_end = return_dt if return_dt is not None else datetime.max
+    new_end = return_dt if return_dt is not None else datetime.max.replace(year=current_date.year + 100)
 
     chosen_spacecraft = None
     chosen_rocket = None
@@ -573,7 +607,7 @@ for trip_id, departure, return_dt in trip_info:
             if not is_overlapping(new_start, new_end, employee_schedule[emp_id]):
                 selected_employees.add(emp_id)
                 employee_schedule[emp_id].append((new_start, new_end))
-                trip_assignment.append((trip_id, emp_id, position))
+                trip_assignment.append((trip_id, emp_id))
                 break
 
     # Losowe osoby do uzupełnienia do 35
@@ -590,14 +624,14 @@ for trip_id, departure, return_dt in trip_info:
         for emp_id, pos in additional_crew:
             selected_employees.add(emp_id)
             employee_schedule[emp_id].append((new_start, new_end))
-            trip_assignment.append((trip_id, emp_id, pos))
+            trip_assignment.append((trip_id, emp_id))
 
     assignments.extend(trip_assignment)
 
 cursor.executemany(
     '''
-    INSERT INTO employee_assignments (trip_id, employee_id, role)
-    VALUES (%s, %s, %s)
+    INSERT INTO employee_assignments (trip_id, employee_id)
+    VALUES (%s, %s)
     ''',
     assignments
 )
@@ -711,34 +745,46 @@ cursor.execute('SELECT client_id, date_of_birth FROM clients')
 clients = cursor.fetchall()
 
 # relacje rozdzielone według płci
+# relacje rozdzielone według płci
 male_relationships = ['ojciec', 'brat', 'mąż', 'partner', 'przyjaciel', 'syn']
 female_relationships = ['matka', 'siostra', 'żona', 'partnerka', 'przyjaciółka', 'córka']
+domains = ['gmail.com', 'outlook.com', 'yahoo.com', 'protonmail.com']
 
 records_to_insert = []
+used_emails_contacts = set()
 
 for client_id, dob in clients:
     birth_year = dob.year
-    if birth_year < 1965:
-        available_relationships = male_relationships + female_relationships
-        available_relationships = [r for r in available_relationships if r not in ['matka', 'ojciec']]
-    elif birth_year > 1990:
-        available_relationships = male_relationships + female_relationships
-        available_relationships = [r for r in available_relationships if r not in ['syn', 'córka']]
+    if birth_year < 2965:
+        available_relationships = [r for r in male_relationships + female_relationships if r not in ['matka', 'ojciec']]
+    elif birth_year > 2990:
+        available_relationships = [r for r in male_relationships + female_relationships if r not in ['syn', 'córka']]
     else:
         available_relationships = male_relationships + female_relationships
 
     used_relationships = set()
     for _ in range(2):
         while True:
-            # losuj płeć kontaktu
             gender = random.choice(['male', 'female'])
             first_name = fake.first_name_male() if gender == 'male' else fake.first_name_female()
             last_name = fake.last_name()
-            email = fake.email()
+
+            base_email = f"{first_name}.{last_name}".lower().replace(" ", "").replace("'", "")
+            domain = random.choice(domains)
+            email = f"{base_email}@{domain}"
+            suffix = 1
+            while email in used_emails_contacts:
+                email = f"{base_email}{suffix}@{domain}"
+                suffix += 1
+            used_emails_contacts.add(email)
+
             phone = fake.phone_number()
 
+            if random.random() < 0.02:
+                email = None
+                phone = None
+
             rel_pool = male_relationships if gender == 'male' else female_relationships
-            # zawęź do dozwolonych relacji i tych jeszcze nieużytych
             rel_choices = [r for r in rel_pool if r in available_relationships and r not in used_relationships]
 
             if rel_choices:
@@ -764,6 +810,7 @@ cursor.executemany(
     ''',
     records_to_insert
 )
+
 
 con.commit()
 
@@ -791,7 +838,7 @@ payment_methods = ['credit_card', 'wire_transfer', 'paypal', 'crypto']
 future_statuses = ['completed', 'pending']
 
 records_to_insert = []
-now = datetime.now()
+now = datetime.now() + relativedelta(years=1000)
 start_dt = datetime.combine(start_of_business, time(0, 0, 0))
 
 for trip_id, client_id, departure_dt, base_price in participants_data:

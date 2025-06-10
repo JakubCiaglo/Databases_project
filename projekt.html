@@ -312,7 +312,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="importy" class="level1" data-number="2">
 <h1 data-number="2"><span class="header-section-number">2</span> Importy</h1>
-<div id="b9581acb" class="cell" data-execution_count="1">
+<div id="54dae690" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> mysql.connector</span>
@@ -330,7 +330,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h1 data-number="3"><span class="header-section-number">3</span> Skryptowe wypełnienie bazy</h1>
 <section id="połączenie-z-bazą-danych-i-wyczyszczenie-jej" class="level2" data-number="3.1">
 <h2 data-number="3.1" class="anchored" data-anchor-id="połączenie-z-bazą-danych-i-wyczyszczenie-jej"><span class="header-section-number">3.1</span> Połączenie z bazą danych i wyczyszczenie jej</h2>
-<div id="1c3482b6" class="cell" data-execution_count="2">
+<div id="6b9132a5" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>con <span class="op">=</span> mysql.connector.<span class="ex">connect</span>(</span>
@@ -384,28 +384,28 @@ Wyczyszczono wszystkie tabele.</code></pre>
 </section>
 <section id="wyznaczenie-parametrów" class="level2" data-number="3.2">
 <h2 data-number="3.2" class="anchored" data-anchor-id="wyznaczenie-parametrów"><span class="header-section-number">3.2</span> Wyznaczenie parametrów</h2>
-<div id="7d48cf61" class="cell" data-execution_count="3">
+<div id="b10c4ffc" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>n_employees <span class="op">=</span> <span class="dv">200</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>clients_per_emp <span class="op">=</span> <span class="dv">3</span> </span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>n_clients <span class="op">=</span> n_employees <span class="op">*</span> clients_per_emp</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>min_salary_pln <span class="op">=</span> <span class="fl">4666.00</span> </span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>avg_salary_pln <span class="op">=</span> <span class="fl">9045.11</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>min_salary_pln <span class="op">=</span> <span class="fl">14666.00</span> </span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>avg_salary_pln <span class="op">=</span> <span class="fl">30045.11</span></span>
 <span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>current_date <span class="op">=</span> date.today()</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>current_date <span class="op">=</span> date.today() <span class="op">+</span> relativedelta(years<span class="op">=</span><span class="dv">1000</span>)</span>
 <span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>start_of_business <span class="op">=</span> current_date <span class="op">-</span> relativedelta(years<span class="op">=</span><span class="dv">5</span>)</span>
 <span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(start_of_business)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>2020-06-05</code></pre>
+<pre><code>3020-06-10</code></pre>
 </div>
 </div>
 </section>
 <section id="generowanie-pracowników" class="level2" data-number="3.3">
 <h2 data-number="3.3" class="anchored" data-anchor-id="generowanie-pracowników"><span class="header-section-number">3.3</span> Generowanie pracowników</h2>
-<div id="634a82cd" class="cell" data-execution_count="4">
+<div id="56bd4e3d" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>fake <span class="op">=</span> Faker(<span class="st">"pl_PL"</span>)</span>
@@ -428,51 +428,73 @@ Wyczyszczono wszystkie tabele.</code></pre>
 <span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">round</span>(<span class="bu">max</span>(raw, min_salary_pln), <span class="dv">2</span>)</span>
 <span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> hire_and_term():</span>
-<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Używamy current_date dla spójności</span></span>
-<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>    hire <span class="op">=</span> fake.date_between_dates(start_of_business, current_date <span class="op">-</span> relativedelta(months<span class="op">=</span><span class="dv">6</span>))</span>
-<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> random.random() <span class="op">&lt;</span> <span class="fl">0.15</span>:  <span class="co"># ~15 % już nie pracuje</span></span>
-<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>        term <span class="op">=</span> fake.date_between_dates(hire <span class="op">+</span> relativedelta(months<span class="op">=</span><span class="dv">3</span>), current_date)</span>
-<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
-<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>        term <span class="op">=</span> <span class="va">None</span></span>
-<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> hire, term</span>
-<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>emp_rows, used_emails_emp <span class="op">=</span> [], <span class="bu">set</span>()</span>
-<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Generowanie danych dla </span><span class="sc">{</span>n_employees<span class="sc">}</span><span class="ss"> pracowników..."</span>)</span>
-<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n_employees):</span>
-<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a>    first, last <span class="op">=</span> fake.first_name(), fake.last_name()</span>
-<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a>    position <span class="op">=</span> random.choices(titles, weights)[<span class="dv">0</span>]</span>
-<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a>    salary <span class="op">=</span> random_salary()</span>
-<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a>    hire, term <span class="op">=</span> hire_and_term()</span>
-<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a>    base_email <span class="op">=</span> <span class="ss">f"</span><span class="sc">{</span>first<span class="sc">}</span><span class="ss">.</span><span class="sc">{</span>last<span class="sc">}</span><span class="ss">"</span>.lower().replace(<span class="st">" "</span>, <span class="st">""</span>).replace(<span class="st">"'"</span>, <span class="st">""</span>) <span class="co"># Dodatkowe czyszczenie</span></span>
-<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a>    email <span class="op">=</span> base_email <span class="op">+</span> <span class="st">"@spaceu.com"</span></span>
-<span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a>    suffix <span class="op">=</span> <span class="dv">1</span></span>
-<span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> email <span class="kw">in</span> used_emails_emp:</span>
-<span id="cb6-41"><a href="#cb6-41" aria-hidden="true" tabindex="-1"></a>        email <span class="op">=</span> <span class="ss">f"</span><span class="sc">{</span>base_email<span class="sc">}{</span>suffix<span class="sc">}</span><span class="ss">@spaceu.com"</span></span>
-<span id="cb6-42"><a href="#cb6-42" aria-hidden="true" tabindex="-1"></a>        suffix <span class="op">+=</span> <span class="dv">1</span></span>
-<span id="cb6-43"><a href="#cb6-43" aria-hidden="true" tabindex="-1"></a>    used_emails_emp.add(email)</span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Obliczamy różnicę w dniach między start_of_business a current_date - 6 miesięcy</span></span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>    end_hire_period <span class="op">=</span> current_date <span class="op">-</span> relativedelta(months<span class="op">=</span><span class="dv">6</span>)</span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>    total_days <span class="op">=</span> (end_hire_period <span class="op">-</span> start_of_business).days</span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Losujemy liczbę dni i dodajemy do start_of_business, aby uzyskać datę zatrudnienia</span></span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>    random_days <span class="op">=</span> random.randint(<span class="dv">0</span>, total_days)</span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>    hire <span class="op">=</span> start_of_business <span class="op">+</span> timedelta(days<span class="op">=</span>random_days)</span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ~15% pracowników już nie pracuje</span></span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> random.random() <span class="op">&lt;</span> <span class="fl">0.15</span>:</span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Data zakończenia pracy musi być co najmniej 3 miesiące po zatrudnieniu</span></span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a>        min_term_date <span class="op">=</span> hire <span class="op">+</span> relativedelta(months<span class="op">=</span><span class="dv">3</span>)</span>
+<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a>        term_days <span class="op">=</span> (current_date <span class="op">-</span> min_term_date).days</span>
+<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> term_days <span class="op">&gt;</span> <span class="dv">0</span>:</span>
+<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a>            random_term_days <span class="op">=</span> random.randint(<span class="dv">0</span>, term_days)</span>
+<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a>            term <span class="op">=</span> min_term_date <span class="op">+</span> timedelta(days<span class="op">=</span>random_term_days)</span>
+<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a>            term <span class="op">=</span> <span class="va">None</span>  <span class="co"># Jeśli nie ma możliwej daty zakończenia</span></span>
+<span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb6-41"><a href="#cb6-41" aria-hidden="true" tabindex="-1"></a>        term <span class="op">=</span> <span class="va">None</span>  <span class="co"># Nadal pracuje</span></span>
+<span id="cb6-42"><a href="#cb6-42" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb6-43"><a href="#cb6-43" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> hire, term</span>
 <span id="cb6-44"><a href="#cb6-44" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-45"><a href="#cb6-45" aria-hidden="true" tabindex="-1"></a>    emp_rows.append({</span>
-<span id="cb6-46"><a href="#cb6-46" aria-hidden="true" tabindex="-1"></a>        <span class="st">"first_name"</span>: first,</span>
-<span id="cb6-47"><a href="#cb6-47" aria-hidden="true" tabindex="-1"></a>        <span class="st">"last_name"</span>: last,</span>
-<span id="cb6-48"><a href="#cb6-48" aria-hidden="true" tabindex="-1"></a>        <span class="st">"position"</span>: position,</span>
-<span id="cb6-49"><a href="#cb6-49" aria-hidden="true" tabindex="-1"></a>        <span class="st">"salary"</span>: salary,</span>
-<span id="cb6-50"><a href="#cb6-50" aria-hidden="true" tabindex="-1"></a>        <span class="st">"hire_date"</span>: hire,</span>
-<span id="cb6-51"><a href="#cb6-51" aria-hidden="true" tabindex="-1"></a>        <span class="st">"termination_date"</span>: term,</span>
-<span id="cb6-52"><a href="#cb6-52" aria-hidden="true" tabindex="-1"></a>        <span class="st">"email"</span>: email,</span>
-<span id="cb6-53"><a href="#cb6-53" aria-hidden="true" tabindex="-1"></a>        <span class="st">"phone"</span>: fake.phone_number()</span>
-<span id="cb6-54"><a href="#cb6-54" aria-hidden="true" tabindex="-1"></a>    })</span>
-<span id="cb6-55"><a href="#cb6-55" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-56"><a href="#cb6-56" aria-hidden="true" tabindex="-1"></a>df_emp <span class="op">=</span> pd.DataFrame(emp_rows)</span>
-<span id="cb6-57"><a href="#cb6-57" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Wygenerowano </span><span class="sc">{</span><span class="bu">len</span>(df_emp)<span class="sc">}</span><span class="ss"> rekordów dla pracowników."</span>)</span>
-<span id="cb6-58"><a href="#cb6-58" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-59"><a href="#cb6-59" aria-hidden="true" tabindex="-1"></a>df_emp</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-45"><a href="#cb6-45" aria-hidden="true" tabindex="-1"></a>emp_rows, used_emails_emp <span class="op">=</span> [], <span class="bu">set</span>()</span>
+<span id="cb6-46"><a href="#cb6-46" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'Generowanie danych dla </span><span class="sc">{</span>n_employees<span class="sc">}</span><span class="ss"> pracowników...'</span>)</span>
+<span id="cb6-47"><a href="#cb6-47" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n_employees):</span>
+<span id="cb6-48"><a href="#cb6-48" aria-hidden="true" tabindex="-1"></a>    first, last <span class="op">=</span> fake.first_name(), fake.last_name()</span>
+<span id="cb6-49"><a href="#cb6-49" aria-hidden="true" tabindex="-1"></a>    position <span class="op">=</span> random.choices(titles, weights)[<span class="dv">0</span>]</span>
+<span id="cb6-50"><a href="#cb6-50" aria-hidden="true" tabindex="-1"></a>    salary <span class="op">=</span> random_salary()</span>
+<span id="cb6-51"><a href="#cb6-51" aria-hidden="true" tabindex="-1"></a>    hire, term <span class="op">=</span> hire_and_term()</span>
+<span id="cb6-52"><a href="#cb6-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-53"><a href="#cb6-53" aria-hidden="true" tabindex="-1"></a>    base_email <span class="op">=</span> <span class="ss">f'</span><span class="sc">{</span>first<span class="sc">}</span><span class="ss">.</span><span class="sc">{</span>last<span class="sc">}</span><span class="ss">'</span>.lower().replace(<span class="st">' '</span>, <span class="st">''</span>).replace(<span class="st">"'"</span>, <span class="st">''</span>)</span>
+<span id="cb6-54"><a href="#cb6-54" aria-hidden="true" tabindex="-1"></a>    email <span class="op">=</span> base_email <span class="op">+</span> <span class="st">'@spaceu.com'</span></span>
+<span id="cb6-55"><a href="#cb6-55" aria-hidden="true" tabindex="-1"></a>    suffix <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb6-56"><a href="#cb6-56" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> email <span class="kw">in</span> used_emails_emp:</span>
+<span id="cb6-57"><a href="#cb6-57" aria-hidden="true" tabindex="-1"></a>        email <span class="op">=</span> <span class="ss">f'</span><span class="sc">{</span>base_email<span class="sc">}{</span>suffix<span class="sc">}</span><span class="ss">@spaceu.com'</span></span>
+<span id="cb6-58"><a href="#cb6-58" aria-hidden="true" tabindex="-1"></a>        suffix <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb6-59"><a href="#cb6-59" aria-hidden="true" tabindex="-1"></a>    used_emails_emp.add(email)</span>
+<span id="cb6-60"><a href="#cb6-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-61"><a href="#cb6-61" aria-hidden="true" tabindex="-1"></a>    phone <span class="op">=</span> fake.phone_number()</span>
+<span id="cb6-62"><a href="#cb6-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-63"><a href="#cb6-63" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> random.random() <span class="op">&lt;</span> <span class="fl">0.02</span>:</span>
+<span id="cb6-64"><a href="#cb6-64" aria-hidden="true" tabindex="-1"></a>        email <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb6-65"><a href="#cb6-65" aria-hidden="true" tabindex="-1"></a>        phone <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb6-66"><a href="#cb6-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-67"><a href="#cb6-67" aria-hidden="true" tabindex="-1"></a>    emp_rows.append({</span>
+<span id="cb6-68"><a href="#cb6-68" aria-hidden="true" tabindex="-1"></a>        <span class="st">'first_name'</span>: first,</span>
+<span id="cb6-69"><a href="#cb6-69" aria-hidden="true" tabindex="-1"></a>        <span class="st">'last_name'</span>: last,</span>
+<span id="cb6-70"><a href="#cb6-70" aria-hidden="true" tabindex="-1"></a>        <span class="st">'position'</span>: position,</span>
+<span id="cb6-71"><a href="#cb6-71" aria-hidden="true" tabindex="-1"></a>        <span class="st">'salary'</span>: salary,</span>
+<span id="cb6-72"><a href="#cb6-72" aria-hidden="true" tabindex="-1"></a>        <span class="st">'hire_date'</span>: hire,</span>
+<span id="cb6-73"><a href="#cb6-73" aria-hidden="true" tabindex="-1"></a>        <span class="st">'termination_date'</span>: term,</span>
+<span id="cb6-74"><a href="#cb6-74" aria-hidden="true" tabindex="-1"></a>        <span class="st">'email'</span>: email,</span>
+<span id="cb6-75"><a href="#cb6-75" aria-hidden="true" tabindex="-1"></a>        <span class="st">'phone'</span>: phone</span>
+<span id="cb6-76"><a href="#cb6-76" aria-hidden="true" tabindex="-1"></a>    })</span>
+<span id="cb6-77"><a href="#cb6-77" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-78"><a href="#cb6-78" aria-hidden="true" tabindex="-1"></a>df_emp <span class="op">=</span> pd.DataFrame(emp_rows)</span>
+<span id="cb6-79"><a href="#cb6-79" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Wygenerowano </span><span class="sc">{</span><span class="bu">len</span>(df_emp)<span class="sc">}</span><span class="ss"> rekordów dla pracowników."</span>)</span>
+<span id="cb6-80"><a href="#cb6-80" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-81"><a href="#cb6-81" aria-hidden="true" tabindex="-1"></a>df_emp</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Generowanie danych dla 200 pracowników...
 Wygenerowano 200 rekordów dla pracowników.</code></pre>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="20">
+<div class="cell-output cell-output-display" data-execution_count="4">
 <div>
 
 
@@ -493,58 +515,58 @@ Wygenerowano 200 rekordów dla pracowników.</code></pre>
 <tbody>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">0</td>
-<td>Kazimierz</td>
-<td>Szymajda</td>
-<td>Pilot statku</td>
-<td>11561.80</td>
-<td>2023-02-22</td>
-<td>None</td>
-<td>kazimierz.szymajda@spaceu.com</td>
-<td>+48 603 306 048</td>
+<td>Roksana</td>
+<td>Futyma</td>
+<td>Kontroler lotów</td>
+<td>23685.95</td>
+<td>3021-07-23</td>
+<td>3023-09-07</td>
+<td>roksana.futyma@spaceu.com</td>
+<td>576 970 982</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">1</td>
-<td>Ada</td>
-<td>Kopiczko</td>
-<td>Inżynier systemów</td>
-<td>7387.24</td>
-<td>2024-11-03</td>
+<td>Przemysław</td>
+<td>Kupaj</td>
+<td>Administrator IT</td>
+<td>26617.81</td>
+<td>3021-06-09</td>
 <td>None</td>
-<td>ada.kopiczko@spaceu.com</td>
-<td>32 936 20 05</td>
+<td>przemysław.kupaj@spaceu.com</td>
+<td>+48 572 705 547</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">2</td>
-<td>Ewa</td>
-<td>Leśny</td>
-<td>Kucharz orbitalny</td>
-<td>7844.81</td>
-<td>2023-10-10</td>
+<td>Antoni</td>
+<td>Dziurla</td>
+<td>Finanse / Księgowość</td>
+<td>39685.21</td>
+<td>3024-11-21</td>
 <td>None</td>
-<td>ewa.leśny@spaceu.com</td>
-<td>519 628 184</td>
+<td>antoni.dziurla@spaceu.com</td>
+<td>731 864 021</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">3</td>
-<td>Krystian</td>
-<td>Dąbal</td>
-<td>Technik pokładowy</td>
-<td>7427.07</td>
-<td>2024-06-24</td>
+<td>Nela</td>
+<td>Bryzek</td>
+<td>Astrogator</td>
+<td>37372.30</td>
+<td>3020-08-14</td>
 <td>None</td>
-<td>krystian.dąbal@spaceu.com</td>
-<td>602 289 899</td>
+<td>nela.bryzek@spaceu.com</td>
+<td>+48 573 227 088</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">4</td>
-<td>Dariusz</td>
-<td>Pacewicz</td>
-<td>Kontroler lotów</td>
-<td>10551.13</td>
-<td>2024-07-15</td>
+<td>Szymon</td>
+<td>Stochmal</td>
+<td>Inspektor jakości</td>
+<td>31337.52</td>
+<td>3022-08-29</td>
 <td>None</td>
-<td>dariusz.pacewicz@spaceu.com</td>
-<td>664 772 557</td>
+<td>szymon.stochmal@spaceu.com</td>
+<td>504 612 128</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">...</td>
@@ -559,58 +581,58 @@ Wygenerowano 200 rekordów dla pracowników.</code></pre>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">195</td>
-<td>Maksymilian</td>
-<td>Siwczak</td>
-<td>Inspektor jakości</td>
-<td>7893.83</td>
-<td>2021-06-21</td>
+<td>Anna Maria</td>
+<td>Langier</td>
+<td>Specjalista HR</td>
+<td>35485.43</td>
+<td>3020-06-27</td>
 <td>None</td>
-<td>maksymilian.siwczak@spaceu.com</td>
-<td>530 200 748</td>
+<td>annamaria.langier@spaceu.com</td>
+<td>881 412 802</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">196</td>
-<td>Kazimierz</td>
-<td>Wolan</td>
-<td>Analityk danych</td>
-<td>7725.06</td>
-<td>2024-05-06</td>
-<td>2025-02-25</td>
-<td>kazimierz.wolan@spaceu.com</td>
-<td>+48 512 947 850</td>
+<td>Krzysztof</td>
+<td>Słupik</td>
+<td>Inżynier systemów</td>
+<td>30156.39</td>
+<td>3021-08-01</td>
+<td>None</td>
+<td>krzysztof.słupik@spaceu.com</td>
+<td>32 620 35 50</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">197</td>
-<td>Dawid</td>
-<td>Lampa</td>
-<td>Inspektor jakości</td>
-<td>16654.61</td>
-<td>2022-05-23</td>
-<td>None</td>
-<td>dawid.lampa@spaceu.com</td>
-<td>722 368 472</td>
+<td>Jeremi</td>
+<td>Bulczak</td>
+<td>Kontroler lotów</td>
+<td>48419.96</td>
+<td>3020-11-21</td>
+<td>3022-03-30</td>
+<td>jeremi.bulczak@spaceu.com</td>
+<td>571 696 504</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">198</td>
-<td>Tola</td>
-<td>Rusnak</td>
-<td>Marketing kosmiczny</td>
-<td>6943.35</td>
-<td>2022-05-29</td>
+<td>Róża</td>
+<td>Kozaczuk</td>
+<td>Specjalista HR</td>
+<td>37091.00</td>
+<td>3024-10-13</td>
 <td>None</td>
-<td>tola.rusnak@spaceu.com</td>
-<td>515 889 839</td>
+<td>róża.kozaczuk@spaceu.com</td>
+<td>+48 665 100 295</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">199</td>
-<td>Krystyna</td>
-<td>Bejnarowicz</td>
-<td>Administrator IT</td>
-<td>8361.73</td>
-<td>2023-02-10</td>
-<td>2023-06-10</td>
-<td>krystyna.bejnarowicz@spaceu.com</td>
-<td>886 798 131</td>
+<td>Norbert</td>
+<td>Salach</td>
+<td>Mechanik rakietowy</td>
+<td>22402.26</td>
+<td>3021-05-13</td>
+<td>None</td>
+<td>norbert.salach@spaceu.com</td>
+<td>+48 537 175 126</td>
 </tr>
 </tbody>
 </table>
@@ -622,42 +644,50 @@ Wygenerowano 200 rekordów dla pracowników.</code></pre>
 </section>
 <section id="generowanie-klientów" class="level2" data-number="3.4">
 <h2 data-number="3.4" class="anchored" data-anchor-id="generowanie-klientów"><span class="header-section-number">3.4</span> Generowanie klientów</h2>
-<div id="7c40a205" class="cell" data-execution_count="5">
+<div id="dc3d1a97" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>cli_rows, used_emails_cli <span class="op">=</span> [], <span class="bu">set</span>()</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Generowanie danych dla </span><span class="sc">{</span>n_clients<span class="sc">}</span><span class="ss"> klientów..."</span>)</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n_clients):</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    first, last <span class="op">=</span> fake.first_name(), fake.last_name()</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    client_email <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>domains <span class="op">=</span> [<span class="st">'gmail.com'</span>, <span class="st">'outlook.com'</span>, <span class="st">'yahoo.com'</span>, <span class="st">'protonmail.com'</span>]</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Generowanie danych dla </span><span class="sc">{</span>n_clients<span class="sc">}</span><span class="ss"> klientów..."</span>)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n_clients):</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    first, last <span class="op">=</span> fake.first_name(), fake.last_name()</span>
 <span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    base <span class="op">=</span> <span class="ss">f"</span><span class="sc">{</span>first<span class="sc">}</span><span class="ss">.</span><span class="sc">{</span>last<span class="sc">}</span><span class="ss">"</span>.lower().replace(<span class="st">" "</span>, <span class="st">""</span>).replace(<span class="st">"'"</span>, <span class="st">""</span>)</span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    email_candidate <span class="op">=</span> base <span class="op">+</span> <span class="st">"@gmail.com"</span></span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    suffix <span class="op">=</span> <span class="dv">1</span></span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> email_candidate <span class="kw">in</span> used_emails_cli <span class="kw">or</span> email_candidate <span class="kw">in</span> used_emails_emp:</span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>        email_candidate <span class="op">=</span> <span class="ss">f"</span><span class="sc">{</span>base<span class="sc">}{</span>suffix<span class="sc">}</span><span class="ss">@gmail.com"</span></span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>        suffix <span class="op">+=</span> <span class="dv">1</span></span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>    client_email <span class="op">=</span> email_candidate</span>
-<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>    used_emails_cli.add(client_email)</span>
-<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>    cli_rows.append({</span>
-<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>        <span class="st">"first_name"</span>: first,</span>
-<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>        <span class="st">"last_name"</span>: last,</span>
-<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>        <span class="st">"date_of_birth"</span>: fake.date_of_birth(minimum_age<span class="op">=</span><span class="dv">18</span>, maximum_age<span class="op">=</span><span class="dv">75</span>),</span>
-<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>        <span class="st">"email"</span>: client_email,</span>
-<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>        <span class="st">"phone"</span>: fake.phone_number()</span>
-<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>    })</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    domain <span class="op">=</span> random.choice(domains)</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    email_candidate <span class="op">=</span> <span class="ss">f"</span><span class="sc">{</span>base<span class="sc">}</span><span class="ss">@</span><span class="sc">{</span>domain<span class="sc">}</span><span class="ss">"</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    suffix <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> email_candidate <span class="kw">in</span> used_emails_cli <span class="kw">or</span> email_candidate <span class="kw">in</span> used_emails_emp:</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>        email_candidate <span class="op">=</span> <span class="ss">f"</span><span class="sc">{</span>base<span class="sc">}{</span>suffix<span class="sc">}</span><span class="ss">@</span><span class="sc">{</span>domain<span class="sc">}</span><span class="ss">"</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>        suffix <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>    phone <span class="op">=</span> fake.phone_number()</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> random.random() <span class="op">&lt;</span> <span class="fl">0.02</span>:</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>        email_candidate <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>        phone <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>    birth_date <span class="op">=</span> fake.date_of_birth(minimum_age<span class="op">=</span><span class="dv">18</span>, maximum_age<span class="op">=</span><span class="dv">75</span>)</span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>    shifted_birth_date <span class="op">=</span> birth_date.replace(year<span class="op">=</span>birth_date.year <span class="op">+</span> <span class="dv">1000</span>)</span>
 <span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>df_cli <span class="op">=</span> pd.DataFrame(cli_rows)</span>
-<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Wygenerowano </span><span class="sc">{</span><span class="bu">len</span>(df_cli)<span class="sc">}</span><span class="ss"> rekordów dla klientów."</span>)</span>
-<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>df_cli</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>    cli_rows.append({</span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>        <span class="st">"first_name"</span>: first,</span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>        <span class="st">"last_name"</span>: last,</span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>        <span class="st">"date_of_birth"</span>: shifted_birth_date,</span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>        <span class="st">"email"</span>: email_candidate,</span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a>        <span class="st">"phone"</span>: phone</span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a>    })</span>
+<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a>df_cli <span class="op">=</span> pd.DataFrame(cli_rows)</span>
+<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Wygenerowano </span><span class="sc">{</span><span class="bu">len</span>(df_cli)<span class="sc">}</span><span class="ss"> rekordów dla klientów."</span>)</span>
+<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a>df_cli</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Generowanie danych dla 600 klientów...
 Wygenerowano 600 rekordów dla klientów.</code></pre>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="21">
+<div class="cell-output cell-output-display" data-execution_count="5">
 <div>
 
 
@@ -675,43 +705,43 @@ Wygenerowano 600 rekordów dla klientów.</code></pre>
 <tbody>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">0</td>
-<td>Przemysław</td>
-<td>Kajdan</td>
-<td>1974-10-20</td>
-<td>przemysław.kajdan@gmail.com</td>
-<td>603 265 251</td>
+<td>Nela</td>
+<td>Marach</td>
+<td>2968-04-11</td>
+<td>nela.marach@gmail.com</td>
+<td>+48 514 788 317</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">1</td>
-<td>Tola</td>
-<td>Miozga</td>
-<td>1952-05-26</td>
-<td>tola.miozga@gmail.com</td>
-<td>+48 734 445 577</td>
+<td>Tadeusz</td>
+<td>Kozieja</td>
+<td>2961-12-24</td>
+<td>tadeusz.kozieja@outlook.com</td>
+<td>32 850 05 93</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">2</td>
-<td>Mieszko</td>
-<td>Makaruk</td>
-<td>1996-01-16</td>
-<td>mieszko.makaruk@gmail.com</td>
-<td>22 935 52 52</td>
+<td>Przemysław</td>
+<td>Marcol</td>
+<td>2988-01-12</td>
+<td>przemysław.marcol@protonmail.com</td>
+<td>+48 573 002 018</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">3</td>
-<td>Eryk</td>
-<td>Hejduk</td>
-<td>1974-09-21</td>
-<td>eryk.hejduk@gmail.com</td>
-<td>538 004 080</td>
+<td>Adrian</td>
+<td>Fedorczyk</td>
+<td>2959-02-01</td>
+<td>adrian.fedorczyk@outlook.com</td>
+<td>+48 722 501 885</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">4</td>
-<td>Mariusz</td>
-<td>Iwańczyk</td>
-<td>1986-01-18</td>
-<td>mariusz.iwańczyk@gmail.com</td>
-<td>+48 781 781 203</td>
+<td>Filip</td>
+<td>Sroga</td>
+<td>2960-08-14</td>
+<td>filip.sroga@protonmail.com</td>
+<td>883 831 567</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">...</td>
@@ -723,43 +753,43 @@ Wygenerowano 600 rekordów dla klientów.</code></pre>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">595</td>
-<td>Kalina</td>
-<td>Dydo</td>
-<td>1972-06-19</td>
-<td>kalina.dydo@gmail.com</td>
-<td>+48 22 964 47 18</td>
+<td>Anastazja</td>
+<td>Henke</td>
+<td>3006-05-28</td>
+<td>anastazja.henke@outlook.com</td>
+<td>730 536 990</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">596</td>
-<td>Ksawery</td>
-<td>Melaniuk</td>
-<td>1969-11-18</td>
-<td>ksawery.melaniuk@gmail.com</td>
-<td>+48 32 597 57 94</td>
+<td>Róża</td>
+<td>Styrna</td>
+<td>2991-11-13</td>
+<td>róża.styrna@gmail.com</td>
+<td>+48 502 749 607</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">597</td>
-<td>Arkadiusz</td>
-<td>Łapaj</td>
-<td>1973-05-03</td>
-<td>arkadiusz.łapaj@gmail.com</td>
-<td>530 145 842</td>
+<td>Mikołaj</td>
+<td>Pieszak</td>
+<td>2973-10-29</td>
+<td>mikołaj.pieszak@yahoo.com</td>
+<td>793 356 733</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">598</td>
-<td>Borys</td>
-<td>Misiurek</td>
-<td>1986-03-04</td>
-<td>borys.misiurek@gmail.com</td>
-<td>796 448 531</td>
+<td>Julita</td>
+<td>Bartuś</td>
+<td>2976-02-01</td>
+<td>julita.bartuś@gmail.com</td>
+<td>722 660 665</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">599</td>
-<td>Arkadiusz</td>
-<td>Jeszka</td>
-<td>1983-08-17</td>
-<td>arkadiusz.jeszka@gmail.com</td>
-<td>731 477 645</td>
+<td>Przemysław</td>
+<td>Bulczak</td>
+<td>2964-09-12</td>
+<td>przemysław.bulczak@outlook.com</td>
+<td>699 634 370</td>
 </tr>
 </tbody>
 </table>
@@ -771,7 +801,7 @@ Wygenerowano 600 rekordów dla klientów.</code></pre>
 </section>
 <section id="zapis-pracowników-i-klientów-do-bazy-test" class="level2" data-number="3.5">
 <h2 data-number="3.5" class="anchored" data-anchor-id="zapis-pracowników-i-klientów-do-bazy-test"><span class="header-section-number">3.5</span> Zapis pracowników i klientów do bazy (test)</h2>
-<div id="7d0515ca" class="cell" data-execution_count="6">
+<div id="bc6d956c" class="cell" data-execution_count="6">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> con <span class="kw">and</span> con.is_connected():</span>
@@ -838,7 +868,7 @@ Zakończono operacje na bazie danych dla tego bloku.</code></pre>
 <h1 data-number="4"><span class="header-section-number">4</span> Wprowadzenie pozostałych tabel</h1>
 <section id="wygenerowanie-statków-kosmicznych-i-rakiet" class="level2" data-number="4.1">
 <h2 data-number="4.1" class="anchored" data-anchor-id="wygenerowanie-statków-kosmicznych-i-rakiet"><span class="header-section-number">4.1</span> Wygenerowanie statków kosmicznych i rakiet</h2>
-<div id="6065b515" class="cell" data-execution_count="7">
+<div id="4cf43769" class="cell" data-execution_count="7">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> random_date(start_date<span class="op">=</span>start_of_business):</span>
@@ -914,7 +944,7 @@ Zakończono operacje na bazie danych dla tego bloku.</code></pre>
 </section>
 <section id="stałe-do-oferty-nazwy-itp.-i-wprowadzenie-ich-do-bazy" class="level2" data-number="4.2">
 <h2 data-number="4.2" class="anchored" data-anchor-id="stałe-do-oferty-nazwy-itp.-i-wprowadzenie-ich-do-bazy"><span class="header-section-number">4.2</span> Stałe do oferty (nazwy itp.) i wprowadzenie ich do bazy</h2>
-<div id="97174cb5" class="cell" data-execution_count="8">
+<div id="a25248c1" class="cell" data-execution_count="8">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>launch_stations <span class="op">=</span> [</span>
@@ -938,14 +968,14 @@ Zakończono operacje na bazie danych dla tego bloku.</code></pre>
 <span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>]</span>
 <span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>trip_types <span class="op">=</span> [</span>
-<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Misja Orbitalna"</span>,              <span class="st">"14 dni, orbita i obserwacja powierzchni planety"</span>,           <span class="dv">14</span>, <span class="dv">6_000_000</span>),</span>
-<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Zejście Atmosferyczne"</span>,        <span class="st">"21 dni, zejście w atmosferę i analiza składu chemicznego"</span>,  <span class="dv">21</span>, <span class="dv">7_500_000</span>),</span>
-<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Ekspedycja Księżycowa"</span>,        <span class="st">"20 dni, eksploracja naturalnych satelitów"</span>,                 <span class="dv">20</span>, <span class="dv">9_000_000</span>),</span>
-<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Obóz Badawczy w Kosmosie"</span>,     <span class="st">"45 dni, eksperymenty z pokładu bazy orbitalnej"</span>,          <span class="dv">45</span>,<span class="dv">16_000_000</span>),</span>
-<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Przelot przez Pasy Radiacyjne"</span>,<span class="st">"40 dni, przelot przez pasy radiacyjne i pomiary"</span>,           <span class="dv">40</span>,<span class="dv">10_000_000</span>),</span>
-<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Obserwacja Pierścieni"</span>,        <span class="st">"20 dni, obserwacja struktur pierścieni planetarnych"</span>,     <span class="dv">20</span>,<span class="dv">12_000_000</span>),</span>
-<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Eksplorator Magnetosfery"</span>,     <span class="st">"30 dni, pomiary pola magnetycznego i zorze"</span>,                <span class="dv">30</span>, <span class="dv">7_000_000</span>),</span>
-<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Manewr Grawitacyjny"</span>,          <span class="st">"10 dni, test manewrów grawitacyjnych przy dużych obiektach"</span>,<span class="dv">10</span>, <span class="dv">5_500_000</span>)</span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Misja Orbitalna"</span>,              <span class="st">"Orbita i obserwacja powierzchni planety"</span>,           <span class="dv">14</span>, <span class="dv">6_000_000</span>),</span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Zejście Atmosferyczne"</span>,        <span class="st">"Zejście w atmosferę i analiza składu chemicznego"</span>,  <span class="dv">21</span>, <span class="dv">7_500_000</span>),</span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Ekspedycja Księżycowa"</span>,        <span class="st">"Eksploracja naturalnych satelitów"</span>,                 <span class="dv">20</span>, <span class="dv">9_000_000</span>),</span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Obóz Badawczy w Kosmosie"</span>,     <span class="st">"Eksperymenty z pokładu bazy orbitalnej"</span>,          <span class="dv">45</span>,<span class="dv">16_000_000</span>),</span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Przelot przez Pasy Radiacyjne"</span>,<span class="st">"Przelot przez pasy radiacyjne i pomiary"</span>,           <span class="dv">40</span>,<span class="dv">10_000_000</span>),</span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Obserwacja Pierścieni"</span>,        <span class="st">"Obserwacja struktur pierścieni planetarnych"</span>,     <span class="dv">20</span>,<span class="dv">12_000_000</span>),</span>
+<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Eksplorator Magnetosfery"</span>,     <span class="st">"Pomiary pola magnetycznego i zorze"</span>,                <span class="dv">30</span>, <span class="dv">7_000_000</span>),</span>
+<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"Manewr Grawitacyjny"</span>,          <span class="st">"Test manewrów grawitacyjnych przy dużych obiektach"</span>,<span class="dv">10</span>, <span class="dv">5_500_000</span>)</span>
 <span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a>]</span>
 <span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a></span>
@@ -988,7 +1018,7 @@ Zakończono operacje na bazie danych dla tego bloku.</code></pre>
 </section>
 <section id="generowanie-trips-50-lotów---można-zmienić" class="level2" data-number="4.3">
 <h2 data-number="4.3" class="anchored" data-anchor-id="generowanie-trips-50-lotów---można-zmienić"><span class="header-section-number">4.3</span> Generowanie trips (50 lotów - można zmienić)</h2>
-<div id="fa2e1637" class="cell" data-execution_count="9">
+<div id="ceb5ef10" class="cell" data-execution_count="9">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>cursor.execute(<span class="st">'SELECT trip_type_id, typical_duration_days FROM trip_types'</span>)</span>
@@ -1024,105 +1054,108 @@ Zakończono operacje na bazie danych dla tego bloku.</code></pre>
 <span id="cb15-31"><a href="#cb15-31" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="va">False</span></span>
 <span id="cb15-32"><a href="#cb15-32" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-33"><a href="#cb15-33" aria-hidden="true" tabindex="-1"></a><span class="co"># 3) Generujemy 50 wypraw</span></span>
-<span id="cb15-34"><a href="#cb15-34" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">50</span>):</span>
-<span id="cb15-35"><a href="#cb15-35" aria-hidden="true" tabindex="-1"></a>    trip_type_id <span class="op">=</span> random.choice(<span class="bu">list</span>(trip_type_durations.keys()))</span>
-<span id="cb15-36"><a href="#cb15-36" aria-hidden="true" tabindex="-1"></a>    duration <span class="op">=</span> trip_type_durations[trip_type_id]</span>
-<span id="cb15-37"><a href="#cb15-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-38"><a href="#cb15-38" aria-hidden="true" tabindex="-1"></a>    destination_id <span class="op">=</span> random.choice(destinations)</span>
-<span id="cb15-39"><a href="#cb15-39" aria-hidden="true" tabindex="-1"></a>    launch_station_id <span class="op">=</span> random.choice(launch_stations)</span>
-<span id="cb15-40"><a href="#cb15-40" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-41"><a href="#cb15-41" aria-hidden="true" tabindex="-1"></a>    status <span class="op">=</span> random.choices(statuses, weights<span class="op">=</span>[<span class="fl">0.7</span>, <span class="fl">0.1</span>, <span class="fl">0.2</span>])[<span class="dv">0</span>]</span>
-<span id="cb15-42"><a href="#cb15-42" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-43"><a href="#cb15-43" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> status <span class="op">==</span> <span class="st">'completed'</span>:</span>
-<span id="cb15-44"><a href="#cb15-44" aria-hidden="true" tabindex="-1"></a>        base_date <span class="op">=</span> start_of_business <span class="op">+</span> timedelta(days<span class="op">=</span>random.randint(<span class="dv">0</span>, <span class="dv">5</span><span class="op">*</span><span class="dv">365</span> <span class="op">-</span> duration))</span>
-<span id="cb15-45"><a href="#cb15-45" aria-hidden="true" tabindex="-1"></a>        departure <span class="op">=</span> datetime.combine(</span>
-<span id="cb15-46"><a href="#cb15-46" aria-hidden="true" tabindex="-1"></a>            base_date,</span>
-<span id="cb15-47"><a href="#cb15-47" aria-hidden="true" tabindex="-1"></a>            time(random.randint(<span class="dv">0</span>,<span class="dv">23</span>), random.randint(<span class="dv">0</span>,<span class="dv">59</span>), random.randint(<span class="dv">0</span>,<span class="dv">59</span>))</span>
-<span id="cb15-48"><a href="#cb15-48" aria-hidden="true" tabindex="-1"></a>        )</span>
-<span id="cb15-49"><a href="#cb15-49" aria-hidden="true" tabindex="-1"></a>        return_date <span class="op">=</span> base_date <span class="op">+</span> timedelta(days<span class="op">=</span>duration)</span>
-<span id="cb15-50"><a href="#cb15-50" aria-hidden="true" tabindex="-1"></a>        return_dt <span class="op">=</span> datetime.combine(</span>
-<span id="cb15-51"><a href="#cb15-51" aria-hidden="true" tabindex="-1"></a>            return_date,</span>
-<span id="cb15-52"><a href="#cb15-52" aria-hidden="true" tabindex="-1"></a>            time(random.randint(<span class="dv">0</span>,<span class="dv">23</span>), random.randint(<span class="dv">0</span>,<span class="dv">59</span>), random.randint(<span class="dv">0</span>,<span class="dv">59</span>))</span>
-<span id="cb15-53"><a href="#cb15-53" aria-hidden="true" tabindex="-1"></a>        )</span>
-<span id="cb15-54"><a href="#cb15-54" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-55"><a href="#cb15-55" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> status <span class="op">==</span> <span class="st">'in progress'</span>:</span>
-<span id="cb15-56"><a href="#cb15-56" aria-hidden="true" tabindex="-1"></a>        days_back <span class="op">=</span> random.randint(<span class="dv">1</span>, duration)</span>
-<span id="cb15-57"><a href="#cb15-57" aria-hidden="true" tabindex="-1"></a>        rand_dt <span class="op">=</span> datetime.now() <span class="op">-</span> timedelta(days<span class="op">=</span>days_back)</span>
-<span id="cb15-58"><a href="#cb15-58" aria-hidden="true" tabindex="-1"></a>        departure <span class="op">=</span> datetime(</span>
-<span id="cb15-59"><a href="#cb15-59" aria-hidden="true" tabindex="-1"></a>            rand_dt.year, rand_dt.month, rand_dt.day,</span>
-<span id="cb15-60"><a href="#cb15-60" aria-hidden="true" tabindex="-1"></a>            random.randint(<span class="dv">0</span>,<span class="dv">23</span>), random.randint(<span class="dv">0</span>,<span class="dv">59</span>), random.randint(<span class="dv">0</span>,<span class="dv">59</span>)</span>
-<span id="cb15-61"><a href="#cb15-61" aria-hidden="true" tabindex="-1"></a>        )</span>
-<span id="cb15-62"><a href="#cb15-62" aria-hidden="true" tabindex="-1"></a>        return_dt <span class="op">=</span> <span class="va">None</span></span>
-<span id="cb15-63"><a href="#cb15-63" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-64"><a href="#cb15-64" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:  <span class="co"># status == 'planned'</span></span>
-<span id="cb15-65"><a href="#cb15-65" aria-hidden="true" tabindex="-1"></a>        days_forward <span class="op">=</span> random.randint(<span class="dv">1</span>, <span class="dv">365</span>)</span>
-<span id="cb15-66"><a href="#cb15-66" aria-hidden="true" tabindex="-1"></a>        future_dt <span class="op">=</span> datetime.now() <span class="op">+</span> timedelta(days<span class="op">=</span>days_forward)</span>
-<span id="cb15-67"><a href="#cb15-67" aria-hidden="true" tabindex="-1"></a>        departure <span class="op">=</span> datetime(</span>
-<span id="cb15-68"><a href="#cb15-68" aria-hidden="true" tabindex="-1"></a>            future_dt.year, future_dt.month, future_dt.day,</span>
-<span id="cb15-69"><a href="#cb15-69" aria-hidden="true" tabindex="-1"></a>            random.randint(<span class="dv">0</span>,<span class="dv">23</span>), random.randint(<span class="dv">0</span>,<span class="dv">59</span>), random.randint(<span class="dv">0</span>,<span class="dv">59</span>)</span>
-<span id="cb15-70"><a href="#cb15-70" aria-hidden="true" tabindex="-1"></a>        )</span>
-<span id="cb15-71"><a href="#cb15-71" aria-hidden="true" tabindex="-1"></a>        return_dt <span class="op">=</span> <span class="va">None</span></span>
-<span id="cb15-72"><a href="#cb15-72" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-73"><a href="#cb15-73" aria-hidden="true" tabindex="-1"></a>    new_start <span class="op">=</span> departure</span>
-<span id="cb15-74"><a href="#cb15-74" aria-hidden="true" tabindex="-1"></a>    new_end <span class="op">=</span> return_dt <span class="cf">if</span> return_dt <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span> <span class="cf">else</span> datetime.<span class="bu">max</span></span>
+<span id="cb15-34"><a href="#cb15-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-35"><a href="#cb15-35" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">50</span>):</span>
+<span id="cb15-36"><a href="#cb15-36" aria-hidden="true" tabindex="-1"></a>    trip_type_id <span class="op">=</span> random.choice(<span class="bu">list</span>(trip_type_durations.keys()))</span>
+<span id="cb15-37"><a href="#cb15-37" aria-hidden="true" tabindex="-1"></a>    duration <span class="op">=</span> trip_type_durations[trip_type_id]</span>
+<span id="cb15-38"><a href="#cb15-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-39"><a href="#cb15-39" aria-hidden="true" tabindex="-1"></a>    destination_id <span class="op">=</span> random.choice(destinations)</span>
+<span id="cb15-40"><a href="#cb15-40" aria-hidden="true" tabindex="-1"></a>    launch_station_id <span class="op">=</span> random.choice(launch_stations)</span>
+<span id="cb15-41"><a href="#cb15-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-42"><a href="#cb15-42" aria-hidden="true" tabindex="-1"></a>    status <span class="op">=</span> random.choices(statuses, weights<span class="op">=</span>[<span class="fl">0.7</span>, <span class="fl">0.1</span>, <span class="fl">0.2</span>])[<span class="dv">0</span>]</span>
+<span id="cb15-43"><a href="#cb15-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-44"><a href="#cb15-44" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> status <span class="op">==</span> <span class="st">'completed'</span>:</span>
+<span id="cb15-45"><a href="#cb15-45" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Używamy start_of_business jako punktu odniesienia</span></span>
+<span id="cb15-46"><a href="#cb15-46" aria-hidden="true" tabindex="-1"></a>        base_date <span class="op">=</span> start_of_business <span class="op">+</span> timedelta(days<span class="op">=</span>random.randint(<span class="dv">0</span>, <span class="dv">5</span><span class="op">*</span><span class="dv">365</span> <span class="op">-</span> duration))</span>
+<span id="cb15-47"><a href="#cb15-47" aria-hidden="true" tabindex="-1"></a>        departure <span class="op">=</span> datetime(</span>
+<span id="cb15-48"><a href="#cb15-48" aria-hidden="true" tabindex="-1"></a>            base_date.year, base_date.month, base_date.day,</span>
+<span id="cb15-49"><a href="#cb15-49" aria-hidden="true" tabindex="-1"></a>            random.randint(<span class="dv">0</span>,<span class="dv">23</span>), random.randint(<span class="dv">0</span>,<span class="dv">59</span>), random.randint(<span class="dv">0</span>,<span class="dv">59</span>)</span>
+<span id="cb15-50"><a href="#cb15-50" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb15-51"><a href="#cb15-51" aria-hidden="true" tabindex="-1"></a>        return_date <span class="op">=</span> base_date <span class="op">+</span> timedelta(days<span class="op">=</span>duration)</span>
+<span id="cb15-52"><a href="#cb15-52" aria-hidden="true" tabindex="-1"></a>        return_dt <span class="op">=</span> datetime(</span>
+<span id="cb15-53"><a href="#cb15-53" aria-hidden="true" tabindex="-1"></a>            return_date.year, return_date.month, return_date.day,</span>
+<span id="cb15-54"><a href="#cb15-54" aria-hidden="true" tabindex="-1"></a>            random.randint(<span class="dv">0</span>,<span class="dv">23</span>), random.randint(<span class="dv">0</span>,<span class="dv">59</span>), random.randint(<span class="dv">0</span>,<span class="dv">59</span>)</span>
+<span id="cb15-55"><a href="#cb15-55" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb15-56"><a href="#cb15-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-57"><a href="#cb15-57" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> status <span class="op">==</span> <span class="st">'in progress'</span>:</span>
+<span id="cb15-58"><a href="#cb15-58" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Używamy current_date zamiast datetime.now()</span></span>
+<span id="cb15-59"><a href="#cb15-59" aria-hidden="true" tabindex="-1"></a>        days_back <span class="op">=</span> random.randint(<span class="dv">1</span>, duration)</span>
+<span id="cb15-60"><a href="#cb15-60" aria-hidden="true" tabindex="-1"></a>        rand_dt <span class="op">=</span> current_date <span class="op">-</span> timedelta(days<span class="op">=</span>days_back)</span>
+<span id="cb15-61"><a href="#cb15-61" aria-hidden="true" tabindex="-1"></a>        departure <span class="op">=</span> datetime(</span>
+<span id="cb15-62"><a href="#cb15-62" aria-hidden="true" tabindex="-1"></a>            rand_dt.year, rand_dt.month, rand_dt.day,</span>
+<span id="cb15-63"><a href="#cb15-63" aria-hidden="true" tabindex="-1"></a>            random.randint(<span class="dv">0</span>,<span class="dv">23</span>), random.randint(<span class="dv">0</span>,<span class="dv">59</span>), random.randint(<span class="dv">0</span>,<span class="dv">59</span>)</span>
+<span id="cb15-64"><a href="#cb15-64" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb15-65"><a href="#cb15-65" aria-hidden="true" tabindex="-1"></a>        return_dt <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb15-66"><a href="#cb15-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-67"><a href="#cb15-67" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:  <span class="co"># status == 'planned'</span></span>
+<span id="cb15-68"><a href="#cb15-68" aria-hidden="true" tabindex="-1"></a>        days_forward <span class="op">=</span> random.randint(<span class="dv">1</span>, <span class="dv">365</span>)</span>
+<span id="cb15-69"><a href="#cb15-69" aria-hidden="true" tabindex="-1"></a>        future_dt <span class="op">=</span> current_date <span class="op">+</span> timedelta(days<span class="op">=</span>days_forward)</span>
+<span id="cb15-70"><a href="#cb15-70" aria-hidden="true" tabindex="-1"></a>        departure <span class="op">=</span> datetime(</span>
+<span id="cb15-71"><a href="#cb15-71" aria-hidden="true" tabindex="-1"></a>            future_dt.year, future_dt.month, future_dt.day,</span>
+<span id="cb15-72"><a href="#cb15-72" aria-hidden="true" tabindex="-1"></a>            random.randint(<span class="dv">0</span>,<span class="dv">23</span>), random.randint(<span class="dv">0</span>,<span class="dv">59</span>), random.randint(<span class="dv">0</span>,<span class="dv">59</span>)</span>
+<span id="cb15-73"><a href="#cb15-73" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb15-74"><a href="#cb15-74" aria-hidden="true" tabindex="-1"></a>        return_dt <span class="op">=</span> <span class="va">None</span></span>
 <span id="cb15-75"><a href="#cb15-75" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-76"><a href="#cb15-76" aria-hidden="true" tabindex="-1"></a>    chosen_spacecraft <span class="op">=</span> <span class="va">None</span></span>
-<span id="cb15-77"><a href="#cb15-77" aria-hidden="true" tabindex="-1"></a>    chosen_rocket <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb15-76"><a href="#cb15-76" aria-hidden="true" tabindex="-1"></a>    new_start <span class="op">=</span> departure</span>
+<span id="cb15-77"><a href="#cb15-77" aria-hidden="true" tabindex="-1"></a>    new_end <span class="op">=</span> return_dt <span class="cf">if</span> return_dt <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span> <span class="cf">else</span> datetime.<span class="bu">max</span>.replace(year<span class="op">=</span>current_date.year <span class="op">+</span> <span class="dv">100</span>)</span>
 <span id="cb15-78"><a href="#cb15-78" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-79"><a href="#cb15-79" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 4) Wybór zasobów bez kolizji</span></span>
-<span id="cb15-80"><a href="#cb15-80" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> attempt <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">100</span>):</span>
-<span id="cb15-81"><a href="#cb15-81" aria-hidden="true" tabindex="-1"></a>        sc <span class="op">=</span> random.choice(spacecrafts)</span>
-<span id="cb15-82"><a href="#cb15-82" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> is_overlapping(new_start, new_end, spacecraft_schedule[sc]):</span>
-<span id="cb15-83"><a href="#cb15-83" aria-hidden="true" tabindex="-1"></a>            <span class="cf">continue</span></span>
-<span id="cb15-84"><a href="#cb15-84" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-85"><a href="#cb15-85" aria-hidden="true" tabindex="-1"></a>        rk <span class="op">=</span> random.choice(rockets)</span>
-<span id="cb15-86"><a href="#cb15-86" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> is_overlapping(new_start, new_end, rocket_schedule[rk]):</span>
-<span id="cb15-87"><a href="#cb15-87" aria-hidden="true" tabindex="-1"></a>            <span class="cf">continue</span></span>
-<span id="cb15-88"><a href="#cb15-88" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-89"><a href="#cb15-89" aria-hidden="true" tabindex="-1"></a>        chosen_spacecraft <span class="op">=</span> sc</span>
-<span id="cb15-90"><a href="#cb15-90" aria-hidden="true" tabindex="-1"></a>        chosen_rocket <span class="op">=</span> rk</span>
-<span id="cb15-91"><a href="#cb15-91" aria-hidden="true" tabindex="-1"></a>        <span class="cf">break</span></span>
-<span id="cb15-92"><a href="#cb15-92" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-93"><a href="#cb15-93" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> chosen_spacecraft <span class="kw">is</span> <span class="va">None</span>:</span>
-<span id="cb15-94"><a href="#cb15-94" aria-hidden="true" tabindex="-1"></a>        <span class="cf">raise</span> <span class="pp">RuntimeError</span>(</span>
-<span id="cb15-95"><a href="#cb15-95" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Nie znaleziono wolnego statku + rakiety. "</span></span>
-<span id="cb15-96"><a href="#cb15-96" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Zmniejsz liczbę lotów lub zasobów."</span></span>
-<span id="cb15-97"><a href="#cb15-97" aria-hidden="true" tabindex="-1"></a>        )</span>
-<span id="cb15-98"><a href="#cb15-98" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-99"><a href="#cb15-99" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 5) Rejestrujemy zajęcie zasobów</span></span>
-<span id="cb15-100"><a href="#cb15-100" aria-hidden="true" tabindex="-1"></a>    spacecraft_schedule[chosen_spacecraft].append((new_start, new_end))</span>
-<span id="cb15-101"><a href="#cb15-101" aria-hidden="true" tabindex="-1"></a>    rocket_schedule[chosen_rocket].append((new_start, new_end))</span>
-<span id="cb15-102"><a href="#cb15-102" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-103"><a href="#cb15-103" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 6) Dodajemy wiersz do listy INSERT</span></span>
-<span id="cb15-104"><a href="#cb15-104" aria-hidden="true" tabindex="-1"></a>    records_to_insert.append((</span>
-<span id="cb15-105"><a href="#cb15-105" aria-hidden="true" tabindex="-1"></a>        trip_type_id,</span>
-<span id="cb15-106"><a href="#cb15-106" aria-hidden="true" tabindex="-1"></a>        destination_id,</span>
-<span id="cb15-107"><a href="#cb15-107" aria-hidden="true" tabindex="-1"></a>        launch_station_id,</span>
-<span id="cb15-108"><a href="#cb15-108" aria-hidden="true" tabindex="-1"></a>        chosen_spacecraft,</span>
-<span id="cb15-109"><a href="#cb15-109" aria-hidden="true" tabindex="-1"></a>        chosen_rocket,</span>
-<span id="cb15-110"><a href="#cb15-110" aria-hidden="true" tabindex="-1"></a>        departure,</span>
-<span id="cb15-111"><a href="#cb15-111" aria-hidden="true" tabindex="-1"></a>        return_dt,</span>
-<span id="cb15-112"><a href="#cb15-112" aria-hidden="true" tabindex="-1"></a>        status</span>
-<span id="cb15-113"><a href="#cb15-113" aria-hidden="true" tabindex="-1"></a>    ))</span>
-<span id="cb15-114"><a href="#cb15-114" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-115"><a href="#cb15-115" aria-hidden="true" tabindex="-1"></a><span class="co"># 7) Wstawiamy wygenerowane trasy do tabeli trips</span></span>
-<span id="cb15-116"><a href="#cb15-116" aria-hidden="true" tabindex="-1"></a>cursor.executemany(</span>
-<span id="cb15-117"><a href="#cb15-117" aria-hidden="true" tabindex="-1"></a>    <span class="st">'''</span></span>
-<span id="cb15-118"><a href="#cb15-118" aria-hidden="true" tabindex="-1"></a><span class="st">    INSERT INTO trips (</span></span>
-<span id="cb15-119"><a href="#cb15-119" aria-hidden="true" tabindex="-1"></a><span class="st">        trip_type_id, destination_id, launch_station_id,</span></span>
-<span id="cb15-120"><a href="#cb15-120" aria-hidden="true" tabindex="-1"></a><span class="st">        spacecraft_id, rocket_id, departure_datetime,</span></span>
-<span id="cb15-121"><a href="#cb15-121" aria-hidden="true" tabindex="-1"></a><span class="st">        return_datetime, status</span></span>
-<span id="cb15-122"><a href="#cb15-122" aria-hidden="true" tabindex="-1"></a><span class="st">    ) VALUES (</span><span class="sc">%s</span><span class="st">, </span><span class="sc">%s</span><span class="st">, </span><span class="sc">%s</span><span class="st">, </span><span class="sc">%s</span><span class="st">, </span><span class="sc">%s</span><span class="st">, </span><span class="sc">%s</span><span class="st">, </span><span class="sc">%s</span><span class="st">, </span><span class="sc">%s</span><span class="st">)</span></span>
-<span id="cb15-123"><a href="#cb15-123" aria-hidden="true" tabindex="-1"></a><span class="st">    '''</span>,</span>
-<span id="cb15-124"><a href="#cb15-124" aria-hidden="true" tabindex="-1"></a>    records_to_insert</span>
-<span id="cb15-125"><a href="#cb15-125" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb15-126"><a href="#cb15-126" aria-hidden="true" tabindex="-1"></a>con.commit()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb15-79"><a href="#cb15-79" aria-hidden="true" tabindex="-1"></a>    chosen_spacecraft <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb15-80"><a href="#cb15-80" aria-hidden="true" tabindex="-1"></a>    chosen_rocket <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb15-81"><a href="#cb15-81" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-82"><a href="#cb15-82" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 4) Wybór zasobów bez kolizji</span></span>
+<span id="cb15-83"><a href="#cb15-83" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> attempt <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">100</span>):</span>
+<span id="cb15-84"><a href="#cb15-84" aria-hidden="true" tabindex="-1"></a>        sc <span class="op">=</span> random.choice(spacecrafts)</span>
+<span id="cb15-85"><a href="#cb15-85" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> is_overlapping(new_start, new_end, spacecraft_schedule[sc]):</span>
+<span id="cb15-86"><a href="#cb15-86" aria-hidden="true" tabindex="-1"></a>            <span class="cf">continue</span></span>
+<span id="cb15-87"><a href="#cb15-87" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-88"><a href="#cb15-88" aria-hidden="true" tabindex="-1"></a>        rk <span class="op">=</span> random.choice(rockets)</span>
+<span id="cb15-89"><a href="#cb15-89" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> is_overlapping(new_start, new_end, rocket_schedule[rk]):</span>
+<span id="cb15-90"><a href="#cb15-90" aria-hidden="true" tabindex="-1"></a>            <span class="cf">continue</span></span>
+<span id="cb15-91"><a href="#cb15-91" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-92"><a href="#cb15-92" aria-hidden="true" tabindex="-1"></a>        chosen_spacecraft <span class="op">=</span> sc</span>
+<span id="cb15-93"><a href="#cb15-93" aria-hidden="true" tabindex="-1"></a>        chosen_rocket <span class="op">=</span> rk</span>
+<span id="cb15-94"><a href="#cb15-94" aria-hidden="true" tabindex="-1"></a>        <span class="cf">break</span></span>
+<span id="cb15-95"><a href="#cb15-95" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-96"><a href="#cb15-96" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> chosen_spacecraft <span class="kw">is</span> <span class="va">None</span>:</span>
+<span id="cb15-97"><a href="#cb15-97" aria-hidden="true" tabindex="-1"></a>        <span class="cf">raise</span> <span class="pp">RuntimeError</span>(</span>
+<span id="cb15-98"><a href="#cb15-98" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Nie znaleziono wolnego statku + rakiety. "</span></span>
+<span id="cb15-99"><a href="#cb15-99" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Zmniejsz liczbę lotów lub zasobów."</span></span>
+<span id="cb15-100"><a href="#cb15-100" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb15-101"><a href="#cb15-101" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-102"><a href="#cb15-102" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 5) Rejestrujemy zajęcie zasobów</span></span>
+<span id="cb15-103"><a href="#cb15-103" aria-hidden="true" tabindex="-1"></a>    spacecraft_schedule[chosen_spacecraft].append((new_start, new_end))</span>
+<span id="cb15-104"><a href="#cb15-104" aria-hidden="true" tabindex="-1"></a>    rocket_schedule[chosen_rocket].append((new_start, new_end))</span>
+<span id="cb15-105"><a href="#cb15-105" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-106"><a href="#cb15-106" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 6) Dodajemy wiersz do listy INSERT</span></span>
+<span id="cb15-107"><a href="#cb15-107" aria-hidden="true" tabindex="-1"></a>    records_to_insert.append((</span>
+<span id="cb15-108"><a href="#cb15-108" aria-hidden="true" tabindex="-1"></a>        trip_type_id,</span>
+<span id="cb15-109"><a href="#cb15-109" aria-hidden="true" tabindex="-1"></a>        destination_id,</span>
+<span id="cb15-110"><a href="#cb15-110" aria-hidden="true" tabindex="-1"></a>        launch_station_id,</span>
+<span id="cb15-111"><a href="#cb15-111" aria-hidden="true" tabindex="-1"></a>        chosen_spacecraft,</span>
+<span id="cb15-112"><a href="#cb15-112" aria-hidden="true" tabindex="-1"></a>        chosen_rocket,</span>
+<span id="cb15-113"><a href="#cb15-113" aria-hidden="true" tabindex="-1"></a>        departure,</span>
+<span id="cb15-114"><a href="#cb15-114" aria-hidden="true" tabindex="-1"></a>        return_dt,</span>
+<span id="cb15-115"><a href="#cb15-115" aria-hidden="true" tabindex="-1"></a>        status</span>
+<span id="cb15-116"><a href="#cb15-116" aria-hidden="true" tabindex="-1"></a>    ))</span>
+<span id="cb15-117"><a href="#cb15-117" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-118"><a href="#cb15-118" aria-hidden="true" tabindex="-1"></a><span class="co"># 7) Wstawiamy wygenerowane trasy do tabeli trips</span></span>
+<span id="cb15-119"><a href="#cb15-119" aria-hidden="true" tabindex="-1"></a>cursor.executemany(</span>
+<span id="cb15-120"><a href="#cb15-120" aria-hidden="true" tabindex="-1"></a>    <span class="st">'''</span></span>
+<span id="cb15-121"><a href="#cb15-121" aria-hidden="true" tabindex="-1"></a><span class="st">    INSERT INTO trips (</span></span>
+<span id="cb15-122"><a href="#cb15-122" aria-hidden="true" tabindex="-1"></a><span class="st">        trip_type_id, destination_id, launch_station_id,</span></span>
+<span id="cb15-123"><a href="#cb15-123" aria-hidden="true" tabindex="-1"></a><span class="st">        spacecraft_id, rocket_id, departure_datetime,</span></span>
+<span id="cb15-124"><a href="#cb15-124" aria-hidden="true" tabindex="-1"></a><span class="st">        return_datetime, status</span></span>
+<span id="cb15-125"><a href="#cb15-125" aria-hidden="true" tabindex="-1"></a><span class="st">    ) VALUES (</span><span class="sc">%s</span><span class="st">, </span><span class="sc">%s</span><span class="st">, </span><span class="sc">%s</span><span class="st">, </span><span class="sc">%s</span><span class="st">, </span><span class="sc">%s</span><span class="st">, </span><span class="sc">%s</span><span class="st">, </span><span class="sc">%s</span><span class="st">, </span><span class="sc">%s</span><span class="st">)</span></span>
+<span id="cb15-126"><a href="#cb15-126" aria-hidden="true" tabindex="-1"></a><span class="st">    '''</span>,</span>
+<span id="cb15-127"><a href="#cb15-127" aria-hidden="true" tabindex="-1"></a>    records_to_insert</span>
+<span id="cb15-128"><a href="#cb15-128" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb15-129"><a href="#cb15-129" aria-hidden="true" tabindex="-1"></a>con.commit()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </section>
 <section id="generowanie-pracowników-do-lotu-jest-35-na-lot--mozna-zmienić" class="level2" data-number="4.4">
 <h2 data-number="4.4" class="anchored" data-anchor-id="generowanie-pracowników-do-lotu-jest-35-na-lot--mozna-zmienić"><span class="header-section-number">4.4</span> Generowanie pracowników do lotu (jest 35 na lot- mozna zmienić)</h2>
-<div id="f7795cf7" class="cell" data-execution_count="10">
+<div id="5a638d78" class="cell" data-execution_count="10">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>excluded_positions <span class="op">=</span> [</span>
@@ -1172,7 +1205,7 @@ Zakończono operacje na bazie danych dla tego bloku.</code></pre>
 <span id="cb16-45"><a href="#cb16-45" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="kw">not</span> is_overlapping(new_start, new_end, employee_schedule[emp_id]):</span>
 <span id="cb16-46"><a href="#cb16-46" aria-hidden="true" tabindex="-1"></a>                selected_employees.add(emp_id)</span>
 <span id="cb16-47"><a href="#cb16-47" aria-hidden="true" tabindex="-1"></a>                employee_schedule[emp_id].append((new_start, new_end))</span>
-<span id="cb16-48"><a href="#cb16-48" aria-hidden="true" tabindex="-1"></a>                trip_assignment.append((trip_id, emp_id, position))</span>
+<span id="cb16-48"><a href="#cb16-48" aria-hidden="true" tabindex="-1"></a>                trip_assignment.append((trip_id, emp_id))</span>
 <span id="cb16-49"><a href="#cb16-49" aria-hidden="true" tabindex="-1"></a>                <span class="cf">break</span></span>
 <span id="cb16-50"><a href="#cb16-50" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb16-51"><a href="#cb16-51" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Losowe osoby do uzupełnienia do 35</span></span>
@@ -1189,14 +1222,14 @@ Zakończono operacje na bazie danych dla tego bloku.</code></pre>
 <span id="cb16-62"><a href="#cb16-62" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> emp_id, pos <span class="kw">in</span> additional_crew:</span>
 <span id="cb16-63"><a href="#cb16-63" aria-hidden="true" tabindex="-1"></a>            selected_employees.add(emp_id)</span>
 <span id="cb16-64"><a href="#cb16-64" aria-hidden="true" tabindex="-1"></a>            employee_schedule[emp_id].append((new_start, new_end))</span>
-<span id="cb16-65"><a href="#cb16-65" aria-hidden="true" tabindex="-1"></a>            trip_assignment.append((trip_id, emp_id, pos))</span>
+<span id="cb16-65"><a href="#cb16-65" aria-hidden="true" tabindex="-1"></a>            trip_assignment.append((trip_id, emp_id))</span>
 <span id="cb16-66"><a href="#cb16-66" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb16-67"><a href="#cb16-67" aria-hidden="true" tabindex="-1"></a>    assignments.extend(trip_assignment)</span>
 <span id="cb16-68"><a href="#cb16-68" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb16-69"><a href="#cb16-69" aria-hidden="true" tabindex="-1"></a>cursor.executemany(</span>
 <span id="cb16-70"><a href="#cb16-70" aria-hidden="true" tabindex="-1"></a>    <span class="st">'''</span></span>
-<span id="cb16-71"><a href="#cb16-71" aria-hidden="true" tabindex="-1"></a><span class="st">    INSERT INTO employee_assignments (trip_id, employee_id, role)</span></span>
-<span id="cb16-72"><a href="#cb16-72" aria-hidden="true" tabindex="-1"></a><span class="st">    VALUES (</span><span class="sc">%s</span><span class="st">, </span><span class="sc">%s</span><span class="st">, </span><span class="sc">%s</span><span class="st">)</span></span>
+<span id="cb16-71"><a href="#cb16-71" aria-hidden="true" tabindex="-1"></a><span class="st">    INSERT INTO employee_assignments (trip_id, employee_id)</span></span>
+<span id="cb16-72"><a href="#cb16-72" aria-hidden="true" tabindex="-1"></a><span class="st">    VALUES (</span><span class="sc">%s</span><span class="st">, </span><span class="sc">%s</span><span class="st">)</span></span>
 <span id="cb16-73"><a href="#cb16-73" aria-hidden="true" tabindex="-1"></a><span class="st">    '''</span>,</span>
 <span id="cb16-74"><a href="#cb16-74" aria-hidden="true" tabindex="-1"></a>    assignments</span>
 <span id="cb16-75"><a href="#cb16-75" aria-hidden="true" tabindex="-1"></a>)</span>
@@ -1206,7 +1239,7 @@ Zakończono operacje na bazie danych dla tego bloku.</code></pre>
 </section>
 <section id="generowanie-pasażerów-dla-lotów" class="level2" data-number="4.5">
 <h2 data-number="4.5" class="anchored" data-anchor-id="generowanie-pasażerów-dla-lotów"><span class="header-section-number">4.5</span> Generowanie pasażerów dla lotów</h2>
-<div id="b54d8744" class="cell" data-execution_count="11">
+<div id="1dbf3819" class="cell" data-execution_count="11">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Pobierz klientów</span></span>
@@ -1301,74 +1334,87 @@ Zakończono operacje na bazie danych dla tego bloku.</code></pre>
 </section>
 <section id="emergency-contacts" class="level2" data-number="4.6">
 <h2 data-number="4.6" class="anchored" data-anchor-id="emergency-contacts"><span class="header-section-number">4.6</span> Emergency contacts</h2>
-<div id="99884298" class="cell" data-execution_count="12">
+<div id="1ba154e3" class="cell" data-execution_count="12">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>cursor.execute(<span class="st">'SELECT client_id, date_of_birth FROM clients'</span>)</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>clients <span class="op">=</span> cursor.fetchall()</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="co"># relacje rozdzielone według płci</span></span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>male_relationships <span class="op">=</span> [<span class="st">'ojciec'</span>, <span class="st">'brat'</span>, <span class="st">'mąż'</span>, <span class="st">'partner'</span>, <span class="st">'przyjaciel'</span>, <span class="st">'syn'</span>]</span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>female_relationships <span class="op">=</span> [<span class="st">'matka'</span>, <span class="st">'siostra'</span>, <span class="st">'żona'</span>, <span class="st">'partnerka'</span>, <span class="st">'przyjaciółka'</span>, <span class="st">'córka'</span>]</span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>records_to_insert <span class="op">=</span> []</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="co"># relacje rozdzielone według płci</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>male_relationships <span class="op">=</span> [<span class="st">'ojciec'</span>, <span class="st">'brat'</span>, <span class="st">'mąż'</span>, <span class="st">'partner'</span>, <span class="st">'przyjaciel'</span>, <span class="st">'syn'</span>]</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>female_relationships <span class="op">=</span> [<span class="st">'matka'</span>, <span class="st">'siostra'</span>, <span class="st">'żona'</span>, <span class="st">'partnerka'</span>, <span class="st">'przyjaciółka'</span>, <span class="st">'córka'</span>]</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>domains <span class="op">=</span> [<span class="st">'gmail.com'</span>, <span class="st">'outlook.com'</span>, <span class="st">'yahoo.com'</span>, <span class="st">'protonmail.com'</span>]</span>
 <span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> client_id, dob <span class="kw">in</span> clients:</span>
-<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>    birth_year <span class="op">=</span> dob.year</span>
-<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> birth_year <span class="op">&lt;</span> <span class="dv">1965</span>:</span>
-<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>        available_relationships <span class="op">=</span> male_relationships <span class="op">+</span> female_relationships</span>
-<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>        available_relationships <span class="op">=</span> [r <span class="cf">for</span> r <span class="kw">in</span> available_relationships <span class="cf">if</span> r <span class="kw">not</span> <span class="kw">in</span> [<span class="st">'matka'</span>, <span class="st">'ojciec'</span>]]</span>
-<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> birth_year <span class="op">&gt;</span> <span class="dv">1990</span>:</span>
-<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>        available_relationships <span class="op">=</span> male_relationships <span class="op">+</span> female_relationships</span>
-<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>        available_relationships <span class="op">=</span> [r <span class="cf">for</span> r <span class="kw">in</span> available_relationships <span class="cf">if</span> r <span class="kw">not</span> <span class="kw">in</span> [<span class="st">'syn'</span>, <span class="st">'córka'</span>]]</span>
-<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
-<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a>        available_relationships <span class="op">=</span> male_relationships <span class="op">+</span> female_relationships</span>
-<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a>    used_relationships <span class="op">=</span> <span class="bu">set</span>()</span>
-<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">2</span>):</span>
-<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a>        <span class="cf">while</span> <span class="va">True</span>:</span>
-<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a>            <span class="co"># losuj płeć kontaktu</span></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>records_to_insert <span class="op">=</span> []</span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>used_emails_contacts <span class="op">=</span> <span class="bu">set</span>()</span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> client_id, dob <span class="kw">in</span> clients:</span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>    birth_year <span class="op">=</span> dob.year</span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> birth_year <span class="op">&lt;</span> <span class="dv">2965</span>:</span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>        available_relationships <span class="op">=</span> [r <span class="cf">for</span> r <span class="kw">in</span> male_relationships <span class="op">+</span> female_relationships <span class="cf">if</span> r <span class="kw">not</span> <span class="kw">in</span> [<span class="st">'matka'</span>, <span class="st">'ojciec'</span>]]</span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> birth_year <span class="op">&gt;</span> <span class="dv">2990</span>:</span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>        available_relationships <span class="op">=</span> [r <span class="cf">for</span> r <span class="kw">in</span> male_relationships <span class="op">+</span> female_relationships <span class="cf">if</span> r <span class="kw">not</span> <span class="kw">in</span> [<span class="st">'syn'</span>, <span class="st">'córka'</span>]]</span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a>        available_relationships <span class="op">=</span> male_relationships <span class="op">+</span> female_relationships</span>
+<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a>    used_relationships <span class="op">=</span> <span class="bu">set</span>()</span>
+<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">2</span>):</span>
+<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a>        <span class="cf">while</span> <span class="va">True</span>:</span>
 <span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a>            gender <span class="op">=</span> random.choice([<span class="st">'male'</span>, <span class="st">'female'</span>])</span>
 <span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a>            first_name <span class="op">=</span> fake.first_name_male() <span class="cf">if</span> gender <span class="op">==</span> <span class="st">'male'</span> <span class="cf">else</span> fake.first_name_female()</span>
 <span id="cb18-27"><a href="#cb18-27" aria-hidden="true" tabindex="-1"></a>            last_name <span class="op">=</span> fake.last_name()</span>
-<span id="cb18-28"><a href="#cb18-28" aria-hidden="true" tabindex="-1"></a>            email <span class="op">=</span> fake.email()</span>
-<span id="cb18-29"><a href="#cb18-29" aria-hidden="true" tabindex="-1"></a>            phone <span class="op">=</span> fake.phone_number()</span>
-<span id="cb18-30"><a href="#cb18-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-31"><a href="#cb18-31" aria-hidden="true" tabindex="-1"></a>            rel_pool <span class="op">=</span> male_relationships <span class="cf">if</span> gender <span class="op">==</span> <span class="st">'male'</span> <span class="cf">else</span> female_relationships</span>
-<span id="cb18-32"><a href="#cb18-32" aria-hidden="true" tabindex="-1"></a>            <span class="co"># zawęź do dozwolonych relacji i tych jeszcze nieużytych</span></span>
-<span id="cb18-33"><a href="#cb18-33" aria-hidden="true" tabindex="-1"></a>            rel_choices <span class="op">=</span> [r <span class="cf">for</span> r <span class="kw">in</span> rel_pool <span class="cf">if</span> r <span class="kw">in</span> available_relationships <span class="kw">and</span> r <span class="kw">not</span> <span class="kw">in</span> used_relationships]</span>
-<span id="cb18-34"><a href="#cb18-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-35"><a href="#cb18-35" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> rel_choices:</span>
-<span id="cb18-36"><a href="#cb18-36" aria-hidden="true" tabindex="-1"></a>                relationship <span class="op">=</span> random.choice(rel_choices)</span>
-<span id="cb18-37"><a href="#cb18-37" aria-hidden="true" tabindex="-1"></a>                used_relationships.add(relationship)</span>
-<span id="cb18-38"><a href="#cb18-38" aria-hidden="true" tabindex="-1"></a>                <span class="cf">break</span></span>
+<span id="cb18-28"><a href="#cb18-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-29"><a href="#cb18-29" aria-hidden="true" tabindex="-1"></a>            base_email <span class="op">=</span> <span class="ss">f"</span><span class="sc">{</span>first_name<span class="sc">}</span><span class="ss">.</span><span class="sc">{</span>last_name<span class="sc">}</span><span class="ss">"</span>.lower().replace(<span class="st">" "</span>, <span class="st">""</span>).replace(<span class="st">"'"</span>, <span class="st">""</span>)</span>
+<span id="cb18-30"><a href="#cb18-30" aria-hidden="true" tabindex="-1"></a>            domain <span class="op">=</span> random.choice(domains)</span>
+<span id="cb18-31"><a href="#cb18-31" aria-hidden="true" tabindex="-1"></a>            email <span class="op">=</span> <span class="ss">f"</span><span class="sc">{</span>base_email<span class="sc">}</span><span class="ss">@</span><span class="sc">{</span>domain<span class="sc">}</span><span class="ss">"</span></span>
+<span id="cb18-32"><a href="#cb18-32" aria-hidden="true" tabindex="-1"></a>            suffix <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb18-33"><a href="#cb18-33" aria-hidden="true" tabindex="-1"></a>            <span class="cf">while</span> email <span class="kw">in</span> used_emails_contacts:</span>
+<span id="cb18-34"><a href="#cb18-34" aria-hidden="true" tabindex="-1"></a>                email <span class="op">=</span> <span class="ss">f"</span><span class="sc">{</span>base_email<span class="sc">}{</span>suffix<span class="sc">}</span><span class="ss">@</span><span class="sc">{</span>domain<span class="sc">}</span><span class="ss">"</span></span>
+<span id="cb18-35"><a href="#cb18-35" aria-hidden="true" tabindex="-1"></a>                suffix <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb18-36"><a href="#cb18-36" aria-hidden="true" tabindex="-1"></a>            used_emails_contacts.add(email)</span>
+<span id="cb18-37"><a href="#cb18-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-38"><a href="#cb18-38" aria-hidden="true" tabindex="-1"></a>            phone <span class="op">=</span> fake.phone_number()</span>
 <span id="cb18-39"><a href="#cb18-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-40"><a href="#cb18-40" aria-hidden="true" tabindex="-1"></a>        records_to_insert.append((</span>
-<span id="cb18-41"><a href="#cb18-41" aria-hidden="true" tabindex="-1"></a>            client_id,</span>
-<span id="cb18-42"><a href="#cb18-42" aria-hidden="true" tabindex="-1"></a>            first_name,</span>
-<span id="cb18-43"><a href="#cb18-43" aria-hidden="true" tabindex="-1"></a>            last_name,</span>
-<span id="cb18-44"><a href="#cb18-44" aria-hidden="true" tabindex="-1"></a>            relationship,</span>
-<span id="cb18-45"><a href="#cb18-45" aria-hidden="true" tabindex="-1"></a>            email,</span>
-<span id="cb18-46"><a href="#cb18-46" aria-hidden="true" tabindex="-1"></a>            phone</span>
-<span id="cb18-47"><a href="#cb18-47" aria-hidden="true" tabindex="-1"></a>        ))</span>
-<span id="cb18-48"><a href="#cb18-48" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-49"><a href="#cb18-49" aria-hidden="true" tabindex="-1"></a>cursor.executemany(</span>
-<span id="cb18-50"><a href="#cb18-50" aria-hidden="true" tabindex="-1"></a>    <span class="st">'''</span></span>
-<span id="cb18-51"><a href="#cb18-51" aria-hidden="true" tabindex="-1"></a><span class="st">    INSERT INTO emergency_contacts (</span></span>
-<span id="cb18-52"><a href="#cb18-52" aria-hidden="true" tabindex="-1"></a><span class="st">        client_id, first_name, last_name,</span></span>
-<span id="cb18-53"><a href="#cb18-53" aria-hidden="true" tabindex="-1"></a><span class="st">        relationship, email, phone</span></span>
-<span id="cb18-54"><a href="#cb18-54" aria-hidden="true" tabindex="-1"></a><span class="st">    ) VALUES (</span><span class="sc">%s</span><span class="st">, </span><span class="sc">%s</span><span class="st">, </span><span class="sc">%s</span><span class="st">, </span><span class="sc">%s</span><span class="st">, </span><span class="sc">%s</span><span class="st">, </span><span class="sc">%s</span><span class="st">)</span></span>
-<span id="cb18-55"><a href="#cb18-55" aria-hidden="true" tabindex="-1"></a><span class="st">    '''</span>,</span>
-<span id="cb18-56"><a href="#cb18-56" aria-hidden="true" tabindex="-1"></a>    records_to_insert</span>
-<span id="cb18-57"><a href="#cb18-57" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb18-58"><a href="#cb18-58" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-59"><a href="#cb18-59" aria-hidden="true" tabindex="-1"></a>con.commit()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb18-40"><a href="#cb18-40" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> random.random() <span class="op">&lt;</span> <span class="fl">0.02</span>:</span>
+<span id="cb18-41"><a href="#cb18-41" aria-hidden="true" tabindex="-1"></a>                email <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb18-42"><a href="#cb18-42" aria-hidden="true" tabindex="-1"></a>                phone <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb18-43"><a href="#cb18-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-44"><a href="#cb18-44" aria-hidden="true" tabindex="-1"></a>            rel_pool <span class="op">=</span> male_relationships <span class="cf">if</span> gender <span class="op">==</span> <span class="st">'male'</span> <span class="cf">else</span> female_relationships</span>
+<span id="cb18-45"><a href="#cb18-45" aria-hidden="true" tabindex="-1"></a>            rel_choices <span class="op">=</span> [r <span class="cf">for</span> r <span class="kw">in</span> rel_pool <span class="cf">if</span> r <span class="kw">in</span> available_relationships <span class="kw">and</span> r <span class="kw">not</span> <span class="kw">in</span> used_relationships]</span>
+<span id="cb18-46"><a href="#cb18-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-47"><a href="#cb18-47" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> rel_choices:</span>
+<span id="cb18-48"><a href="#cb18-48" aria-hidden="true" tabindex="-1"></a>                relationship <span class="op">=</span> random.choice(rel_choices)</span>
+<span id="cb18-49"><a href="#cb18-49" aria-hidden="true" tabindex="-1"></a>                used_relationships.add(relationship)</span>
+<span id="cb18-50"><a href="#cb18-50" aria-hidden="true" tabindex="-1"></a>                <span class="cf">break</span></span>
+<span id="cb18-51"><a href="#cb18-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-52"><a href="#cb18-52" aria-hidden="true" tabindex="-1"></a>        records_to_insert.append((</span>
+<span id="cb18-53"><a href="#cb18-53" aria-hidden="true" tabindex="-1"></a>            client_id,</span>
+<span id="cb18-54"><a href="#cb18-54" aria-hidden="true" tabindex="-1"></a>            first_name,</span>
+<span id="cb18-55"><a href="#cb18-55" aria-hidden="true" tabindex="-1"></a>            last_name,</span>
+<span id="cb18-56"><a href="#cb18-56" aria-hidden="true" tabindex="-1"></a>            relationship,</span>
+<span id="cb18-57"><a href="#cb18-57" aria-hidden="true" tabindex="-1"></a>            email,</span>
+<span id="cb18-58"><a href="#cb18-58" aria-hidden="true" tabindex="-1"></a>            phone</span>
+<span id="cb18-59"><a href="#cb18-59" aria-hidden="true" tabindex="-1"></a>        ))</span>
+<span id="cb18-60"><a href="#cb18-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-61"><a href="#cb18-61" aria-hidden="true" tabindex="-1"></a>cursor.executemany(</span>
+<span id="cb18-62"><a href="#cb18-62" aria-hidden="true" tabindex="-1"></a>    <span class="st">'''</span></span>
+<span id="cb18-63"><a href="#cb18-63" aria-hidden="true" tabindex="-1"></a><span class="st">    INSERT INTO emergency_contacts (</span></span>
+<span id="cb18-64"><a href="#cb18-64" aria-hidden="true" tabindex="-1"></a><span class="st">        client_id, first_name, last_name,</span></span>
+<span id="cb18-65"><a href="#cb18-65" aria-hidden="true" tabindex="-1"></a><span class="st">        relationship, email, phone</span></span>
+<span id="cb18-66"><a href="#cb18-66" aria-hidden="true" tabindex="-1"></a><span class="st">    ) VALUES (</span><span class="sc">%s</span><span class="st">, </span><span class="sc">%s</span><span class="st">, </span><span class="sc">%s</span><span class="st">, </span><span class="sc">%s</span><span class="st">, </span><span class="sc">%s</span><span class="st">, </span><span class="sc">%s</span><span class="st">)</span></span>
+<span id="cb18-67"><a href="#cb18-67" aria-hidden="true" tabindex="-1"></a><span class="st">    '''</span>,</span>
+<span id="cb18-68"><a href="#cb18-68" aria-hidden="true" tabindex="-1"></a>    records_to_insert</span>
+<span id="cb18-69"><a href="#cb18-69" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb18-70"><a href="#cb18-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-71"><a href="#cb18-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-72"><a href="#cb18-72" aria-hidden="true" tabindex="-1"></a>con.commit()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </section>
 <section id="generowanie-transakcji-transactions-dla-uczestników-lotów" class="level2" data-number="4.7">
 <h2 data-number="4.7" class="anchored" data-anchor-id="generowanie-transakcji-transactions-dla-uczestników-lotów"><span class="header-section-number">4.7</span> Generowanie transakcji (transactions) dla uczestników lotów</h2>
-<div id="fda3b78b" class="cell" data-execution_count="13">
+<div id="1d917277" class="cell" data-execution_count="13">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Pobierz dane o uczestnikach lotów wraz z informacjami o ich wyprawie i cenie bazowej</span></span>
@@ -1390,7 +1436,7 @@ Zakończono operacje na bazie danych dla tego bloku.</code></pre>
 <span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>future_statuses <span class="op">=</span> [<span class="st">'completed'</span>, <span class="st">'pending'</span>]</span>
 <span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a>records_to_insert <span class="op">=</span> []</span>
-<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a>now <span class="op">=</span> datetime.now()</span>
+<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a>now <span class="op">=</span> datetime.now() <span class="op">+</span> relativedelta(years<span class="op">=</span><span class="dv">1000</span>)</span>
 <span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a>start_dt <span class="op">=</span> datetime.combine(start_of_business, time(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>))</span>
 <span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> trip_id, client_id, departure_dt, base_price <span class="kw">in</span> participants_data:</span>
@@ -1450,7 +1496,7 @@ Zakończono operacje na bazie danych dla tego bloku.</code></pre>
 </section>
 <section id="generowanie-opinii-dla-zakończonych-lotów" class="level2" data-number="4.8">
 <h2 data-number="4.8" class="anchored" data-anchor-id="generowanie-opinii-dla-zakończonych-lotów"><span class="header-section-number">4.8</span> Generowanie opinii dla zakończonych lotów</h2>
-<div id="f466d0e4" class="cell" data-execution_count="14">
+<div id="0c00b39c" class="cell" data-execution_count="14">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Pobierz dane o zakończonych lotach wraz z uczestnikami i datą powrotu</span></span>
@@ -1543,7 +1589,7 @@ Zakończono operacje na bazie danych dla tego bloku.</code></pre>
 </section>
 <section id="generowanie-incydentów" class="level2" data-number="4.9">
 <h2 data-number="4.9" class="anchored" data-anchor-id="generowanie-incydentów"><span class="header-section-number">4.9</span> Generowanie incydentów</h2>
-<div id="d7d538eb" class="cell" data-execution_count="15">
+<div id="76def006" class="cell" data-execution_count="15">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Pobierz dane o lotach (trip_id, departure, return) oraz przypisanych pracownikach i klientach</span></span>
@@ -1688,7 +1734,7 @@ Zakończono operacje na bazie danych dla tego bloku.</code></pre>
 </section>
 <section id="generowanie-kosztów-dla-każdej-wyprawy" class="level2" data-number="4.10">
 <h2 data-number="4.10" class="anchored" data-anchor-id="generowanie-kosztów-dla-każdej-wyprawy"><span class="header-section-number">4.10</span> Generowanie kosztów dla każdej wyprawy</h2>
-<div id="ce37a132" class="cell" data-execution_count="16">
+<div id="a678d22d" class="cell" data-execution_count="16">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>cursor.execute(<span class="st">"""</span></span>
