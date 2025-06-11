@@ -78,7 +78,6 @@ ORDER BY
 
 ```{python}
 df_profitability = pd.read_sql(query, con)
-con.close()
 
 print("Analiza popularności i opłacalności rodzajów wypraw:")
 print(df_profitability.to_string())
@@ -108,14 +107,11 @@ else:
 
 print("\n----------------------------------")
 ```
-```{python}
-con = mysql.connector.connect(
-    host="giniewicz.it",
-    user="team13",
-    password="te@mlie",
-    database="team13"
-)
 
+## Problem drugi
+Pytanie: Sporządź wykres liczby obsłużonych klientów w każdym miesiącu działalności firmy, czy firma rośnie, czy podupada?
+
+```{python}
 query_clients_per_month = """
 SELECT
     DATE_FORMAT(t.departure_datetime, '%Y-%m') AS miesiac,
@@ -135,7 +131,7 @@ df_clients = pd.read_sql(query_clients_per_month, con)
 ```
 
 ```{python}
-plt.figure(figsize=(14, 7))
+#plt.figure(figsize=(14, 7))
 sns.barplot(data=df_clients, x='miesiac', y='liczba_klientow', color='steelblue')
 plt.title('Miesięczna liczba obsłużonych klientów', fontsize=16)
 plt.xlabel('Miesiąc', fontsize=12)
@@ -167,4 +163,126 @@ print(f"Współczynnik nachylenia linii trendu: {slope:.4f}")
 print(f"\nWniosek: {wniosek}")
 print(szczegoly)
 print("-----------------------------------")
+```
+
+## Problem trzeci
+Pytanie: Które destynacje są najbardziej ryzykowne?
+
+```{python}
+query_risky_destinations = """
+SELECT 
+    destinations.name AS kierunek, 
+    COUNT(*) AS liczba_wypadkow
+FROM
+    incidents
+LEFT JOIN
+    trips
+ON
+    incidents.trip_id = trips.trip_id
+LEFT JOIN
+    destinations
+ON
+    trips.destination_id = destinations.destination_id
+GROUP BY
+    kierunek
+ORDER BY
+    liczba_wypadkow DESC;
+"""
+```
+```{python}
+query_risky_dest2 = """
+-- To samo zapytanie, ale bez klauzuli WITH
+SELECT
+    d.name AS kierunek,
+    COALESCE(tpd.total_trips, 0) AS liczba_wypraw,
+    COALESCE(ipd.total_incidents, 0) AS liczba_incydentow,
+    (COALESCE(ipd.total_incidents, 0) * 100.0 / tpd.total_trips) AS wskaznik_ryzyka_procent
+FROM
+    destinations d
+JOIN
+    -- Pierwsze podzapytanie zdefiniowane bezpośrednio w FROM
+    (
+        SELECT destination_id, COUNT(trip_id) AS total_trips
+        FROM trips
+        GROUP BY destination_id
+    ) AS tpd ON d.destination_id = tpd.destination_id
+LEFT JOIN
+    -- Drugie podzapytanie zdefiniowane bezpośrednio w FROM
+    (
+        SELECT t.destination_id, COUNT(i.incident_id) AS total_incidents
+        FROM incidents i
+        JOIN trips t ON i.trip_id = t.trip_id
+        GROUP BY t.destination_id
+    ) AS ipd ON d.destination_id = ipd.destination_id
+ORDER BY
+    wskaznik_ryzyka_procent DESC;
+"""
+```
+```{python}
+df_risky_destinations = pd.read_sql(query_risky_destinations, con)
+```
+```{python}
+print(df_risky_destinations.to_string())
+```
+```{python}
+df_risky_destinations2 = pd.read_sql(query_risky_dest2, con)
+```
+```{python}
+print(df_risky_destinations2.to_string())
+```
+
+```{python}
+query_incidents_graph = """
+SELECT
+    d.name AS kierunek,
+    i.severity,
+    COUNT(i.incident_id) AS liczba_incydentow
+FROM
+    incidents i
+JOIN
+    trips t ON i.trip_id = t.trip_id
+JOIN
+    destinations d ON t.destination_id = d.destination_id
+WHERE
+    i.severity IN ('High', 'Medium', 'Low') -- Filtrujemy, by mieć pewność, że mamy tylko te 3 kategorie
+GROUP BY
+    d.name, i.severity
+ORDER BY
+    kierunek,
+    -- Ustawiamy kolejność severity, aby na wykresie były w logicznym porządku
+    FIELD(i.severity, 'High', 'Medium', 'Low');
+"""
+```
+```{python}
+df_incidents_long = pd.read_sql(query_stacked_chart, con)
+```
+
+```{python}
+df_incidents_wide = df_incidents_long.pivot_table(
+    index='kierunek', 
+    columns='severity', 
+    values='liczba_incydentow',
+    fill_value=0
+)
+
+color_map = {'High': '#d9534f', 'Medium': '#f0ad4e', 'Low': '#5cb85c'} 
+```
+
+```{python}
+df_incidents_wide.plot(
+    kind='bar', 
+    stacked=True, 
+    color=color_map,
+    figsize=(14, 8)
+)
+```
+
+```{python}
+plt.title('Liczba incydentów według wagi i destynacji', fontsize=16)
+plt.xlabel('Destynacja', fontsize=12)
+plt.ylabel('Łączna liczba incydentów', fontsize=12)
+plt.xticks(rotation=45, ha='right')
+plt.legend(title='Poziom zagrożenia')
+plt.tight_layout()
+plt.show()
 ```
