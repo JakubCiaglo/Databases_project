@@ -20,10 +20,10 @@
 3. Kolejność i sposób urchamiania plików:
   Aby uzyskać gotowy projekt należy odpalić plik projekt_raport.qmd
 
-4. Schemat projektu
+4. Schemat projektu:
   Schemat projektu został dołączony jako plik schemat.png
 
-5. Lista zależności funkcyjncyh z wyjaśnieniem:
+5. Lista zależności funkcyjnych z wyjaśnieniem:
 
 6. Uzasadnienie, że baza jest EKNF:
 
