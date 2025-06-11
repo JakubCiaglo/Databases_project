@@ -33,6 +33,8 @@ import matplotlib.pyplot as plt
 import matplotlib.cm as cm
 import matplotlib.colors as colors
 from scipy import stats
+from sqlalchemy import create_engine
+from urllib.parse import quote_plus
 ```
 
 ```{python}
@@ -45,6 +47,16 @@ con = mysql.connector.connect(
 )
 ```
 
+```{python}
+host = "giniewicz.it"
+user = "team13"
+password = "te@mlie"
+database = "team13"
+safe_password = quote_plus(password)
+
+connection_uri = f"mysql+mysqlconnector://{user}:{safe_password}@{host}/{database}"
+engine = create_engine(connection_uri)
+```
 # Analiza danych
 
 ## Problem pierwszy
@@ -77,7 +89,7 @@ ORDER BY
 ```
 
 ```{python}
-df_profitability = pd.read_sql(query, con)
+df_profitability = pd.read_sql(query, engine)
 
 print("Analiza popularności i opłacalności rodzajów wypraw:")
 print(df_profitability.to_string())
@@ -127,11 +139,11 @@ ORDER BY
 """
 ```
 ```{python}
-df_clients = pd.read_sql(query_clients_per_month, con)
+df_clients = pd.read_sql(query_clients_per_month, engine)
 ```
 
 ```{python}
-#plt.figure(figsize=(14, 7))
+plt.figure(figsize=(14, 7))
 sns.barplot(data=df_clients, x='miesiac', y='liczba_klientow', color='steelblue')
 plt.title('Miesięczna liczba obsłużonych klientów', fontsize=16)
 plt.xlabel('Miesiąc', fontsize=12)
@@ -191,7 +203,6 @@ ORDER BY
 ```
 ```{python}
 query_risky_dest2 = """
--- To samo zapytanie, ale bez klauzuli WITH
 SELECT
     d.name AS kierunek,
     COALESCE(tpd.total_trips, 0) AS liczba_wypraw,
@@ -219,13 +230,13 @@ ORDER BY
 """
 ```
 ```{python}
-df_risky_destinations = pd.read_sql(query_risky_destinations, con)
+df_risky_destinations = pd.read_sql(query_risky_destinations, engine)
 ```
 ```{python}
 print(df_risky_destinations.to_string())
 ```
 ```{python}
-df_risky_destinations2 = pd.read_sql(query_risky_dest2, con)
+df_risky_destinations2 = pd.read_sql(query_risky_dest2, engine)
 ```
 ```{python}
 print(df_risky_destinations2.to_string())
@@ -244,17 +255,13 @@ JOIN
 JOIN
     destinations d ON t.destination_id = d.destination_id
 WHERE
-    i.severity IN ('High', 'Medium', 'Low') -- Filtrujemy, by mieć pewność, że mamy tylko te 3 kategorie
+    i.severity IN ('high', 'medium', 'low')
 GROUP BY
     d.name, i.severity
-ORDER BY
-    kierunek,
-    -- Ustawiamy kolejność severity, aby na wykresie były w logicznym porządku
-    FIELD(i.severity, 'High', 'Medium', 'Low');
 """
 ```
 ```{python}
-df_incidents_long = pd.read_sql(query_stacked_chart, con)
+df_incidents_long = pd.read_sql(query_incidents_graph, engine)
 ```
 
 ```{python}
@@ -264,8 +271,10 @@ df_incidents_wide = df_incidents_long.pivot_table(
     values='liczba_incydentow',
     fill_value=0
 )
-
-color_map = {'High': '#d9534f', 'Medium': '#f0ad4e', 'Low': '#5cb85c'} 
+color_map = {'high': '#d9534f', 'medium': '#f0ad4e', 'low': '#5cb85c'}
+desired_order = ['low', 'medium', 'high']
+ordered_columns = [col for col in desired_order if col in df_incidents_wide.columns]
+df_incidents_wide = df_incidents_wide[ordered_columns]
 ```
 
 ```{python}
@@ -275,14 +284,173 @@ df_incidents_wide.plot(
     color=color_map,
     figsize=(14, 8)
 )
-```
-
-```{python}
-plt.title('Liczba incydentów według wagi i destynacji', fontsize=16)
+plt.title('Liczba incydentów według destynacji', fontsize=16)
 plt.xlabel('Destynacja', fontsize=12)
 plt.ylabel('Łączna liczba incydentów', fontsize=12)
 plt.xticks(rotation=45, ha='right')
 plt.legend(title='Poziom zagrożenia')
 plt.tight_layout()
 plt.show()
+```
+
+```{python}
+query_weighted_risk = """
+WITH trips_per_destination AS (
+    SELECT destination_id, COUNT(trip_id) AS total_trips
+    FROM trips
+    GROUP BY destination_id
+),
+weighted_incidents AS (
+    SELECT 
+        t.destination_id,
+        SUM(
+            CASE 
+                WHEN i.severity = 'High' THEN 10
+                WHEN i.severity = 'Medium' THEN 3
+                WHEN i.severity = 'Low' THEN 1
+                ELSE 0 
+            END
+        ) AS risk_score
+    FROM incidents i
+    JOIN trips t ON i.trip_id = t.trip_id
+    GROUP BY t.destination_id
+)
+SELECT 
+    d.name AS Kierunek,
+    COALESCE(tpd.total_trips, 0) AS Liczba_wypraw,
+    COALESCE(wi.risk_score, 0) AS Suma_punktow_ryzyka,
+    COALESCE(wi.risk_score / tpd.total_trips, 0) AS Wazony_wspolczynnik_ryzyka
+FROM 
+    destinations d
+LEFT JOIN 
+    trips_per_destination tpd ON d.destination_id = tpd.destination_id
+LEFT JOIN
+    weighted_incidents wi ON d.destination_id = wi.destination_id
+WHERE
+    tpd.total_trips > 0
+ORDER BY 
+    Wazony_wspolczynnik_ryzyka DESC;
+"""
+```
+
+```{python}
+df_risk = pd.read_sql(query_weighted_risk, engine)
+print("--- Ranking Ryzyka Destynacji (ważony) ---")
+print(df_risk.to_string())
+
+# Automatyczny wniosek
+print("\n--- Wnioski ---")
+most_risky = df_risk.iloc[0]
+print(f"Najbardziej ryzykowną destynacją według ważonego wskaźnika jest '{most_risky['Kierunek']}' "
+      f"z wynikiem {most_risky['Wazony_wspolczynnik_ryzyka']:.2f} pkt na wyprawę.")
+```
+
+Wadliwość statków
+
+```{python}
+query_spacecraft_incidents = """
+SELECT 
+    spacecraft.name AS nazwa_statku,
+    COUNT(*) AS liczba_usterek
+FROM
+    incidents
+LEFT JOIN
+    trips
+ON
+    incidents.trip_id = trips.trip_id
+LEFT JOIN
+    spacecraft
+ON
+    trips.spacecraft_id = spacecraft.spacecraft_id
+WHERE incidents.category = 'equipment'
+GROUP BY spacecraft.name
+ORDER BY liczba_usterek desc
+
+"""
+```
+
+```{python}
+df_spacecrafts_incidents = pd.read_sql(query_spacecraft_incidents, engine)
+print(df_spacecrafts_incidents.to_string())
+```
+
+```{python}
+query_failure_rate = """
+WITH trips_per_spacecraft AS (
+    SELECT 
+        spacecraft_id, 
+        COUNT(trip_id) AS total_trips
+    FROM trips
+    GROUP BY spacecraft_id
+),
+equipment_failures AS (
+    SELECT 
+        t.spacecraft_id, 
+        COUNT(i.incident_id) AS total_failures
+    FROM incidents i
+    JOIN trips t ON i.trip_id = t.trip_id
+    WHERE i.category = 'equipment'
+    GROUP BY t.spacecraft_id
+)
+SELECT
+    s.name AS nazwa_statku,
+    COALESCE(tps.total_trips, 0) AS liczba_wypraw,
+    COALESCE(ef.total_failures, 0) AS liczba_usterek,
+    CASE
+        WHEN tps.total_trips > 0 THEN COALESCE(ef.total_failures, 0) / CAST(tps.total_trips AS FLOAT)
+        ELSE 0
+    END AS usterki_na_wyprawe
+FROM
+    spacecraft s
+LEFT JOIN
+    trips_per_spacecraft tps ON s.spacecraft_id = tps.spacecraft_id
+LEFT JOIN
+    equipment_failures ef ON s.spacecraft_id = ef.spacecraft_id
+ORDER BY
+    usterki_na_wyprawe DESC;
+"""
+```
+
+```{python}
+df_failure_rate = pd.read_sql(query_failure_rate, engine)
+```
+
+```{python}
+print("--- Ranking Niezawodności Statków (Usterki na Wyprawę) ---")
+print(df_failure_rate.to_string())
+plt.figure(figsize=(12, 6))
+sns.barplot(data=df_failure_rate, x='usterki_na_wyprawe', y='nazwa_statku', hue="nazwa_statku", palette='Reds_r')
+plt.title('Wskaźnik Usterek Sprzętowych na Wyprawę')
+plt.xlabel('Średnia liczba usterek na jedną wyprawę')
+plt.ylabel('Statek kosmiczny')
+plt.tight_layout()
+plt.show()
+```
+
+```{python}
+# --- Automatyczne Wnioski z Rankingu Niezawodności ---
+
+print("\n--- 🤖 Automatyczne Wnioski z Rankingu Niezawodności ---")
+
+most_failure_prone = df_failure_rate.iloc[0]
+active_ships = df_failure_rate[df_failure_rate['liczba_wypraw'] > 0]
+
+if not active_ships.empty:
+    most_reliable = active_ships.iloc[-1]
+
+    print("\n\n🔧 Najbardziej podatny na usterki jest statek:")
+    print(f"   -> Nazwa: '{most_failure_prone['nazwa_statku']}'")
+    print(f"   -> Wskaźnik: {most_failure_prone['usterki_na_wyprawe']:.3f} usterek na każdą wyprawę.")
+    print(f"   (Na podstawie {int(most_failure_prone['liczba_usterek'])} usterek w ciągu {int(most_failure_prone['liczba_wypraw'])} wypraw).")
+
+    print("\n🏆 Najbardziej niezawodnym statkiem jest:")
+    print(f"   -> Nazwa: '{most_reliable['nazwa_statku']}'")
+    print(f"   -> Wskaźnik: {most_reliable['usterki_na_wyprawe']:.3f} usterek na każdą wyprawę.")
+    
+    if most_reliable['usterki_na_wyprawe'] == 0:
+        print(f"   (Statek odbył {int(most_reliable['liczba_wypraw'])} wypraw bez odnotowanej usterki sprzętowej - doskonały wynik!)")
+    else:
+        print(f"   (Na podstawie {int(most_reliable['liczba_usterek'])} usterek w ciągu {int(most_reliable['liczba_wypraw'])} wypraw).")
+
+
 ```
