@@ -96,24 +96,99 @@ query = f"""
         t.trip_id,
         d.name AS destination,
         tt.name AS trip_type,
+        s.name AS spacecraft_name,
+        r.name AS rocket_name,
         COUNT(tp.client_id) AS one_time_clients
     FROM trip_participants tp
     JOIN trips t ON tp.trip_id = t.trip_id
+    JOIN spacecraft s ON t.spacecraft_id = s.spacecraft_id
+    JOIN rockets r ON t.rocket_id = r.rocket_id
     JOIN destinations d ON t.destination_id = d.destination_id
     JOIN trip_types tt ON t.trip_type_id = tt.trip_type_id
     WHERE tp.trip_id IN ({placeholders})
       AND tp.client_id IN ({','.join(['%s'] * len(client_ids))})
     GROUP BY t.trip_id, d.name, tt.name
-    ORDER BY one_time_clients DESC
+    ORDER BY COUNT(tp.client_id) DESC
 """
 
-# Zmienna client_ids zawiera listę klientów jednorazowych
 cursor.execute(query, trip_ids + client_ids)
 results = cursor.fetchall()
-for row in results:
-  print(row)
+
+df = pd.DataFrame(results, columns=["Id", "Planeta", "Typ wyprawy", "Spacecraft", "Rocket","Klienci jednorazowi"])
+print(df.to_string(index=False))
 ```
 
-To są wycieczki, które mają najwięcej jednorazowych klientów. Warto tutaj zaznaczyć, że trip ma wiele różnych cech. Może być kilka wycieczek na marsa, które różnią się statkiem lub nawet rakietą napędową, co też może mieć wpływ na odczucia pasażerów.
+To podsumowanie daje nam dużo informacji, z których możemy wyciągnąć wnioski.
+
+Zajmijmy się teraz tym problemem z innej strony. Sprawdźmy który rodzaj podróży był ostatnim, dla każdego klienta.
+
+```{python}
+trip_ids = [int(t) for t in trip_ids] 
+placeholders = ','.join(['%s'] * len(trip_ids))
+
+query = f"""
+SELECT
+    tp.client_id,
+    t.trip_id
+FROM
+    trip_participants tp
+JOIN trips t ON tp.trip_id = t.trip_id
+JOIN trip_types tt ON t.trip_type_id = tt.trip_type_id
+WHERE
+    t.departure_datetime = (
+        SELECT MAX(t2.departure_datetime)
+        FROM trip_participants tp2
+        JOIN trips t2 ON tp2.trip_id = t2.trip_id
+        WHERE tp2.client_id = tp.client_id
+    )
+ORDER BY tp.client_id;
+"""
+
+cursor.execute(query)
+results = np.array(cursor.fetchall())
+
+
+df = pd.DataFrame(results, columns=['client_id', 'trip_id'])
+
+# Grupujemy po trip_id i liczymy ilu klientów miało ten trip jako ostatni
+summary = df['trip_id'].value_counts().reset_index()
+summary.columns = ['trip_id', 'num_clients']
+
+# Sortujemy malejąco
+summary = summary.sort_values(by='num_clients', ascending=False)
+
+# Wyświetlamy ładnie
+top_5_ids = summary.head(5)["trip_id"]
+
+top_5_ids = [int(t) for t in top_5_ids] 
+placeholders = ','.join(['%s'] * len(top_5_ids))
+
+query = f"""
+    SELECT 
+        t.trip_id,
+        d.name AS destination,
+        tt.name AS trip_type,
+        s.name AS spacecraft_name,
+        r.name AS rocket_name,
+        COUNT(tp.client_id) AS one_time_clients
+    FROM trip_participants tp
+    JOIN trips t ON tp.trip_id = t.trip_id
+    JOIN spacecraft s ON t.spacecraft_id = s.spacecraft_id
+    JOIN rockets r ON t.rocket_id = r.rocket_id
+    JOIN destinations d ON t.destination_id = d.destination_id
+    JOIN trip_types tt ON t.trip_type_id = tt.trip_type_id
+    WHERE tp.trip_id IN ({placeholders})
+    GROUP BY t.trip_id, d.name, tt.name
+"""
+
+cursor.execute(query, top_5_ids)
+results = cursor.fetchall()
+
+df = pd.DataFrame(results, columns = ["Id", "Planeta", "Rodzaj", "Spacecraft", "Rakieta", "Ilość"])
+df = df.sort_values(by="Ilość", ascending=False)
+print(df.to_string(index=False))
+```
+
+Teraz jak już zadalismy jakie wycieczki odstraszają naszych klientów, zobaczmy jakie wycieczki przyciągają ich.
 
 ##
