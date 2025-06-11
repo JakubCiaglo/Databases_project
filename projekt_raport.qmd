@@ -27,6 +27,12 @@ from datetime import date, datetime, timedelta, time
 import numpy as np
 import pandas as pd
 import mysql.connector
+import plotly.express as px
+import seaborn as sns
+import matplotlib.pyplot as plt
+import matplotlib.cm as cm
+import matplotlib.colors as colors
+from scipy import stats
 ```
 
 ```{python}
@@ -41,4 +47,124 @@ con = mysql.connector.connect(
 
 # Analiza danych
 
-##
+## Problem pierwszy
+
+Pytanie: Znajdź najpopularniejsze rodzaje wypraw, porównaj koszta i zyski, czy są opłacalne?
+
+```{python}
+query = """
+SELECT
+    tt.name AS 'Rodzaj wyprawy',
+    COUNT(t.trip_id) AS 'Liczba wypraw',
+    COALESCE(SUM(ac.total_trip_cost), 0) AS 'Całkowite koszty',
+    COALESCE(SUM(ar.total_trip_revenue), 0) AS 'Całkowite przychody',
+    (COALESCE(SUM(ar.total_trip_revenue), 0) - COALESCE(SUM(ac.total_trip_cost), 0)) AS 'Zysk'
+FROM
+    trip_types tt
+LEFT JOIN
+    trips t ON tt.trip_type_id = t.trip_type_id
+LEFT JOIN
+    (SELECT trip_id, SUM(cost_amount) AS total_trip_cost FROM costs GROUP BY trip_id) ac 
+    ON t.trip_id = ac.trip_id
+LEFT JOIN
+    (SELECT trip_id, SUM(amount) AS total_trip_revenue FROM transactions WHERE status = 'Completed' GROUP BY trip_id) ar 
+    ON t.trip_id = ar.trip_id
+GROUP BY
+    tt.name
+ORDER BY
+    `Liczba wypraw` DESC;
+"""
+```
+
+```{python}
+df_profitability = pd.read_sql(query, con)
+con.close()
+
+print("Analiza popularności i opłacalności rodzajów wypraw:")
+print(df_profitability.to_string())
+```
+```{python}
+print("\n\n--- Zautomatyzowana Analiza ---")
+print("\n## 🏆 TOP 3 najpopularniejsze rodzaje wypraw:\n")
+top_3_profitability = df_profitability.head(3)
+
+for index, row in top_3_profitability.iterrows():
+    print(
+        f"{index + 1}. Rodzaj '{row['Rodzaj wyprawy']}': "
+        f"{row['Liczba wypraw']} wypraw, "
+        f"które przyniosły {row['Całkowite przychody']:.2f} przychodu."
+    )
+
+print("\n## 💰 Analiza rentowności rodzajów wypraw:\n")
+unprofitable_types = df_profitability[df_profitability['Zysk'] < 0]
+if unprofitable_types.empty:
+    print("✅ Wszystkie rodzaje wypraw są opłacalne i nie przynoszą strat.")
+else:
+    print("⚠️ UWAGA! Następujące rodzaje wypraw przynoszą straty:")
+    for index, row in unprofitable_types.iterrows():
+        print(
+            f"- '{row['Rodzaj wyprawy']}': zanotowano stratę w wysokości {-row['Zysk']:.2f}"
+        )
+
+print("\n----------------------------------")
+```
+```{python}
+con = mysql.connector.connect(
+    host="giniewicz.it",
+    user="team13",
+    password="te@mlie",
+    database="team13"
+)
+
+query_clients_per_month = """
+SELECT
+    DATE_FORMAT(t.departure_datetime, '%Y-%m') AS miesiac,
+    COUNT(tp.client_id) AS liczba_klientow
+FROM
+    trips t
+JOIN
+    trip_participants tp ON t.trip_id = tp.trip_id
+GROUP BY
+    miesiac
+ORDER BY
+    miesiac ASC;
+"""
+```
+```{python}
+df_clients = pd.read_sql(query_clients_per_month, con)
+```
+
+```{python}
+plt.figure(figsize=(14, 7))
+sns.barplot(data=df_clients, x='miesiac', y='liczba_klientow', color='steelblue')
+plt.title('Miesięczna liczba obsłużonych klientów', fontsize=16)
+plt.xlabel('Miesiąc', fontsize=12)
+plt.ylabel('Liczba klientów', fontsize=12)
+plt.xticks(rotation=45, ha='right')
+plt.tight_layout()
+plt.show()
+```
+
+```{python}
+x = np.arange(len(df_clients)) 
+y = df_clients['liczba_klientow'] 
+slope, intercept, r_value, p_value, std_err = stats.linregress(x, y)
+# Ustalamy próg "stagnacji", aby uniknąć klasyfikowania bardzo małych wahań
+# jako trendu. Np. jeśli wzrost/spadek jest mniejszy niż 0.5 klienta na miesiąc.
+stagnation_threshold = 0.5
+
+if slope > stagnation_threshold:
+    wniosek = f"Firma wykazuje wyraźny trend WZROSTOWY."
+    szczegoly = f"Średnio, z każdym miesiącem liczba klientów rośnie o {slope:.2f}."
+elif slope < -stagnation_threshold:
+    wniosek = f"Firma wykazuje wyraźny trend SPADKOWY."
+    szczegoly = f"Średnio, z każdym miesiącem liczba klientów maleje o {-slope:.2f}."
+else:
+    wniosek = "Firma wykazuje STAGNACJĘ."
+    szczegoly = f"Brak wyraźnego trendu wzrostowego lub spadkowego (nachylenie linii trendu wynosi {slope:.2f})."
+print("--- Automatyczna Analiza Trendu ---")
+print(f"Współczynnik nachylenia linii trendu: {slope:.4f}")
+print(f"\nWniosek: {wniosek}")
+print(szczegoly)
+print("-----------------------------------")
+```
