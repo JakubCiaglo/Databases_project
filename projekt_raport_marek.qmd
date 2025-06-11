@@ -45,7 +45,7 @@ con = mysql.connector.connect(
 
 Pytanie: po których wycieczkach klienci wracają na kolejne, a po których mają dość i więcej ich nie widzicie. Czy są takie, które być może powinny zniknąć z oferty?
 
-Jak do tego problemu podejść? Na początek znajdźmy ludzi którzy byli na więcej niż jednej wycieczce
+Jak do tego problemu podejść? Na początek stworzymy sobie dwa zbiory: id klientów którzy pojechali tylko na jedną podróż oraz klientów co pojechali na więcej podróży
 
 ```{python}
 query = "SELECT client_id, COUNT(trip_id) as trips FROM  trip_participants GROUP BY client_id"
@@ -54,18 +54,66 @@ cursor = con.cursor()
 
 cursor.execute(query)
 
-trips_of_participant = cursor.fetchall()
+trips_of_client = np.array(cursor.fetchall())
 
-for wiersz in trips_of_participant:
-    print(wiersz)
+single_trip = trips_of_client[trips_of_client[:,1] == 1][:,0]
+multi_trip = trips_of_client[trips_of_client[:,1] != 1][:,0]
 
 ```
 
-Super, teraz mamy id uczestnika i na ilu wycieczkach on był. Jako pierwsze możemy sprawdzić wszystkich tych, którzy byli tylko jeden raz. 
+Teraz mamy wydzielonych klientów, którzy polecieli na wyprawę tylko raz i takich co polecieli więcej razy. Na początek zobaczmy jaka wycieczka odstraszyła tych co polecieli pierwszy raz.
 
 ```{python}
-for wiersz in trips_of_participant:
-  if wiersz[1] == 1:
+
+client_ids = list(map(int, single_trip.tolist()))
+
+placeholders = ','.join(['%s'] * len(client_ids))
+
+query = f"""
+    SELECT trip_id, COUNT(*) as count
+    FROM trip_participants
+    WHERE client_id IN ({placeholders})
+    GROUP BY trip_id
+    ORDER BY count DESC
+"""
+
+cursor.execute(query, client_ids)
+results = np.array(cursor.fetchall())
+
+trip_ids = results[:,0]
+trip_ids = list(map(int, trip_ids.tolist()))
+
 ```
+
+Teraz chcemy wyświetlić listę tych wycieczek, co ma najwięcej jednorazowych klientów.
+
+```{python}
+trip_ids = [int(t) for t in trip_ids] 
+placeholders = ','.join(['%s'] * len(trip_ids))
+
+query = f"""
+    SELECT 
+        t.trip_id,
+        d.name AS destination,
+        tt.name AS trip_type,
+        COUNT(tp.client_id) AS one_time_clients
+    FROM trip_participants tp
+    JOIN trips t ON tp.trip_id = t.trip_id
+    JOIN destinations d ON t.destination_id = d.destination_id
+    JOIN trip_types tt ON t.trip_type_id = tt.trip_type_id
+    WHERE tp.trip_id IN ({placeholders})
+      AND tp.client_id IN ({','.join(['%s'] * len(client_ids))})
+    GROUP BY t.trip_id, d.name, tt.name
+    ORDER BY one_time_clients DESC
+"""
+
+# Zmienna client_ids zawiera listę klientów jednorazowych
+cursor.execute(query, trip_ids + client_ids)
+results = cursor.fetchall()
+for row in results:
+  print(row)
+```
+
+To są wycieczki, które mają najwięcej jednorazowych klientów. Warto tutaj zaznaczyć, że trip ma wiele różnych cech. Może być kilka wycieczek na marsa, które różnią się statkiem lub nawet rakietą napędową, co też może mieć wpływ na odczucia pasażerów.
 
 ##
