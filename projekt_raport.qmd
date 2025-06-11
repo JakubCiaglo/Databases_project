@@ -454,3 +454,95 @@ if not active_ships.empty:
 
 
 ```
+
+## Problem czwarty
+Pytanie: Czy występowanie incydentów ma wpływ na ocenę wyprawy?
+
+```{python}
+query_feedback_incidents = """
+SELECT 
+    AVG(feedback.rating) AS srednia_ocena,
+    t.liczba_wypadkow
+FROM
+    feedback
+LEFT JOIN
+    trips
+ON
+    feedback.trip_id = trips.trip_id
+LEFT JOIN
+    (SELECT
+    incidents.trip_id, 
+    COUNT(incidents.incident_id) AS liczba_wypadkow
+    FROM incidents
+    GROUP BY trip_id) t
+ON
+    t.trip_id = trips.trip_id
+GROUP BY 
+    feedback.trip_id
+"""
+```
+
+```{python}
+query_correlation = """
+WITH avg_ratings AS (
+    SELECT trip_id, AVG(rating) AS avg_rating
+    FROM feedback
+    GROUP BY trip_id
+),
+incident_counts AS (
+    SELECT trip_id, COUNT(incident_id) AS incident_count
+    FROM incidents
+    GROUP BY trip_id
+)
+SELECT 
+    t.trip_id,
+    ar.avg_rating AS srednia_ocena,
+    COALESCE(ic.incident_count, 0) AS liczba_incydentow
+FROM 
+    trips t
+JOIN 
+    avg_ratings ar ON t.trip_id = ar.trip_id
+LEFT JOIN 
+    incident_counts ic ON t.trip_id = ic.trip_id;
+"""
+```
+
+```{python}
+df_correlation = pd.read_sql(query_correlation, engine)
+```
+
+```{python}
+correlation_coeff = df_correlation['srednia_ocena'].corr(df_correlation['liczba_incydentow'])
+
+print(f"--- 🤖 Analiza korelacji: Ocena vs. Incydenty ---")
+print(f"Obliczony współczynnik korelacji: {correlation_coeff:.3f}")
+
+if correlation_coeff < -0.3:
+    print("Wniosek: Istnieje zauważalna korelacja ujemna. Wzrost liczby incydentów wiąże się ze spadkiem ocen.")
+elif correlation_coeff > 0.3:
+     print("Wniosek: Istnieje zauważalna korelacja dodatnia (wynik nieoczekiwany).")
+else:
+    print("Wniosek: Brak silnej korelacji. Liczba incydentów nie wydaje się mieć dużego wpływu na ocenę.")
+print("-------------------------------------------------")
+
+
+# 2. Stwórz wykres rozrzutu z linią regresji, aby zwizualizować zależność
+plt.figure(figsize=(10, 6))
+# sns.regplot jest idealny, bo od razu rysuje linię trendu
+sns.regplot(data=df_correlation, x='liczba_incydentow', y='srednia_ocena',
+            line_kws={"color": "red", "lw": 2}, scatter_kws={"alpha": 0.6})
+
+plt.title('Zależność średniej oceny od liczby incydentów na wyprawie', fontsize=15)
+plt.xlabel('Liczba incydentów podczas wyprawy')
+plt.ylabel('Średnia ocena wyprawy')
+# Ustawiamy liczbę "schodków" na osi X, aby były to liczby całkowite
+max_incidents = int(df_correlation['liczba_incydentow'].max())
+plt.xticks(range(max_incidents + 1))
+plt.grid(True, linestyle='--', alpha=0.6)
+plt.show()
+```
+```{python}
+df_feedback_incidents = pd.read_sql(query_feedback_incidents, engine)
+
+print(df_feedback_incidents.to_string())
+```
