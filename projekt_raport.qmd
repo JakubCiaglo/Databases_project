@@ -698,7 +698,7 @@ WITH Monetary AS (
     FROM transactions
     WHERE 
         status = 'Completed' AND
-        transaction_date <= '{analysis_date_str}'
+        transaction_date <= '{analysis_date}'
     GROUP BY client_id
 ),
 RecencyFrequency AS (
@@ -709,14 +709,14 @@ RecencyFrequency AS (
     FROM trip_participants p
     JOIN trips t ON p.trip_id = t.trip_id
     WHERE 
-        t.departure_datetime <= '{analysis_date_str}'
+        t.departure_datetime <= '{analysis_date}'
     GROUP BY p.client_id
 )
 SELECT
     c.client_id,
     c.first_name,
     c.last_name,
-    DATEDIFF('{analysis_date_str}', rf.last_trip_date) AS recency_days,
+    DATEDIFF('{analysis_date}', rf.last_trip_date) AS recency_days,
     COALESCE(rf.frequency, 0) AS frequency,
     COALESCE(m.monetary_value, 0) AS monetary
 FROM
@@ -740,10 +740,7 @@ df_rfm['M_score'] = pd.qcut(df_rfm['monetary'].rank(method='first'), q=4, labels
 
 df_rfm = df_rfm.astype({'R_score': 'int64', 'F_score': 'int64', 'M_score': 'int64'})
 ```
-```{python}
-print(df_rfm["recency_days"].head(20))
-print(pd.qcut(df_rfm['recency_days'], q=4, labels=False, duplicates='drop').head(20))
-```
+
 ```{python}
 def assign_segment(row):
     if row['R_score'] >= 4 and row['F_score'] >= 4: return 'Mistrzowie (Champions)'
