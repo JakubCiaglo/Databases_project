@@ -566,9 +566,14 @@ def uruchom():
         days_before_departure = random.randint(1, max_advance_days)
         transaction_date = departure_dt - timedelta(days=days_before_departure, hours=random.randint(0, 23), minutes=random.randint(0, 59), seconds=random.randint(0, 59))
         if transaction_date < start_dt:
-            diff_seconds = int((now_trans - start_dt).total_seconds())
+            diff_seconds = int((departure_dt - start_dt).total_seconds())
             random_offset = random.randint(0, diff_seconds)
             transaction_date = start_dt + timedelta(seconds=random_offset)
+        if transaction_date > departure_dt:
+            # cofamy o losowe 1-24 h
+            transaction_date = departure_dt - timedelta(
+            seconds=random.randint(3600, 24*3600)
+            )
         amount = round(float(base_price) * (1 + random.uniform(-0.05, 0.05)), 2)
         payment_method = random.choice(payment_methods)
         status = random.choices(future_statuses, weights=[0.7, 0.3])[0] if departure_dt > now_trans else 'completed'
@@ -581,7 +586,7 @@ def uruchom():
     
     # Sekcja 14: Generowanie incydentów
     print("--- ETAP 11: Generowanie incydentów ---")
-    cursor.execute("SELECT trip_id, departure_datetime, return_datetime FROM trips WHERE status IN ('completed', 'in progress')")
+    cursor.execute("SELECT trip_id, departure_datetime, return_datetime FROM trips WHERE status = 'completed'")
     trips_data_inc = cursor.fetchall()
     
     cursor.execute("SELECT trip_id, employee_id FROM employee_assignments")
