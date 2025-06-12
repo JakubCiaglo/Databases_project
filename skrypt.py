@@ -680,12 +680,10 @@ def uruchom():
         if random.random() > 0.7:
             continue
 
-        # jeśli lot miał incydent — oceny z 1–3 (z przewagą niskich)
         if trip_id in trips_with_incidents:
-            rating = random.choices([1,2,3], weights=[0.5,0.3,0.2])[0]
+            rating = random.choices([1,2,3,4,5], weights=[0.15, 0.3, 0.4, 0.15, 0.1])[0]
         else:
-            # inaczej z 3–5 (z przewagą wysokich)
-            rating = random.choices([3,4,5], weights=[0.1,0.3,0.6])[0]
+            rating = random.choices([1,2,3,4,5], weights=[0.05, 0.1, 0.15, 0.3, 0.4])[0]
 
         # dobór komentarza do oceny
         if rating <= 2:
