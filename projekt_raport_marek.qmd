@@ -27,8 +27,18 @@ from datetime import date, datetime, timedelta, time
 import numpy as np
 import pandas as pd
 import mysql.connector
+import plotly.express as px
+import seaborn as sns
+import matplotlib.pyplot as plt
+import matplotlib.cm as cm
+import matplotlib.colors as colors
+from scipy import stats
+from sqlalchemy import create_engine
+from urllib.parse import quote_plus
 ```
 
+
+# Ustanowienie połączenia
 ```{python}
 
 con = mysql.connector.connect(
@@ -39,18 +49,20 @@ con = mysql.connector.connect(
     use_pure=True,
     database = "team13"
 )
+
+cursor = con.cursor()
+
 ```
 
 # Analiza danych
 
-Pytanie: po których wycieczkach klienci wracają na kolejne, a po których mają dość i więcej ich nie widzicie. Czy są takie, które być może powinny zniknąć z oferty?
+## Zadanie 3
+Po których wycieczkach klienci wracają na kolejne, a po których mają dość i więcej ich nie widzicie. Czy są takie, które być może powinny zniknąć z oferty?
 
 Jak do tego problemu podejść? Na początek stworzymy sobie dwa zbiory: id klientów którzy pojechali tylko na jedną podróż oraz klientów co pojechali na więcej podróży
 
 ```{python}
 query = "SELECT client_id, COUNT(trip_id) as trips FROM  trip_participants GROUP BY client_id"
-
-cursor = con.cursor()
 
 cursor.execute(query)
 
@@ -150,14 +162,11 @@ results = np.array(cursor.fetchall())
 
 df = pd.DataFrame(results, columns=['client_id', 'trip_id'])
 
-# Grupujemy po trip_id i liczymy ilu klientów miało ten trip jako ostatni
 summary = df['trip_id'].value_counts().reset_index()
 summary.columns = ['trip_id', 'num_clients']
 
-# Sortujemy malejąco
 summary = summary.sort_values(by='num_clients', ascending=False)
 
-# Wyświetlamy ładnie
 top_5_ids = summary.head(5)["trip_id"]
 
 top_5_ids = [int(t) for t in top_5_ids] 
@@ -203,16 +212,13 @@ results = np.array(cursor.fetchall())
 
 df = pd.DataFrame(results,columns=["client_id","trip_id","departure"])
 
-# Tworzymy kolumnę z kolejną wycieczką klienta
 df['next_trip'] = df.groupby('client_id')['trip_id'].shift(-1)
 
-# Jeśli klient ma kolejną wycieczkę → oznaczamy TRUE
 df['returned_after'] = df['next_trip'].notna()
 
-# Teraz grupujemy po trip_id i liczymy ilu klientów "wróciło po tej wycieczce"
+
 trip_retention = df[df['returned_after']].groupby('trip_id').size().reset_index(name='clients_returned')
 
-# Sortujemy od największej retencji
 trip_retention = trip_retention.sort_values(by='clients_returned', ascending=False)
 
 top_5_ret_ids = trip_retention.head(5)["trip_id"]
@@ -246,5 +252,59 @@ print(df.to_string(index=False))
 ```
 
 Po wykonaniu kodu który na pewno ja sam napisałem możemy zobaczyć jakie wycieczki są najbardziej zachęcające.
+
+Teraz pora na to aby samemu wymyśleć jakieś ciekawe zapytania. Mam następujące pomysły które oczywiście wymyśliłem samemu.
+
+## Zadanie 4
+
+Wpływ pracowników na jakość podróży. Czy obecność konkretnego pracownika poprawia jakość podróży? Czy możemy wyznaczyć gwiazdę zespołu?
+
+Wyznaczenie pracowników obecnych na wycieczkach o najwyższych ocenach jest proste, ale co dalej?
+
+Może należy wziąć pracownika pod lupę i sprawdzić czy on naprawdę ma wysoką średnią ocen, czy po prostu jest obecny na wielu lotach.
+
+```{python}
+query="""
+SELECT
+e.employee_id,
+position,
+COUNT(*) AS success
+FROM trips t
+JOIN feedback f ON f.trip_id = t.trip_id
+JOIN employee_assignments ea ON ea.trip_id = t.trip_id
+JOIN employees e ON ea.employee_id = e.employee_id
+WHERE rating > 3
+GROUP BY ea.employee_id
+ORDER BY success DESC
+"""
+
+cursor.execute(query)
+results = cursor.fetchall()
+df = pd.DataFrame(results, columns = ["Id", "Pozycja","Ilość pozytywnych tripów"])
+df
+
+```
+
+
+## Zadanie 5
+
+Trend i sezonowość. Czy jest ona związana z incydentami?
+
+
+```{python}
+query = """
+SELECT
+*
+FROM transactions ta
+WHERE status LIKE "completed"
+"""
+```
+
+2. Czasowe trendy i sezonowość. Czy są miesiące z większą liczbą incydentów lub niższymi ocenami?
+3. Najbardziej pracowity pracownik?
+4. Pracownik x spacecraft?
+5. Najbardziej zużyty spacecraft/rocket? Który lata najdłużej i który ma za sobą najwięcej podróży?
+6. Trend i sezonowość. Czy jest ona związana z incydentami?
+7. Ulubione metody płatności naszych klientów. Z jakiego źródła wpływa najwięcej pieniędzy. Czy może mamy rozwinąć ten system
 
 ##
