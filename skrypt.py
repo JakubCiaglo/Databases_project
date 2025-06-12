@@ -577,8 +577,57 @@ def uruchom():
     print(f"Wygenerowano {len(records_to_insert_trans)} transakcji.")
     print("-" * 50)
     
-    # Sekcja 14: Generowanie opinii
-    print("--- ETAP 11: Generowanie opinii dla zakończonych lotów ---")
+    # Sekcja 14: Generowanie incydentów
+    print("--- ETAP 11: Generowanie incydentów ---")
+    cursor.execute("SELECT trip_id, departure_datetime, return_datetime FROM trips WHERE status IN ('completed', 'in progress')")
+    trips_data_inc = cursor.fetchall()
+    
+    cursor.execute("SELECT trip_id, employee_id FROM employee_assignments")
+    assignments_inc = cursor.fetchall()
+    trip_to_employees = defaultdict(list)
+    for trip_id, emp_id in assignments_inc:
+        trip_to_employees[trip_id].append(emp_id)
+        
+    cursor.execute("SELECT trip_id, client_id FROM trip_participants")
+    parts_inc = cursor.fetchall()
+    trip_to_clients = defaultdict(list)
+    for trip_id, client_id in parts_inc:
+        trip_to_clients[trip_id].append(client_id)
+
+    incident_templates = [
+        {"description": "Problemy z ciśnieniem w module medycznym, szybka reakcja lekarza.", "category": "medical", "requires_client": True, "possible_severities": ["medium", "high"]},
+        {"description": "Awaria systemu orientacji – konieczne ręczne sterowanie przez pilota.", "category": "navigation", "requires_client": False, "possible_severities": ["medium", "high", "critical"]},
+        {"description": "Utrata łączności z Ziemią na krótki okres, przywrócono po 15 minutach.", "category": "communication", "requires_client": False, "possible_severities": ["low", "medium"]},
+        {"description": "Niewielki pożar w komorze silnikowej, ugaszono systemami automatycznymi.", "category": "equipment", "requires_client": False, "possible_severities": ["high", "critical"]},
+        {"description": "Podejrzenie choroby lokomocyjnej u jednego z pasażerów, interwencja medyczna.", "category": "medical", "requires_client": True, "possible_severities": ["low", "medium"]},
+        {"description": "Nieprawidłowy odczyt czujnika paliwa – wymagana weryfikacja inżynierska.", "category": "equipment", "requires_client": False, "possible_severities": ["medium", "high"]},
+        {"description": "Zauważono podejrzany obiekt kosmiczny, wykonano dodatkową analizę.", "category": "navigation", "requires_client": False, "possible_severities": ["low", "medium"]},
+        {"description": "Krótki alarm związany z poziomem tlenu, natychmiastowe sprawdzenie.", "category": "security", "requires_client": False, "possible_severities": ["medium", "high"]}
+    ]
+    incident_rows = []
+    now_inc = datetime.now()
+
+    for trip_id, departure_dt, return_dt in trips_data_inc:
+        for _ in range(random.randint(0, 2)):
+            template = random.choice(incident_templates)
+            reported_by = random.choice(trip_to_employees.get(trip_id, [None]))
+            involved_client = random.choice(trip_to_clients.get(trip_id, [None])) if template["requires_client"] else None
+            end_time = return_dt if return_dt is not None else now_inc
+            if end_time > departure_dt:
+                total_seconds = int((end_time - departure_dt).total_seconds())
+                offset = random.randint(1, total_seconds - 1) if total_seconds > 1 else 1
+                incident_time = departure_dt + timedelta(seconds=offset)
+            else:
+                incident_time = departure_dt + timedelta(hours=1)
+            incident_rows.append((trip_id, incident_time, reported_by, involved_client, template["category"], template["description"], random.choice(template["possible_severities"])))
+    
+    cursor.executemany("INSERT INTO incidents (trip_id, datetime_occurred, reported_by_employee, involved_client_id, category, description, severity) VALUES (%s, %s, %s, %s, %s, %s, %s)", incident_rows)
+    con.commit()
+    print(f"Wygenerowano {len(incident_rows)} incydentów.")
+    print("-" * 50)
+    
+    # Sekcja 15: Generowanie opinii
+    print("--- ETAP 12: Generowanie opinii dla zakończonych lotów ---")
     cursor.execute("""
         SELECT 
             tp.trip_id, 
@@ -672,55 +721,8 @@ def uruchom():
     )
     con.commit()
     
-    # Sekcja 15: Generowanie incydentów
-    print("--- ETAP 12: Generowanie incydentów ---")
-    cursor.execute("SELECT trip_id, departure_datetime, return_datetime FROM trips WHERE status IN ('completed', 'in progress')")
-    trips_data_inc = cursor.fetchall()
-    
-    cursor.execute("SELECT trip_id, employee_id FROM employee_assignments")
-    assignments_inc = cursor.fetchall()
-    trip_to_employees = defaultdict(list)
-    for trip_id, emp_id in assignments_inc:
-        trip_to_employees[trip_id].append(emp_id)
-        
-    cursor.execute("SELECT trip_id, client_id FROM trip_participants")
-    parts_inc = cursor.fetchall()
-    trip_to_clients = defaultdict(list)
-    for trip_id, client_id in parts_inc:
-        trip_to_clients[trip_id].append(client_id)
-
-    incident_templates = [
-        {"description": "Problemy z ciśnieniem w module medycznym, szybka reakcja lekarza.", "category": "medical", "requires_client": True, "possible_severities": ["medium", "high"]},
-        {"description": "Awaria systemu orientacji – konieczne ręczne sterowanie przez pilota.", "category": "navigation", "requires_client": False, "possible_severities": ["medium", "high", "critical"]},
-        {"description": "Utrata łączności z Ziemią na krótki okres, przywrócono po 15 minutach.", "category": "communication", "requires_client": False, "possible_severities": ["low", "medium"]},
-        {"description": "Niewielki pożar w komorze silnikowej, ugaszono systemami automatycznymi.", "category": "equipment", "requires_client": False, "possible_severities": ["high", "critical"]},
-        {"description": "Podejrzenie choroby lokomocyjnej u jednego z pasażerów, interwencja medyczna.", "category": "medical", "requires_client": True, "possible_severities": ["low", "medium"]},
-        {"description": "Nieprawidłowy odczyt czujnika paliwa – wymagana weryfikacja inżynierska.", "category": "equipment", "requires_client": False, "possible_severities": ["medium", "high"]},
-        {"description": "Zauważono podejrzany obiekt kosmiczny, wykonano dodatkową analizę.", "category": "navigation", "requires_client": False, "possible_severities": ["low", "medium"]},
-        {"description": "Krótki alarm związany z poziomem tlenu, natychmiastowe sprawdzenie.", "category": "security", "requires_client": False, "possible_severities": ["medium", "high"]}
-    ]
-    incident_rows = []
-    now_inc = datetime.now()
-
-    for trip_id, departure_dt, return_dt in trips_data_inc:
-        for _ in range(random.randint(0, 2)):
-            template = random.choice(incident_templates)
-            reported_by = random.choice(trip_to_employees.get(trip_id, [None]))
-            involved_client = random.choice(trip_to_clients.get(trip_id, [None])) if template["requires_client"] else None
-            end_time = return_dt if return_dt is not None else now_inc
-            if end_time > departure_dt:
-                total_seconds = int((end_time - departure_dt).total_seconds())
-                offset = random.randint(1, total_seconds - 1) if total_seconds > 1 else 1
-                incident_time = departure_dt + timedelta(seconds=offset)
-            else:
-                incident_time = departure_dt + timedelta(hours=1)
-            incident_rows.append((trip_id, incident_time, reported_by, involved_client, template["category"], template["description"], random.choice(template["possible_severities"])))
-    
-    cursor.executemany("INSERT INTO incidents (trip_id, datetime_occurred, reported_by_employee, involved_client_id, category, description, severity) VALUES (%s, %s, %s, %s, %s, %s, %s)", incident_rows)
-    con.commit()
-    print(f"Wygenerowano {len(incident_rows)} incydentów.")
+    print(f"Wygenerowano {len(feedback_rows)} opinii.")
     print("-" * 50)
-    
     # Sekcja 16: Generowanie kosztów
     print("--- ETAP 13: Generowanie kosztów dla każdej wyprawy ---")
     cursor.execute("SELECT t.trip_id, tt.base_price FROM trips t JOIN trip_types tt ON t.trip_type_id = tt.trip_type_id")
