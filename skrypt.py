@@ -66,7 +66,7 @@ def uruchom():
     avg_salary_pln = 30045.11
 
     current_date = datetime.now() + relativedelta(years=1000)
-    start_of_business = current_date - relativedelta(years=5)
+    start_of_business = datetime(current_date.year - 5, 1, 1)
 
     print(f"Data rozpoczęcia działalności: {start_of_business}")
     print("-" * 50)
