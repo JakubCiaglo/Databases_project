@@ -130,7 +130,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="importy" class="level1" data-number="2">
 <h1 data-number="2"><span class="header-section-number">2</span> Importy</h1>
-<div id="a4f66715" class="cell" data-execution_count="1">
+<div id="1b999199" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> random</span>
@@ -150,7 +150,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pandas.tseries.offsets <span class="im">import</span> DateOffset </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div id="998ce962" class="cell" data-execution_count="2">
+<div id="205ee72a" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>con <span class="op">=</span> mysql.connector.<span class="ex">connect</span>(</span>
@@ -161,7 +161,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div id="25d6982a" class="cell" data-execution_count="3">
+<div id="09a6007e" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>host <span class="op">=</span> <span class="st">"giniewicz.it"</span></span>
@@ -180,7 +180,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="problem-pierwszy" class="level2" data-number="3.1">
 <h2 data-number="3.1" class="anchored" data-anchor-id="problem-pierwszy"><span class="header-section-number">3.1</span> Problem pierwszy</h2>
 <p>Pytanie: Znajdź najpopularniejsze rodzaje wypraw, porównaj koszta i zyski, czy są opłacalne?</p>
-<div id="5af4531b" class="cell" data-execution_count="4">
+<div id="06284f46" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>query <span class="op">=</span> <span class="st">"""</span></span>
@@ -207,7 +207,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div id="1a806058" class="cell" data-execution_count="5">
+<div id="37da8be3" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>df_profitability <span class="op">=</span> pd.read_sql(query, engine)</span>
@@ -218,17 +218,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell-output cell-output-stdout">
 <pre><code>Analiza popularności i opłacalności rodzajów wypraw:
                   Rodzaj wyprawy  Liczba wypraw  Całkowite koszty  Całkowite przychody          Zysk
-0            Manewr Grawitacyjny             10       48808993.11         2.715336e+09  2.666527e+09
-1          Ekspedycja Księżycowa              9       68424821.04         3.504292e+09  3.435868e+09
-2       Eksplorator Magnetosfery              9       54702315.22         3.128211e+09  3.073509e+09
-3       Obóz Badawczy w Kosmosie              6       85914128.37         4.684928e+09  4.599014e+09
-4  Przelot przez Pasy Radiacyjne              5       43270488.44         2.337711e+09  2.294441e+09
-5          Zejście Atmosferyczne              5       33872456.62         1.794700e+09  1.760828e+09
-6                Misja Orbitalna              3       16614113.02         8.159443e+08  7.993302e+08
-7          Obserwacja Pierścieni              3       30599892.89         1.616081e+09  1.585481e+09</code></pre>
+0       Obóz Badawczy w Kosmosie             12      1.667346e+08         8.064172e+09  7.897438e+09
+1          Ekspedycja Księżycowa              7      5.373183e+07         1.939921e+09  1.886189e+09
+2       Eksplorator Magnetosfery              7      4.485351e+07         1.941316e+09  1.896462e+09
+3                Misja Orbitalna              7      3.761006e+07         1.917246e+09  1.879636e+09
+4            Manewr Grawitacyjny              6      2.765975e+07         1.621416e+09  1.593756e+09
+5          Obserwacja Pierścieni              5      5.433351e+07         2.845696e+09  2.791362e+09
+6          Zejście Atmosferyczne              4      2.533552e+07         1.341848e+09  1.316512e+09
+7  Przelot przez Pasy Radiacyjne              2      1.665729e+07         8.499310e+08  8.332737e+08</code></pre>
 </div>
 </div>
-<div id="006833b0" class="cell" data-execution_count="6">
+<div id="61e3c303" class="cell" data-execution_count="6">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n\n</span><span class="st">--- Zautomatyzowana Analiza ---"</span>)</span>
@@ -262,9 +262,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 ## 🏆 TOP 3 najpopularniejsze rodzaje wypraw:
 
-1. Rodzaj 'Manewr Grawitacyjny': 10 wypraw, które przyniosły 2715336377.09 przychodu.
-2. Rodzaj 'Ekspedycja Księżycowa': 9 wypraw, które przyniosły 3504292483.00 przychodu.
-3. Rodzaj 'Eksplorator Magnetosfery': 9 wypraw, które przyniosły 3128210956.13 przychodu.
+1. Rodzaj 'Obóz Badawczy w Kosmosie': 12 wypraw, które przyniosły 8064172341.70 przychodu.
+2. Rodzaj 'Ekspedycja Księżycowa': 7 wypraw, które przyniosły 1939921070.01 przychodu.
+3. Rodzaj 'Eksplorator Magnetosfery': 7 wypraw, które przyniosły 1941315887.00 przychodu.
 
 ## 💰 Analiza rentowności rodzajów wypraw:
 
@@ -277,7 +277,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="problem-drugi" class="level2" data-number="3.2">
 <h2 data-number="3.2" class="anchored" data-anchor-id="problem-drugi"><span class="header-section-number">3.2</span> Problem drugi</h2>
 <p>Pytanie: Sporządź wykres liczby obsłużonych klientów w każdym miesiącu działalności firmy, czy firma rośnie, czy podupada?</p>
-<div id="699c0679" class="cell" data-execution_count="7">
+<div id="20e5251f" class="cell" data-execution_count="7">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>query_clients_per_month <span class="op">=</span> <span class="st">"""</span></span>
@@ -295,13 +295,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div id="fc52892d" class="cell" data-execution_count="8">
+<div id="6eb84c11" class="cell" data-execution_count="8">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>df_clients <span class="op">=</span> pd.read_sql(query_clients_per_month, engine)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div id="13c3de88" class="cell" data-execution_count="9">
+<div id="fc7d3913" class="cell" data-execution_count="9">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">14</span>, <span class="dv">7</span>))</span>
@@ -321,7 +321,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<div id="5ed6ad30" class="cell" data-execution_count="10">
+<div id="feb0386e" class="cell" data-execution_count="10">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.arange(<span class="bu">len</span>(df_clients)) </span>
@@ -348,10 +348,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>--- Automatyczna Analiza Trendu ---
-Współczynnik nachylenia linii trendu: 0.9028
+Współczynnik nachylenia linii trendu: -0.6091
 
-Wniosek: Firma wykazuje wyraźny trend WZROSTOWY.
-Średnio, z każdym miesiącem liczba klientów rośnie o 0.90.
+Wniosek: Firma wykazuje wyraźny trend SPADKOWY.
+Średnio, z każdym miesiącem liczba klientów maleje o 0.61.
 -----------------------------------</code></pre>
 </div>
 </div>
@@ -359,7 +359,7 @@ Wniosek: Firma wykazuje wyraźny trend WZROSTOWY.
 <section id="problem-trzeci" class="level2" data-number="3.3">
 <h2 data-number="3.3" class="anchored" data-anchor-id="problem-trzeci"><span class="header-section-number">3.3</span> Problem trzeci</h2>
 <p>Pytanie: Które destynacje są najbardziej ryzykowne?</p>
-<div id="3dace1b5" class="cell" data-execution_count="11">
+<div id="f46953dc" class="cell" data-execution_count="11">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>query_risky_destinations <span class="op">=</span> <span class="st">"""</span></span>
@@ -383,7 +383,7 @@ Wniosek: Firma wykazuje wyraźny trend WZROSTOWY.
 <span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div id="346c5bde" class="cell" data-execution_count="12">
+<div id="f1a78130" class="cell" data-execution_count="12">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>query_risky_dest2 <span class="op">=</span> <span class="st">"""</span></span>
@@ -414,47 +414,47 @@ Wniosek: Firma wykazuje wyraźny trend WZROSTOWY.
 <span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div id="a1096716" class="cell" data-execution_count="13">
+<div id="2a1d4888" class="cell" data-execution_count="13">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>df_risky_destinations <span class="op">=</span> pd.read_sql(query_risky_destinations, engine)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div id="d92c000a" class="cell" data-execution_count="14">
+<div id="4042aba0" class="cell" data-execution_count="14">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df_risky_destinations.to_string())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>  kierunek  liczba_wypadkow
-0     Mars               13
-1  Merkury               10
-2   Saturn                9
-3    Wenus                9
-4   Jowisz                7</code></pre>
+0   Saturn                9
+1  Merkury                9
+2   Jowisz                8
+3    Wenus                7
+4     Mars                6</code></pre>
 </div>
 </div>
-<div id="3ec2e6b3" class="cell" data-execution_count="15">
+<div id="554dc29d" class="cell" data-execution_count="15">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>df_risky_destinations2 <span class="op">=</span> pd.read_sql(query_risky_dest2, engine)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div id="d58ed1be" class="cell" data-execution_count="16">
+<div id="5cf2f6a5" class="cell" data-execution_count="16">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df_risky_destinations2.to_string())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>  kierunek  liczba_wypraw  liczba_incydentow  wskaznik_ryzyka_procent
-0     Mars             11                 13                118.18182
-1   Saturn              8                  9                112.50000
-2  Merkury             11                 10                 90.90909
-3    Wenus             11                  9                 81.81818
-4   Jowisz              9                  7                 77.77778</code></pre>
+0   Jowisz              9                  8                 88.88889
+1    Wenus              8                  7                 87.50000
+2  Merkury             12                  9                 75.00000
+3     Mars              8                  6                 75.00000
+4   Saturn             13                  9                 69.23077</code></pre>
 </div>
 </div>
-<div id="4aea7255" class="cell" data-execution_count="17">
+<div id="9579edb2" class="cell" data-execution_count="17">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>query_incidents_graph <span class="op">=</span> <span class="st">"""</span></span>
@@ -475,13 +475,13 @@ Wniosek: Firma wykazuje wyraźny trend WZROSTOWY.
 <span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div id="29d119ff" class="cell" data-execution_count="18">
+<div id="5110660e" class="cell" data-execution_count="18">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>df_incidents_long <span class="op">=</span> pd.read_sql(query_incidents_graph, engine)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div id="261b8aa8" class="cell" data-execution_count="19">
+<div id="1683345d" class="cell" data-execution_count="19">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>df_incidents_wide <span class="op">=</span> df_incidents_long.pivot_table(</span>
@@ -496,7 +496,7 @@ Wniosek: Firma wykazuje wyraźny trend WZROSTOWY.
 <span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>df_incidents_wide <span class="op">=</span> df_incidents_wide[ordered_columns]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div id="6492c0b0" class="cell" data-execution_count="20">
+<div id="b1851df2" class="cell" data-execution_count="20">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>df_incidents_wide.plot(</span>
@@ -521,7 +521,7 @@ Wniosek: Firma wykazuje wyraźny trend WZROSTOWY.
 </div>
 </div>
 </div>
-<div id="df8627d9" class="cell" data-execution_count="21">
+<div id="8cb5ce5e" class="cell" data-execution_count="21">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>query_weighted_risk <span class="op">=</span> <span class="st">"""</span></span>
@@ -563,7 +563,7 @@ Wniosek: Firma wykazuje wyraźny trend WZROSTOWY.
 <span id="cb26-37"><a href="#cb26-37" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div id="d6100d8f" class="cell" data-execution_count="22">
+<div id="b1838d73" class="cell" data-execution_count="22">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>df_risk <span class="op">=</span> pd.read_sql(query_weighted_risk, engine)</span>
@@ -579,18 +579,18 @@ Wniosek: Firma wykazuje wyraźny trend WZROSTOWY.
 <div class="cell-output cell-output-stdout">
 <pre><code>--- Ranking Ryzyka Destynacji (ważony) ---
   Kierunek  Liczba_wypraw  Suma_punktow_ryzyka  Wazony_wspolczynnik_ryzyka
-0     Mars             11                 73.0                      6.6364
-1   Jowisz              9                 45.0                      5.0000
-2    Wenus             11                 49.0                      4.4545
-3   Saturn              8                 34.0                      4.2500
-4  Merkury             11                 35.0                      3.1818
+0     Mars              8                 46.0                      5.7500
+1    Wenus              8                 31.0                      3.8750
+2  Merkury             12                 44.0                      3.6667
+3   Saturn             13                 46.0                      3.5385
+4   Jowisz              9                 10.0                      1.1111
 
 --- Wnioski ---
-Najbardziej ryzykowną destynacją według ważonego wskaźnika jest 'Mars' z wynikiem 6.64 pkt na wyprawę.</code></pre>
+Najbardziej ryzykowną destynacją według ważonego wskaźnika jest 'Mars' z wynikiem 5.75 pkt na wyprawę.</code></pre>
 </div>
 </div>
 <p>Wadliwość statków</p>
-<div id="66a53e46" class="cell" data-execution_count="23">
+<div id="920f453d" class="cell" data-execution_count="23">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>query_spacecraft_incidents <span class="op">=</span> <span class="st">"""</span></span>
@@ -614,27 +614,26 @@ Najbardziej ryzykowną destynacją według ważonego wskaźnika jest 'Mars' z wy
 <span id="cb29-19"><a href="#cb29-19" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div id="10300fc2" class="cell" data-execution_count="24">
+<div id="88932098" class="cell" data-execution_count="24">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>df_spacecrafts_incidents <span class="op">=</span> pd.read_sql(query_spacecraft_incidents, engine)</span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df_spacecrafts_incidents.to_string())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>     nazwa_statku  liczba_usterek
-0   Luna-Infinity               4
-1      Eclipse-NX               2
-2       Eclipse-X               2
-3       Titan-One               2
-4         Astra-7               2
-5     Celestia-NX               1
-6      Eclipse-VX               1
-7      Titan-Edge               1
-8   Celestia-Core               1
-9  Celestia-Ultra               1</code></pre>
+<pre><code>    nazwa_statku  liczba_usterek
+0       Nova-One               1
+1  Celestia-Edge               1
+2      Vortex-NX               1
+3   Eclipse-Edge               1
+4    Vortex-Core               1
+5   Pulsar-Ultra               1
+6     Astra-Edge               1
+7       Astra-VX               1
+8      Nova-Edge               1</code></pre>
 </div>
 </div>
-<div id="dea5bd25" class="cell" data-execution_count="25">
+<div id="ad583b44" class="cell" data-execution_count="25">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>query_failure_rate <span class="op">=</span> <span class="st">"""</span></span>
@@ -673,13 +672,13 @@ Najbardziej ryzykowną destynacją według ważonego wskaźnika jest 'Mars' z wy
 <span id="cb32-34"><a href="#cb32-34" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div id="41d2dccd" class="cell" data-execution_count="26">
+<div id="be10ae6c" class="cell" data-execution_count="26">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>df_failure_rate <span class="op">=</span> pd.read_sql(query_failure_rate, engine)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div id="e4a3107c" class="cell" data-execution_count="27">
+<div id="d5402da4" class="cell" data-execution_count="27">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"--- Ranking Niezawodności Statków (Usterki na Wyprawę) ---"</span>)</span>
@@ -694,37 +693,37 @@ Najbardziej ryzykowną destynacją według ważonego wskaźnika jest 'Mars' z wy
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>--- Ranking Niezawodności Statków (Usterki na Wyprawę) ---
-       nazwa_statku  liczba_wypraw  liczba_usterek  usterki_na_wyprawe
-0       Celestia-NX              1               1            1.000000
-1     Luna-Infinity              4               4            1.000000
-2        Eclipse-VX              2               1            0.500000
-3    Celestia-Ultra              2               1            0.500000
-4         Titan-One              4               2            0.500000
-5         Eclipse-X              4               2            0.500000
-6           Astra-7              4               2            0.500000
-7        Eclipse-NX              5               2            0.400000
-8     Celestia-Core              3               1            0.333333
-9        Titan-Edge              4               1            0.250000
-10      Celestia-VX              5               0            0.000000
-11      Titan-Prime              0               0            0.000000
-12       Vortex-One              0               0            0.000000
-13        Luna-Edge              0               0            0.000000
-14        Zenith-VX              2               0            0.000000
-15        Nova-Core              2               0            0.000000
-16  Pulsar-Infinity              1               0            0.000000
-17      Vortex-Edge              0               0            0.000000
-18       Hyperion-7              0               0            0.000000
-19         Zenith-7              0               0            0.000000
-20           Luna-X              0               0            0.000000
-21         Astra-VX              0               0            0.000000
-22         Nova-One              0               0            0.000000
-23     Celestia-One              1               0            0.000000
-24   Titan-Infinity              0               0            0.000000
-25       Celestia-X              0               0            0.000000
-26          Titan-X              0               0            0.000000
-27     Vortex-Prime              0               0            0.000000
-28         Zenith-X              4               0            0.000000
-29        Nova-Edge              2               0            0.000000</code></pre>
+      nazwa_statku  liczba_wypraw  liczba_usterek  usterki_na_wyprawe
+0    Celestia-Edge              2               1            0.500000
+1       Astra-Edge              2               1            0.500000
+2        Nova-Edge              3               1            0.333333
+3        Vortex-NX              3               1            0.333333
+4         Nova-One              4               1            0.250000
+5     Pulsar-Ultra              4               1            0.250000
+6      Vortex-Core              4               1            0.250000
+7     Eclipse-Edge              4               1            0.250000
+8         Astra-VX              5               1            0.200000
+9      Astra-Ultra              2               0            0.000000
+10        Pulsar-X              1               0            0.000000
+11       Titan-One              2               0            0.000000
+12    Hyperion-One              1               0            0.000000
+13     Vortex-Edge              0               0            0.000000
+14          Luna-7              0               0            0.000000
+15       Vortex-VX              0               0            0.000000
+16     Astra-Prime              0               0            0.000000
+17         Astra-X              1               0            0.000000
+18      Titan-Core              3               0            0.000000
+19   Eclipse-Ultra              1               0            0.000000
+20      Hyperion-X              2               0            0.000000
+21    Vortex-Prime              0               0            0.000000
+22       Nova-Core              2               0            0.000000
+23    Zenith-Ultra              0               0            0.000000
+24         Nova-VX              0               0            0.000000
+25         Titan-7              2               0            0.000000
+26        Titan-VX              1               0            0.000000
+27  Hyperion-Prime              1               0            0.000000
+28       Luna-Edge              0               0            0.000000
+29     Zenith-Edge              0               0            0.000000</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <div>
@@ -734,7 +733,7 @@ Najbardziej ryzykowną destynacją według ważonego wskaźnika jest 'Mars' z wy
 </div>
 </div>
 </div>
-<div id="a90d58be" class="cell" data-execution_count="28">
+<div id="19ef1f61" class="cell" data-execution_count="28">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
 <div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Automatyczne Wnioski z Rankingu Niezawodności ---</span></span>
@@ -767,21 +766,21 @@ Najbardziej ryzykowną destynacją według ważonego wskaźnika jest 'Mars' z wy
 
 
 🔧 Najbardziej podatny na usterki jest statek:
-   -&gt; Nazwa: 'Celestia-NX'
-   -&gt; Wskaźnik: 1.000 usterek na każdą wyprawę.
-   (Na podstawie 1 usterek w ciągu 1 wypraw).
+   -&gt; Nazwa: 'Celestia-Edge'
+   -&gt; Wskaźnik: 0.500 usterek na każdą wyprawę.
+   (Na podstawie 1 usterek w ciągu 2 wypraw).
 
 🏆 Najbardziej niezawodnym statkiem jest:
-   -&gt; Nazwa: 'Nova-Edge'
+   -&gt; Nazwa: 'Hyperion-Prime'
    -&gt; Wskaźnik: 0.000 usterek na każdą wyprawę.
-   (Statek odbył 2 wypraw bez odnotowanej usterki sprzętowej - doskonały wynik!)</code></pre>
+   (Statek odbył 1 wypraw bez odnotowanej usterki sprzętowej - doskonały wynik!)</code></pre>
 </div>
 </div>
 </section>
 <section id="problem-czwarty" class="level2" data-number="3.4">
 <h2 data-number="3.4" class="anchored" data-anchor-id="problem-czwarty"><span class="header-section-number">3.4</span> Problem czwarty</h2>
 <p>Pytanie: Czy występowanie incydentów ma wpływ na ocenę wyprawy?</p>
-<div id="e789056d" class="cell" data-execution_count="29">
+<div id="e6a0bc30" class="cell" data-execution_count="29">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
 <div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>query_feedback_incidents <span class="op">=</span> <span class="st">"""</span></span>
@@ -807,7 +806,7 @@ Najbardziej ryzykowną destynacją według ważonego wskaźnika jest 'Mars' z wy
 <span id="cb38-21"><a href="#cb38-21" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div id="3dea0841" class="cell" data-execution_count="30">
+<div id="10cb179e" class="cell" data-execution_count="30">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
 <div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>query_correlation <span class="op">=</span> <span class="st">"""</span></span>
@@ -834,13 +833,13 @@ Najbardziej ryzykowną destynacją według ważonego wskaźnika jest 'Mars' z wy
 <span id="cb39-22"><a href="#cb39-22" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div id="ba855397" class="cell" data-execution_count="31">
+<div id="39919fdc" class="cell" data-execution_count="31">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
 <div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>df_correlation <span class="op">=</span> pd.read_sql(query_correlation, engine)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div id="16c5a88b" class="cell" data-execution_count="32">
+<div id="e2536109" class="cell" data-execution_count="32">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>correlation_coeff <span class="op">=</span> df_correlation[<span class="st">'srednia_ocena'</span>].corr(df_correlation[<span class="st">'liczba_incydentow'</span>])</span>
@@ -869,14 +868,14 @@ Najbardziej ryzykowną destynacją według ważonego wskaźnika jest 'Mars' z wy
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>--- 🤖 Analiza korelacji: Ocena vs. Incydenty ---
-Obliczony współczynnik korelacji: -0.841
+Obliczony współczynnik korelacji: -0.851
 Wniosek: Istnieje zauważalna korelacja ujemna. Wzrost liczby incydentów wiąże się ze spadkiem ocen.
 -------------------------------------------------</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="projekt_raport_files/figure-html/cell-33-output-2.png" width="815" height="529" class="figure-img"></p>
+<p><img src="projekt_raport_files/figure-html/cell-33-output-2.png" width="802" height="529" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -885,7 +884,7 @@ Wniosek: Istnieje zauważalna korelacja ujemna. Wzrost liczby incydentów wiąż
 <section id="problem-piąty" class="level2" data-number="3.5">
 <h2 data-number="3.5" class="anchored" data-anchor-id="problem-piąty"><span class="header-section-number">3.5</span> Problem piąty</h2>
 <p>Pytanie: Jakie destynacje i rodzaje wycieczek otrzymują najlepsze oceny?</p>
-<div id="0e27444f" class="cell" data-execution_count="33">
+<div id="5d4d0a18" class="cell" data-execution_count="33">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
 <div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>query_dest_ratings <span class="op">=</span> <span class="st">"""</span></span>
@@ -909,13 +908,13 @@ Wniosek: Istnieje zauważalna korelacja ujemna. Wzrost liczby incydentów wiąż
 <span id="cb43-19"><a href="#cb43-19" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div id="1c917698" class="cell" data-execution_count="34">
+<div id="aa7d28fa" class="cell" data-execution_count="34">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
 <div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>df_dest_ratings <span class="op">=</span> pd.read_sql(query_dest_ratings, engine)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div id="95ebdf32" class="cell" data-execution_count="35">
+<div id="713c5d36" class="cell" data-execution_count="35">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
 <div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">--- ⭐ Ranking Ocen Destynacji ---"</span>)</span>
@@ -933,14 +932,14 @@ Wniosek: Istnieje zauważalna korelacja ujemna. Wzrost liczby incydentów wiąż
 <pre><code>
 --- ⭐ Ranking Ocen Destynacji ---
 
-🥇 Najwyżej oceniana destynacja: 'Wenus'
-   -&gt; Średnia ocena: 3.26 na podstawie 327 opinii.
+🥇 Najwyżej oceniana destynacja: 'Mars'
+   -&gt; Średnia ocena: 3.81 na podstawie 145 opinii.
 
-📉 Najniżej oceniana destynacja: 'Merkury'
-   -&gt; Średnia ocena: 3.03 na podstawie 302 opinii.</code></pre>
+📉 Najniżej oceniana destynacja: 'Jowisz'
+   -&gt; Średnia ocena: 2.18 na podstawie 180 opinii.</code></pre>
 </div>
 </div>
-<div id="cc2144f1" class="cell" data-execution_count="36">
+<div id="d0f8f866" class="cell" data-execution_count="36">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
 <div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">7</span>))</span>
@@ -953,7 +952,7 @@ Wniosek: Istnieje zauważalna korelacja ujemna. Wzrost liczby incydentów wiąż
 <span id="cb47-8"><a href="#cb47-8" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stderr">
-<pre><code>C:\Users\rafal\AppData\Local\Temp\ipykernel_31380\1199124194.py:2: FutureWarning:
+<pre><code>C:\Users\rafal\AppData\Local\Temp\ipykernel_11900\1199124194.py:2: FutureWarning:
 
 
 
@@ -969,7 +968,7 @@ Passing `palette` without assigning `hue` is deprecated and will be removed in v
 </div>
 </div>
 </div>
-<div id="8406c14c" class="cell" data-execution_count="37">
+<div id="b81115e2" class="cell" data-execution_count="37">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
 <div class="sourceCode cell-code" id="cb49"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>query_type_ratings <span class="op">=</span> <span class="st">"""</span></span>
@@ -993,13 +992,13 @@ Passing `palette` without assigning `hue` is deprecated and will be removed in v
 <span id="cb49-19"><a href="#cb49-19" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div id="99f625f0" class="cell" data-execution_count="38">
+<div id="ef271c8a" class="cell" data-execution_count="38">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
 <div class="sourceCode cell-code" id="cb50"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>df_type_ratings <span class="op">=</span> pd.read_sql(query_type_ratings, engine)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div id="ad4dcb3a" class="cell" data-execution_count="39">
+<div id="4cfa1edd" class="cell" data-execution_count="39">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
 <div class="sourceCode cell-code" id="cb51"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">--- ⭐ Ranking Ocen Rodzajów Wypraw ---"</span>)</span>
@@ -1016,14 +1015,14 @@ Passing `palette` without assigning `hue` is deprecated and will be removed in v
 <pre><code>
 --- ⭐ Ranking Ocen Rodzajów Wypraw ---
 
-🥇 Najwyżej oceniany typ wyprawy: 'Obserwacja Pierścieni'
-   -&gt; Średnia ocena: 3.57 na podstawie 75 opinii.
+🥇 Najwyżej oceniany typ wyprawy: 'Manewr Grawitacyjny'
+   -&gt; Średnia ocena: 3.85 na podstawie 176 opinii.
 
-📉 Najniżej oceniany typ wyprawy: 'Manewr Grawitacyjny'
-   -&gt; Średnia ocena: 2.63 na podstawie 311 opinii.</code></pre>
+📉 Najniżej oceniany typ wyprawy: 'Przelot przez Pasy Radiacyjne'
+   -&gt; Średnia ocena: 1.90 na podstawie 31 opinii.</code></pre>
 </div>
 </div>
-<div id="8d82b3fb" class="cell" data-execution_count="40">
+<div id="d190a31d" class="cell" data-execution_count="40">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
 <div class="sourceCode cell-code" id="cb53"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">7</span>))</span>
@@ -1036,7 +1035,7 @@ Passing `palette` without assigning `hue` is deprecated and will be removed in v
 <span id="cb53-8"><a href="#cb53-8" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stderr">
-<pre><code>C:\Users\rafal\AppData\Local\Temp\ipykernel_31380\344212182.py:2: FutureWarning:
+<pre><code>C:\Users\rafal\AppData\Local\Temp\ipykernel_11900\344212182.py:2: FutureWarning:
 
 
 
@@ -1056,7 +1055,7 @@ Passing `palette` without assigning `hue` is deprecated and will be removed in v
 <section id="problem-szósty" class="level2" data-number="3.6">
 <h2 data-number="3.6" class="anchored" data-anchor-id="problem-szósty"><span class="header-section-number">3.6</span> Problem szósty</h2>
 <p>Pytanie: Jaka jest struktura wieku naszych klientów?</p>
-<div id="1b205f7b" class="cell" data-execution_count="41">
+<div id="ee91676c" class="cell" data-execution_count="41">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
 <div class="sourceCode cell-code" id="cb55"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>query_dob <span class="op">=</span> <span class="st">"""</span></span>
@@ -1066,13 +1065,13 @@ Passing `palette` without assigning `hue` is deprecated and will be removed in v
 <span id="cb55-5"><a href="#cb55-5" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div id="e7a4fd4e" class="cell" data-execution_count="42">
+<div id="1c494287" class="cell" data-execution_count="42">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
 <div class="sourceCode cell-code" id="cb56"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>df_dob <span class="op">=</span> pd.read_sql(query_dob, engine)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div id="7ced41e9" class="cell" data-execution_count="43">
+<div id="09ba7709" class="cell" data-execution_count="43">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
 <div class="sourceCode cell-code" id="cb57"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>today_real <span class="op">=</span> date.today()</span>
@@ -1082,7 +1081,7 @@ Passing `palette` without assigning `hue` is deprecated and will be removed in v
 <span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a>df_dob[<span class="st">'age'</span>] <span class="op">=</span> df_dob[<span class="st">'age'</span>].astype(<span class="bu">int</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div id="e7289512" class="cell" data-execution_count="44">
+<div id="99cf9e40" class="cell" data-execution_count="44">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
 <div class="sourceCode cell-code" id="cb58"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">--- 📊 Statystyki Wieku Klientów ---"</span>)</span>
@@ -1103,12 +1102,12 @@ Passing `palette` without assigning `hue` is deprecated and will be removed in v
 <pre><code>
 --- 📊 Statystyki Wieku Klientów ---
 count    600.00
-mean      45.91
-std       17.06
+mean      47.25
+std       16.21
 min       18.00
-25%       31.00
-50%       45.50
-75%       62.00
+25%       34.00
+50%       47.00
+75%       61.00
 max       75.00
 
 ------------------------------------</code></pre>
