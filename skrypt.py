@@ -579,30 +579,98 @@ def uruchom():
     
     # Sekcja 14: Generowanie opinii
     print("--- ETAP 11: Generowanie opinii dla zakończonych lotów ---")
-    cursor.execute("SELECT tp.trip_id, tp.client_id, t.return_datetime FROM trip_participants tp JOIN trips t ON tp.trip_id = t.trip_id WHERE t.status = 'completed' AND t.return_datetime IS NOT NULL")
-    completed_participants = cursor.fetchall()
-    
-    negative_comments = ["Lot był bardzo niewygodny, a obsługa niezbyt pomocna.", "Paliwo się skończyło, a procedury awaryjne były chaotyczne.", "Posiłki były zimne i bez smaku. Ogólnie rozczarowanie.", "Sprzęt naukowy na pokładzie nie działał, stracony czas.", "Osoby odpowiedzialne za bezpieczeństwo były niekompetentne.", "Kabina zbyt mała, bardzo ciasno i duszno.", "Trudności z łącznością, nie mogłem porozmawiać z rodziną."]
-    neutral_comments = ["Lot odbył się zgodnie z planem, ale niczym szczególnym się nie wyróżniał.", "Stacja na orbicie spełniła minimalne oczekiwania, trudno coś więcej dodać.", "Czas spędzony w stanie nieważkości był interesujący, ale krótki.", "Obsługa była w miarę profesjonalna, choć bez entuzjazmu.", "Warunki codziennego pobytu w module były przeciętne."]
-    positive_comments = ["Przelot przebiegł bez zarzutu, widoki zapierające dech w piersiach.", "Personel bardzo pomocny, poczułem się w pełni bezpiecznie.", "Eksperymenty naukowe w module okazały się fascynujące.", "Kabina komfortowa, z dużą przestrzenią i świetnym widokiem.", "Powrót na Ziemię był płynny, lądowanie perfekcyjne.", "Panel widokowy statku doskonale zaprojektowany dla fotografów.", "Program edukacyjny na pokładzie dostarczył wiele wiedzy.",]
-    
+    cursor.execute("""
+        SELECT 
+            tp.trip_id, 
+            tp.client_id, 
+            t.return_datetime
+        FROM trip_participants tp
+        JOIN trips t ON tp.trip_id = t.trip_id
+        WHERE t.status = 'completed'
+        AND t.return_datetime IS NOT NULL
+    """)
+    completed_participants = cursor.fetchall()  # lista: (trip_id, client_id, return_datetime)
+
+    # --- 2. Pobierz trip_id, w których były incydenty ---
+    cursor.execute("SELECT DISTINCT trip_id FROM incidents")
+    trips_with_incidents = {row[0] for row in cursor.fetchall()}
+
+    # --- 3. Listy komentarzy ---
+    negative_comments = [
+        "Lot był bardzo niewygodny, a obsługa niezbyt pomocna.",
+        "Paliwo się skończyło, a procedury awaryjne były chaotyczne.",
+        "Posiłki były zimne i bez smaku. Ogólnie rozczarowanie.",
+        "Sprzęt naukowy na pokładzie nie działał, stracony czas.",
+        "Osoby odpowiedzialne za bezpieczeństwo były niekompetentne.",
+        "Kabina zbyt mała, bardzo ciasno i duszno.",
+        "Trudności z łącznością, nie mogłem porozmawiać z rodziną."
+    ]
+    neutral_comments = [
+        "Lot odbył się zgodnie z planem, ale niczym szczególnym się nie wyróżniał.",
+        "Stacja na orbicie spełniła minimalne oczekiwania, trudno coś więcej dodać.",
+        "Czas spędzony w stanie nieważkości był interesujący, ale krótki.",
+        "Obsługa była w miarę profesjonalna, choć bez entuzjazmu.",
+        "Warunki codziennego pobytu w module były przeciętne."
+    ]
+    positive_comments = [
+        "Przelot przebiegł bez zarzutu, widoki zapierające dech w piersiach.",
+        "Personel bardzo pomocny, poczułem się w pełni bezpiecznie.",
+        "Eksperymenty naukowe w module okazały się fascynujące.",
+        "Kabina komfortowa, z dużą przestrzenią i świetnym widokiem.",
+        "Powrót na Ziemię był płynny, lądowanie perfekcyjne.",
+        "Panel widokowy statku doskonale zaprojektowany dla fotografów.",
+        "Program edukacyjny na pokładzie dostarczył wiele wiedzy."
+    ]
+
+    # --- 4. Generowanie i wstawianie opinii ---
     feedback_rows = []
-    now_feedback = datetime.now()
+    now = datetime.now()
 
     for trip_id, client_id, return_dt in completed_participants:
-        if random.random() > 0.5: continue
-        rating = random.randint(1, 5)
-        if rating <= 2: comments = random.choice(negative_comments)
-        elif rating == 3: comments = random.choice(neutral_comments)
-        else: comments = random.choice(positive_comments)
-        raw_date = return_dt + timedelta(days=random.randint(1, 30), hours=random.randint(0, 23), minutes=random.randint(0, 59), seconds=random.randint(0, 59))
-        submitted_at = raw_date if raw_date < now_feedback else now_feedback - timedelta(days=random.randint(0, 3), hours=random.randint(0, 23), minutes=random.randint(0, 59), seconds=random.randint(0, 59))
+        # ok. 70% zostawia opinię
+        if random.random() > 0.7:
+            continue
+
+        # jeśli lot miał incydent — oceny z 1–3 (z przewagą niskich)
+        if trip_id in trips_with_incidents:
+            rating = random.choices([1,2,3], weights=[0.5,0.3,0.2])[0]
+        else:
+            # inaczej z 3–5 (z przewagą wysokich)
+            rating = random.choices([3,4,5], weights=[0.1,0.3,0.6])[0]
+
+        # dobór komentarza do oceny
+        if rating <= 2:
+            comments = random.choice(negative_comments)
+        elif rating == 3:
+            comments = random.choice(neutral_comments)
+        else:
+            comments = random.choice(positive_comments)
+
+        # data przesłania: między 1 a 30 dni po return_dt, ale nie później niż teraz
+        raw_date = return_dt + timedelta(
+            days=random.randint(1,30),
+            hours=random.randint(0,23),
+            minutes=random.randint(0,59),
+            seconds=random.randint(0,59)
+        )
+        submitted_at = raw_date if raw_date < now else now - timedelta(
+            days=random.randint(0,3),
+            hours=random.randint(0,23),
+            minutes=random.randint(0,59),
+            seconds=random.randint(0,59)
+        )
+
         feedback_rows.append((trip_id, client_id, rating, comments, submitted_at))
 
-    cursor.executemany("INSERT INTO feedback (trip_id, client_id, rating, comments, submitted_at) VALUES (%s, %s, %s, %s, %s)", feedback_rows)
+    cursor.executemany(
+        """
+        INSERT INTO feedback (
+            trip_id, client_id, rating, comments, submitted_at
+        ) VALUES (%s, %s, %s, %s, %s)
+        """,
+        feedback_rows
+    )
     con.commit()
-    print(f"Wygenerowano {len(feedback_rows)} opinii.")
-    print("-" * 50)
     
     # Sekcja 15: Generowanie incydentów
     print("--- ETAP 12: Generowanie incydentów ---")
