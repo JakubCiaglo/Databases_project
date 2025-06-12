@@ -35,6 +35,7 @@ import matplotlib.colors as colors
 from scipy import stats
 from sqlalchemy import create_engine
 from urllib.parse import quote_plus
+from pandas.tseries.offsets import DateOffset 
 ```
 
 ```{python}
@@ -637,5 +638,44 @@ plt.xlabel('Średnia ocena (w skali 1-5)')
 plt.ylabel('Rodzaj wyprawy')
 plt.xlim(0, 5)
 plt.tight_layout()
+plt.show()
+```
+
+## Problem szósty
+Pytanie: Jaka jest struktura wieku naszych klientów?
+
+```{python}
+query_dob = """
+SELECT date_of_birth
+FROM clients
+WHERE date_of_birth IS NOT NULL;
+"""
+```
+
+```{python}
+df_dob = pd.read_sql(query_dob, engine)
+```
+
+```{python}
+today_real = date.today()
+df_dob['age'] = df_dob['date_of_birth'].apply(
+    lambda dob: (today_real - dob).days / 365.25
+) + 1000
+df_dob['age'] = df_dob['age'].astype(int)
+```
+
+```{python}
+print("\n--- 📊 Statystyki Wieku Klientów ---")
+print(df_dob['age'].describe().round(2).to_string())
+print("\n------------------------------------")
+
+plt.figure(figsize=(12, 7))
+sns.histplot(data=df_dob, x='age', bins=20, kde=True, color='dodgerblue')
+
+plt.title('Rozkład wieku klientów', fontsize=16)
+plt.xlabel('Wiek (w latach)', fontsize=12)
+plt.ylabel('Liczba klientów', fontsize=12)
+plt.grid(axis='y', linestyle='--', alpha=0.7)
+
 plt.show()
 ```
