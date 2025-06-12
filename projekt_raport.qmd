@@ -686,4 +686,147 @@ Analiza RFM
 ```{python}
 today_real = date.today()
 future_analysis_date = today_real.replace(year=today_real.year + 1000)
+analysis_date = future_analysis_date.strftime('%Y-%m-%d')
+```
+
+```{python}
+query_rfm = f"""
+WITH Monetary AS (
+    SELECT
+        client_id,
+        SUM(amount) AS monetary_value
+    FROM transactions
+    WHERE 
+        status = 'Completed' AND
+        transaction_date <= '{analysis_date_str}'
+    GROUP BY client_id
+),
+RecencyFrequency AS (
+    SELECT
+        p.client_id,
+        MAX(t.departure_datetime) AS last_trip_date,
+        COUNT(DISTINCT p.trip_id) AS frequency
+    FROM trip_participants p
+    JOIN trips t ON p.trip_id = t.trip_id
+    WHERE 
+        t.departure_datetime <= '{analysis_date_str}'
+    GROUP BY p.client_id
+)
+SELECT
+    c.client_id,
+    c.first_name,
+    c.last_name,
+    DATEDIFF('{analysis_date_str}', rf.last_trip_date) AS recency_days,
+    COALESCE(rf.frequency, 0) AS frequency,
+    COALESCE(m.monetary_value, 0) AS monetary
+FROM
+    clients c
+LEFT JOIN
+    RecencyFrequency rf ON c.client_id = rf.client_id
+LEFT JOIN
+    Monetary m ON c.client_id = m.client_id;
+"""
+```
+
+```{python}
+df_rfm = pd.read_sql(query_rfm, engine)
+df_rfm['recency_days'].fillna(9999, inplace=True)
+```
+
+```{python}
+df_rfm['R_score'] = 4 - pd.qcut(df_rfm['recency_days'], q=4, labels=False, duplicates='drop')
+df_rfm['F_score'] = pd.qcut(df_rfm['frequency'].rank(method='first'), q=4, labels=False, duplicates='drop') + 1
+df_rfm['M_score'] = pd.qcut(df_rfm['monetary'].rank(method='first'), q=4, labels=False, duplicates='drop') + 1
+
+df_rfm = df_rfm.astype({'R_score': 'int64', 'F_score': 'int64', 'M_score': 'int64'})
+```
+```{python}
+print(df_rfm["recency_days"].head(20))
+print(pd.qcut(df_rfm['recency_days'], q=4, labels=False, duplicates='drop').head(20))
+```
+```{python}
+def assign_segment(row):
+    if row['R_score'] >= 4 and row['F_score'] >= 4: return 'Mistrzowie (Champions)'
+    if row['R_score'] >= 3 and row['F_score'] >= 3: return 'Lojalni Klienci'
+    if row['R_score'] <= 2 and row['F_score'] >= 3: return 'Ryzykowni (At Risk)'
+    if row['R_score'] >= 3 and row['M_score'] >= 4: return 'Wieloryby (Big Spenders)'
+    if row['R_score'] == 4 and row['F_score'] == 1: return 'Nowi Klienci'
+    if row['R_score'] <= 2 and row['F_score'] <= 2: return 'Hibernujący'
+    return 'Pozostali'
+```
+```{python}
+df_rfm['Segment'] = df_rfm.apply(assign_segment, axis=1)
+```
+
+```{python}
+print(f"--- 📊 Analiza RFM (stan na dzień: {analysis_date}) ---")
+print("\nPrzykładowe dane po segmentacji:")
+print(df_rfm[['first_name', 'last_name', 'recency_days', 'frequency', 'monetary', 'R_score', 'F_score', 'M_score', 'Segment']].head().to_string())
+print("\n" + "="*50 + "\n")
+
+plt.figure(figsize=(12, 8))
+segment_counts = df_rfm['Segment'].value_counts()
+sns.barplot(x=segment_counts.index, y=segment_counts.values, palette='viridis')
+plt.title('Rozkład Klientów w Segmentach RFM', fontsize=16)
+plt.xlabel('Segment', fontsize=12)
+plt.ylabel('Liczba Klientów', fontsize=12)
+plt.xticks(rotation=45, ha='right')
+plt.tight_layout()
+plt.show()
+```
+
+```{python}
+print("\n\n" + "="*60)
+print("--- Zautomatyzowane Podsumowanie Analizy Segmentacji RFM ---")
+print("="*60)
+
+print("\n## Podsumowanie ilościowe segmentów:\n")
+
+segment_counts = df_rfm['Segment'].value_counts()
+total_clients = len(df_rfm)
+
+for segment, count in segment_counts.items():
+    percentage = (count / total_clients) * 100
+    print(f"- {segment}: \t{count} klientów ({percentage:.1f}% wszystkich)")
+
+print("\n\n## Rekomendacje Biznesowe dla Firmy:\n")
+
+recommendations = {
+    'Mistrzowie (Champions)': 
+        "To Twoi najcenniejsi klienci. Angażuj ich, proś o opinie i recenzje, "
+        "zaoferuj programy lojalnościowe i dostęp do ekskluzywnych ofert. "
+        "Są ambasadorami Twojej marki.",
+        
+    'Lojalni Klienci': 
+        "Są kręgosłupem Twojej firmy. Podtrzymuj ich zaangażowanie, oferując "
+        "nowe produkty (cross-selling), lepsze wersje wypraw (up-selling) "
+        "i budując z nimi długotrwałą relację.",
+
+    'Ryzykowni (At Risk)': 
+        "KLUCZOWA GRUPA DO REAKTYWACJI! To byli dobrzy klienci, którzy dawno "
+        "nic nie kupili. Skontaktuj się z nimi osobiście, zaoferuj spersonalizowaną "
+        "zniżkę 'na powrót' i dowiedz się, dlaczego przestali podróżować.",
+
+    'Wieloryby (Big Spenders)':
+        "Wydają dużo, ale niekoniecznie często. Upewnij się, że są zadowoleni "
+        "z jakości usług. Mogą być podatni na oferty konkurencji. Warto zadbać "
+        "o ich satysfakcję.",
+
+    'Nowi Klienci':
+        "Pierwsze wrażenie jest kluczowe. Zapewnij im doskonałe doświadczenie "
+        "na pokładzie i stwórz spersonalizowaną ścieżkę komunikacji (np. seria maili), "
+        "aby zachęcić ich do drugiej podróży i zamienić w lojalnych klientów.",
+        
+    'Hibernujący':
+        "Duża grupa nieaktywnych klientów. Jeśli ich liczba jest znacząca, rozważ "
+        "szeroko zakrojoną, ale niskokosztową kampanię 'Tęsknimy za Tobą!' z atrakcyjną "
+        "ofertą. Nie inwestuj w nich tyle, co w segment 'Ryzykowni'."
+}
+
+for segment in segment_counts.index:
+    if segment in recommendations:
+        print(f"💡 Segment: {segment}")
+        print(f"   Rekomendacja: {recommendations[segment]}\n")
+
+print("="*60)
 ```
