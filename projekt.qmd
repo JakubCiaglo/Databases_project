@@ -89,7 +89,7 @@ n_clients = n_employees * clients_per_emp
 min_salary_pln = 14666.00 
 avg_salary_pln = 30045.11
 
-current_date = date.today() + relativedelta(years=1000)
+current_date = datetime.now() + relativedelta(years=1000)
 start_of_business = current_date - relativedelta(years=5)
 
 print(start_of_business)
@@ -898,7 +898,7 @@ con.commit()
 
 ## Generowanie opinii dla zakończonych lotów
 ```{python}
-# 1. Pobierz dane o zakończonych lotach wraz z uczestnikami i datą powrotu
+# --- 1. Pobierz zakończonych uczestników ---
 cursor.execute("""
     SELECT 
         tp.trip_id, 
@@ -911,7 +911,11 @@ cursor.execute("""
 """)
 completed_participants = cursor.fetchall()  # lista: (trip_id, client_id, return_datetime)
 
-# 2. Przygotuj trzy listy komentarzy: negatywne (dla rating 1-2), neutralne (3), pozytywne (4-5)
+# --- 2. Pobierz trip_id, w których były incydenty ---
+cursor.execute("SELECT DISTINCT trip_id FROM incidents")
+trips_with_incidents = {row[0] for row in cursor.fetchall()}
+
+# --- 3. Listy komentarzy ---
 negative_comments = [
     "Lot był bardzo niewygodny, a obsługa niezbyt pomocna.",
     "Paliwo się skończyło, a procedury awaryjne były chaotyczne.",
@@ -921,7 +925,6 @@ negative_comments = [
     "Kabina zbyt mała, bardzo ciasno i duszno.",
     "Trudności z łącznością, nie mogłem porozmawiać z rodziną."
 ]
-
 neutral_comments = [
     "Lot odbył się zgodnie z planem, ale niczym szczególnym się nie wyróżniał.",
     "Stacja na orbicie spełniła minimalne oczekiwania, trudno coś więcej dodać.",
@@ -929,7 +932,6 @@ neutral_comments = [
     "Obsługa była w miarę profesjonalna, choć bez entuzjazmu.",
     "Warunki codziennego pobytu w module były przeciętne."
 ]
-
 positive_comments = [
     "Przelot przebiegł bez zarzutu, widoki zapierające dech w piersiach.",
     "Personel bardzo pomocny, poczułem się w pełni bezpiecznie.",
@@ -937,43 +939,49 @@ positive_comments = [
     "Kabina komfortowa, z dużą przestrzenią i świetnym widokiem.",
     "Powrót na Ziemię był płynny, lądowanie perfekcyjne.",
     "Panel widokowy statku doskonale zaprojektowany dla fotografów.",
-    "Program edukacyjny na pokładzie dostarczył wiele wiedzy.",
+    "Program edukacyjny na pokładzie dostarczył wiele wiedzy."
 ]
 
-# 3. Wygeneruj i wstaw opinie
+# --- 4. Generowanie i wstawianie opinii ---
 feedback_rows = []
 now = datetime.now()
 
 for trip_id, client_id, return_dt in completed_participants:
-    # Zakładamy, że ~70% uczestników zostawia opinię
-    if random.random() > 0.5:
+    # ok. 70% zostawia opinię
+    if random.random() > 0.7:
         continue
 
-    # Ocena od 1 do 5
-    rating = random.randint(1, 5)
-    # Przykładowy komentarz (1-3 zdania)
+    # jeśli lot miał incydent — oceny z 1–3 (z przewagą niskich)
+    if trip_id in trips_with_incidents:
+        rating = random.choices([1,2,3], weights=[0.5,0.3,0.2])[0]
+    else:
+        # inaczej z 3–5 (z przewagą wysokich)
+        rating = random.choices([3,4,5], weights=[0.1,0.3,0.6])[0]
+
+    # dobór komentarza do oceny
     if rating <= 2:
         comments = random.choice(negative_comments)
     elif rating == 3:
         comments = random.choice(neutral_comments)
-    else:  # rating 4 lub 5
+    else:
         comments = random.choice(positive_comments)
-    
-    # Data przesłania opinii: losowo między 1 a 30 dni po dacie powrotu, ale nie później niż teraz
-    raw_date = return_dt + timedelta(days=random.randint(1, 30),
-                                     hours=random.randint(0, 23),
-                                     minutes=random.randint(0, 59),
-                                     seconds=random.randint(0, 59))
+
+    # data przesłania: między 1 a 30 dni po return_dt, ale nie później niż teraz
+    raw_date = return_dt + timedelta(
+        days=random.randint(1,30),
+        hours=random.randint(0,23),
+        minutes=random.randint(0,59),
+        seconds=random.randint(0,59)
+    )
     submitted_at = raw_date if raw_date < now else now - timedelta(
-        days=random.randint(0, 3),
-        hours=random.randint(0, 23),
-        minutes=random.randint(0, 59),
-        seconds=random.randint(0, 59)
+        days=random.randint(0,3),
+        hours=random.randint(0,23),
+        minutes=random.randint(0,59),
+        seconds=random.randint(0,59)
     )
 
     feedback_rows.append((trip_id, client_id, rating, comments, submitted_at))
 
-# 3. Wstawianie danych do tabeli feedback
 cursor.executemany(
     """
     INSERT INTO feedback (
