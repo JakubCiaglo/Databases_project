@@ -352,7 +352,9 @@ def uruchom():
         launch_station_id = random.choice(launch_stations_ids)
         status = random.choices(statuses, weights=[0.7, 0.1, 0.2])[0]
         if status == 'completed':
-            base_date = start_of_business + timedelta(days=random.randint(0, 5*365 - duration))
+            total_days = (current_date - start_of_business).days - duration
+            total_days = max(total_days, 0)
+            base_date = start_of_business + timedelta(days=random.randint(0, total_days))
             departure = datetime(base_date.year, base_date.month, base_date.day, random.randint(0,23), random.randint(0,59), random.randint(0,59))
             return_date = base_date + timedelta(days=duration)
             return_dt = datetime(return_date.year, return_date.month, return_date.day, random.randint(0,23), random.randint(0,59), random.randint(0,59))
