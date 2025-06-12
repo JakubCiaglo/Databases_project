@@ -88,6 +88,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#problem-pierwszy" id="toc-problem-pierwszy" class="nav-link" data-scroll-target="#problem-pierwszy"><span class="header-section-number">3.1</span> Problem pierwszy</a></li>
   <li><a href="#problem-drugi" id="toc-problem-drugi" class="nav-link" data-scroll-target="#problem-drugi"><span class="header-section-number">3.2</span> Problem drugi</a></li>
   <li><a href="#problem-trzeci" id="toc-problem-trzeci" class="nav-link" data-scroll-target="#problem-trzeci"><span class="header-section-number">3.3</span> Problem trzeci</a></li>
+  <li><a href="#problem-czwarty" id="toc-problem-czwarty" class="nav-link" data-scroll-target="#problem-czwarty"><span class="header-section-number">3.4</span> Problem czwarty</a></li>
+  <li><a href="#problem-piąty" id="toc-problem-piąty" class="nav-link" data-scroll-target="#problem-piąty"><span class="header-section-number">3.5</span> Problem piąty</a></li>
+  <li><a href="#problem-szósty" id="toc-problem-szósty" class="nav-link" data-scroll-target="#problem-szósty"><span class="header-section-number">3.6</span> Problem szósty</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -127,7 +130,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="importy" class="level1" data-number="2">
 <h1 data-number="2"><span class="header-section-number">2</span> Importy</h1>
-<div id="4de98f1b" class="cell" data-execution_count="1">
+<div id="ceb80929" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> random</span>
@@ -141,10 +144,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.cm <span class="im">as</span> cm</span>
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.colors <span class="im">as</span> colors</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> stats</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> stats</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sqlalchemy <span class="im">import</span> create_engine</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> urllib.parse <span class="im">import</span> quote_plus</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pandas.tseries.offsets <span class="im">import</span> DateOffset </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div id="dc9c1b22" class="cell" data-execution_count="2">
+<div id="f62ba011" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>con <span class="op">=</span> mysql.connector.<span class="ex">connect</span>(</span>
@@ -155,68 +161,74 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
+<div id="58092b46" class="cell" data-execution_count="3">
+<details class="code-fold">
+<summary>Rozwiń kod</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>host <span class="op">=</span> <span class="st">"giniewicz.it"</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>user <span class="op">=</span> <span class="st">"team13"</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>password <span class="op">=</span> <span class="st">"te@mlie"</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>database <span class="op">=</span> <span class="st">"team13"</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>safe_password <span class="op">=</span> quote_plus(password)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>connection_uri <span class="op">=</span> <span class="ss">f"mysql+mysqlconnector://</span><span class="sc">{</span>user<span class="sc">}</span><span class="ss">:</span><span class="sc">{</span>safe_password<span class="sc">}</span><span class="ss">@</span><span class="sc">{</span>host<span class="sc">}</span><span class="ss">/</span><span class="sc">{</span>database<span class="sc">}</span><span class="ss">"</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>engine <span class="op">=</span> create_engine(connection_uri)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
 </section>
 <section id="analiza-danych" class="level1" data-number="3">
 <h1 data-number="3"><span class="header-section-number">3</span> Analiza danych</h1>
 <section id="problem-pierwszy" class="level2" data-number="3.1">
 <h2 data-number="3.1" class="anchored" data-anchor-id="problem-pierwszy"><span class="header-section-number">3.1</span> Problem pierwszy</h2>
 <p>Pytanie: Znajdź najpopularniejsze rodzaje wypraw, porównaj koszta i zyski, czy są opłacalne?</p>
-<div id="2064c81d" class="cell" data-execution_count="3">
+<div id="fefda732" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>query <span class="op">=</span> <span class="st">"""</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="st">SELECT</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="st">    tt.name AS 'Rodzaj wyprawy',</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="st">    COUNT(t.trip_id) AS 'Liczba wypraw',</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="st">    COALESCE(SUM(ac.total_trip_cost), 0) AS 'Całkowite koszty',</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="st">    COALESCE(SUM(ar.total_trip_revenue), 0) AS 'Całkowite przychody',</span></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="st">    (COALESCE(SUM(ar.total_trip_revenue), 0) - COALESCE(SUM(ac.total_trip_cost), 0)) AS 'Zysk'</span></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="st">FROM</span></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="st">    trip_types tt</span></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="st">LEFT JOIN</span></span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="st">    trips t ON tt.trip_type_id = t.trip_type_id</span></span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="st">LEFT JOIN</span></span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="st">    (SELECT trip_id, SUM(cost_amount) AS total_trip_cost FROM costs GROUP BY trip_id) ac </span></span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="st">    ON t.trip_id = ac.trip_id</span></span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="st">LEFT JOIN</span></span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="st">    (SELECT trip_id, SUM(amount) AS total_trip_revenue FROM transactions WHERE status = 'Completed' GROUP BY trip_id) ar </span></span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="st">    ON t.trip_id = ar.trip_id</span></span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="st">GROUP BY</span></span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a><span class="st">    tt.name</span></span>
-<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="st">ORDER BY</span></span>
-<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a><span class="st">    `Liczba wypraw` DESC;</span></span>
-<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>query <span class="op">=</span> <span class="st">"""</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="st">SELECT</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="st">    tt.name AS 'Rodzaj wyprawy',</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="st">    COUNT(t.trip_id) AS 'Liczba wypraw',</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="st">    COALESCE(SUM(ac.total_trip_cost), 0) AS 'Całkowite koszty',</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="st">    COALESCE(SUM(ar.total_trip_revenue), 0) AS 'Całkowite przychody',</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="st">    (COALESCE(SUM(ar.total_trip_revenue), 0) - COALESCE(SUM(ac.total_trip_cost), 0)) AS 'Zysk'</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="st">FROM</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="st">    trip_types tt</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="st">LEFT JOIN</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="st">    trips t ON tt.trip_type_id = t.trip_type_id</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="st">LEFT JOIN</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="st">    (SELECT trip_id, SUM(cost_amount) AS total_trip_cost FROM costs GROUP BY trip_id) ac </span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="st">    ON t.trip_id = ac.trip_id</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="st">LEFT JOIN</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="st">    (SELECT trip_id, SUM(amount) AS total_trip_revenue FROM transactions WHERE status = 'Completed' GROUP BY trip_id) ar </span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="st">    ON t.trip_id = ar.trip_id</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="st">GROUP BY</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="st">    tt.name</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a><span class="st">ORDER BY</span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a><span class="st">    `Liczba wypraw` DESC;</span></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div id="98b32e2a" class="cell" data-execution_count="4">
+<div id="123a43a0" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>df_profitability <span class="op">=</span> pd.read_sql(query, con)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>con.close()</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Analiza popularności i opłacalności rodzajów wypraw:"</span>)</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df_profitability.to_string())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>df_profitability <span class="op">=</span> pd.read_sql(query, engine)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Analiza popularności i opłacalności rodzajów wypraw:"</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df_profitability.to_string())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Analiza popularności i opłacalności rodzajów wypraw:
                   Rodzaj wyprawy  Liczba wypraw  Całkowite koszty  Całkowite przychody          Zysk
-0            Manewr Grawitacyjny              9      4.200502e+07         2.412179e+09  2.370174e+09
-1       Obóz Badawczy w Kosmosie              8      1.113437e+08         5.788141e+09  5.676797e+09
-2          Obserwacja Pierścieni              8      8.679590e+07         4.224155e+09  4.137359e+09
-3          Ekspedycja Księżycowa              7      5.916398e+07         3.162498e+09  3.103334e+09
-4          Zejście Atmosferyczne              7      4.646307e+07         2.759205e+09  2.712742e+09
-5                Misja Orbitalna              5      2.549634e+07         1.400029e+09  1.374533e+09
-6  Przelot przez Pasy Radiacyjne              4      3.399044e+07         2.075302e+09  2.041312e+09
-7       Eksplorator Magnetosfery              2      1.219521e+07         6.921918e+08  6.799966e+08</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>C:\Users\rafal\AppData\Local\Temp\ipykernel_21036\514030544.py:1: UserWarning:
-
-pandas only supports SQLAlchemy connectable (engine/connection) or database string URI or sqlite3 DBAPI2 connection. Other DBAPI2 objects are not tested. Please consider using SQLAlchemy.
-</code></pre>
+0            Manewr Grawitacyjny             10      4.623431e+07         2.712118e+09  2.665883e+09
+1          Obserwacja Pierścieni             10      1.057867e+08         6.298109e+09  6.192322e+09
+2       Obóz Badawczy w Kosmosie              7      9.491235e+07         5.000097e+09  4.905185e+09
+3          Ekspedycja Księżycowa              6      4.750101e+07         2.676018e+09  2.628517e+09
+4          Zejście Atmosferyczne              6      3.909186e+07         1.763604e+09  1.724512e+09
+5       Eksplorator Magnetosfery              4      2.217635e+07         1.373832e+09  1.351655e+09
+6  Przelot przez Pasy Radiacyjne              4      3.687976e+07         2.049600e+09  2.012720e+09
+7                Misja Orbitalna              3      1.560426e+07         1.000932e+09  9.853281e+08</code></pre>
 </div>
 </div>
-<div id="19c9c32a" class="cell" data-execution_count="5">
+<div id="3d1f3a6e" class="cell" data-execution_count="6">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n\n</span><span class="st">--- Zautomatyzowana Analiza ---"</span>)</span>
@@ -250,9 +262,9 @@ pandas only supports SQLAlchemy connectable (engine/connection) or database stri
 
 ## 🏆 TOP 3 najpopularniejsze rodzaje wypraw:
 
-1. Rodzaj 'Manewr Grawitacyjny': 9 wypraw, które przyniosły 2412179279.12 przychodu.
-2. Rodzaj 'Obóz Badawczy w Kosmosie': 8 wypraw, które przyniosły 5788140951.48 przychodu.
-3. Rodzaj 'Obserwacja Pierścieni': 8 wypraw, które przyniosły 4224154893.59 przychodu.
+1. Rodzaj 'Manewr Grawitacyjny': 10 wypraw, które przyniosły 2712117617.88 przychodu.
+2. Rodzaj 'Obserwacja Pierścieni': 10 wypraw, które przyniosły 6298108571.96 przychodu.
+3. Rodzaj 'Obóz Badawczy w Kosmosie': 7 wypraw, które przyniosły 5000097496.43 przychodu.
 
 ## 💰 Analiza rentowności rodzajów wypraw:
 
@@ -264,95 +276,82 @@ pandas only supports SQLAlchemy connectable (engine/connection) or database stri
 </section>
 <section id="problem-drugi" class="level2" data-number="3.2">
 <h2 data-number="3.2" class="anchored" data-anchor-id="problem-drugi"><span class="header-section-number">3.2</span> Problem drugi</h2>
-<div id="bea671f1" class="cell" data-execution_count="6">
+<p>Pytanie: Sporządź wykres liczby obsłużonych klientów w każdym miesiącu działalności firmy, czy firma rośnie, czy podupada?</p>
+<div id="530216a5" class="cell" data-execution_count="7">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>con <span class="op">=</span> mysql.connector.<span class="ex">connect</span>(</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    host<span class="op">=</span><span class="st">"giniewicz.it"</span>,</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    user<span class="op">=</span><span class="st">"team13"</span>,</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    password<span class="op">=</span><span class="st">"te@mlie"</span>,</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    database<span class="op">=</span><span class="st">"team13"</span></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>query_clients_per_month <span class="op">=</span> <span class="st">"""</span></span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="st">SELECT</span></span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="st">    DATE_FORMAT(t.departure_datetime, '%Y-%m') AS miesiac,</span></span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="st">    COUNT(tp.client_id) AS liczba_klientow</span></span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="st">FROM</span></span>
-<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a><span class="st">    trips t</span></span>
-<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a><span class="st">JOIN</span></span>
-<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a><span class="st">    trip_participants tp ON t.trip_id = tp.trip_id</span></span>
-<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a><span class="st">GROUP BY</span></span>
-<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a><span class="st">    miesiac</span></span>
-<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a><span class="st">ORDER BY</span></span>
-<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a><span class="st">    miesiac ASC;</span></span>
-<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>query_clients_per_month <span class="op">=</span> <span class="st">"""</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="st">SELECT</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="st">    DATE_FORMAT(t.departure_datetime, '%Y-%m') AS miesiac,</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="st">    COUNT(tp.client_id) AS liczba_klientow</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="st">FROM</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="st">    trips t</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="st">JOIN</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="st">    trip_participants tp ON t.trip_id = tp.trip_id</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="st">GROUP BY</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="st">    miesiac</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="st">ORDER BY</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="st">    miesiac ASC;</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div id="879a57cf" class="cell" data-execution_count="7">
+<div id="fd9ad01a" class="cell" data-execution_count="8">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>df_clients <span class="op">=</span> pd.read_sql(query_clients_per_month, con)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>df_clients <span class="op">=</span> pd.read_sql(query_clients_per_month, engine)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-stderr">
-<pre><code>C:\Users\rafal\AppData\Local\Temp\ipykernel_21036\1382846460.py:1: UserWarning:
-
-pandas only supports SQLAlchemy connectable (engine/connection) or database string URI or sqlite3 DBAPI2 connection. Other DBAPI2 objects are not tested. Please consider using SQLAlchemy.
-</code></pre>
 </div>
-</div>
-<div id="9e616e3f" class="cell" data-execution_count="8">
+<div id="37154716" class="cell" data-execution_count="9">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">14</span>, <span class="dv">7</span>))</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>sns.barplot(data<span class="op">=</span>df_clients, x<span class="op">=</span><span class="st">'miesiac'</span>, y<span class="op">=</span><span class="st">'liczba_klientow'</span>, color<span class="op">=</span><span class="st">'steelblue'</span>)</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Miesięczna liczba obsłużonych klientów'</span>, fontsize<span class="op">=</span><span class="dv">16</span>)</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Miesiąc'</span>, fontsize<span class="op">=</span><span class="dv">12</span>)</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Liczba klientów'</span>, fontsize<span class="op">=</span><span class="dv">12</span>)</span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>plt.xticks(rotation<span class="op">=</span><span class="dv">45</span>, ha<span class="op">=</span><span class="st">'right'</span>)</span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">14</span>, <span class="dv">7</span>))</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>sns.barplot(data<span class="op">=</span>df_clients, x<span class="op">=</span><span class="st">'miesiac'</span>, y<span class="op">=</span><span class="st">'liczba_klientow'</span>, color<span class="op">=</span><span class="st">'steelblue'</span>)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Miesięczna liczba obsłużonych klientów'</span>, fontsize<span class="op">=</span><span class="dv">16</span>)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Miesiąc'</span>, fontsize<span class="op">=</span><span class="dv">12</span>)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Liczba klientów'</span>, fontsize<span class="op">=</span><span class="dv">12</span>)</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>plt.xticks(rotation<span class="op">=</span><span class="dv">45</span>, ha<span class="op">=</span><span class="st">'right'</span>)</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="projekt_raport_files/figure-html/cell-9-output-1.png" width="1335" height="662" class="figure-img"></p>
+<p><img src="projekt_raport_files/figure-html/cell-10-output-1.png" width="1335" height="662" class="figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
-<div id="c9d78aa0" class="cell" data-execution_count="9">
+<div id="a1f21a1b" class="cell" data-execution_count="10">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.arange(<span class="bu">len</span>(df_clients)) </span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> df_clients[<span class="st">'liczba_klientow'</span>] </span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>slope, intercept, r_value, p_value, std_err <span class="op">=</span> stats.linregress(x, y)</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Ustalamy próg "stagnacji", aby uniknąć klasyfikowania bardzo małych wahań</span></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="co"># jako trendu. Np. jeśli wzrost/spadek jest mniejszy niż 0.5 klienta na miesiąc.</span></span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>stagnation_threshold <span class="op">=</span> <span class="fl">0.5</span></span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> slope <span class="op">&gt;</span> stagnation_threshold:</span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>    wniosek <span class="op">=</span> <span class="ss">f"Firma wykazuje wyraźny trend WZROSTOWY."</span></span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>    szczegoly <span class="op">=</span> <span class="ss">f"Średnio, z każdym miesiącem liczba klientów rośnie o </span><span class="sc">{</span>slope<span class="sc">:.2f}</span><span class="ss">."</span></span>
-<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="cf">elif</span> slope <span class="op">&lt;</span> <span class="op">-</span>stagnation_threshold:</span>
-<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>    wniosek <span class="op">=</span> <span class="ss">f"Firma wykazuje wyraźny trend SPADKOWY."</span></span>
-<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>    szczegoly <span class="op">=</span> <span class="ss">f"Średnio, z każdym miesiącem liczba klientów maleje o </span><span class="sc">{</span><span class="op">-</span>slope<span class="sc">:.2f}</span><span class="ss">."</span></span>
-<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
-<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>    wniosek <span class="op">=</span> <span class="st">"Firma wykazuje STAGNACJĘ."</span></span>
-<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>    szczegoly <span class="op">=</span> <span class="ss">f"Brak wyraźnego trendu wzrostowego lub spadkowego (nachylenie linii trendu wynosi </span><span class="sc">{</span>slope<span class="sc">:.2f}</span><span class="ss">)."</span></span>
-<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"--- Automatyczna Analiza Trendu ---"</span>)</span>
-<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Współczynnik nachylenia linii trendu: </span><span class="sc">{</span>slope<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
-<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Wniosek: </span><span class="sc">{</span>wniosek<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(szczegoly)</span>
-<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"-----------------------------------"</span>)</span>
-<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>con.close()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.arange(<span class="bu">len</span>(df_clients)) </span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> df_clients[<span class="st">'liczba_klientow'</span>] </span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>slope, intercept, r_value, p_value, std_err <span class="op">=</span> stats.linregress(x, y)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Ustalamy próg "stagnacji", aby uniknąć klasyfikowania bardzo małych wahań</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="co"># jako trendu. Np. jeśli wzrost/spadek jest mniejszy niż 0.5 klienta na miesiąc.</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>stagnation_threshold <span class="op">=</span> <span class="fl">0.5</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> slope <span class="op">&gt;</span> stagnation_threshold:</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>    wniosek <span class="op">=</span> <span class="ss">f"Firma wykazuje wyraźny trend WZROSTOWY."</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>    szczegoly <span class="op">=</span> <span class="ss">f"Średnio, z każdym miesiącem liczba klientów rośnie o </span><span class="sc">{</span>slope<span class="sc">:.2f}</span><span class="ss">."</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a><span class="cf">elif</span> slope <span class="op">&lt;</span> <span class="op">-</span>stagnation_threshold:</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>    wniosek <span class="op">=</span> <span class="ss">f"Firma wykazuje wyraźny trend SPADKOWY."</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>    szczegoly <span class="op">=</span> <span class="ss">f"Średnio, z każdym miesiącem liczba klientów maleje o </span><span class="sc">{</span><span class="op">-</span>slope<span class="sc">:.2f}</span><span class="ss">."</span></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>    wniosek <span class="op">=</span> <span class="st">"Firma wykazuje STAGNACJĘ."</span></span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>    szczegoly <span class="op">=</span> <span class="ss">f"Brak wyraźnego trendu wzrostowego lub spadkowego (nachylenie linii trendu wynosi </span><span class="sc">{</span>slope<span class="sc">:.2f}</span><span class="ss">)."</span></span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"--- Automatyczna Analiza Trendu ---"</span>)</span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Współczynnik nachylenia linii trendu: </span><span class="sc">{</span>slope<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Wniosek: </span><span class="sc">{</span>wniosek<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(szczegoly)</span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"-----------------------------------"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>--- Automatyczna Analiza Trendu ---
-Współczynnik nachylenia linii trendu: 0.2695
+Współczynnik nachylenia linii trendu: 0.3492
 
 Wniosek: Firma wykazuje STAGNACJĘ.
-Brak wyraźnego trendu wzrostowego lub spadkowego (nachylenie linii trendu wynosi 0.27).
+Brak wyraźnego trendu wzrostowego lub spadkowego (nachylenie linii trendu wynosi 0.35).
 -----------------------------------</code></pre>
 </div>
 </div>
@@ -360,6 +359,765 @@ Brak wyraźnego trendu wzrostowego lub spadkowego (nachylenie linii trendu wynos
 <section id="problem-trzeci" class="level2" data-number="3.3">
 <h2 data-number="3.3" class="anchored" data-anchor-id="problem-trzeci"><span class="header-section-number">3.3</span> Problem trzeci</h2>
 <p>Pytanie: Które destynacje są najbardziej ryzykowne?</p>
+<div id="5ad8c9d1" class="cell" data-execution_count="11">
+<details class="code-fold">
+<summary>Rozwiń kod</summary>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>query_risky_destinations <span class="op">=</span> <span class="st">"""</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="st">SELECT </span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="st">    destinations.name AS kierunek, </span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="st">    COUNT(*) AS liczba_wypadkow</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="st">FROM</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="st">    incidents</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="st">LEFT JOIN</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="st">    trips</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="st">ON</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="st">    incidents.trip_id = trips.trip_id</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a><span class="st">LEFT JOIN</span></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a><span class="st">    destinations</span></span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a><span class="st">ON</span></span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a><span class="st">    trips.destination_id = destinations.destination_id</span></span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a><span class="st">GROUP BY</span></span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a><span class="st">    kierunek</span></span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a><span class="st">ORDER BY</span></span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a><span class="st">    liczba_wypadkow DESC;</span></span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div id="1f34cdd3" class="cell" data-execution_count="12">
+<details class="code-fold">
+<summary>Rozwiń kod</summary>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>query_risky_dest2 <span class="op">=</span> <span class="st">"""</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="st">SELECT</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="st">    d.name AS kierunek,</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="st">    COALESCE(tpd.total_trips, 0) AS liczba_wypraw,</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="st">    COALESCE(ipd.total_incidents, 0) AS liczba_incydentow,</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="st">    (COALESCE(ipd.total_incidents, 0) * 100.0 / tpd.total_trips) AS wskaznik_ryzyka_procent</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="st">FROM</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="st">    destinations d</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a><span class="st">JOIN</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a><span class="st">    -- Pierwsze podzapytanie zdefiniowane bezpośrednio w FROM</span></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a><span class="st">    (</span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a><span class="st">        SELECT destination_id, COUNT(trip_id) AS total_trips</span></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a><span class="st">        FROM trips</span></span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a><span class="st">        GROUP BY destination_id</span></span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a><span class="st">    ) AS tpd ON d.destination_id = tpd.destination_id</span></span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a><span class="st">LEFT JOIN</span></span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a><span class="st">    -- Drugie podzapytanie zdefiniowane bezpośrednio w FROM</span></span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a><span class="st">    (</span></span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a><span class="st">        SELECT t.destination_id, COUNT(i.incident_id) AS total_incidents</span></span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a><span class="st">        FROM incidents i</span></span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a><span class="st">        JOIN trips t ON i.trip_id = t.trip_id</span></span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a><span class="st">        GROUP BY t.destination_id</span></span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a><span class="st">    ) AS ipd ON d.destination_id = ipd.destination_id</span></span>
+<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a><span class="st">ORDER BY</span></span>
+<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a><span class="st">    wskaznik_ryzyka_procent DESC;</span></span>
+<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div id="c8110d91" class="cell" data-execution_count="13">
+<details class="code-fold">
+<summary>Rozwiń kod</summary>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>df_risky_destinations <span class="op">=</span> pd.read_sql(query_risky_destinations, engine)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div id="24829c53" class="cell" data-execution_count="14">
+<details class="code-fold">
+<summary>Rozwiń kod</summary>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df_risky_destinations.to_string())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>  kierunek  liczba_wypadkow
+0   Jowisz               15
+1    Wenus                8
+2     Mars                8
+3  Merkury                7
+4   Saturn                6</code></pre>
+</div>
+</div>
+<div id="2013d17f" class="cell" data-execution_count="15">
+<details class="code-fold">
+<summary>Rozwiń kod</summary>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>df_risky_destinations2 <span class="op">=</span> pd.read_sql(query_risky_dest2, engine)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div id="3c4bbcdb" class="cell" data-execution_count="16">
+<details class="code-fold">
+<summary>Rozwiń kod</summary>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df_risky_destinations2.to_string())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>  kierunek  liczba_wypraw  liczba_incydentow  wskaznik_ryzyka_procent
+0   Jowisz             12                 15                125.00000
+1    Wenus              7                  8                114.28571
+2     Mars             10                  8                 80.00000
+3   Saturn              8                  6                 75.00000
+4  Merkury             13                  7                 53.84615</code></pre>
+</div>
+</div>
+<div id="b30964be" class="cell" data-execution_count="17">
+<details class="code-fold">
+<summary>Rozwiń kod</summary>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>query_incidents_graph <span class="op">=</span> <span class="st">"""</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="st">SELECT</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="st">    d.name AS kierunek,</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="st">    i.severity,</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="st">    COUNT(i.incident_id) AS liczba_incydentow</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a><span class="st">FROM</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a><span class="st">    incidents i</span></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a><span class="st">JOIN</span></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a><span class="st">    trips t ON i.trip_id = t.trip_id</span></span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a><span class="st">JOIN</span></span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a><span class="st">    destinations d ON t.destination_id = d.destination_id</span></span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a><span class="st">WHERE</span></span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a><span class="st">    i.severity IN ('high', 'medium', 'low')</span></span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a><span class="st">GROUP BY</span></span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a><span class="st">    d.name, i.severity</span></span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div id="d8ea2be6" class="cell" data-execution_count="18">
+<details class="code-fold">
+<summary>Rozwiń kod</summary>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>df_incidents_long <span class="op">=</span> pd.read_sql(query_incidents_graph, engine)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div id="d30ed950" class="cell" data-execution_count="19">
+<details class="code-fold">
+<summary>Rozwiń kod</summary>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>df_incidents_wide <span class="op">=</span> df_incidents_long.pivot_table(</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>    index<span class="op">=</span><span class="st">'kierunek'</span>, </span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>    columns<span class="op">=</span><span class="st">'severity'</span>, </span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>    values<span class="op">=</span><span class="st">'liczba_incydentow'</span>,</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>    fill_value<span class="op">=</span><span class="dv">0</span></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>color_map <span class="op">=</span> {<span class="st">'high'</span>: <span class="st">'#d9534f'</span>, <span class="st">'medium'</span>: <span class="st">'#f0ad4e'</span>, <span class="st">'low'</span>: <span class="st">'#5cb85c'</span>}</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>desired_order <span class="op">=</span> [<span class="st">'low'</span>, <span class="st">'medium'</span>, <span class="st">'high'</span>]</span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>ordered_columns <span class="op">=</span> [col <span class="cf">for</span> col <span class="kw">in</span> desired_order <span class="cf">if</span> col <span class="kw">in</span> df_incidents_wide.columns]</span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>df_incidents_wide <span class="op">=</span> df_incidents_wide[ordered_columns]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div id="8a839047" class="cell" data-execution_count="20">
+<details class="code-fold">
+<summary>Rozwiń kod</summary>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>df_incidents_wide.plot(</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>    kind<span class="op">=</span><span class="st">'bar'</span>, </span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>    stacked<span class="op">=</span><span class="va">True</span>, </span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>    color<span class="op">=</span>color_map,</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>    figsize<span class="op">=</span>(<span class="dv">14</span>, <span class="dv">8</span>)</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Liczba incydentów według destynacji'</span>, fontsize<span class="op">=</span><span class="dv">16</span>)</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Destynacja'</span>, fontsize<span class="op">=</span><span class="dv">12</span>)</span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Łączna liczba incydentów'</span>, fontsize<span class="op">=</span><span class="dv">12</span>)</span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>plt.xticks(rotation<span class="op">=</span><span class="dv">45</span>, ha<span class="op">=</span><span class="st">'right'</span>)</span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>plt.legend(title<span class="op">=</span><span class="st">'Poziom zagrożenia'</span>)</span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="projekt_raport_files/figure-html/cell-21-output-1.png" width="1335" height="758" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="2ba5acaf" class="cell" data-execution_count="21">
+<details class="code-fold">
+<summary>Rozwiń kod</summary>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>query_weighted_risk <span class="op">=</span> <span class="st">"""</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="st">WITH trips_per_destination AS (</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="st">    SELECT destination_id, COUNT(trip_id) AS total_trips</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="st">    FROM trips</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="st">    GROUP BY destination_id</span></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a><span class="st">),</span></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a><span class="st">weighted_incidents AS (</span></span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a><span class="st">    SELECT </span></span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a><span class="st">        t.destination_id,</span></span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a><span class="st">        SUM(</span></span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a><span class="st">            CASE </span></span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a><span class="st">                WHEN i.severity = 'High' THEN 10</span></span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a><span class="st">                WHEN i.severity = 'Medium' THEN 3</span></span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a><span class="st">                WHEN i.severity = 'Low' THEN 1</span></span>
+<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a><span class="st">                ELSE 0 </span></span>
+<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a><span class="st">            END</span></span>
+<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a><span class="st">        ) AS risk_score</span></span>
+<span id="cb26-18"><a href="#cb26-18" aria-hidden="true" tabindex="-1"></a><span class="st">    FROM incidents i</span></span>
+<span id="cb26-19"><a href="#cb26-19" aria-hidden="true" tabindex="-1"></a><span class="st">    JOIN trips t ON i.trip_id = t.trip_id</span></span>
+<span id="cb26-20"><a href="#cb26-20" aria-hidden="true" tabindex="-1"></a><span class="st">    GROUP BY t.destination_id</span></span>
+<span id="cb26-21"><a href="#cb26-21" aria-hidden="true" tabindex="-1"></a><span class="st">)</span></span>
+<span id="cb26-22"><a href="#cb26-22" aria-hidden="true" tabindex="-1"></a><span class="st">SELECT </span></span>
+<span id="cb26-23"><a href="#cb26-23" aria-hidden="true" tabindex="-1"></a><span class="st">    d.name AS Kierunek,</span></span>
+<span id="cb26-24"><a href="#cb26-24" aria-hidden="true" tabindex="-1"></a><span class="st">    COALESCE(tpd.total_trips, 0) AS Liczba_wypraw,</span></span>
+<span id="cb26-25"><a href="#cb26-25" aria-hidden="true" tabindex="-1"></a><span class="st">    COALESCE(wi.risk_score, 0) AS Suma_punktow_ryzyka,</span></span>
+<span id="cb26-26"><a href="#cb26-26" aria-hidden="true" tabindex="-1"></a><span class="st">    COALESCE(wi.risk_score / tpd.total_trips, 0) AS Wazony_wspolczynnik_ryzyka</span></span>
+<span id="cb26-27"><a href="#cb26-27" aria-hidden="true" tabindex="-1"></a><span class="st">FROM </span></span>
+<span id="cb26-28"><a href="#cb26-28" aria-hidden="true" tabindex="-1"></a><span class="st">    destinations d</span></span>
+<span id="cb26-29"><a href="#cb26-29" aria-hidden="true" tabindex="-1"></a><span class="st">LEFT JOIN </span></span>
+<span id="cb26-30"><a href="#cb26-30" aria-hidden="true" tabindex="-1"></a><span class="st">    trips_per_destination tpd ON d.destination_id = tpd.destination_id</span></span>
+<span id="cb26-31"><a href="#cb26-31" aria-hidden="true" tabindex="-1"></a><span class="st">LEFT JOIN</span></span>
+<span id="cb26-32"><a href="#cb26-32" aria-hidden="true" tabindex="-1"></a><span class="st">    weighted_incidents wi ON d.destination_id = wi.destination_id</span></span>
+<span id="cb26-33"><a href="#cb26-33" aria-hidden="true" tabindex="-1"></a><span class="st">WHERE</span></span>
+<span id="cb26-34"><a href="#cb26-34" aria-hidden="true" tabindex="-1"></a><span class="st">    tpd.total_trips &gt; 0</span></span>
+<span id="cb26-35"><a href="#cb26-35" aria-hidden="true" tabindex="-1"></a><span class="st">ORDER BY </span></span>
+<span id="cb26-36"><a href="#cb26-36" aria-hidden="true" tabindex="-1"></a><span class="st">    Wazony_wspolczynnik_ryzyka DESC;</span></span>
+<span id="cb26-37"><a href="#cb26-37" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div id="645e019e" class="cell" data-execution_count="22">
+<details class="code-fold">
+<summary>Rozwiń kod</summary>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>df_risk <span class="op">=</span> pd.read_sql(query_weighted_risk, engine)</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"--- Ranking Ryzyka Destynacji (ważony) ---"</span>)</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df_risk.to_string())</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Automatyczny wniosek</span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">--- Wnioski ---"</span>)</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>most_risky <span class="op">=</span> df_risk.iloc[<span class="dv">0</span>]</span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Najbardziej ryzykowną destynacją według ważonego wskaźnika jest '</span><span class="sc">{</span>most_risky[<span class="st">'Kierunek'</span>]<span class="sc">}</span><span class="ss">' "</span></span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>      <span class="ss">f"z wynikiem </span><span class="sc">{</span>most_risky[<span class="st">'Wazony_wspolczynnik_ryzyka'</span>]<span class="sc">:.2f}</span><span class="ss"> pkt na wyprawę."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>--- Ranking Ryzyka Destynacji (ważony) ---
+  Kierunek  Liczba_wypraw  Suma_punktow_ryzyka  Wazony_wspolczynnik_ryzyka
+0   Jowisz             12                 73.0                      6.0833
+1     Mars             10                 42.0                      4.2000
+2    Wenus              7                 27.0                      3.8571
+3   Saturn              8                 21.0                      2.6250
+4  Merkury             13                 23.0                      1.7692
+
+--- Wnioski ---
+Najbardziej ryzykowną destynacją według ważonego wskaźnika jest 'Jowisz' z wynikiem 6.08 pkt na wyprawę.</code></pre>
+</div>
+</div>
+<p>Wadliwość statków</p>
+<div id="838a0dde" class="cell" data-execution_count="23">
+<details class="code-fold">
+<summary>Rozwiń kod</summary>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>query_spacecraft_incidents <span class="op">=</span> <span class="st">"""</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="st">SELECT </span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="st">    spacecraft.name AS nazwa_statku,</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a><span class="st">    COUNT(*) AS liczba_usterek</span></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a><span class="st">FROM</span></span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a><span class="st">    incidents</span></span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a><span class="st">LEFT JOIN</span></span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a><span class="st">    trips</span></span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a><span class="st">ON</span></span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a><span class="st">    incidents.trip_id = trips.trip_id</span></span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a><span class="st">LEFT JOIN</span></span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a><span class="st">    spacecraft</span></span>
+<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a><span class="st">ON</span></span>
+<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a><span class="st">    trips.spacecraft_id = spacecraft.spacecraft_id</span></span>
+<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a><span class="st">WHERE incidents.category = 'equipment'</span></span>
+<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a><span class="st">GROUP BY spacecraft.name</span></span>
+<span id="cb29-17"><a href="#cb29-17" aria-hidden="true" tabindex="-1"></a><span class="st">ORDER BY liczba_usterek desc</span></span>
+<span id="cb29-18"><a href="#cb29-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-19"><a href="#cb29-19" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div id="60a393b7" class="cell" data-execution_count="24">
+<details class="code-fold">
+<summary>Rozwiń kod</summary>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>df_spacecrafts_incidents <span class="op">=</span> pd.read_sql(query_spacecraft_incidents, engine)</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df_spacecrafts_incidents.to_string())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>   nazwa_statku  liczba_usterek
+0    Luna-Ultra               2
+1       Nova-VX               1
+2   Vortex-Edge               1
+3     Nova-Edge               1
+4    Hyperion-7               1
+5  Eclipse-Edge               1
+6     Vortex-NX               1</code></pre>
+</div>
+</div>
+<div id="85513b4d" class="cell" data-execution_count="25">
+<details class="code-fold">
+<summary>Rozwiń kod</summary>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>query_failure_rate <span class="op">=</span> <span class="st">"""</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="st">WITH trips_per_spacecraft AS (</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="st">    SELECT </span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="st">        spacecraft_id, </span></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a><span class="st">        COUNT(trip_id) AS total_trips</span></span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a><span class="st">    FROM trips</span></span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a><span class="st">    GROUP BY spacecraft_id</span></span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a><span class="st">),</span></span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a><span class="st">equipment_failures AS (</span></span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a><span class="st">    SELECT </span></span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a><span class="st">        t.spacecraft_id, </span></span>
+<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a><span class="st">        COUNT(i.incident_id) AS total_failures</span></span>
+<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a><span class="st">    FROM incidents i</span></span>
+<span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a><span class="st">    JOIN trips t ON i.trip_id = t.trip_id</span></span>
+<span id="cb32-15"><a href="#cb32-15" aria-hidden="true" tabindex="-1"></a><span class="st">    WHERE i.category = 'equipment'</span></span>
+<span id="cb32-16"><a href="#cb32-16" aria-hidden="true" tabindex="-1"></a><span class="st">    GROUP BY t.spacecraft_id</span></span>
+<span id="cb32-17"><a href="#cb32-17" aria-hidden="true" tabindex="-1"></a><span class="st">)</span></span>
+<span id="cb32-18"><a href="#cb32-18" aria-hidden="true" tabindex="-1"></a><span class="st">SELECT</span></span>
+<span id="cb32-19"><a href="#cb32-19" aria-hidden="true" tabindex="-1"></a><span class="st">    s.name AS nazwa_statku,</span></span>
+<span id="cb32-20"><a href="#cb32-20" aria-hidden="true" tabindex="-1"></a><span class="st">    COALESCE(tps.total_trips, 0) AS liczba_wypraw,</span></span>
+<span id="cb32-21"><a href="#cb32-21" aria-hidden="true" tabindex="-1"></a><span class="st">    COALESCE(ef.total_failures, 0) AS liczba_usterek,</span></span>
+<span id="cb32-22"><a href="#cb32-22" aria-hidden="true" tabindex="-1"></a><span class="st">    CASE</span></span>
+<span id="cb32-23"><a href="#cb32-23" aria-hidden="true" tabindex="-1"></a><span class="st">        WHEN tps.total_trips &gt; 0 THEN COALESCE(ef.total_failures, 0) / CAST(tps.total_trips AS FLOAT)</span></span>
+<span id="cb32-24"><a href="#cb32-24" aria-hidden="true" tabindex="-1"></a><span class="st">        ELSE 0</span></span>
+<span id="cb32-25"><a href="#cb32-25" aria-hidden="true" tabindex="-1"></a><span class="st">    END AS usterki_na_wyprawe</span></span>
+<span id="cb32-26"><a href="#cb32-26" aria-hidden="true" tabindex="-1"></a><span class="st">FROM</span></span>
+<span id="cb32-27"><a href="#cb32-27" aria-hidden="true" tabindex="-1"></a><span class="st">    spacecraft s</span></span>
+<span id="cb32-28"><a href="#cb32-28" aria-hidden="true" tabindex="-1"></a><span class="st">LEFT JOIN</span></span>
+<span id="cb32-29"><a href="#cb32-29" aria-hidden="true" tabindex="-1"></a><span class="st">    trips_per_spacecraft tps ON s.spacecraft_id = tps.spacecraft_id</span></span>
+<span id="cb32-30"><a href="#cb32-30" aria-hidden="true" tabindex="-1"></a><span class="st">LEFT JOIN</span></span>
+<span id="cb32-31"><a href="#cb32-31" aria-hidden="true" tabindex="-1"></a><span class="st">    equipment_failures ef ON s.spacecraft_id = ef.spacecraft_id</span></span>
+<span id="cb32-32"><a href="#cb32-32" aria-hidden="true" tabindex="-1"></a><span class="st">ORDER BY</span></span>
+<span id="cb32-33"><a href="#cb32-33" aria-hidden="true" tabindex="-1"></a><span class="st">    usterki_na_wyprawe DESC;</span></span>
+<span id="cb32-34"><a href="#cb32-34" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div id="6632a4b1" class="cell" data-execution_count="26">
+<details class="code-fold">
+<summary>Rozwiń kod</summary>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>df_failure_rate <span class="op">=</span> pd.read_sql(query_failure_rate, engine)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div id="fed1c357" class="cell" data-execution_count="27">
+<details class="code-fold">
+<summary>Rozwiń kod</summary>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"--- Ranking Niezawodności Statków (Usterki na Wyprawę) ---"</span>)</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df_failure_rate.to_string())</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">6</span>))</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>sns.barplot(data<span class="op">=</span>df_failure_rate, x<span class="op">=</span><span class="st">'usterki_na_wyprawe'</span>, y<span class="op">=</span><span class="st">'nazwa_statku'</span>, hue<span class="op">=</span><span class="st">"nazwa_statku"</span>, palette<span class="op">=</span><span class="st">'Reds_r'</span>)</span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Wskaźnik Usterek Sprzętowych na Wyprawę'</span>)</span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Średnia liczba usterek na jedną wyprawę'</span>)</span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Statek kosmiczny'</span>)</span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>--- Ranking Niezawodności Statków (Usterki na Wyprawę) ---
+      nazwa_statku  liczba_wypraw  liczba_usterek  usterki_na_wyprawe
+0       Luna-Ultra              2               2            1.000000
+1          Nova-VX              2               1            0.500000
+2     Eclipse-Edge              2               1            0.500000
+3       Hyperion-7              2               1            0.500000
+4        Nova-Edge              2               1            0.500000
+5      Vortex-Edge              3               1            0.333333
+6        Vortex-NX              6               1            0.166667
+7         Titan-VX              4               0            0.000000
+8      Hyperion-NX              0               0            0.000000
+9           Luna-7              1               0            0.000000
+10    Zenith-Prime              0               0            0.000000
+11       Pulsar-NX              0               0            0.000000
+12       Titan-One              0               0            0.000000
+13     Hyperion-VX              1               0            0.000000
+14     Zenith-Core              1               0            0.000000
+15         Luna-NX              2               0            0.000000
+16     Pulsar-Core              0               0            0.000000
+17      Celestia-X              1               0            0.000000
+18        Pulsar-X              4               0            0.000000
+19      Eclipse-VX              1               0            0.000000
+20     Vortex-Core              1               0            0.000000
+21  Hyperion-Ultra              2               0            0.000000
+22       Vortex-VX              0               0            0.000000
+23       Luna-Core              3               0            0.000000
+24        Zenith-X              2               0            0.000000
+25          Luna-X              1               0            0.000000
+26      Astra-Core              2               0            0.000000
+27        Pulsar-7              1               0            0.000000
+28      Pulsar-One              2               0            0.000000
+29      Eclipse-NX              2               0            0.000000</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="projekt_raport_files/figure-html/cell-28-output-2.png" width="1142" height="567" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="255935a6" class="cell" data-execution_count="28">
+<details class="code-fold">
+<summary>Rozwiń kod</summary>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Automatyczne Wnioski z Rankingu Niezawodności ---</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">--- 🤖 Automatyczne Wnioski z Rankingu Niezawodności ---"</span>)</span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>most_failure_prone <span class="op">=</span> df_failure_rate.iloc[<span class="dv">0</span>]</span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>active_ships <span class="op">=</span> df_failure_rate[df_failure_rate[<span class="st">'liczba_wypraw'</span>] <span class="op">&gt;</span> <span class="dv">0</span>]</span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="kw">not</span> active_ships.empty:</span>
+<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a>    most_reliable <span class="op">=</span> active_ships.iloc[<span class="op">-</span><span class="dv">1</span>]</span>
+<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"</span><span class="ch">\n\n</span><span class="st">🔧 Najbardziej podatny na usterki jest statek:"</span>)</span>
+<span id="cb36-12"><a href="#cb36-12" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"   -&gt; Nazwa: '</span><span class="sc">{</span>most_failure_prone[<span class="st">'nazwa_statku'</span>]<span class="sc">}</span><span class="ss">'"</span>)</span>
+<span id="cb36-13"><a href="#cb36-13" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"   -&gt; Wskaźnik: </span><span class="sc">{</span>most_failure_prone[<span class="st">'usterki_na_wyprawe'</span>]<span class="sc">:.3f}</span><span class="ss"> usterek na każdą wyprawę."</span>)</span>
+<span id="cb36-14"><a href="#cb36-14" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"   (Na podstawie </span><span class="sc">{</span><span class="bu">int</span>(most_failure_prone[<span class="st">'liczba_usterek'</span>])<span class="sc">}</span><span class="ss"> usterek w ciągu </span><span class="sc">{</span><span class="bu">int</span>(most_failure_prone[<span class="st">'liczba_wypraw'</span>])<span class="sc">}</span><span class="ss"> wypraw)."</span>)</span>
+<span id="cb36-15"><a href="#cb36-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-16"><a href="#cb36-16" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">🏆 Najbardziej niezawodnym statkiem jest:"</span>)</span>
+<span id="cb36-17"><a href="#cb36-17" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"   -&gt; Nazwa: '</span><span class="sc">{</span>most_reliable[<span class="st">'nazwa_statku'</span>]<span class="sc">}</span><span class="ss">'"</span>)</span>
+<span id="cb36-18"><a href="#cb36-18" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"   -&gt; Wskaźnik: </span><span class="sc">{</span>most_reliable[<span class="st">'usterki_na_wyprawe'</span>]<span class="sc">:.3f}</span><span class="ss"> usterek na każdą wyprawę."</span>)</span>
+<span id="cb36-19"><a href="#cb36-19" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb36-20"><a href="#cb36-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> most_reliable[<span class="st">'usterki_na_wyprawe'</span>] <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb36-21"><a href="#cb36-21" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"   (Statek odbył </span><span class="sc">{</span><span class="bu">int</span>(most_reliable[<span class="st">'liczba_wypraw'</span>])<span class="sc">}</span><span class="ss"> wypraw bez odnotowanej usterki sprzętowej - doskonały wynik!)"</span>)</span>
+<span id="cb36-22"><a href="#cb36-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb36-23"><a href="#cb36-23" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"   (Na podstawie </span><span class="sc">{</span><span class="bu">int</span>(most_reliable[<span class="st">'liczba_usterek'</span>])<span class="sc">}</span><span class="ss"> usterek w ciągu </span><span class="sc">{</span><span class="bu">int</span>(most_reliable[<span class="st">'liczba_wypraw'</span>])<span class="sc">}</span><span class="ss"> wypraw)."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+--- 🤖 Automatyczne Wnioski z Rankingu Niezawodności ---
+
+
+🔧 Najbardziej podatny na usterki jest statek:
+   -&gt; Nazwa: 'Luna-Ultra'
+   -&gt; Wskaźnik: 1.000 usterek na każdą wyprawę.
+   (Na podstawie 2 usterek w ciągu 2 wypraw).
+
+🏆 Najbardziej niezawodnym statkiem jest:
+   -&gt; Nazwa: 'Eclipse-NX'
+   -&gt; Wskaźnik: 0.000 usterek na każdą wyprawę.
+   (Statek odbył 2 wypraw bez odnotowanej usterki sprzętowej - doskonały wynik!)</code></pre>
+</div>
+</div>
+</section>
+<section id="problem-czwarty" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="problem-czwarty"><span class="header-section-number">3.4</span> Problem czwarty</h2>
+<p>Pytanie: Czy występowanie incydentów ma wpływ na ocenę wyprawy?</p>
+<div id="c59e9b7d" class="cell" data-execution_count="29">
+<details class="code-fold">
+<summary>Rozwiń kod</summary>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>query_feedback_incidents <span class="op">=</span> <span class="st">"""</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="st">SELECT </span></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="st">    AVG(feedback.rating) AS srednia_ocena,</span></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a><span class="st">    t.liczba_wypadkow</span></span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a><span class="st">FROM</span></span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a><span class="st">    feedback</span></span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a><span class="st">LEFT JOIN</span></span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a><span class="st">    trips</span></span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a><span class="st">ON</span></span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a><span class="st">    feedback.trip_id = trips.trip_id</span></span>
+<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a><span class="st">LEFT JOIN</span></span>
+<span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a><span class="st">    (SELECT</span></span>
+<span id="cb38-13"><a href="#cb38-13" aria-hidden="true" tabindex="-1"></a><span class="st">    incidents.trip_id, </span></span>
+<span id="cb38-14"><a href="#cb38-14" aria-hidden="true" tabindex="-1"></a><span class="st">    COUNT(incidents.incident_id) AS liczba_wypadkow</span></span>
+<span id="cb38-15"><a href="#cb38-15" aria-hidden="true" tabindex="-1"></a><span class="st">    FROM incidents</span></span>
+<span id="cb38-16"><a href="#cb38-16" aria-hidden="true" tabindex="-1"></a><span class="st">    GROUP BY trip_id) t</span></span>
+<span id="cb38-17"><a href="#cb38-17" aria-hidden="true" tabindex="-1"></a><span class="st">ON</span></span>
+<span id="cb38-18"><a href="#cb38-18" aria-hidden="true" tabindex="-1"></a><span class="st">    t.trip_id = trips.trip_id</span></span>
+<span id="cb38-19"><a href="#cb38-19" aria-hidden="true" tabindex="-1"></a><span class="st">GROUP BY </span></span>
+<span id="cb38-20"><a href="#cb38-20" aria-hidden="true" tabindex="-1"></a><span class="st">    feedback.trip_id</span></span>
+<span id="cb38-21"><a href="#cb38-21" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div id="2b81c283" class="cell" data-execution_count="30">
+<details class="code-fold">
+<summary>Rozwiń kod</summary>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>query_correlation <span class="op">=</span> <span class="st">"""</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="st">WITH avg_ratings AS (</span></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a><span class="st">    SELECT trip_id, AVG(rating) AS avg_rating</span></span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a><span class="st">    FROM feedback</span></span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a><span class="st">    GROUP BY trip_id</span></span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a><span class="st">),</span></span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a><span class="st">incident_counts AS (</span></span>
+<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a><span class="st">    SELECT trip_id, COUNT(incident_id) AS incident_count</span></span>
+<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a><span class="st">    FROM incidents</span></span>
+<span id="cb39-10"><a href="#cb39-10" aria-hidden="true" tabindex="-1"></a><span class="st">    GROUP BY trip_id</span></span>
+<span id="cb39-11"><a href="#cb39-11" aria-hidden="true" tabindex="-1"></a><span class="st">)</span></span>
+<span id="cb39-12"><a href="#cb39-12" aria-hidden="true" tabindex="-1"></a><span class="st">SELECT </span></span>
+<span id="cb39-13"><a href="#cb39-13" aria-hidden="true" tabindex="-1"></a><span class="st">    t.trip_id,</span></span>
+<span id="cb39-14"><a href="#cb39-14" aria-hidden="true" tabindex="-1"></a><span class="st">    ar.avg_rating AS srednia_ocena,</span></span>
+<span id="cb39-15"><a href="#cb39-15" aria-hidden="true" tabindex="-1"></a><span class="st">    COALESCE(ic.incident_count, 0) AS liczba_incydentow</span></span>
+<span id="cb39-16"><a href="#cb39-16" aria-hidden="true" tabindex="-1"></a><span class="st">FROM </span></span>
+<span id="cb39-17"><a href="#cb39-17" aria-hidden="true" tabindex="-1"></a><span class="st">    trips t</span></span>
+<span id="cb39-18"><a href="#cb39-18" aria-hidden="true" tabindex="-1"></a><span class="st">JOIN </span></span>
+<span id="cb39-19"><a href="#cb39-19" aria-hidden="true" tabindex="-1"></a><span class="st">    avg_ratings ar ON t.trip_id = ar.trip_id</span></span>
+<span id="cb39-20"><a href="#cb39-20" aria-hidden="true" tabindex="-1"></a><span class="st">LEFT JOIN </span></span>
+<span id="cb39-21"><a href="#cb39-21" aria-hidden="true" tabindex="-1"></a><span class="st">    incident_counts ic ON t.trip_id = ic.trip_id;</span></span>
+<span id="cb39-22"><a href="#cb39-22" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div id="2c5fee88" class="cell" data-execution_count="31">
+<details class="code-fold">
+<summary>Rozwiń kod</summary>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>df_correlation <span class="op">=</span> pd.read_sql(query_correlation, engine)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div id="36e536ff" class="cell" data-execution_count="32">
+<details class="code-fold">
+<summary>Rozwiń kod</summary>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>correlation_coeff <span class="op">=</span> df_correlation[<span class="st">'srednia_ocena'</span>].corr(df_correlation[<span class="st">'liczba_incydentow'</span>])</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"--- 🤖 Analiza korelacji: Ocena vs. Incydenty ---"</span>)</span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Obliczony współczynnik korelacji: </span><span class="sc">{</span>correlation_coeff<span class="sc">:.3f}</span><span class="ss">"</span>)</span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> correlation_coeff <span class="op">&lt;</span> <span class="op">-</span><span class="fl">0.3</span>:</span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Wniosek: Istnieje zauważalna korelacja ujemna. Wzrost liczby incydentów wiąże się ze spadkiem ocen."</span>)</span>
+<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a><span class="cf">elif</span> correlation_coeff <span class="op">&gt;</span> <span class="fl">0.3</span>:</span>
+<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a>     <span class="bu">print</span>(<span class="st">"Wniosek: Istnieje zauważalna korelacja dodatnia (wynik nieoczekiwany)."</span>)</span>
+<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb41-11"><a href="#cb41-11" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Wniosek: Brak silnej korelacji. Liczba incydentów nie wydaje się mieć dużego wpływu na ocenę."</span>)</span>
+<span id="cb41-12"><a href="#cb41-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"-------------------------------------------------"</span>)</span>
+<span id="cb41-13"><a href="#cb41-13" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
+<span id="cb41-14"><a href="#cb41-14" aria-hidden="true" tabindex="-1"></a>sns.regplot(data<span class="op">=</span>df_correlation, x<span class="op">=</span><span class="st">'liczba_incydentow'</span>, y<span class="op">=</span><span class="st">'srednia_ocena'</span>,</span>
+<span id="cb41-15"><a href="#cb41-15" aria-hidden="true" tabindex="-1"></a>            line_kws<span class="op">=</span>{<span class="st">"color"</span>: <span class="st">"red"</span>, <span class="st">"lw"</span>: <span class="dv">2</span>}, scatter_kws<span class="op">=</span>{<span class="st">"alpha"</span>: <span class="fl">0.6</span>})</span>
+<span id="cb41-16"><a href="#cb41-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-17"><a href="#cb41-17" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Zależność średniej oceny od liczby incydentów na wyprawie'</span>, fontsize<span class="op">=</span><span class="dv">15</span>)</span>
+<span id="cb41-18"><a href="#cb41-18" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Liczba incydentów podczas wyprawy'</span>)</span>
+<span id="cb41-19"><a href="#cb41-19" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Średnia ocena wyprawy'</span>)</span>
+<span id="cb41-20"><a href="#cb41-20" aria-hidden="true" tabindex="-1"></a>max_incidents <span class="op">=</span> <span class="bu">int</span>(df_correlation[<span class="st">'liczba_incydentow'</span>].<span class="bu">max</span>())</span>
+<span id="cb41-21"><a href="#cb41-21" aria-hidden="true" tabindex="-1"></a>plt.xticks(<span class="bu">range</span>(max_incidents <span class="op">+</span> <span class="dv">1</span>))</span>
+<span id="cb41-22"><a href="#cb41-22" aria-hidden="true" tabindex="-1"></a>plt.grid(<span class="va">True</span>, linestyle<span class="op">=</span><span class="st">'--'</span>, alpha<span class="op">=</span><span class="fl">0.6</span>)</span>
+<span id="cb41-23"><a href="#cb41-23" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>--- 🤖 Analiza korelacji: Ocena vs. Incydenty ---
+Obliczony współczynnik korelacji: -0.804
+Wniosek: Istnieje zauważalna korelacja ujemna. Wzrost liczby incydentów wiąże się ze spadkiem ocen.
+-------------------------------------------------</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="projekt_raport_files/figure-html/cell-33-output-2.png" width="815" height="529" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="problem-piąty" class="level2" data-number="3.5">
+<h2 data-number="3.5" class="anchored" data-anchor-id="problem-piąty"><span class="header-section-number">3.5</span> Problem piąty</h2>
+<p>Pytanie: Jakie destynacje i rodzaje wycieczek otrzymują najlepsze oceny?</p>
+<div id="e052748e" class="cell" data-execution_count="33">
+<details class="code-fold">
+<summary>Rozwiń kod</summary>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>query_dest_ratings <span class="op">=</span> <span class="st">"""</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="st">SELECT</span></span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a><span class="st">    d.name AS kierunek,</span></span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a><span class="st">    AVG(f.rating) AS srednia_ocena,</span></span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a><span class="st">    COUNT(f.rating) AS liczba_ocen</span></span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a><span class="st">FROM</span></span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a><span class="st">    feedback f</span></span>
+<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a><span class="st">JOIN</span></span>
+<span id="cb43-9"><a href="#cb43-9" aria-hidden="true" tabindex="-1"></a><span class="st">    trips t ON f.trip_id = t.trip_id</span></span>
+<span id="cb43-10"><a href="#cb43-10" aria-hidden="true" tabindex="-1"></a><span class="st">JOIN</span></span>
+<span id="cb43-11"><a href="#cb43-11" aria-hidden="true" tabindex="-1"></a><span class="st">    destinations d ON t.destination_id = d.destination_id</span></span>
+<span id="cb43-12"><a href="#cb43-12" aria-hidden="true" tabindex="-1"></a><span class="st">WHERE f.rating IS NOT NULL</span></span>
+<span id="cb43-13"><a href="#cb43-13" aria-hidden="true" tabindex="-1"></a><span class="st">GROUP BY</span></span>
+<span id="cb43-14"><a href="#cb43-14" aria-hidden="true" tabindex="-1"></a><span class="st">    d.name</span></span>
+<span id="cb43-15"><a href="#cb43-15" aria-hidden="true" tabindex="-1"></a><span class="st">HAVING</span></span>
+<span id="cb43-16"><a href="#cb43-16" aria-hidden="true" tabindex="-1"></a><span class="st">    COUNT(f.rating) &gt; 2</span></span>
+<span id="cb43-17"><a href="#cb43-17" aria-hidden="true" tabindex="-1"></a><span class="st">ORDER BY</span></span>
+<span id="cb43-18"><a href="#cb43-18" aria-hidden="true" tabindex="-1"></a><span class="st">    srednia_ocena DESC;</span></span>
+<span id="cb43-19"><a href="#cb43-19" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div id="7ddb67a9" class="cell" data-execution_count="34">
+<details class="code-fold">
+<summary>Rozwiń kod</summary>
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>df_dest_ratings <span class="op">=</span> pd.read_sql(query_dest_ratings, engine)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div id="61dd4269" class="cell" data-execution_count="35">
+<details class="code-fold">
+<summary>Rozwiń kod</summary>
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">--- ⭐ Ranking Ocen Destynacji ---"</span>)</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>best_dest <span class="op">=</span> df_dest_ratings.iloc[<span class="dv">0</span>]</span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>worst_dest <span class="op">=</span> df_dest_ratings.iloc[<span class="op">-</span><span class="dv">1</span>]</span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">🥇 Najwyżej oceniana destynacja: '</span><span class="sc">{</span>best_dest[<span class="st">'kierunek'</span>]<span class="sc">}</span><span class="ss">'"</span>)</span>
+<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"   -&gt; Średnia ocena: </span><span class="sc">{</span>best_dest[<span class="st">'srednia_ocena'</span>]<span class="sc">:.2f}</span><span class="ss"> na podstawie </span><span class="sc">{</span><span class="bu">int</span>(best_dest[<span class="st">'liczba_ocen'</span>])<span class="sc">}</span><span class="ss"> opinii."</span>)</span>
+<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-9"><a href="#cb45-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">📉 Najniżej oceniana destynacja: '</span><span class="sc">{</span>worst_dest[<span class="st">'kierunek'</span>]<span class="sc">}</span><span class="ss">'"</span>)</span>
+<span id="cb45-10"><a href="#cb45-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"   -&gt; Średnia ocena: </span><span class="sc">{</span>worst_dest[<span class="st">'srednia_ocena'</span>]<span class="sc">:.2f}</span><span class="ss"> na podstawie </span><span class="sc">{</span><span class="bu">int</span>(worst_dest[<span class="st">'liczba_ocen'</span>])<span class="sc">}</span><span class="ss"> opinii."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+--- ⭐ Ranking Ocen Destynacji ---
+
+🥇 Najwyżej oceniana destynacja: 'Merkury'
+   -&gt; Średnia ocena: 3.55 na podstawie 265 opinii.
+
+📉 Najniżej oceniana destynacja: 'Jowisz'
+   -&gt; Średnia ocena: 1.74 na podstawie 319 opinii.</code></pre>
+</div>
+</div>
+<div id="3155061a" class="cell" data-execution_count="36">
+<details class="code-fold">
+<summary>Rozwiń kod</summary>
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">7</span>))</span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>sns.barplot(data<span class="op">=</span>df_dest_ratings, x<span class="op">=</span><span class="st">'srednia_ocena'</span>, y<span class="op">=</span><span class="st">'kierunek'</span>, palette<span class="op">=</span><span class="st">'coolwarm'</span>)</span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Ranking średnich ocen dla poszczególnych destynacji'</span>, fontsize<span class="op">=</span><span class="dv">15</span>)</span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Średnia ocena (w skali 1-5)'</span>)</span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Destynacja'</span>)</span>
+<span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a>plt.xlim(<span class="dv">0</span>, <span class="dv">5</span>)</span>
+<span id="cb47-7"><a href="#cb47-7" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb47-8"><a href="#cb47-8" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>C:\Users\rafal\AppData\Local\Temp\ipykernel_12904\1199124194.py:2: FutureWarning:
+
+
+
+Passing `palette` without assigning `hue` is deprecated and will be removed in v0.14.0. Assign the `y` variable to `hue` and set `legend=False` for the same effect.
+
+</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="projekt_raport_files/figure-html/cell-37-output-2.png" width="1142" height="664" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="7870e381" class="cell" data-execution_count="37">
+<details class="code-fold">
+<summary>Rozwiń kod</summary>
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>query_type_ratings <span class="op">=</span> <span class="st">"""</span></span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a><span class="st">SELECT</span></span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a><span class="st">    tt.name AS typ_wyprawy,</span></span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a><span class="st">    AVG(f.rating) AS srednia_ocena,</span></span>
+<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a><span class="st">    COUNT(f.rating) AS liczba_ocen</span></span>
+<span id="cb49-6"><a href="#cb49-6" aria-hidden="true" tabindex="-1"></a><span class="st">FROM</span></span>
+<span id="cb49-7"><a href="#cb49-7" aria-hidden="true" tabindex="-1"></a><span class="st">    feedback f</span></span>
+<span id="cb49-8"><a href="#cb49-8" aria-hidden="true" tabindex="-1"></a><span class="st">JOIN</span></span>
+<span id="cb49-9"><a href="#cb49-9" aria-hidden="true" tabindex="-1"></a><span class="st">    trips t ON f.trip_id = t.trip_id</span></span>
+<span id="cb49-10"><a href="#cb49-10" aria-hidden="true" tabindex="-1"></a><span class="st">JOIN</span></span>
+<span id="cb49-11"><a href="#cb49-11" aria-hidden="true" tabindex="-1"></a><span class="st">    trip_types tt ON t.trip_type_id = tt.trip_type_id</span></span>
+<span id="cb49-12"><a href="#cb49-12" aria-hidden="true" tabindex="-1"></a><span class="st">WHERE f.rating IS NOT NULL</span></span>
+<span id="cb49-13"><a href="#cb49-13" aria-hidden="true" tabindex="-1"></a><span class="st">GROUP BY</span></span>
+<span id="cb49-14"><a href="#cb49-14" aria-hidden="true" tabindex="-1"></a><span class="st">    tt.name</span></span>
+<span id="cb49-15"><a href="#cb49-15" aria-hidden="true" tabindex="-1"></a><span class="st">HAVING</span></span>
+<span id="cb49-16"><a href="#cb49-16" aria-hidden="true" tabindex="-1"></a><span class="st">    COUNT(f.rating) &gt; 2</span></span>
+<span id="cb49-17"><a href="#cb49-17" aria-hidden="true" tabindex="-1"></a><span class="st">ORDER BY</span></span>
+<span id="cb49-18"><a href="#cb49-18" aria-hidden="true" tabindex="-1"></a><span class="st">    srednia_ocena DESC;</span></span>
+<span id="cb49-19"><a href="#cb49-19" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div id="6ee19c4c" class="cell" data-execution_count="38">
+<details class="code-fold">
+<summary>Rozwiń kod</summary>
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>df_type_ratings <span class="op">=</span> pd.read_sql(query_type_ratings, engine)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div id="6e259546" class="cell" data-execution_count="39">
+<details class="code-fold">
+<summary>Rozwiń kod</summary>
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">--- ⭐ Ranking Ocen Rodzajów Wypraw ---"</span>)</span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>best_type <span class="op">=</span> df_type_ratings.iloc[<span class="dv">0</span>]</span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>worst_type <span class="op">=</span> df_type_ratings.iloc[<span class="op">-</span><span class="dv">1</span>]</span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">🥇 Najwyżej oceniany typ wyprawy: '</span><span class="sc">{</span>best_type[<span class="st">'typ_wyprawy'</span>]<span class="sc">}</span><span class="ss">'"</span>)</span>
+<span id="cb51-6"><a href="#cb51-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"   -&gt; Średnia ocena: </span><span class="sc">{</span>best_type[<span class="st">'srednia_ocena'</span>]<span class="sc">:.2f}</span><span class="ss"> na podstawie </span><span class="sc">{</span><span class="bu">int</span>(best_type[<span class="st">'liczba_ocen'</span>])<span class="sc">}</span><span class="ss"> opinii."</span>)</span>
+<span id="cb51-7"><a href="#cb51-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-8"><a href="#cb51-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">📉 Najniżej oceniany typ wyprawy: '</span><span class="sc">{</span>worst_type[<span class="st">'typ_wyprawy'</span>]<span class="sc">}</span><span class="ss">'"</span>)</span>
+<span id="cb51-9"><a href="#cb51-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"   -&gt; Średnia ocena: </span><span class="sc">{</span>worst_type[<span class="st">'srednia_ocena'</span>]<span class="sc">:.2f}</span><span class="ss"> na podstawie </span><span class="sc">{</span><span class="bu">int</span>(worst_type[<span class="st">'liczba_ocen'</span>])<span class="sc">}</span><span class="ss"> opinii."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+--- ⭐ Ranking Ocen Rodzajów Wypraw ---
+
+🥇 Najwyżej oceniany typ wyprawy: 'Eksplorator Magnetosfery'
+   -&gt; Średnia ocena: 3.46 na podstawie 101 opinii.
+
+📉 Najniżej oceniany typ wyprawy: 'Przelot przez Pasy Radiacyjne'
+   -&gt; Średnia ocena: 1.62 na podstawie 148 opinii.</code></pre>
+</div>
+</div>
+<div id="8215f579" class="cell" data-execution_count="40">
+<details class="code-fold">
+<summary>Rozwiń kod</summary>
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">7</span>))</span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>sns.barplot(data<span class="op">=</span>df_type_ratings, x<span class="op">=</span><span class="st">'srednia_ocena'</span>, y<span class="op">=</span><span class="st">'typ_wyprawy'</span>, palette<span class="op">=</span><span class="st">'viridis'</span>)</span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Ranking średnich ocen dla poszczególnych rodzajów wypraw'</span>, fontsize<span class="op">=</span><span class="dv">15</span>)</span>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Średnia ocena (w skali 1-5)'</span>)</span>
+<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Rodzaj wyprawy'</span>)</span>
+<span id="cb53-6"><a href="#cb53-6" aria-hidden="true" tabindex="-1"></a>plt.xlim(<span class="dv">0</span>, <span class="dv">5</span>)</span>
+<span id="cb53-7"><a href="#cb53-7" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb53-8"><a href="#cb53-8" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>C:\Users\rafal\AppData\Local\Temp\ipykernel_12904\344212182.py:2: FutureWarning:
+
+
+
+Passing `palette` without assigning `hue` is deprecated and will be removed in v0.14.0. Assign the `y` variable to `hue` and set `legend=False` for the same effect.
+
+</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="projekt_raport_files/figure-html/cell-41-output-2.png" width="1141" height="664" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="problem-szósty" class="level2" data-number="3.6">
+<h2 data-number="3.6" class="anchored" data-anchor-id="problem-szósty"><span class="header-section-number">3.6</span> Problem szósty</h2>
+<p>Pytanie: Jaka jest struktura wieku naszych klientów?</p>
+<div id="f092c0c7" class="cell" data-execution_count="41">
+<details class="code-fold">
+<summary>Rozwiń kod</summary>
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>query_dob <span class="op">=</span> <span class="st">"""</span></span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a><span class="st">SELECT date_of_birth</span></span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a><span class="st">FROM clients</span></span>
+<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a><span class="st">WHERE date_of_birth IS NOT NULL;</span></span>
+<span id="cb55-5"><a href="#cb55-5" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div id="6336d0da" class="cell" data-execution_count="42">
+<details class="code-fold">
+<summary>Rozwiń kod</summary>
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>df_dob <span class="op">=</span> pd.read_sql(query_dob, engine)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div id="c6541c3a" class="cell" data-execution_count="43">
+<details class="code-fold">
+<summary>Rozwiń kod</summary>
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>today_real <span class="op">=</span> date.today()</span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>df_dob[<span class="st">'age'</span>] <span class="op">=</span> df_dob[<span class="st">'date_of_birth'</span>].<span class="bu">apply</span>(</span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">lambda</span> dob: (today_real <span class="op">-</span> dob).days <span class="op">/</span> <span class="fl">365.25</span></span>
+<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a>) <span class="op">+</span> <span class="dv">1000</span></span>
+<span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a>df_dob[<span class="st">'age'</span>] <span class="op">=</span> df_dob[<span class="st">'age'</span>].astype(<span class="bu">int</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div id="5ce092a9" class="cell" data-execution_count="44">
+<details class="code-fold">
+<summary>Rozwiń kod</summary>
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">--- 📊 Statystyki Wieku Klientów ---"</span>)</span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df_dob[<span class="st">'age'</span>].describe().<span class="bu">round</span>(<span class="dv">2</span>).to_string())</span>
+<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">------------------------------------"</span>)</span>
+<span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb58-5"><a href="#cb58-5" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">7</span>))</span>
+<span id="cb58-6"><a href="#cb58-6" aria-hidden="true" tabindex="-1"></a>sns.histplot(data<span class="op">=</span>df_dob, x<span class="op">=</span><span class="st">'age'</span>, bins<span class="op">=</span><span class="dv">20</span>, kde<span class="op">=</span><span class="va">True</span>, color<span class="op">=</span><span class="st">'dodgerblue'</span>)</span>
+<span id="cb58-7"><a href="#cb58-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb58-8"><a href="#cb58-8" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Rozkład wieku klientów'</span>, fontsize<span class="op">=</span><span class="dv">16</span>)</span>
+<span id="cb58-9"><a href="#cb58-9" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Wiek (w latach)'</span>, fontsize<span class="op">=</span><span class="dv">12</span>)</span>
+<span id="cb58-10"><a href="#cb58-10" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Liczba klientów'</span>, fontsize<span class="op">=</span><span class="dv">12</span>)</span>
+<span id="cb58-11"><a href="#cb58-11" aria-hidden="true" tabindex="-1"></a>plt.grid(axis<span class="op">=</span><span class="st">'y'</span>, linestyle<span class="op">=</span><span class="st">'--'</span>, alpha<span class="op">=</span><span class="fl">0.7</span>)</span>
+<span id="cb58-12"><a href="#cb58-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb58-13"><a href="#cb58-13" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+--- 📊 Statystyki Wieku Klientów ---
+count    600.00
+mean      47.29
+std       16.98
+min       18.00
+25%       33.00
+50%       48.00
+75%       63.00
+max       75.00
+
+------------------------------------</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="projekt_raport_files/figure-html/cell-45-output-2.png" width="959" height="604" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
 </section>
 </section>
 
