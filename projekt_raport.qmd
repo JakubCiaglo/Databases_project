@@ -679,3 +679,11 @@ plt.grid(axis='y', linestyle='--', alpha=0.7)
 
 plt.show()
 ```
+
+## Problem siódmy
+Analiza RFM
+
+```{python}
+today_real = date.today()
+future_analysis_date = today_real.replace(year=today_real.year + 1000)
+```

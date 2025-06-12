@@ -66,7 +66,7 @@ def uruchom():
     avg_salary_pln = 30045.11
 
     current_date = datetime.now() + relativedelta(years=1000)
-    start_of_business = datetime(current_date.year - 5, 1, 1)
+    start_of_business = current_date - relativedelta(years=5)
 
     print(f"Data rozpoczęcia działalności: {start_of_business}")
     print("-" * 50)
@@ -607,7 +607,7 @@ def uruchom():
         {"description": "Krótki alarm związany z poziomem tlenu, natychmiastowe sprawdzenie.", "category": "security", "requires_client": False, "possible_severities": ["medium", "high"]}
     ]
     incident_rows = []
-    now_inc = datetime.now()
+    now_inc = datetime.now() + relativedelta(years=1000)
 
     for trip_id, departure_dt, return_dt in trips_data_inc:
         for _ in range(random.randint(0, 2)):
@@ -675,7 +675,7 @@ def uruchom():
 
     # --- 4. Generowanie i wstawianie opinii ---
     feedback_rows = []
-    now = datetime.now()
+    now = datetime.now() + relativedelta(years=1000)
 
     for trip_id, client_id, return_dt in completed_participants:
         # ok. 70% zostawia opinię
