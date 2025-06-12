@@ -524,25 +524,118 @@ elif correlation_coeff > 0.3:
 else:
     print("Wniosek: Brak silnej korelacji. Liczba incydentów nie wydaje się mieć dużego wpływu na ocenę.")
 print("-------------------------------------------------")
-
-
-# 2. Stwórz wykres rozrzutu z linią regresji, aby zwizualizować zależność
 plt.figure(figsize=(10, 6))
-# sns.regplot jest idealny, bo od razu rysuje linię trendu
 sns.regplot(data=df_correlation, x='liczba_incydentow', y='srednia_ocena',
             line_kws={"color": "red", "lw": 2}, scatter_kws={"alpha": 0.6})
 
 plt.title('Zależność średniej oceny od liczby incydentów na wyprawie', fontsize=15)
 plt.xlabel('Liczba incydentów podczas wyprawy')
 plt.ylabel('Średnia ocena wyprawy')
-# Ustawiamy liczbę "schodków" na osi X, aby były to liczby całkowite
 max_incidents = int(df_correlation['liczba_incydentow'].max())
 plt.xticks(range(max_incidents + 1))
 plt.grid(True, linestyle='--', alpha=0.6)
 plt.show()
 ```
-```{python}
-df_feedback_incidents = pd.read_sql(query_feedback_incidents, engine)
 
-print(df_feedback_incidents.to_string())
+## Problem piąty
+Pytanie: Jakie destynacje i rodzaje wycieczek otrzymują najlepsze oceny?
+
+```{python}
+query_dest_ratings = """
+SELECT
+    d.name AS kierunek,
+    AVG(f.rating) AS srednia_ocena,
+    COUNT(f.rating) AS liczba_ocen
+FROM
+    feedback f
+JOIN
+    trips t ON f.trip_id = t.trip_id
+JOIN
+    destinations d ON t.destination_id = d.destination_id
+WHERE f.rating IS NOT NULL
+GROUP BY
+    d.name
+HAVING
+    COUNT(f.rating) > 2
+ORDER BY
+    srednia_ocena DESC;
+"""
+```
+
+```{python}
+df_dest_ratings = pd.read_sql(query_dest_ratings, engine)
+```
+
+```{python}
+print("\n--- ⭐ Ranking Ocen Destynacji ---")
+
+best_dest = df_dest_ratings.iloc[0]
+worst_dest = df_dest_ratings.iloc[-1]
+
+print(f"\n🥇 Najwyżej oceniana destynacja: '{best_dest['kierunek']}'")
+print(f"   -> Średnia ocena: {best_dest['srednia_ocena']:.2f} na podstawie {int(best_dest['liczba_ocen'])} opinii.")
+
+print(f"\n📉 Najniżej oceniana destynacja: '{worst_dest['kierunek']}'")
+print(f"   -> Średnia ocena: {worst_dest['srednia_ocena']:.2f} na podstawie {int(worst_dest['liczba_ocen'])} opinii.")
+
+```
+
+```{python}
+plt.figure(figsize=(12, 7))
+sns.barplot(data=df_dest_ratings, x='srednia_ocena', y='kierunek', palette='coolwarm')
+plt.title('Ranking średnich ocen dla poszczególnych destynacji', fontsize=15)
+plt.xlabel('Średnia ocena (w skali 1-5)')
+plt.ylabel('Destynacja')
+plt.xlim(0, 5)
+plt.tight_layout()
+plt.show()
+```
+
+```{python}
+query_type_ratings = """
+SELECT
+    tt.name AS typ_wyprawy,
+    AVG(f.rating) AS srednia_ocena,
+    COUNT(f.rating) AS liczba_ocen
+FROM
+    feedback f
+JOIN
+    trips t ON f.trip_id = t.trip_id
+JOIN
+    trip_types tt ON t.trip_type_id = tt.trip_type_id
+WHERE f.rating IS NOT NULL
+GROUP BY
+    tt.name
+HAVING
+    COUNT(f.rating) > 2
+ORDER BY
+    srednia_ocena DESC;
+"""
+```
+
+```{python}
+df_type_ratings = pd.read_sql(query_type_ratings, engine)
+```
+
+```{python}
+print("\n--- ⭐ Ranking Ocen Rodzajów Wypraw ---")
+best_type = df_type_ratings.iloc[0]
+worst_type = df_type_ratings.iloc[-1]
+
+print(f"\n🥇 Najwyżej oceniany typ wyprawy: '{best_type['typ_wyprawy']}'")
+print(f"   -> Średnia ocena: {best_type['srednia_ocena']:.2f} na podstawie {int(best_type['liczba_ocen'])} opinii.")
+
+print(f"\n📉 Najniżej oceniany typ wyprawy: '{worst_type['typ_wyprawy']}'")
+print(f"   -> Średnia ocena: {worst_type['srednia_ocena']:.2f} na podstawie {int(worst_type['liczba_ocen'])} opinii.")
+```
+
+```{python}
+plt.figure(figsize=(12, 7))
+sns.barplot(data=df_type_ratings, x='srednia_ocena', y='typ_wyprawy', palette='viridis')
+plt.title('Ranking średnich ocen dla poszczególnych rodzajów wypraw', fontsize=15)
+plt.xlabel('Średnia ocena (w skali 1-5)')
+plt.ylabel('Rodzaj wyprawy')
+plt.xlim(0, 5)
+plt.tight_layout()
+plt.show()
 ```
