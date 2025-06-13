@@ -25,10 +25,6 @@ Celem tego dokumentu nie jest jedynie kronikarski zapis przeszłości. To przede
 
 Zapnijcie pasy. Wyruszamy w podróż po danych, która ukształtuje przyszłość międzyplanetarnych podróży.
 
-Z analitycznym pozdrowieniem,
-
-Zespół Analiz Biznesowych Space-U
-
 # Analiza danych
 
 ```{python}
@@ -98,8 +94,6 @@ ORDER BY
 """
 ```
 
-Poniższa tabela prezentuje kompleksowe zestawienie kluczowych wskaźników dla każdego typu wyprawy
-
 ```{python}
 df_profitability = pd.read_sql(query, engine)
 
@@ -108,6 +102,10 @@ display(df_profitability.style.format('{:,.2f} zł', subset=['Całkowite koszty'
                          .set_caption("Popularność i rentowność typów wypraw")\
                          .background_gradient(cmap='RdYlGn', subset=['Zysk']))
 ```
+
+
+Poniższa tabela prezentuje kompleksowe zestawienie kluczowych wskaźników dla każdego typu wyprawy
+
 ```{python}
 #| echo: false
 #| include: false
