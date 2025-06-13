@@ -8,7 +8,7 @@ date-format: "long"
 format:
   html:
     toc: true
-    number-sections: true
+    number-sections: false
     code-fold: true
     theme:
       light: flatly
@@ -47,6 +47,7 @@ from urllib.parse import quote_plus
 from pandas.tseries.offsets import DateOffset 
 import plotly.io as pio
 from IPython.display import Markdown
+import plotly.graph_objects as go
 pio.templates.default = "plotly_white" 
 ```
 
@@ -185,8 +186,11 @@ else:
 display(Markdown(rentownosc_markdown))
 ```
 
-## Problem drugi
-Pytanie: Sporządź wykres liczby obsłużonych klientów w każdym miesiącu działalności firmy, czy firma rośnie, czy podupada?
+## Analiza Dynamiki Bazy Klientów
+
+Analiza miesięcznej liczby obsłużonych klientów jest jednym z fundamentalnych wskaźników kondycji i tempa rozwoju Space-U. To puls naszej działalności, który pozwala ocenić skuteczność naszych działań marketingowych, atrakcyjność oferty oraz ogólne zainteresowanie podróżami kosmicznymi. W tej sekcji zbadamy, czy w ostatnim roku nasza firma znajdowała się na trajektorii wzrostowej, czy też napotkała na turbulencje.
+
+Aby odpowiedzieć na to pytanie, stworzyliśmy wizualizację przedstawiającą liczbę unikalnych klientów w każdym miesiącu. Zamiast polegać na subiektywnej ocenie, nałożyliśmy na dane linię trendu opartą na regresji liniowej, która w obiektywny sposób wskazuje kierunek, w którym zmierzamy.
 
 ```{python}
 query_clients_per_month = """
@@ -205,9 +209,12 @@ ORDER BY
 ```
 ```{python}
 df_clients = pd.read_sql(query_clients_per_month, engine)
+df_clients['srednia_kroczaca'] = df_clients['liczba_klientow'].rolling(window=3, center=True, min_periods=1).mean()
 ```
 
 ```{python}
+#| include: false
+#| echo: false
 plt.figure(figsize=(14, 7))
 sns.barplot(data=df_clients, x='miesiac', y='liczba_klientow', color='steelblue')
 plt.title('Miesięczna liczba obsłużonych klientów', fontsize=16)
@@ -219,34 +226,9 @@ plt.show()
 ```
 
 ```{python}
-import plotly.express as px
-
-# Jeśli 'miesiac' to np. "3025-01", możesz zamienić go na string typu "2025-01"
-df_clients['miesiac_str'] = df_clients['miesiac'].astype(str)
-df_clients = df_clients.sort_values(by='miesiac_str')  # ręczne sortowanie
-
-# Poprawki układu
-fig = px.bar(df_clients,
-             x='miesiac_str',
-             y='liczba_klientow',
-             text='liczba_klientow',
-             title='Miesięczna liczba obsłużonych klientów',
-             labels={'miesiac_str': 'Miesiąc', 'liczba_klientow': 'Liczba Klientów'},
-             color_discrete_sequence=['#4c6ef5'])
-
-fig.update_layout(xaxis_tickangle=-45)
-fig.update_traces(textposition='outside')
-fig.show()
-
-
-```
-
-```{python}
 x = np.arange(len(df_clients)) 
 y = df_clients['liczba_klientow'] 
 slope, intercept, r_value, p_value, std_err = stats.linregress(x, y)
-# Ustalamy próg "stagnacji", aby uniknąć klasyfikowania bardzo małych wahań
-# jako trendu. Np. jeśli wzrost/spadek jest mniejszy niż 0.5 klienta na miesiąc.
 stagnation_threshold = 0.5
 
 if slope > stagnation_threshold:
@@ -258,17 +240,62 @@ elif slope < -stagnation_threshold:
 else:
     wniosek = "Firma wykazuje STAGNACJĘ."
     szczegoly = f"Brak wyraźnego trendu wzrostowego lub spadkowego (nachylenie linii trendu wynosi {slope:.2f})."
-print("--- Automatyczna Analiza Trendu ---")
-print(f"Współczynnik nachylenia linii trendu: {slope:.4f}")
-print(f"\nWniosek: {wniosek}")
-print(szczegoly)
-print("-----------------------------------")
 ```
 
-## Problem trzeci
-Pytanie: Które destynacje są najbardziej ryzykowne?
+Poniższy wykres prezentuje miesięczne dane wraz z wygładzoną linią trendu (średnia krocząca), która pomaga zwizualizować ogólną tendencję.
+```{python}
+#| echo: false
+fig = go.Figure()
+fig.add_trace(
+    go.Bar(
+        x=df_clients['miesiac'],
+        y=df_clients['liczba_klientow'],
+        name='Liczba klientów w miesiącu',
+        marker_color='skyblue',
+        opacity=0.7
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=df_clients['miesiac'],
+        y=df_clients['srednia_kroczaca'],
+        name='Trend (średnia krocząca)',
+        mode='lines',
+        line=dict(color='crimson', width=3)
+    )
+)
+fig.update_layout(
+    title='Miesięczna liczba obsłużonych klientów i linia trendu',
+    xaxis_title='Miesiąc',
+    yaxis_title='Liczba Klientów',
+    legend_title='Legenda',
+    xaxis_tickangle=-45,
+    bargap=0.2,
+    xaxis={'type': 'category'} 
+)
+
+fig.show()
+```
 
 ```{python}
+analiza_markdown = f"""
+### Ocena Linii Trendu 
+<p>Analiza statystyczna oparta na regresji liniowej pozwala nam obiektywnie ocenić kierunek rozwoju firmy. Współczynnik nachylenia linii trendu to matematyczna reprezentacja naszego miesięcznego wzrostu lub spadku.</p>
+<p><b>Wniosek: {wniosek}</b></p>
+<p>{szczegoly}</p>
+"""
+display(Markdown(analiza_markdown))
+```
+
+## Analiza ryzyka operacyjnego
+Zarządzanie ryzykiem w turystyce kosmicznej to nie tylko nasz obowiązek, ale fundament, na którym opiera się zaufanie naszych klientów i partnerów. W tej części raportu dokonujemy dogłębnej analizy dwóch głównych źródeł ryzyka: niebezpieczeństw związanych z celem podróży oraz potencjalnej awaryjności naszych statków kosmicznych. Celem jest identyfikacja "gorących punktów", która pozwoli na wdrożenie działań prewencyjnych i podniesienie standardów bezpieczeństwa.
+
+### Ryzyko związane z destynacja
+Każda destynacja w Układzie Słonecznym posiada unikalną charakterystykę i wiąże się z różnym poziomem wyzwań. Poniższy wykres przedstawia liczbę zarejestrowanych incydentów w podziale na lokalizacje oraz stopień ich powagi (niski, średni, wysoki).
+
+```{python}
+#| include: false
+#| echo: false
 query_risky_destinations = """
 SELECT 
     destinations.name AS kierunek, 
@@ -290,6 +317,8 @@ ORDER BY
 """
 ```
 ```{python}
+#| include: false
+#| echo: false
 query_risky_dest2 = """
 SELECT
     d.name AS kierunek,
@@ -299,14 +328,12 @@ SELECT
 FROM
     destinations d
 JOIN
-    -- Pierwsze podzapytanie zdefiniowane bezpośrednio w FROM
     (
         SELECT destination_id, COUNT(trip_id) AS total_trips
         FROM trips
         GROUP BY destination_id
     ) AS tpd ON d.destination_id = tpd.destination_id
 LEFT JOIN
-    -- Drugie podzapytanie zdefiniowane bezpośrednio w FROM
     (
         SELECT t.destination_id, COUNT(i.incident_id) AS total_incidents
         FROM incidents i
@@ -318,15 +345,15 @@ ORDER BY
 """
 ```
 ```{python}
+#| include: false
+#| echo: false
 df_risky_destinations = pd.read_sql(query_risky_destinations, engine)
-```
-```{python}
 print(df_risky_destinations.to_string())
 ```
 ```{python}
+#| include: false
+#| echo: false
 df_risky_destinations2 = pd.read_sql(query_risky_dest2, engine)
-```
-```{python}
 print(df_risky_destinations2.to_string())
 ```
 
@@ -351,8 +378,25 @@ GROUP BY
 ```{python}
 df_incidents_long = pd.read_sql(query_incidents_graph, engine)
 ```
-
 ```{python}
+df_total_incidents = df_incidents_long.groupby('kierunek')['liczba_incydentow'].sum().sort_values(ascending=False)
+df_incidents_long['kierunek_sorted'] = pd.Categorical(df_incidents_long['kierunek'], categories=df_total_incidents.index, ordered=True)
+
+fig = px.bar(
+    df_incidents_long.sort_values('kierunek_sorted'), 
+    x='kierunek_sorted', 
+    y='liczba_incydentow', 
+    color='severity',
+    title='Liczba incydentów ze względu na destynację',
+    labels={'kierunek_sorted': 'Destynacja', 'liczba_incydentow': 'Łączna liczba incydentów', 'severity': 'Poziom zagrożenia'},
+    color_discrete_map={'low': '#5cb85c', 'medium': '#f0ad4e', 'high': '#d9534f'},
+    category_orders={'severity': ['low', 'medium', 'high']}
+)
+fig.show()
+```
+```{python}
+#| include: false
+#| echo: false
 df_incidents_wide = df_incidents_long.pivot_table(
     index='kierunek', 
     columns='severity', 
@@ -366,6 +410,8 @@ df_incidents_wide = df_incidents_wide[ordered_columns]
 ```
 
 ```{python}
+#| include: false
+#| echo: false
 df_incidents_wide.plot(
     kind='bar', 
     stacked=True, 
@@ -380,6 +426,8 @@ plt.legend(title='Poziom zagrożenia')
 plt.tight_layout()
 plt.show()
 ```
+
+Sama liczba incydentów może być jednak myląca – popularna destynacja naturalnie odnotuje więcej zdarzeń. Aby uzyskać bardziej obiektywny obraz, stworzyliśmy ważony wskaźnik ryzyka. Przypisuje on punkty za każdy incydent w zależności od jego wagi (10 pkt za "High", 3 za "Medium", 1 za "Low"), a następnie dzieli sumę punktów przez liczbę wypraw do danej lokalizacji. Wynik pokazuje średnie "obciążenie ryzykiem" na jedną wyprawę.
 
 ```{python}
 query_weighted_risk = """
@@ -423,19 +471,33 @@ ORDER BY
 
 ```{python}
 df_risk = pd.read_sql(query_weighted_risk, engine)
-print("--- Ranking Ryzyka Destynacji (ważony) ---")
-print(df_risk.to_string())
-
-# Automatyczny wniosek
-print("\n--- Wnioski ---")
-most_risky = df_risk.iloc[0]
-print(f"Najbardziej ryzykowną destynacją według ważonego wskaźnika jest '{most_risky['Kierunek']}' "
-      f"z wynikiem {most_risky['Wazony_wspolczynnik_ryzyka']:.2f} pkt na wyprawę.")
+display(df_risk.style.format('{:.2f}', subset=['Wazony_wspolczynnik_ryzyka'])\
+                 .format('{:,.0f}', subset=['Liczba_wypraw', 'Suma_punktow_ryzyka'])\
+                 .background_gradient(cmap='Reds', subset=['Wazony_wspolczynnik_ryzyka'])\
+                 .set_caption("Tabela 2: Ranking Ryzyka Destynacji (Wskaźnik ważony)"))
 ```
 
-Wadliwość statków
+```{python}
+most_risky = df_risk.iloc[0]
+least_risky = df_risk.iloc[-1]
+
+wniosek_markdown = f"""
+### Podsumowanie Ryzyka Destynacji
+<p>Nasz ważony wskaźnik pozwala na obiektywną ocenę i priorytetyzację działań mitygujących ryzyko.</p>
+<ul>
+    <li><span style="font-size: 1.5em;"></span> <b>Najwyższe ryzyko:</b> Destynacją o najwyższym wskaźniku ryzyka jest <b>{most_risky['Kierunek']}</b> z wynikiem <b>{most_risky['Wazony_wspolczynnik_ryzyka']:.2f} pkt</b> na wyprawę. Sugeruje to konieczność przeglądu procedur bezpieczeństwa dla tej trasy.</li>
+    <li><span style="font-size: 1.5em;"></span> <b>Najniższe ryzyko:</b> Najbezpieczniejszą z naszych popularnych destynacji okazał/a się <b>{least_risky['Kierunek']}</b> ({least_risky['Wazony_wspolczynnik_ryzyka']:.2f} pkt/wyprawę). Praktyki stosowane na tej trasie mogą stanowić wzór dla innych.</li>
+</ul>
+"""
+display(Markdown(wniosek_markdown))
+```
+
+### Ryzyko związane ze sprzętem
+Nawet najbezpieczniejsza trasa staje się ryzykowna, jeśli statek kosmiczny jest zawodny. W tej części analizujemy dane dotyczące awarii sprzętu (category = 'equipment') w naszej flocie, aby zidentyfikować jednostki wymagające szczególnej uwagi serwisowej. Poniższy wykres szereguje statki według wskaźnika "usterki na wyprawę".
 
 ```{python}
+#| include: false
+#| echo: false
 query_spacecraft_incidents = """
 SELECT 
     spacecraft.name AS nazwa_statku,
@@ -458,6 +520,8 @@ ORDER BY liczba_usterek desc
 ```
 
 ```{python}
+#| include: false
+#| echo: false
 df_spacecrafts_incidents = pd.read_sql(query_spacecraft_incidents, engine)
 print(df_spacecrafts_incidents.to_string())
 ```
@@ -504,6 +568,43 @@ df_failure_rate = pd.read_sql(query_failure_rate, engine)
 ```
 
 ```{python}
+df_plot = df_failure_rate.sort_values('usterki_na_wyprawe', ascending=True).copy()
+df_plot['Status'] = np.where(df_plot['usterki_na_wyprawe'] > 0, 'Wystąpiły usterki', 'Brak usterek')
+
+fig = px.bar(
+    df_plot,
+    y='nazwa_statku',
+    x='usterki_na_wyprawe',
+    orientation='h',
+    title='Usterki sprzętowe naszej floty',
+    labels={'nazwa_statku': 'Statek kosmiczny', 'usterki_na_wyprawe': 'Średnia liczba usterek na wyprawę'},
+    color='Status',
+    color_discrete_map={
+        'Wystąpiły usterki': '#e74c3c',
+        'Brak usterek': '#dfe6e9'
+    },
+    height=600
+)
+
+fig.update_traces(
+    texttemplate='%{x:.3f}',
+    textposition='outside'
+)
+
+max_value = df_plot['usterki_na_wyprawe'].max()
+fig.update_xaxes(range=[0, max_value * 1.15])
+
+fig.update_layout(
+    showlegend=False,
+    plot_bgcolor='white',
+    xaxis_gridcolor='#ecf0f1'
+)
+fig.show()
+```
+
+```{python}
+#| include: false
+#| echo: false
 print("--- Ranking Niezawodności Statków (Usterki na Wyprawę) ---")
 print(df_failure_rate.to_string())
 plt.figure(figsize=(12, 6))
@@ -515,38 +616,53 @@ plt.tight_layout()
 plt.show()
 ```
 
+
 ```{python}
-# --- Automatyczne Wnioski z Rankingu Niezawodności ---
-
-print("\n--- 🤖 Automatyczne Wnioski z Rankingu Niezawodności ---")
-
 most_failure_prone = df_failure_rate.iloc[0]
-active_ships = df_failure_rate[df_failure_rate['liczba_wypraw'] > 0]
+zero_failure_ships = df_failure_rate[df_failure_rate['usterki_na_wyprawe'] == 0]
+count_zero_failure = len(zero_failure_ships)
 
-if not active_ships.empty:
-    most_reliable = active_ships.iloc[-1]
+wniosek_markdown = """
+### Ocena Niezawodności Floty
+<p>Analiza wskaźnika usterek pozwala na precyzyjne planowanie przeglądów serwisowych i alokację budżetu na utrzymanie floty.</p>
+<ul>
+"""
 
-    print("\n\n🔧 Najbardziej podatny na usterki jest statek:")
-    print(f"   -> Nazwa: '{most_failure_prone['nazwa_statku']}'")
-    print(f"   -> Wskaźnik: {most_failure_prone['usterki_na_wyprawe']:.3f} usterek na każdą wyprawę.")
-    print(f"   (Na podstawie {int(most_failure_prone['liczba_usterek'])} usterek w ciągu {int(most_failure_prone['liczba_wypraw'])} wypraw).")
+liczba_usterek_prone = int(most_failure_prone['liczba_usterek'])
+liczba_wypraw_prone = int(most_failure_prone['liczba_wypraw'])
 
-    print("\n🏆 Najbardziej niezawodnym statkiem jest:")
-    print(f"   -> Nazwa: '{most_reliable['nazwa_statku']}'")
-    print(f"   -> Wskaźnik: {most_reliable['usterki_na_wyprawe']:.3f} usterek na każdą wyprawę.")
-    
-    if most_reliable['usterki_na_wyprawe'] == 0:
-        print(f"   (Statek odbył {int(most_reliable['liczba_wypraw'])} wypraw bez odnotowanej usterki sprzętowej - doskonały wynik!)")
-    else:
-        print(f"   (Na podstawie {int(most_reliable['liczba_usterek'])} usterek w ciągu {int(most_reliable['liczba_wypraw'])} wypraw).")
+wniosek_markdown += f"""
+<li><b>Wymaga uwagi:</b> Najbardziej podatny na usterki sprzętowe jest statek <b>{most_failure_prone['nazwa_statku']}</b>. 
+Odnotowuje on średnio <b>{most_failure_prone['usterki_na_wyprawe']:.3f} usterki</b> na każdą odbytą wyprawę. <br>
+<small style="color: #6c757d;"><i>(Na podstawie {liczba_usterek_prone} usterek w ciągu {liczba_wypraw_prone} wypraw)</i></small>
+</li>
+"""
 
+workhorse_champion = zero_failure_ships.sort_values('liczba_wypraw', ascending=False).iloc[0]
+liczba_wypraw_champion = int(workhorse_champion['liczba_wypraw'])
 
+wniosek_markdown += f"""
+<li><b>Wzór niezawodności:</b> Aż <b>{count_zero_failure} jednostek</b> w naszej flocie zakończyło wszystkie misje w analizowanym okresie bez żadnej usterki sprzętowej.
+Na szczególne wyróżnienie zasługuje <b>{workhorse_champion['nazwa_statku']}</b>, który jest najczęściej eksploatowaną jednostką w tej grupie.<br>
+<small style="color: #6c757d;"><i>(Wykonał bezawaryjnie aż {liczba_wypraw_champion} misji)</i></small>
+</li>
+"""
+wniosek_markdown += "</ul>"
+
+display(Markdown(wniosek_markdown))
 ```
 
-## Problem czwarty
-Pytanie: Czy występowanie incydentów ma wpływ na ocenę wyprawy?
+## Wpływ incydentów na satysfakcję klienta
+
+W tej części analizy łączymy "twarde" dane operacyjne z "miękkimi" danymi dotyczącymi odczuć naszych pasażerów. Stawiamy fundamentalne pytanie: czy liczba incydentów zarejestrowanych podczas wyprawy ma statystycznie istotny wpływ na jej końcową ocenę?
+
+Intuicja podpowiada, że każda, nawet drobna usterka czy incydent, może negatywnie wpłynąć na postrzeganie całej, skądinąd udanej, wyprawy. Potwierdzenie lub obalenie tej tezy ma kluczowe znaczenie dla zrozumienia, jak krytyczne jest zapewnienie bezproblemowego przebiegu misji nie tylko dla bezpieczeństwa, ale i dla reputacji oraz siły naszej marki.
+
+Poniższy wykres punktowy przedstawia zależność między średnią oceną danej wyprawy a liczbą odnotowanych w jej trakcie incydentów. Czerwona linia trendu wizualizuje ogólną tendencję tej zależności.
 
 ```{python}
+#| include: false
+#| echo: false
 query_feedback_incidents = """
 SELECT 
     AVG(feedback.rating) AS srednia_ocena,
@@ -600,6 +716,61 @@ df_correlation = pd.read_sql(query_correlation, engine)
 ```
 
 ```{python}
+fig = px.scatter(
+    df_correlation,
+    x='liczba_incydentow',
+    y='srednia_ocena',
+    title='Zależność Oceny Wyprawy od Liczby Incydentów',
+    labels={
+        'liczba_incydentow': 'Liczba incydentów podczas wyprawy',
+        'srednia_ocena': 'Średnia ocena wyprawy (1-5)'
+    },
+    trendline='ols',
+    trendline_color_override='#e74c3c'
+)
+
+fig.update_layout(
+    plot_bgcolor='white',
+    xaxis_gridcolor='#ecf0f1',
+    yaxis_gridcolor='#ecf0f1'
+)
+max_incidents = int(df_correlation['liczba_incydentow'].max())
+fig.update_xaxes(
+    dtick=1,
+    range=[-0.5, max_incidents + 0.5]
+)
+fig.show()
+```
+
+```{python}
+correlation_coeff = df_correlation['srednia_ocena'].corr(df_correlation['liczba_incydentow'])
+
+# Logika wniosków
+if correlation_coeff < -0.5:
+    wniosek = "Istnieje silna korelacja ujemna."
+    szczegoly = "Wzrost liczby incydentów jest silnie powiązany ze spadkiem średniej oceny wyprawy."
+elif correlation_coeff < -0.2:
+    wniosek = "Istnieje zauważalna korelacja ujemna."
+    szczegoly = "Wzrost liczby incydentów ma tendencję do obniżania średniej oceny wyprawy."
+else:
+    wniosek = "Brak silnej korelacji."
+    szczegoly = "Liczba incydentów nie wydaje się mieć decydującego wpływu na ocenę końcową. Klienci prawdopodobnie biorą pod uwagę inne czynniki, takie jak widoki, jakość obsługi czy profesjonalizm załogi w radzeniu sobie z incydentem."
+
+```
+
+```{python}
+analiza_markdown = f"""
+### Analiza korelacji
+<p>Obliczony współczynnik korelacji Pearsona dla badanych zmiennych wynosi: <b>{correlation_coeff:.3f}</b>.</p>
+<p style="font-size: 1.1em;"><b>Wniosek:</b> {wniosek}</p>
+<p>{szczegoly}</p>
+"""
+
+display(Markdown(analiza_markdown))
+```
+```{python}
+#| include: false
+#| echo: false
 correlation_coeff = df_correlation['srednia_ocena'].corr(df_correlation['liczba_incydentow'])
 
 print(f"--- 🤖 Analiza korelacji: Ocena vs. Incydenty ---")
