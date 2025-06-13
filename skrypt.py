@@ -65,7 +65,7 @@ def uruchom():
     min_salary_pln = 14666.00 
     avg_salary_pln = 30045.11
 
-    current_date = datetime.now() + relativedelta(years=1000)
+    current_date = datetime.now() + relativedelta(years=100)
     start_of_business = current_date - relativedelta(years=5)
 
     print(f"Data rozpoczęcia działalności: {start_of_business}")
@@ -95,14 +95,14 @@ def uruchom():
     def hire_and_term():
         end_hire_period = current_date - relativedelta(months=6)
         total_days = (end_hire_period - start_of_business).days
-        
+
         random_days = random.randint(0, total_days)
         hire = start_of_business + timedelta(days=random_days)
-        
+
         if random.random() < 0.15:
             min_term_date = hire + relativedelta(months=3)
             term_days = (current_date - min_term_date).days
-            
+
             if term_days > 0:
                 random_term_days = random.randint(0, term_days)
                 term = min_term_date + timedelta(days=random_term_days)
@@ -110,8 +110,9 @@ def uruchom():
                 term = None
         else:
             term = None
-        
-        return hire, term
+
+        return hire.date(), term.date() if term else None
+
 
     emp_rows, used_emails_emp = [], set()
     print(f'Generowanie danych dla {n_employees} pracowników...')
@@ -128,9 +129,8 @@ def uruchom():
             suffix += 1
         used_emails_emp.add(email)
         phone = fake.phone_number()
-        if random.random() < 0.02:
+        if random.random() < 0.01:
             email = None
-            phone = None
         emp_rows.append({
             'first_name': first, 'last_name': last, 'position': position,
             'salary': salary, 'hire_date': hire, 'termination_date': term,
@@ -155,11 +155,10 @@ def uruchom():
             email_candidate = f"{base}{suffix}@{domain}"
             suffix += 1
         phone = fake.phone_number()
-        if random.random() < 0.02:
+        if random.random() < 0.01:
             email_candidate = None
-            phone = None
         birth_date = fake.date_of_birth(minimum_age=18, maximum_age=75)
-        shifted_birth_date = birth_date.replace(year=birth_date.year + 1000)
+        shifted_birth_date = birth_date.replace(year=birth_date.year + 100)
         cli_rows.append({
             "first_name": first, "last_name": last,
             "date_of_birth": shifted_birth_date,
@@ -396,12 +395,6 @@ def uruchom():
     # Sekcja 10: Generowanie pracowników do lotu
     print("--- ETAP 7: Przypisywanie pracowników do lotów ---")
     excluded_positions = ['Finanse / Księgowość', 'Analityk danych', 'Marketing kosmiczny', 'Administrator IT', 'Specjalista HR']
-    cursor.execute("SELECT employee_id, position FROM employees WHERE position NOT IN (%s)" % ','.join(['%s'] * len(excluded_positions)), excluded_positions)
-    crew_data = cursor.fetchall()
-    
-    position_map = defaultdict(list)
-    for emp_id, pos in crew_data:
-        position_map[pos].append(emp_id)
 
     cursor.execute('SELECT trip_id, departure_datetime, return_datetime FROM trips')
     trip_info = cursor.fetchall()
@@ -410,10 +403,27 @@ def uruchom():
     assignments = []
 
     for trip_id, departure, return_dt in trip_info:
-        selected_employees = set()
-        trip_assignment = []
         new_start = departure
         new_end = return_dt or datetime.max.replace(year=datetime.max.year - 1)
+
+        placeholders = ','.join(['%s'] * len(excluded_positions))
+        query = f'''
+            SELECT employee_id, position
+            FROM employees
+            WHERE position NOT IN ({placeholders})
+            AND hire_date < %s
+            AND (termination_date IS NULL OR termination_date > %s)
+        '''
+        cursor.execute(query, excluded_positions + [new_start, new_end])
+        crew_data = cursor.fetchall()
+
+        position_map = defaultdict(list)
+        for emp_id, pos in crew_data:
+            position_map[pos].append(emp_id)
+
+        selected_employees = set()
+        trip_assignment = []
+
         for position, emp_list in position_map.items():
             random.shuffle(emp_list)
             for emp_id in emp_list:
@@ -422,8 +432,11 @@ def uruchom():
                     employee_schedule[emp_id].append((new_start, new_end))
                     trip_assignment.append((trip_id, emp_id))
                     break
-        
-        remaining_pool = [(emp_id, pos) for pos, emp_ids in position_map.items() for emp_id in emp_ids if emp_id not in selected_employees and not is_overlapping(new_start, new_end, employee_schedule[emp_id])]
+
+        remaining_pool = [(emp_id, pos) for pos, emp_ids in position_map.items()
+                        for emp_id in emp_ids
+                        if emp_id not in selected_employees and not is_overlapping(new_start, new_end, employee_schedule[emp_id])]
+
         additional_needed = 35 - len(trip_assignment)
         if additional_needed > 0:
             random.shuffle(remaining_pool)
@@ -432,12 +445,14 @@ def uruchom():
                 selected_employees.add(emp_id)
                 employee_schedule[emp_id].append((new_start, new_end))
                 trip_assignment.append((trip_id, emp_id))
+
         assignments.extend(trip_assignment)
 
     cursor.executemany("INSERT INTO employee_assignments (trip_id, employee_id) VALUES (%s, %s)", assignments)
     con.commit()
     print(f"Przypisano pracowników do lotów (łącznie {len(assignments)} przypisań).")
     print("-" * 50)
+
 
     # Sekcja 11: Generowanie pasażerów dla lotów
     print("--- ETAP 8: Przypisywanie klientów (pasażerów) do lotów ---")
@@ -514,8 +529,8 @@ def uruchom():
 
     for client_id, dob in clients_dob:
         birth_year = dob.year
-        if birth_year < 2965: available_relationships = [r for r in male_relationships + female_relationships if r not in ['matka', 'ojciec']]
-        elif birth_year > 2990: available_relationships = [r for r in male_relationships + female_relationships if r not in ['syn', 'córka']]
+        if birth_year < 2065: available_relationships = [r for r in male_relationships + female_relationships if r not in ['matka', 'ojciec']]
+        elif birth_year > 2090: available_relationships = [r for r in male_relationships + female_relationships if r not in ['syn', 'córka']]
         else: available_relationships = male_relationships + female_relationships
         used_relationships = set()
         for _ in range(2):
@@ -532,7 +547,6 @@ def uruchom():
                     suffix += 1
                 used_emails_contacts.add(email)
                 phone = fake.phone_number()
-                if random.random() < 0.02: email, phone = None, None
                 rel_pool = male_relationships if gender == 'male' else female_relationships
                 rel_choices = [r for r in rel_pool if r in available_relationships and r not in used_relationships]
                 if rel_choices:
@@ -553,7 +567,7 @@ def uruchom():
     payment_methods = ['credit_card', 'wire_transfer', 'paypal', 'crypto']
     future_statuses = ['completed', 'pending']
     records_to_insert_trans = []
-    now_trans = datetime.now() + relativedelta(years=1000)
+    now_trans = datetime.now() + relativedelta(years=100)
     start_dt = datetime.combine(start_of_business, time(0, 0, 0))
 
     for trip_id, client_id, departure_dt, base_price in participants_data:
@@ -612,7 +626,7 @@ def uruchom():
         {"description": "Krótki alarm związany z poziomem tlenu, natychmiastowe sprawdzenie.", "category": "security", "requires_client": False, "possible_severities": ["medium", "high"]}
     ]
     incident_rows = []
-    now_inc = datetime.now() + relativedelta(years=1000)
+    now_inc = datetime.now() + relativedelta(years=100)
 
     for trip_id, departure_dt, return_dt in trips_data_inc:
         for _ in range(random.randint(0, 2)):
@@ -680,7 +694,7 @@ def uruchom():
 
     # --- 4. Generowanie i wstawianie opinii ---
     feedback_rows = []
-    now = datetime.now() + relativedelta(years=1000)
+    now = datetime.now() + relativedelta(years=100)
 
     for trip_id, client_id, return_dt in completed_participants:
         # ok. 70% zostawia opinię
