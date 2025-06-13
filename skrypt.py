@@ -65,7 +65,7 @@ def uruchom():
     min_salary_pln = 14666.00 
     avg_salary_pln = 30045.11
 
-    current_date = datetime.now() + relativedelta(years=1000)
+    current_date = datetime.now() + relativedelta(years=100)
     start_of_business = current_date - relativedelta(years=5)
 
     print(f"Data rozpoczęcia działalności: {start_of_business}")
@@ -95,14 +95,14 @@ def uruchom():
     def hire_and_term():
         end_hire_period = current_date - relativedelta(months=6)
         total_days = (end_hire_period - start_of_business).days
-        
+
         random_days = random.randint(0, total_days)
         hire = start_of_business + timedelta(days=random_days)
-        
+
         if random.random() < 0.15:
             min_term_date = hire + relativedelta(months=3)
             term_days = (current_date - min_term_date).days
-            
+
             if term_days > 0:
                 random_term_days = random.randint(0, term_days)
                 term = min_term_date + timedelta(days=random_term_days)
@@ -110,8 +110,9 @@ def uruchom():
                 term = None
         else:
             term = None
-        
-        return hire, term
+
+        return hire.date(), term.date() if term else None
+
 
     emp_rows, used_emails_emp = [], set()
     print(f'Generowanie danych dla {n_employees} pracowników...')
@@ -128,9 +129,8 @@ def uruchom():
             suffix += 1
         used_emails_emp.add(email)
         phone = fake.phone_number()
-        if random.random() < 0.02:
+        if random.random() < 0.01:
             email = None
-            phone = None
         emp_rows.append({
             'first_name': first, 'last_name': last, 'position': position,
             'salary': salary, 'hire_date': hire, 'termination_date': term,
@@ -155,11 +155,10 @@ def uruchom():
             email_candidate = f"{base}{suffix}@{domain}"
             suffix += 1
         phone = fake.phone_number()
-        if random.random() < 0.02:
+        if random.random() < 0.01:
             email_candidate = None
-            phone = None
         birth_date = fake.date_of_birth(minimum_age=18, maximum_age=75)
-        shifted_birth_date = birth_date.replace(year=birth_date.year + 1000)
+        shifted_birth_date = birth_date.replace(year=birth_date.year + 100)
         cli_rows.append({
             "first_name": first, "last_name": last,
             "date_of_birth": shifted_birth_date,
@@ -352,7 +351,9 @@ def uruchom():
         launch_station_id = random.choice(launch_stations_ids)
         status = random.choices(statuses, weights=[0.7, 0.1, 0.2])[0]
         if status == 'completed':
-            base_date = start_of_business + timedelta(days=random.randint(0, 5*365 - duration))
+            total_days = (current_date - start_of_business).days - duration
+            total_days = max(total_days, 0)
+            base_date = start_of_business + timedelta(days=random.randint(0, total_days))
             departure = datetime(base_date.year, base_date.month, base_date.day, random.randint(0,23), random.randint(0,59), random.randint(0,59))
             return_date = base_date + timedelta(days=duration)
             return_dt = datetime(return_date.year, return_date.month, return_date.day, random.randint(0,23), random.randint(0,59), random.randint(0,59))
@@ -394,12 +395,6 @@ def uruchom():
     # Sekcja 10: Generowanie pracowników do lotu
     print("--- ETAP 7: Przypisywanie pracowników do lotów ---")
     excluded_positions = ['Finanse / Księgowość', 'Analityk danych', 'Marketing kosmiczny', 'Administrator IT', 'Specjalista HR']
-    cursor.execute("SELECT employee_id, position FROM employees WHERE position NOT IN (%s)" % ','.join(['%s'] * len(excluded_positions)), excluded_positions)
-    crew_data = cursor.fetchall()
-    
-    position_map = defaultdict(list)
-    for emp_id, pos in crew_data:
-        position_map[pos].append(emp_id)
 
     cursor.execute('SELECT trip_id, departure_datetime, return_datetime FROM trips')
     trip_info = cursor.fetchall()
@@ -408,10 +403,27 @@ def uruchom():
     assignments = []
 
     for trip_id, departure, return_dt in trip_info:
-        selected_employees = set()
-        trip_assignment = []
         new_start = departure
         new_end = return_dt or datetime.max.replace(year=datetime.max.year - 1)
+
+        placeholders = ','.join(['%s'] * len(excluded_positions))
+        query = f'''
+            SELECT employee_id, position
+            FROM employees
+            WHERE position NOT IN ({placeholders})
+            AND hire_date < %s
+            AND (termination_date IS NULL OR termination_date > %s)
+        '''
+        cursor.execute(query, excluded_positions + [new_start, new_end])
+        crew_data = cursor.fetchall()
+
+        position_map = defaultdict(list)
+        for emp_id, pos in crew_data:
+            position_map[pos].append(emp_id)
+
+        selected_employees = set()
+        trip_assignment = []
+
         for position, emp_list in position_map.items():
             random.shuffle(emp_list)
             for emp_id in emp_list:
@@ -420,8 +432,11 @@ def uruchom():
                     employee_schedule[emp_id].append((new_start, new_end))
                     trip_assignment.append((trip_id, emp_id))
                     break
-        
-        remaining_pool = [(emp_id, pos) for pos, emp_ids in position_map.items() for emp_id in emp_ids if emp_id not in selected_employees and not is_overlapping(new_start, new_end, employee_schedule[emp_id])]
+
+        remaining_pool = [(emp_id, pos) for pos, emp_ids in position_map.items()
+                        for emp_id in emp_ids
+                        if emp_id not in selected_employees and not is_overlapping(new_start, new_end, employee_schedule[emp_id])]
+
         additional_needed = 35 - len(trip_assignment)
         if additional_needed > 0:
             random.shuffle(remaining_pool)
@@ -430,12 +445,14 @@ def uruchom():
                 selected_employees.add(emp_id)
                 employee_schedule[emp_id].append((new_start, new_end))
                 trip_assignment.append((trip_id, emp_id))
+
         assignments.extend(trip_assignment)
 
     cursor.executemany("INSERT INTO employee_assignments (trip_id, employee_id) VALUES (%s, %s)", assignments)
     con.commit()
     print(f"Przypisano pracowników do lotów (łącznie {len(assignments)} przypisań).")
     print("-" * 50)
+
 
     # Sekcja 11: Generowanie pasażerów dla lotów
     print("--- ETAP 8: Przypisywanie klientów (pasażerów) do lotów ---")
@@ -512,8 +529,8 @@ def uruchom():
 
     for client_id, dob in clients_dob:
         birth_year = dob.year
-        if birth_year < 2965: available_relationships = [r for r in male_relationships + female_relationships if r not in ['matka', 'ojciec']]
-        elif birth_year > 2990: available_relationships = [r for r in male_relationships + female_relationships if r not in ['syn', 'córka']]
+        if birth_year < 2065: available_relationships = [r for r in male_relationships + female_relationships if r not in ['matka', 'ojciec']]
+        elif birth_year > 2090: available_relationships = [r for r in male_relationships + female_relationships if r not in ['syn', 'córka']]
         else: available_relationships = male_relationships + female_relationships
         used_relationships = set()
         for _ in range(2):
@@ -530,7 +547,6 @@ def uruchom():
                     suffix += 1
                 used_emails_contacts.add(email)
                 phone = fake.phone_number()
-                if random.random() < 0.02: email, phone = None, None
                 rel_pool = male_relationships if gender == 'male' else female_relationships
                 rel_choices = [r for r in rel_pool if r in available_relationships and r not in used_relationships]
                 if rel_choices:
@@ -551,7 +567,7 @@ def uruchom():
     payment_methods = ['credit_card', 'wire_transfer', 'paypal', 'crypto']
     future_statuses = ['completed', 'pending']
     records_to_insert_trans = []
-    now_trans = datetime.now() + relativedelta(years=1000)
+    now_trans = datetime.now() + relativedelta(years=100)
     start_dt = datetime.combine(start_of_business, time(0, 0, 0))
 
     for trip_id, client_id, departure_dt, base_price in participants_data:
@@ -564,9 +580,14 @@ def uruchom():
         days_before_departure = random.randint(1, max_advance_days)
         transaction_date = departure_dt - timedelta(days=days_before_departure, hours=random.randint(0, 23), minutes=random.randint(0, 59), seconds=random.randint(0, 59))
         if transaction_date < start_dt:
-            diff_seconds = int((now_trans - start_dt).total_seconds())
+            diff_seconds = int((departure_dt - start_dt).total_seconds())
             random_offset = random.randint(0, diff_seconds)
             transaction_date = start_dt + timedelta(seconds=random_offset)
+        if transaction_date > departure_dt:
+            # cofamy o losowe 1-24 h
+            transaction_date = departure_dt - timedelta(
+            seconds=random.randint(3600, 24*3600)
+            )
         amount = round(float(base_price) * (1 + random.uniform(-0.05, 0.05)), 2)
         payment_method = random.choice(payment_methods)
         status = random.choices(future_statuses, weights=[0.7, 0.3])[0] if departure_dt > now_trans else 'completed'
@@ -577,8 +598,57 @@ def uruchom():
     print(f"Wygenerowano {len(records_to_insert_trans)} transakcji.")
     print("-" * 50)
     
-    # Sekcja 14: Generowanie opinii
-    print("--- ETAP 11: Generowanie opinii dla zakończonych lotów ---")
+    # Sekcja 14: Generowanie incydentów
+    print("--- ETAP 11: Generowanie incydentów ---")
+    cursor.execute("SELECT trip_id, departure_datetime, return_datetime FROM trips WHERE status = 'completed'")
+    trips_data_inc = cursor.fetchall()
+    
+    cursor.execute("SELECT trip_id, employee_id FROM employee_assignments")
+    assignments_inc = cursor.fetchall()
+    trip_to_employees = defaultdict(list)
+    for trip_id, emp_id in assignments_inc:
+        trip_to_employees[trip_id].append(emp_id)
+        
+    cursor.execute("SELECT trip_id, client_id FROM trip_participants")
+    parts_inc = cursor.fetchall()
+    trip_to_clients = defaultdict(list)
+    for trip_id, client_id in parts_inc:
+        trip_to_clients[trip_id].append(client_id)
+
+    incident_templates = [
+        {"description": "Problemy z ciśnieniem w module medycznym, szybka reakcja lekarza.", "category": "medical", "requires_client": True, "possible_severities": ["medium", "high"]},
+        {"description": "Awaria systemu orientacji – konieczne ręczne sterowanie przez pilota.", "category": "navigation", "requires_client": False, "possible_severities": ["medium", "high", "critical"]},
+        {"description": "Utrata łączności z Ziemią na krótki okres, przywrócono po 15 minutach.", "category": "communication", "requires_client": False, "possible_severities": ["low", "medium"]},
+        {"description": "Niewielki pożar w komorze silnikowej, ugaszono systemami automatycznymi.", "category": "equipment", "requires_client": False, "possible_severities": ["high", "critical"]},
+        {"description": "Podejrzenie choroby lokomocyjnej u jednego z pasażerów, interwencja medyczna.", "category": "medical", "requires_client": True, "possible_severities": ["low", "medium"]},
+        {"description": "Nieprawidłowy odczyt czujnika paliwa – wymagana weryfikacja inżynierska.", "category": "equipment", "requires_client": False, "possible_severities": ["medium", "high"]},
+        {"description": "Zauważono podejrzany obiekt kosmiczny, wykonano dodatkową analizę.", "category": "navigation", "requires_client": False, "possible_severities": ["low", "medium"]},
+        {"description": "Krótki alarm związany z poziomem tlenu, natychmiastowe sprawdzenie.", "category": "security", "requires_client": False, "possible_severities": ["medium", "high"]}
+    ]
+    incident_rows = []
+    now_inc = datetime.now() + relativedelta(years=100)
+
+    for trip_id, departure_dt, return_dt in trips_data_inc:
+        for _ in range(random.randint(0, 2)):
+            template = random.choice(incident_templates)
+            reported_by = random.choice(trip_to_employees.get(trip_id, [None]))
+            involved_client = random.choice(trip_to_clients.get(trip_id, [None])) if template["requires_client"] else None
+            end_time = return_dt if return_dt is not None else now_inc
+            if end_time > departure_dt:
+                total_seconds = int((end_time - departure_dt).total_seconds())
+                offset = random.randint(1, total_seconds - 1) if total_seconds > 1 else 1
+                incident_time = departure_dt + timedelta(seconds=offset)
+            else:
+                incident_time = departure_dt + timedelta(hours=1)
+            incident_rows.append((trip_id, incident_time, reported_by, involved_client, template["category"], template["description"], random.choice(template["possible_severities"])))
+    
+    cursor.executemany("INSERT INTO incidents (trip_id, datetime_occurred, reported_by_employee, involved_client_id, category, description, severity) VALUES (%s, %s, %s, %s, %s, %s, %s)", incident_rows)
+    con.commit()
+    print(f"Wygenerowano {len(incident_rows)} incydentów.")
+    print("-" * 50)
+    
+    # Sekcja 15: Generowanie opinii
+    print("--- ETAP 12: Generowanie opinii dla zakończonych lotów ---")
     cursor.execute("""
         SELECT 
             tp.trip_id, 
@@ -624,19 +694,17 @@ def uruchom():
 
     # --- 4. Generowanie i wstawianie opinii ---
     feedback_rows = []
-    now = datetime.now()
+    now = datetime.now() + relativedelta(years=100)
 
     for trip_id, client_id, return_dt in completed_participants:
         # ok. 70% zostawia opinię
         if random.random() > 0.7:
             continue
 
-        # jeśli lot miał incydent — oceny z 1–3 (z przewagą niskich)
         if trip_id in trips_with_incidents:
-            rating = random.choices([1,2,3], weights=[0.5,0.3,0.2])[0]
+            rating = random.choices([1,2,3,4,5], weights=[0.1, 0.25, 0.3, 0.2, 0.15])[0]
         else:
-            # inaczej z 3–5 (z przewagą wysokich)
-            rating = random.choices([3,4,5], weights=[0.1,0.3,0.6])[0]
+            rating = random.choices([1,2,3,4,5], weights=[0.05, 0.1, 0.15, 0.3, 0.4])[0]
 
         # dobór komentarza do oceny
         if rating <= 2:
@@ -672,55 +740,8 @@ def uruchom():
     )
     con.commit()
     
-    # Sekcja 15: Generowanie incydentów
-    print("--- ETAP 12: Generowanie incydentów ---")
-    cursor.execute("SELECT trip_id, departure_datetime, return_datetime FROM trips WHERE status IN ('completed', 'in progress')")
-    trips_data_inc = cursor.fetchall()
-    
-    cursor.execute("SELECT trip_id, employee_id FROM employee_assignments")
-    assignments_inc = cursor.fetchall()
-    trip_to_employees = defaultdict(list)
-    for trip_id, emp_id in assignments_inc:
-        trip_to_employees[trip_id].append(emp_id)
-        
-    cursor.execute("SELECT trip_id, client_id FROM trip_participants")
-    parts_inc = cursor.fetchall()
-    trip_to_clients = defaultdict(list)
-    for trip_id, client_id in parts_inc:
-        trip_to_clients[trip_id].append(client_id)
-
-    incident_templates = [
-        {"description": "Problemy z ciśnieniem w module medycznym, szybka reakcja lekarza.", "category": "medical", "requires_client": True, "possible_severities": ["medium", "high"]},
-        {"description": "Awaria systemu orientacji – konieczne ręczne sterowanie przez pilota.", "category": "navigation", "requires_client": False, "possible_severities": ["medium", "high", "critical"]},
-        {"description": "Utrata łączności z Ziemią na krótki okres, przywrócono po 15 minutach.", "category": "communication", "requires_client": False, "possible_severities": ["low", "medium"]},
-        {"description": "Niewielki pożar w komorze silnikowej, ugaszono systemami automatycznymi.", "category": "equipment", "requires_client": False, "possible_severities": ["high", "critical"]},
-        {"description": "Podejrzenie choroby lokomocyjnej u jednego z pasażerów, interwencja medyczna.", "category": "medical", "requires_client": True, "possible_severities": ["low", "medium"]},
-        {"description": "Nieprawidłowy odczyt czujnika paliwa – wymagana weryfikacja inżynierska.", "category": "equipment", "requires_client": False, "possible_severities": ["medium", "high"]},
-        {"description": "Zauważono podejrzany obiekt kosmiczny, wykonano dodatkową analizę.", "category": "navigation", "requires_client": False, "possible_severities": ["low", "medium"]},
-        {"description": "Krótki alarm związany z poziomem tlenu, natychmiastowe sprawdzenie.", "category": "security", "requires_client": False, "possible_severities": ["medium", "high"]}
-    ]
-    incident_rows = []
-    now_inc = datetime.now()
-
-    for trip_id, departure_dt, return_dt in trips_data_inc:
-        for _ in range(random.randint(0, 2)):
-            template = random.choice(incident_templates)
-            reported_by = random.choice(trip_to_employees.get(trip_id, [None]))
-            involved_client = random.choice(trip_to_clients.get(trip_id, [None])) if template["requires_client"] else None
-            end_time = return_dt if return_dt is not None else now_inc
-            if end_time > departure_dt:
-                total_seconds = int((end_time - departure_dt).total_seconds())
-                offset = random.randint(1, total_seconds - 1) if total_seconds > 1 else 1
-                incident_time = departure_dt + timedelta(seconds=offset)
-            else:
-                incident_time = departure_dt + timedelta(hours=1)
-            incident_rows.append((trip_id, incident_time, reported_by, involved_client, template["category"], template["description"], random.choice(template["possible_severities"])))
-    
-    cursor.executemany("INSERT INTO incidents (trip_id, datetime_occurred, reported_by_employee, involved_client_id, category, description, severity) VALUES (%s, %s, %s, %s, %s, %s, %s)", incident_rows)
-    con.commit()
-    print(f"Wygenerowano {len(incident_rows)} incydentów.")
+    print(f"Wygenerowano {len(feedback_rows)} opinii.")
     print("-" * 50)
-    
     # Sekcja 16: Generowanie kosztów
     print("--- ETAP 13: Generowanie kosztów dla każdej wyprawy ---")
     cursor.execute("SELECT t.trip_id, tt.base_price FROM trips t JOIN trip_types tt ON t.trip_type_id = tt.trip_type_id")

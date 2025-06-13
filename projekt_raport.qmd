@@ -35,6 +35,7 @@ import matplotlib.colors as colors
 from scipy import stats
 from sqlalchemy import create_engine
 from urllib.parse import quote_plus
+from pandas.tseries.offsets import DateOffset 
 ```
 
 ```{python}
@@ -524,25 +525,305 @@ elif correlation_coeff > 0.3:
 else:
     print("Wniosek: Brak silnej korelacji. Liczba incydentów nie wydaje się mieć dużego wpływu na ocenę.")
 print("-------------------------------------------------")
-
-
-# 2. Stwórz wykres rozrzutu z linią regresji, aby zwizualizować zależność
 plt.figure(figsize=(10, 6))
-# sns.regplot jest idealny, bo od razu rysuje linię trendu
 sns.regplot(data=df_correlation, x='liczba_incydentow', y='srednia_ocena',
             line_kws={"color": "red", "lw": 2}, scatter_kws={"alpha": 0.6})
 
 plt.title('Zależność średniej oceny od liczby incydentów na wyprawie', fontsize=15)
 plt.xlabel('Liczba incydentów podczas wyprawy')
 plt.ylabel('Średnia ocena wyprawy')
-# Ustawiamy liczbę "schodków" na osi X, aby były to liczby całkowite
 max_incidents = int(df_correlation['liczba_incydentow'].max())
 plt.xticks(range(max_incidents + 1))
 plt.grid(True, linestyle='--', alpha=0.6)
 plt.show()
 ```
-```{python}
-df_feedback_incidents = pd.read_sql(query_feedback_incidents, engine)
 
-print(df_feedback_incidents.to_string())
+## Problem piąty
+Pytanie: Jakie destynacje i rodzaje wycieczek otrzymują najlepsze oceny?
+
+```{python}
+query_dest_ratings = """
+SELECT
+    d.name AS kierunek,
+    AVG(f.rating) AS srednia_ocena,
+    COUNT(f.rating) AS liczba_ocen
+FROM
+    feedback f
+JOIN
+    trips t ON f.trip_id = t.trip_id
+JOIN
+    destinations d ON t.destination_id = d.destination_id
+WHERE f.rating IS NOT NULL
+GROUP BY
+    d.name
+HAVING
+    COUNT(f.rating) > 2
+ORDER BY
+    srednia_ocena DESC;
+"""
+```
+
+```{python}
+df_dest_ratings = pd.read_sql(query_dest_ratings, engine)
+```
+
+```{python}
+print("\n--- ⭐ Ranking Ocen Destynacji ---")
+
+best_dest = df_dest_ratings.iloc[0]
+worst_dest = df_dest_ratings.iloc[-1]
+
+print(f"\n🥇 Najwyżej oceniana destynacja: '{best_dest['kierunek']}'")
+print(f"   -> Średnia ocena: {best_dest['srednia_ocena']:.2f} na podstawie {int(best_dest['liczba_ocen'])} opinii.")
+
+print(f"\n📉 Najniżej oceniana destynacja: '{worst_dest['kierunek']}'")
+print(f"   -> Średnia ocena: {worst_dest['srednia_ocena']:.2f} na podstawie {int(worst_dest['liczba_ocen'])} opinii.")
+
+```
+
+```{python}
+plt.figure(figsize=(12, 7))
+sns.barplot(data=df_dest_ratings, x='srednia_ocena', y='kierunek', palette='coolwarm')
+plt.title('Ranking średnich ocen dla poszczególnych destynacji', fontsize=15)
+plt.xlabel('Średnia ocena (w skali 1-5)')
+plt.ylabel('Destynacja')
+plt.xlim(0, 5)
+plt.tight_layout()
+plt.show()
+```
+
+```{python}
+query_type_ratings = """
+SELECT
+    tt.name AS typ_wyprawy,
+    AVG(f.rating) AS srednia_ocena,
+    COUNT(f.rating) AS liczba_ocen
+FROM
+    feedback f
+JOIN
+    trips t ON f.trip_id = t.trip_id
+JOIN
+    trip_types tt ON t.trip_type_id = tt.trip_type_id
+WHERE f.rating IS NOT NULL
+GROUP BY
+    tt.name
+HAVING
+    COUNT(f.rating) > 2
+ORDER BY
+    srednia_ocena DESC;
+"""
+```
+
+```{python}
+df_type_ratings = pd.read_sql(query_type_ratings, engine)
+```
+
+```{python}
+print("\n--- ⭐ Ranking Ocen Rodzajów Wypraw ---")
+best_type = df_type_ratings.iloc[0]
+worst_type = df_type_ratings.iloc[-1]
+
+print(f"\n🥇 Najwyżej oceniany typ wyprawy: '{best_type['typ_wyprawy']}'")
+print(f"   -> Średnia ocena: {best_type['srednia_ocena']:.2f} na podstawie {int(best_type['liczba_ocen'])} opinii.")
+
+print(f"\n📉 Najniżej oceniany typ wyprawy: '{worst_type['typ_wyprawy']}'")
+print(f"   -> Średnia ocena: {worst_type['srednia_ocena']:.2f} na podstawie {int(worst_type['liczba_ocen'])} opinii.")
+```
+
+```{python}
+plt.figure(figsize=(12, 7))
+sns.barplot(data=df_type_ratings, x='srednia_ocena', y='typ_wyprawy', palette='viridis')
+plt.title('Ranking średnich ocen dla poszczególnych rodzajów wypraw', fontsize=15)
+plt.xlabel('Średnia ocena (w skali 1-5)')
+plt.ylabel('Rodzaj wyprawy')
+plt.xlim(0, 5)
+plt.tight_layout()
+plt.show()
+```
+
+## Problem szósty
+Pytanie: Jaka jest struktura wieku naszych klientów?
+
+```{python}
+query_dob = """
+SELECT date_of_birth
+FROM clients
+WHERE date_of_birth IS NOT NULL;
+"""
+```
+
+```{python}
+df_dob = pd.read_sql(query_dob, engine)
+```
+
+```{python}
+today_real = date.today()
+df_dob['age'] = df_dob['date_of_birth'].apply(
+    lambda dob: (today_real - dob).days / 365.25
+) + 1000
+df_dob['age'] = df_dob['age'].astype(int)
+```
+
+```{python}
+print("\n--- 📊 Statystyki Wieku Klientów ---")
+print(df_dob['age'].describe().round(2).to_string())
+print("\n------------------------------------")
+
+plt.figure(figsize=(12, 7))
+sns.histplot(data=df_dob, x='age', bins=20, kde=True, color='dodgerblue')
+
+plt.title('Rozkład wieku klientów', fontsize=16)
+plt.xlabel('Wiek (w latach)', fontsize=12)
+plt.ylabel('Liczba klientów', fontsize=12)
+plt.grid(axis='y', linestyle='--', alpha=0.7)
+
+plt.show()
+```
+
+## Problem siódmy
+Analiza RFM
+
+```{python}
+today_real = date.today()
+future_analysis_date = today_real.replace(year=today_real.year + 1000)
+analysis_date = future_analysis_date.strftime('%Y-%m-%d')
+```
+
+```{python}
+query_rfm = f"""
+WITH Monetary AS (
+    SELECT
+        client_id,
+        SUM(amount) AS monetary_value
+    FROM transactions
+    WHERE 
+        status = 'Completed' AND
+        transaction_date <= '{analysis_date}'
+    GROUP BY client_id
+),
+RecencyFrequency AS (
+    SELECT
+        p.client_id,
+        MAX(t.departure_datetime) AS last_trip_date,
+        COUNT(DISTINCT p.trip_id) AS frequency
+    FROM trip_participants p
+    JOIN trips t ON p.trip_id = t.trip_id
+    WHERE 
+        t.departure_datetime <= '{analysis_date}'
+    GROUP BY p.client_id
+)
+SELECT
+    c.client_id,
+    c.first_name,
+    c.last_name,
+    DATEDIFF('{analysis_date}', rf.last_trip_date) AS recency_days,
+    COALESCE(rf.frequency, 0) AS frequency,
+    COALESCE(m.monetary_value, 0) AS monetary
+FROM
+    clients c
+LEFT JOIN
+    RecencyFrequency rf ON c.client_id = rf.client_id
+LEFT JOIN
+    Monetary m ON c.client_id = m.client_id;
+"""
+```
+
+```{python}
+df_rfm = pd.read_sql(query_rfm, engine)
+df_rfm['recency_days'].fillna(9999, inplace=True)
+```
+
+```{python}
+df_rfm['R_score'] = 4 - pd.qcut(df_rfm['recency_days'], q=4, labels=False, duplicates='drop')
+df_rfm['F_score'] = pd.qcut(df_rfm['frequency'].rank(method='first'), q=4, labels=False, duplicates='drop') + 1
+df_rfm['M_score'] = pd.qcut(df_rfm['monetary'].rank(method='first'), q=4, labels=False, duplicates='drop') + 1
+
+df_rfm = df_rfm.astype({'R_score': 'int64', 'F_score': 'int64', 'M_score': 'int64'})
+```
+
+```{python}
+def assign_segment(row):
+    if row['R_score'] >= 4 and row['F_score'] >= 4: return 'Mistrzowie (Champions)'
+    if row['R_score'] >= 3 and row['F_score'] >= 3: return 'Lojalni Klienci'
+    if row['R_score'] <= 2 and row['F_score'] >= 3: return 'Ryzykowni (At Risk)'
+    if row['R_score'] >= 3 and row['M_score'] >= 4: return 'Wieloryby (Big Spenders)'
+    if row['R_score'] == 4 and row['F_score'] == 1: return 'Nowi Klienci'
+    if row['R_score'] <= 2 and row['F_score'] <= 2: return 'Hibernujący'
+    return 'Pozostali'
+```
+```{python}
+df_rfm['Segment'] = df_rfm.apply(assign_segment, axis=1)
+```
+
+```{python}
+print(f"--- 📊 Analiza RFM (stan na dzień: {analysis_date}) ---")
+print("\nPrzykładowe dane po segmentacji:")
+print(df_rfm[['first_name', 'last_name', 'recency_days', 'frequency', 'monetary', 'R_score', 'F_score', 'M_score', 'Segment']].head().to_string())
+print("\n" + "="*50 + "\n")
+
+plt.figure(figsize=(12, 8))
+segment_counts = df_rfm['Segment'].value_counts()
+sns.barplot(x=segment_counts.index, y=segment_counts.values, palette='viridis')
+plt.title('Rozkład Klientów w Segmentach RFM', fontsize=16)
+plt.xlabel('Segment', fontsize=12)
+plt.ylabel('Liczba Klientów', fontsize=12)
+plt.xticks(rotation=45, ha='right')
+plt.tight_layout()
+plt.show()
+```
+
+```{python}
+print("\n\n" + "="*60)
+print("--- Zautomatyzowane Podsumowanie Analizy Segmentacji RFM ---")
+print("="*60)
+
+print("\n## Podsumowanie ilościowe segmentów:\n")
+
+segment_counts = df_rfm['Segment'].value_counts()
+total_clients = len(df_rfm)
+
+for segment, count in segment_counts.items():
+    percentage = (count / total_clients) * 100
+    print(f"- {segment}: \t{count} klientów ({percentage:.1f}% wszystkich)")
+
+print("\n\n## Rekomendacje Biznesowe dla Firmy:\n")
+
+recommendations = {
+    'Mistrzowie (Champions)': 
+        "To Twoi najcenniejsi klienci. Angażuj ich, proś o opinie i recenzje, "
+        "zaoferuj programy lojalnościowe i dostęp do ekskluzywnych ofert. "
+        "Są ambasadorami Twojej marki.",
+        
+    'Lojalni Klienci': 
+        "Są kręgosłupem Twojej firmy. Podtrzymuj ich zaangażowanie, oferując "
+        "nowe produkty (cross-selling), lepsze wersje wypraw (up-selling) "
+        "i budując z nimi długotrwałą relację.",
+
+    'Ryzykowni (At Risk)': 
+        "KLUCZOWA GRUPA DO REAKTYWACJI! To byli dobrzy klienci, którzy dawno "
+        "nic nie kupili. Skontaktuj się z nimi osobiście, zaoferuj spersonalizowaną "
+        "zniżkę 'na powrót' i dowiedz się, dlaczego przestali podróżować.",
+
+    'Wieloryby (Big Spenders)':
+        "Wydają dużo, ale niekoniecznie często. Upewnij się, że są zadowoleni "
+        "z jakości usług. Mogą być podatni na oferty konkurencji. Warto zadbać "
+        "o ich satysfakcję.",
+
+    'Nowi Klienci':
+        "Pierwsze wrażenie jest kluczowe. Zapewnij im doskonałe doświadczenie "
+        "na pokładzie i stwórz spersonalizowaną ścieżkę komunikacji (np. seria maili), "
+        "aby zachęcić ich do drugiej podróży i zamienić w lojalnych klientów.",
+        
+    'Hibernujący':
+        "Duża grupa nieaktywnych klientów. Jeśli ich liczba jest znacząca, rozważ "
+        "szeroko zakrojoną, ale niskokosztową kampanię 'Tęsknimy za Tobą!' z atrakcyjną "
+        "ofertą. Nie inwestuj w nich tyle, co w segment 'Ryzykowni'."
+}
+
+for segment in segment_counts.index:
+    if segment in recommendations:
+        print(f"💡 Segment: {segment}")
+        print(f"   Rekomendacja: {recommendations[segment]}\n")
+
+print("="*60)
 ```
