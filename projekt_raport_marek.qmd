@@ -32,6 +32,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
 import matplotlib.colors as colors
+from datetime import datetime
 from scipy import stats
 from sqlalchemy import create_engine
 from urllib.parse import quote_plus
@@ -59,58 +60,77 @@ cursor = con.cursor()
 ## Zadanie 3
 Po których wycieczkach klienci wracają na kolejne, a po których mają dość i więcej ich nie widzicie. Czy są takie, które być może powinny zniknąć z oferty?
 
-Jak do tego problemu podejść? Na początek stworzymy sobie dwa zbiory: id klientów którzy pojechali tylko na jedną podróż oraz klientów co pojechali na więcej podróży
+Najpierw zajmiemy się tymi wyprawami, które odstraszają naszych klientów. Wyszukamy na początke dwie rzeczy: wszystkie rodzaje wycieczek, które miały pojedyńczych klientów, a następnie wyszukamy zbiór wycieczek, które były ostatnimi dla klientów.
 
+Mają te infomacje stworzymy zestawienie aspektów, które mogły przyczynić się do negatywnego odbioru przez klientów (najgorsza planeta, typ wyprawy, najmniej przyjemny pojazd itp.)
+
+Zebranie tych tripów, które są miały najwięcej jednorazowych klientów.
 ```{python}
-query = "SELECT client_id, COUNT(trip_id) as trips FROM  trip_participants GROUP BY client_id"
+def df_summary(df):
+    # dataframe składa się z trzech interesujących nas aspektów, planeta, rodzaj i pojazd
 
-cursor.execute(query)
 
-trips_of_client = np.array(cursor.fetchall())
+    summary_planeta = df['Planeta'].value_counts().reset_index()
+    summary_planeta.columns = ['Planeta', 'liczba']
 
-single_trip = trips_of_client[trips_of_client[:,1] == 1][:,0]
-multi_trip = trips_of_client[trips_of_client[:,1] != 1][:,0]
+    summary_typ = df['Rodzaj'].value_counts().reset_index()
+    summary_typ.columns = ['Rodzaj', 'liczba']
 
+    summary_pojazd = df['Spacecraft'].value_counts().reset_index()
+    summary_pojazd.columns = ['Spacecraft', 'liczba']
+
+    if summary_planeta["liczba"][0] == 1:
+        print("Wszystkie planety występują równie często")
+    else:
+        print("Najczęściej występująca planeta:", summary_planeta["Planeta"][0] )
+
+    if summary_typ["liczba"][0] == 1:
+        print("Wszystkie wycieczki występują równie często")
+    else:
+        print("Najczęściej występująca wycieczka:", summary_typ["Rodzaj"][0] )
+
+    if summary_pojazd["liczba"][0] == 1:
+        print("Wszystkie pojazdy występują równie często")
+    else:
+        print("Najczęściej występujący pojazd:", summary_pojazd["Spacecraft"][0] )    
 ```
 
-Teraz mamy wydzielonych klientów, którzy polecieli na wyprawę tylko raz i takich co polecieli więcej razy. Na początek zobaczmy jaka wycieczka odstraszyła tych co polecieli pierwszy raz.
-
 ```{python}
+query_one_timers = """SELECT 
+    client_id, 
+    COUNT(trip_id) as trips 
+    FROM  trip_participants 
+    GROUP BY client_id
+    HAVING trips = 1"""
+cursor.execute(query_one_timers)
+one_time_clients = np.array(cursor.fetchall())
+one_time_ids = one_time_clients[:,0]
 
-client_ids = list(map(int, single_trip.tolist()))
-
+client_ids = list(map(int, one_time_ids.tolist()))
 placeholders = ','.join(['%s'] * len(client_ids))
 
-query = f"""
+query_one_time_trips = f"""
     SELECT trip_id, COUNT(*) as count
     FROM trip_participants
     WHERE client_id IN ({placeholders})
     GROUP BY trip_id
     ORDER BY count DESC
 """
-
-cursor.execute(query, client_ids)
+cursor.execute(query_one_time_trips, client_ids)
 results = np.array(cursor.fetchall())
 
-trip_ids = results[:,0]
-trip_ids = list(map(int, trip_ids.tolist()))
+one_time_trips = results[:,0]
 
-```
-
-Teraz chcemy wyświetlić listę tych wycieczek, co ma najwięcej jednorazowych klientów.
-
-```{python}
-trip_ids = [int(t) for t in trip_ids] 
+trip_ids = [int(t) for t in one_time_trips] 
 placeholders = ','.join(['%s'] * len(trip_ids))
 
-query = f"""
+query_trip_info = f"""
     SELECT 
         t.trip_id,
         d.name AS destination,
         tt.name AS trip_type,
         s.name AS spacecraft_name,
-        r.name AS rocket_name,
-        COUNT(tp.client_id) AS one_time_clients
+        r.name AS rocket_name
     FROM trip_participants tp
     JOIN trips t ON tp.trip_id = t.trip_id
     JOIN spacecraft s ON t.spacecraft_id = s.spacecraft_id
@@ -118,36 +138,38 @@ query = f"""
     JOIN destinations d ON t.destination_id = d.destination_id
     JOIN trip_types tt ON t.trip_type_id = tt.trip_type_id
     WHERE tp.trip_id IN ({placeholders})
-      AND tp.client_id IN ({','.join(['%s'] * len(client_ids))})
     GROUP BY t.trip_id, d.name, tt.name
-    ORDER BY COUNT(tp.client_id) DESC
 """
-
-cursor.execute(query, trip_ids + client_ids)
+cursor.execute(query_trip_info, trip_ids)
 results = cursor.fetchall()
 
-df = pd.DataFrame(results, columns=["Id", "Planeta", "Typ wyprawy", "Spacecraft", "Rocket","Klienci jednorazowi"])
-print(df.to_string(index=False))
+df_disliked_trips = pd.DataFrame(results, columns=["Id", "Planeta", "Rodzaj", "Spacecraft", "Rocket"])
+
+print(df_disliked_trips.to_string(index=False))
 ```
 
-To podsumowanie daje nam dużo informacji, z których możemy wyciągnąć wnioski.
+Jeśli tutaj jest za dużo informacji to możemy zrobić na dole małe podsumowanie 
+
+```{python}
+df_summary(df_disliked_trips)
+```
 
 Zajmijmy się teraz tym problemem z innej strony. Sprawdźmy który rodzaj podróży był ostatnim, dla każdego klienta.
 
 ```{python}
-trip_ids = [int(t) for t in trip_ids] 
-placeholders = ','.join(['%s'] * len(trip_ids))
+placeholders = ','.join(['%s'] * len(one_time_ids))
+one_time_ids = [int(t) for t in one_time_ids] 
 
-query = f"""
+query_last_trips = f"""
 SELECT
     tp.client_id,
     t.trip_id
 FROM
     trip_participants tp
 JOIN trips t ON tp.trip_id = t.trip_id
-JOIN trip_types tt ON t.trip_type_id = tt.trip_type_id
 WHERE
-    t.departure_datetime = (
+    tp.client_id NOT IN ({placeholders})
+    AND t.departure_datetime = (
         SELECT MAX(t2.departure_datetime)
         FROM trip_participants tp2
         JOIN trips t2 ON tp2.trip_id = t2.trip_id
@@ -156,7 +178,7 @@ WHERE
 ORDER BY tp.client_id;
 """
 
-cursor.execute(query)
+cursor.execute(query_last_trips, one_time_ids)
 results = np.array(cursor.fetchall())
 
 
@@ -166,20 +188,18 @@ summary = df['trip_id'].value_counts().reset_index()
 summary.columns = ['trip_id', 'num_clients']
 
 summary = summary.sort_values(by='num_clients', ascending=False)
+last_trips_ids = summary["trip_id"]
 
-top_5_ids = summary.head(5)["trip_id"]
+last_trips_ids = [int(t) for t in last_trips_ids] 
+placeholders = ','.join(['%s'] * len(last_trips_ids))
 
-top_5_ids = [int(t) for t in top_5_ids] 
-placeholders = ','.join(['%s'] * len(top_5_ids))
-
-query = f"""
+query_trip_info = f"""
     SELECT 
         t.trip_id,
         d.name AS destination,
         tt.name AS trip_type,
         s.name AS spacecraft_name,
-        r.name AS rocket_name,
-        COUNT(tp.client_id) AS one_time_clients
+        r.name AS rocket_name
     FROM trip_participants tp
     JOIN trips t ON tp.trip_id = t.trip_id
     JOIN spacecraft s ON t.spacecraft_id = s.spacecraft_id
@@ -190,15 +210,24 @@ query = f"""
     GROUP BY t.trip_id, d.name, tt.name
 """
 
-cursor.execute(query, top_5_ids)
+cursor.execute(query_trip_info, last_trips_ids)
 results = cursor.fetchall()
 
-df = pd.DataFrame(results, columns = ["Id", "Planeta", "Rodzaj", "Spacecraft", "Rakieta", "Ilość"])
-df = df.sort_values(by="Ilość", ascending=False)
-print(df.to_string(index=False))
+df_last_trips = pd.DataFrame(results, columns = ["Id", "Planeta", "Rodzaj", "Spacecraft", "Rakieta"])
+print(df_last_trips.to_string(index=False))
 ```
 
-Teraz jak już zadalismy jakie wycieczki odstraszają naszych klientów, zobaczmy jakie wycieczki przyciągają ich.
+```{python}
+df_summary(df_last_trips)
+```
+
+Tutaj mamy podobne info, jednak to są wszystkie tripy, dla których klienci lecieli więcej niż raz.
+
+Teraz mamy dwa data_frame'y, które nam mówią o tym, które tripy były najczęściej jednorazowe, a które były ostatnimi dal tych co polecieli częściej niż raz. 
+Napiszmy teraz funkcję która zrobi nam podsumowanie tych tabel pod wzlędem: planet, rodzajów wypraw, statków
+
+
+Teraz dla odmiany zobaczmy jakie wycieczki są bardziej zachęcające.
 
 ```{python}
 query= """
@@ -218,11 +247,8 @@ df['returned_after'] = df['next_trip'].notna()
 
 
 trip_retention = df[df['returned_after']].groupby('trip_id').size().reset_index(name='clients_returned')
-
 trip_retention = trip_retention.sort_values(by='clients_returned', ascending=False)
-
 top_5_ret_ids = trip_retention.head(5)["trip_id"]
-
 top_5_ret_ids = [int(t) for t in top_5_ret_ids] 
 placeholders = ','.join(['%s'] * len(top_5_ret_ids))
 
@@ -242,25 +268,25 @@ query = f"""
     WHERE tp.trip_id IN ({placeholders})
     GROUP BY t.trip_id, d.name, tt.name
 """
-
-cursor.execute(query, top_5_ids)
+cursor.execute(query, top_5_ret_ids)
 results = cursor.fetchall()
 
-df = pd.DataFrame(results, columns = ["Id", "Planeta", "Rodzaj", "Spacecraft", "Rakieta"])
-print(df.to_string(index=False))
-
+df_liked_trips = pd.DataFrame(results, columns = ["Id", "Planeta", "Rodzaj", "Spacecraft", "Rakieta"])
+print(df_liked_trips.to_string(index=False))
 ```
 
-Po wykonaniu kodu który na pewno ja sam napisałem możemy zobaczyć jakie wycieczki są najbardziej zachęcające.
+```{python}
+df_summary(df_liked_trips)
+```
 
-Teraz pora na to aby samemu wymyśleć jakieś ciekawe zapytania. Mam następujące pomysły które oczywiście wymyśliłem samemu.
+Wszystko mamy, możemy teraz napisać ładne podsumowanie.
 
 ## Zadanie 4
 
 Wpływ pracowników na jakość podróży. Czy obecność konkretnego pracownika poprawia jakość podróży? Czy możemy wyznaczyć gwiazdę zespołu?
-
 Wyznaczenie pracowników obecnych na wycieczkach o najwyższych ocenach jest proste, ale co dalej?
 
+Czy można jakoś wyznaczyć korelację pomiędzy pracownikami i oceną?
 Może należy wziąć pracownika pod lupę i sprawdzić czy on naprawdę ma wysoką średnią ocen, czy po prostu jest obecny na wielu lotach.
 
 ```{python}
@@ -291,20 +317,102 @@ df
 Trend i sezonowość. Czy jest ona związana z incydentami?
 
 
+
 ```{python}
-query = """
-SELECT
-*
-FROM transactions ta
-WHERE status LIKE "completed"
-"""
+query = """SELECT trip_id, departure_datetime FROM trips;"""
+cursor.execute(query)
+results = cursor.fetchall()
+
+df = pd.DataFrame(results, columns=["trip_id","departure_datetime"])
+
+dates = [str(s) for s in df["departure_datetime"]] 
+df["departure_datetime"] = dates
+
+df['departure_datetime'] = df['departure_datetime'].apply(lambda x: datetime.strptime(x, '%Y-%m-%d %H:%M:%S'))
+df['year_month'] = df['departure_datetime'].apply(lambda x: f"{x.year}-{x.month:02d}")
+df['year'] = df['departure_datetime'].apply(lambda x: x.year)
+df['month'] = df['departure_datetime'].apply(lambda x: x.month)
+
+trip_counts = df['year_month'].value_counts().sort_index()
+
+trip_counts.plot(kind='bar', figsize=(15, 5))
+plt.title("Liczba wycieczek w czasie")
+plt.xlabel("Rok-miesiąc")
+plt.ylabel("Liczba wycieczek")
+plt.xticks(rotation=45)
+plt.tight_layout()
+plt.show()
+
+# a może po miesiącach
+
+# trip_counts = df['month'].value_counts().sort_index()
+
+# trip_counts.plot(kind='bar', figsize=(15, 5))
+# plt.title("Liczba wycieczek w czasie")
+# plt.xlabel("Miesiąc")
+# plt.ylabel("Liczba wycieczek")
+# plt.xticks(rotation=45)
+# plt.tight_layout()
+# plt.show()
 ```
 
-2. Czasowe trendy i sezonowość. Czy są miesiące z większą liczbą incydentów lub niższymi ocenami?
-3. Najbardziej pracowity pracownik?
-4. Pracownik x spacecraft?
-5. Najbardziej zużyty spacecraft/rocket? Który lata najdłużej i który ma za sobą najwięcej podróży?
-6. Trend i sezonowość. Czy jest ona związana z incydentami?
-7. Ulubione metody płatności naszych klientów. Z jakiego źródła wpływa najwięcej pieniędzy. Czy może mamy rozwinąć ten system
+Imo miesiącie lepiej wypadają, spróbujmy zrobić to teraz dla incydentów
+
+```{python}
+query = """SELECT incident_id, datetime_occurred FROM incidents;"""
+cursor.execute(query)
+results = cursor.fetchall()
+
+df = pd.DataFrame(results, columns=["id","datetime"])
+
+dates = [str(s) for s in df["datetime"]] 
+df["datetime"] = dates
+df['datetime'] = df['datetime'].apply(lambda x: datetime.strptime(x, '%Y-%m-%d %H:%M:%S'))
+df['year_month'] = df['datetime'].apply(lambda x: f"{x.year}-{x.month:02d}")
+df['year'] = df['datetime'].apply(lambda x: x.year)
+df['month'] = df['datetime'].apply(lambda x: x.month)
+
+incidents_counts = df['month'].value_counts().sort_index()
+
+incidents_counts.plot(kind='bar', figsize=(15, 5))
+plt.title("Liczba wycieczek w czasie")
+plt.xlabel("Miesiąc")
+plt.ylabel("Liczba wycieczek")
+plt.xticks(rotation=45)
+plt.tight_layout()
+plt.show()
+```
+
+Wyrysujmy teraz te dwie rzeczy na jednym histogramie
+
+```{python}
+all_months = list(range(1, 13))
+trip_counts = trip_counts.reindex(all_months, fill_value=0)
+incidents_counts = incidents_counts.reindex(all_months, fill_value=0)
+
+x = np.arange(len(all_months))
+width = 0.35
+
+fig, ax = plt.subplots(figsize=(10, 5))
+
+bars1 = ax.bar(x - width/2, trip_counts.values, width, label='Liczba wycieczek')
+bars2 = ax.bar(x + width/2, incidents_counts.values, width, label='Liczba incydentów')
+
+ax.set_xlabel('Miesiąc')
+ax.set_ylabel('Liczba')
+ax.set_title('Porównanie liczby wycieczek i incydentów wg miesiąca')
+ax.set_xticks(x)
+ax.set_xticklabels([f"{m:02d}" for m in all_months])
+ax.legend()
+
+plt.tight_layout()
+plt.show()
+```
+
+2. Czy klienci dokonują płatności za przejazdy z wyprzedzeniem, czy czekają do ostatniej chwili?
+
+
+
+3. Ulubione metody płatności naszych klientów. Z jakiego źródła wpływa najwięcej pieniędzy. Czy może mamy rozwinąć ten system
 
 ##

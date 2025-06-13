@@ -58,7 +58,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="projekt_raport_marek_files/libs/clipboard/clipboard.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="projekt_raport_marek_files/libs/clipboard/clipboard.min.js"></script>
 <script src="projekt_raport_marek_files/libs/quarto-html/quarto.js" type="module"></script>
 <script src="projekt_raport_marek_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="projekt_raport_marek_files/libs/quarto-html/popper.min.js"></script>
@@ -73,6 +73,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="projekt_raport_marek_files/libs/bootstrap/bootstrap-6e5ff12f349f7d7ee99023e5a7f49be9.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
 <link href="projekt_raport_marek_files/libs/bootstrap/bootstrap-dark-1c59215f878e034bd7426c637fa661ac.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <link href="projekt_raport_marek_files/libs/bootstrap/bootstrap-6e5ff12f349f7d7ee99023e5a7f49be9.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
 
 </head>
@@ -249,9 +252,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul>
   <li><a href="#autorzy" id="toc-autorzy" class="nav-link active" data-scroll-target="#autorzy"><span class="header-section-number">1</span> Autorzy</a></li>
   <li><a href="#importy" id="toc-importy" class="nav-link" data-scroll-target="#importy"><span class="header-section-number">2</span> Importy</a></li>
-  <li><a href="#analiza-danych" id="toc-analiza-danych" class="nav-link" data-scroll-target="#analiza-danych"><span class="header-section-number">3</span> Analiza danych</a>
+  <li><a href="#ustanowienie-połączenia" id="toc-ustanowienie-połączenia" class="nav-link" data-scroll-target="#ustanowienie-połączenia"><span class="header-section-number">3</span> Ustanowienie połączenia</a></li>
+  <li><a href="#analiza-danych" id="toc-analiza-danych" class="nav-link" data-scroll-target="#analiza-danych"><span class="header-section-number">4</span> Analiza danych</a>
   <ul class="collapse">
-  <li><a href="#section" id="toc-section" class="nav-link" data-scroll-target="#section"><span class="header-section-number">3.1</span> </a></li>
+  <li><a href="#zadanie-3" id="toc-zadanie-3" class="nav-link" data-scroll-target="#zadanie-3"><span class="header-section-number">4.1</span> Zadanie 3</a></li>
+  <li><a href="#zadanie-4" id="toc-zadanie-4" class="nav-link" data-scroll-target="#zadanie-4"><span class="header-section-number">4.2</span> Zadanie 4</a></li>
+  <li><a href="#zadanie-5" id="toc-zadanie-5" class="nav-link" data-scroll-target="#zadanie-5"><span class="header-section-number">4.3</span> Zadanie 5</a></li>
+  <li><a href="#section" id="toc-section" class="nav-link" data-scroll-target="#section"><span class="header-section-number">4.4</span> </a></li>
   </ul></li>
   </ul>
 </nav>
@@ -292,7 +299,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="importy" class="level1" data-number="2">
 <h1 data-number="2"><span class="header-section-number">2</span> Importy</h1>
-<div id="acc4f83c" class="cell" data-execution_count="1">
+<div id="499c629b" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> random</span>
@@ -300,10 +307,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> datetime <span class="im">import</span> date, datetime, timedelta, time</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> mysql.connector</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> mysql.connector</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> plotly.express <span class="im">as</span> px</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.cm <span class="im">as</span> cm</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.colors <span class="im">as</span> colors</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> stats</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sqlalchemy <span class="im">import</span> create_engine</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> urllib.parse <span class="im">import</span> quote_plus</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div id="b5ebb894" class="cell" data-execution_count="2">
+</section>
+<section id="ustanowienie-połączenia" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Ustanowienie połączenia</h1>
+<div id="b40a0075" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>con <span class="op">=</span> mysql.connector.<span class="ex">connect</span>(</span>
@@ -313,244 +331,337 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    port<span class="op">=</span><span class="dv">3306</span>,</span>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    use_pure<span class="op">=</span><span class="va">True</span>,</span>
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    database <span class="op">=</span> <span class="st">"team13"</span></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>cursor <span class="op">=</span> con.cursor()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </section>
-<section id="analiza-danych" class="level1" data-number="3">
-<h1 data-number="3"><span class="header-section-number">3</span> Analiza danych</h1>
-<p>Pytanie: po których wycieczkach klienci wracają na kolejne, a po których mają dość i więcej ich nie widzicie. Czy są takie, które być może powinny zniknąć z oferty?</p>
-<p>Jak do tego problemu podejść? Na początek stworzymy sobie dwa zbiory: id klientów którzy pojechali tylko na jedną podróż oraz klientów co pojechali na więcej podróży</p>
-<div id="ee8a96e0" class="cell" data-execution_count="3">
+<section id="analiza-danych" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Analiza danych</h1>
+<section id="zadanie-3" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="zadanie-3"><span class="header-section-number">4.1</span> Zadanie 3</h2>
+<p>Po których wycieczkach klienci wracają na kolejne, a po których mają dość i więcej ich nie widzicie. Czy są takie, które być może powinny zniknąć z oferty?</p>
+<p>Najpierw zajmiemy się tymi wyprawami, które odstraszają naszych klientów. Wyszukamy na początke dwie rzeczy: wszystkie rodzaje wycieczek, które miały pojedyńczych klientów, a następnie wyszukamy zbiór wycieczek, które były ostatnimi dla klientów.</p>
+<p>Mają te infomacje stworzymy zestawienie aspektów, które mogły przyczynić się do negatywnego odbioru przez klientów (najgorsza planeta, typ wyprawy, najmniej przyjemny pojazd itp.)</p>
+<p>Zebranie tych tripów, które są miały najwięcej jednorazowych klientów.</p>
+<div id="b2cfe067" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>query <span class="op">=</span> <span class="st">"SELECT client_id, COUNT(trip_id) as trips FROM  trip_participants GROUP BY client_id"</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>cursor <span class="op">=</span> con.cursor()</span>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> summary(df):</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># dataframe składa się z trzech interesujących nas aspektów, planeta, rodzaj i pojazd</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>cursor.execute(query)</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>trips_of_client <span class="op">=</span> np.array(cursor.fetchall())</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>single_trip <span class="op">=</span> trips_of_client[trips_of_client[:,<span class="dv">1</span>] <span class="op">==</span> <span class="dv">1</span>][:,<span class="dv">0</span>]</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>multi_trip <span class="op">=</span> trips_of_client[trips_of_client[:,<span class="dv">1</span>] <span class="op">!=</span> <span class="dv">1</span>][:,<span class="dv">0</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    summary_planeta <span class="op">=</span> df[<span class="st">'Planeta'</span>].value_counts().reset_index()</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    summary_planeta.columns <span class="op">=</span> [<span class="st">'Planeta'</span>, <span class="st">'liczba'</span>]</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    summary_typ <span class="op">=</span> df[<span class="st">'Rodzaj'</span>].value_counts().reset_index()</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    summary_typ.columns <span class="op">=</span> [<span class="st">'Rodzaj'</span>, <span class="st">'liczba'</span>]</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    summary_pojazd <span class="op">=</span> df[<span class="st">'Spacecraft'</span>].value_counts().reset_index()</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    summary_pojazd.columns <span class="op">=</span> [<span class="st">'Spacecraft'</span>, <span class="st">'liczba'</span>]</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> summary_planeta[<span class="st">"liczba"</span>][<span class="dv">0</span>] <span class="op">==</span> <span class="dv">1</span>:</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"Wszystkie planety występują równie często"</span>)</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"Najczęściej występująca planeta:"</span>, summary_planeta[<span class="st">"Planeta"</span>][<span class="dv">0</span>] )</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> summary_typ[<span class="st">"liczba"</span>][<span class="dv">0</span>] <span class="op">==</span> <span class="dv">1</span>:</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"Wszystkie wycieczki występują równie często"</span>)</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"Najczęściej występująca wycieczka:"</span>, summary_typ[<span class="st">"Rodzaj"</span>][<span class="dv">0</span>] )</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> summary_pojazd[<span class="st">"liczba"</span>][<span class="dv">0</span>] <span class="op">==</span> <span class="dv">1</span>:</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"Wszystkie pojazdy występują równie często"</span>)</span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"Najczęściej występujący pojazd:"</span>, summary_pojazd[<span class="st">"Spacecraft"</span>][<span class="dv">0</span>] )    </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<p>Teraz mamy wydzielonych klientów, którzy polecieli na wyprawę tylko raz i takich co polecieli więcej razy. Na początek zobaczmy jaka wycieczka odstraszyła tych co polecieli pierwszy raz.</p>
-<div id="342c23d9" class="cell" data-execution_count="4">
+<div id="ecff1723" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>client_ids <span class="op">=</span> <span class="bu">list</span>(<span class="bu">map</span>(<span class="bu">int</span>, single_trip.tolist()))</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>placeholders <span class="op">=</span> <span class="st">','</span>.join([<span class="st">'</span><span class="sc">%s</span><span class="st">'</span>] <span class="op">*</span> <span class="bu">len</span>(client_ids))</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>query <span class="op">=</span> <span class="ss">f"""</span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="ss">    SELECT trip_id, COUNT(*) as count</span></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="ss">    FROM trip_participants</span></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="ss">    WHERE client_id IN (</span><span class="sc">{</span>placeholders<span class="sc">}</span><span class="ss">)</span></span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="ss">    GROUP BY trip_id</span></span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="ss">    ORDER BY count DESC</span></span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="ss">"""</span></span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>cursor.execute(query, client_ids)</span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> np.array(cursor.fetchall())</span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>trip_ids <span class="op">=</span> results[:,<span class="dv">0</span>]</span>
-<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>trip_ids <span class="op">=</span> <span class="bu">list</span>(<span class="bu">map</span>(<span class="bu">int</span>, trip_ids.tolist()))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
-<p>Teraz chcemy wyświetlić listę tych wycieczek, co ma najwięcej jednorazowych klientów.</p>
-<div id="e9cf4f29" class="cell" data-execution_count="5">
-<details class="code-fold">
-<summary>Rozwiń kod</summary>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>trip_ids <span class="op">=</span> [<span class="bu">int</span>(t) <span class="cf">for</span> t <span class="kw">in</span> trip_ids] </span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>placeholders <span class="op">=</span> <span class="st">','</span>.join([<span class="st">'</span><span class="sc">%s</span><span class="st">'</span>] <span class="op">*</span> <span class="bu">len</span>(trip_ids))</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>query <span class="op">=</span> <span class="ss">f"""</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="ss">    SELECT </span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="ss">        t.trip_id,</span></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="ss">        d.name AS destination,</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="ss">        tt.name AS trip_type,</span></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="ss">        s.name AS spacecraft_name,</span></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="ss">        r.name AS rocket_name,</span></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="ss">        COUNT(tp.client_id) AS one_time_clients</span></span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="ss">    FROM trip_participants tp</span></span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="ss">    JOIN trips t ON tp.trip_id = t.trip_id</span></span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="ss">    JOIN spacecraft s ON t.spacecraft_id = s.spacecraft_id</span></span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="ss">    JOIN rockets r ON t.rocket_id = r.rocket_id</span></span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="ss">    JOIN destinations d ON t.destination_id = d.destination_id</span></span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="ss">    JOIN trip_types tt ON t.trip_type_id = tt.trip_type_id</span></span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a><span class="ss">    WHERE tp.trip_id IN (</span><span class="sc">{</span>placeholders<span class="sc">}</span><span class="ss">)</span></span>
-<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a><span class="ss">      AND tp.client_id IN (</span><span class="sc">{</span><span class="st">','</span><span class="sc">.</span>join([<span class="st">'</span><span class="sc">%s</span><span class="st">'</span>] <span class="op">*</span> <span class="bu">len</span>(client_ids))<span class="sc">}</span><span class="ss">)</span></span>
-<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a><span class="ss">    GROUP BY t.trip_id, d.name, tt.name</span></span>
-<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a><span class="ss">    ORDER BY COUNT(tp.client_id) DESC</span></span>
-<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a><span class="ss">"""</span></span>
-<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>cursor.execute(query, trip_ids <span class="op">+</span> client_ids)</span>
-<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> cursor.fetchall()</span>
-<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame(results, columns<span class="op">=</span>[<span class="st">"Id"</span>, <span class="st">"Planeta"</span>, <span class="st">"Typ wyprawy"</span>, <span class="st">"Spacecraft"</span>, <span class="st">"Rocket"</span>,<span class="st">"Klienci jednorazowi"</span>])</span>
-<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df.to_string(index<span class="op">=</span><span class="va">False</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>query_one_timers <span class="op">=</span> <span class="st">"""SELECT </span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="st">    client_id, </span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="st">    COUNT(trip_id) as trips </span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="st">    FROM  trip_participants </span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="st">    GROUP BY client_id</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="st">    HAVING trips = 1"""</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>cursor.execute(query_one_timers)</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>one_time_clients <span class="op">=</span> np.array(cursor.fetchall())</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>one_time_ids <span class="op">=</span> one_time_clients[:,<span class="dv">0</span>]</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>client_ids <span class="op">=</span> <span class="bu">list</span>(<span class="bu">map</span>(<span class="bu">int</span>, one_time_ids.tolist()))</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>placeholders <span class="op">=</span> <span class="st">','</span>.join([<span class="st">'</span><span class="sc">%s</span><span class="st">'</span>] <span class="op">*</span> <span class="bu">len</span>(client_ids))</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>query_one_time_trips <span class="op">=</span> <span class="ss">f"""</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="ss">    SELECT trip_id, COUNT(*) as count</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="ss">    FROM trip_participants</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="ss">    WHERE client_id IN (</span><span class="sc">{</span>placeholders<span class="sc">}</span><span class="ss">)</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="ss">    GROUP BY trip_id</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="ss">    ORDER BY count DESC</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a><span class="ss">"""</span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>cursor.execute(query_one_time_trips, client_ids)</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> np.array(cursor.fetchall())</span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>one_time_trips <span class="op">=</span> results[:,<span class="dv">0</span>]</span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>trip_ids <span class="op">=</span> [<span class="bu">int</span>(t) <span class="cf">for</span> t <span class="kw">in</span> one_time_trips] </span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>placeholders <span class="op">=</span> <span class="st">','</span>.join([<span class="st">'</span><span class="sc">%s</span><span class="st">'</span>] <span class="op">*</span> <span class="bu">len</span>(trip_ids))</span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>query_trip_info <span class="op">=</span> <span class="ss">f"""</span></span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a><span class="ss">    SELECT </span></span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a><span class="ss">        t.trip_id,</span></span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a><span class="ss">        d.name AS destination,</span></span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a><span class="ss">        tt.name AS trip_type,</span></span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a><span class="ss">        s.name AS spacecraft_name,</span></span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a><span class="ss">        r.name AS rocket_name</span></span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a><span class="ss">    FROM trip_participants tp</span></span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a><span class="ss">    JOIN trips t ON tp.trip_id = t.trip_id</span></span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a><span class="ss">    JOIN spacecraft s ON t.spacecraft_id = s.spacecraft_id</span></span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a><span class="ss">    JOIN rockets r ON t.rocket_id = r.rocket_id</span></span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a><span class="ss">    JOIN destinations d ON t.destination_id = d.destination_id</span></span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a><span class="ss">    JOIN trip_types tt ON t.trip_type_id = tt.trip_type_id</span></span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a><span class="ss">    WHERE tp.trip_id IN (</span><span class="sc">{</span>placeholders<span class="sc">}</span><span class="ss">)</span></span>
+<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a><span class="ss">    GROUP BY t.trip_id, d.name, tt.name</span></span>
+<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a><span class="ss">"""</span></span>
+<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a>cursor.execute(query_trip_info, trip_ids)</span>
+<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> cursor.fetchall()</span>
+<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a>df_disliked_trips <span class="op">=</span> pd.DataFrame(results, columns<span class="op">=</span>[<span class="st">"Id"</span>, <span class="st">"Planeta"</span>, <span class="st">"Rodzaj"</span>, <span class="st">"Spacecraft"</span>, <span class="st">"Rocket"</span>])</span>
+<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df_disliked_trips.to_string(index<span class="op">=</span><span class="va">False</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code> Id Planeta                   Typ wyprawy     Spacecraft      Rocket  Klienci jednorazowi
- 27 Merkury      Obóz Badawczy w Kosmosie      Nova-Edge   Aegis-Eon                   59
- 12    Mars         Ekspedycja Księżycowa      Vortex-NX  Atlas-Edge                   55
- 19 Merkury      Obóz Badawczy w Kosmosie Celestia-Ultra Zephyr-Edge                   55
-  9  Saturn               Misja Orbitalna         Luna-7 Falcon-1000                   51
-  8  Saturn Przelot przez Pasy Radiacyjne      Luna-Edge   Talon-Pro                   50
- 18  Saturn           Manewr Grawitacyjny   Eclipse-Edge  Falcon-Pro                   49
- 26  Saturn         Obserwacja Pierścieni   Celestia-One     Vega-IX                   44
- 22 Merkury           Manewr Grawitacyjny Astra-Infinity    Falcon-R                   41
- 33  Jowisz      Obóz Badawczy w Kosmosie      Pulsar-NX   Aegis-Eon                   18</code></pre>
+<pre><code> Id Planeta                        Rodzaj     Spacecraft      Rocket
+  8  Saturn Przelot przez Pasy Radiacyjne      Luna-Edge   Talon-Pro
+  9  Saturn               Misja Orbitalna         Luna-7 Falcon-1000
+ 12    Mars         Ekspedycja Księżycowa      Vortex-NX  Atlas-Edge
+ 18  Saturn           Manewr Grawitacyjny   Eclipse-Edge  Falcon-Pro
+ 19 Merkury      Obóz Badawczy w Kosmosie Celestia-Ultra Zephyr-Edge
+ 22 Merkury           Manewr Grawitacyjny Astra-Infinity    Falcon-R
+ 26  Saturn         Obserwacja Pierścieni   Celestia-One     Vega-IX
+ 27 Merkury      Obóz Badawczy w Kosmosie      Nova-Edge   Aegis-Eon
+ 33  Jowisz      Obóz Badawczy w Kosmosie      Pulsar-NX   Aegis-Eon</code></pre>
 </div>
 </div>
-<p>To podsumowanie daje nam dużo informacji, z których możemy wyciągnąć wnioski.</p>
+<p>Jeśli tutaj jest za dużo informacji to możemy zrobić na dole małe podsumowanie</p>
+<div id="07dd77ad" class="cell" data-execution_count="5">
+<details class="code-fold">
+<summary>Rozwiń kod</summary>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>summary(df_disliked_trips)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Najczęściej występująca planeta: Saturn
+Najczęściej występująca wycieczka: Obóz Badawczy w Kosmosie
+Wszystkie pojazdy występują równie często</code></pre>
+</div>
+</div>
 <p>Zajmijmy się teraz tym problemem z innej strony. Sprawdźmy który rodzaj podróży był ostatnim, dla każdego klienta.</p>
-<div id="459fb329" class="cell" data-execution_count="6">
+<div id="999ae969" class="cell" data-execution_count="6">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>trip_ids <span class="op">=</span> [<span class="bu">int</span>(t) <span class="cf">for</span> t <span class="kw">in</span> trip_ids] </span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>placeholders <span class="op">=</span> <span class="st">','</span>.join([<span class="st">'</span><span class="sc">%s</span><span class="st">'</span>] <span class="op">*</span> <span class="bu">len</span>(trip_ids))</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>query <span class="op">=</span> <span class="ss">f"""</span></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="ss">SELECT</span></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="ss">    tp.client_id,</span></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="ss">    t.trip_id</span></span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="ss">FROM</span></span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="ss">    trip_participants tp</span></span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="ss">JOIN trips t ON tp.trip_id = t.trip_id</span></span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="ss">JOIN trip_types tt ON t.trip_type_id = tt.trip_type_id</span></span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="ss">WHERE</span></span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="ss">    t.departure_datetime = (</span></span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="ss">        SELECT MAX(t2.departure_datetime)</span></span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="ss">        FROM trip_participants tp2</span></span>
-<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="ss">        JOIN trips t2 ON tp2.trip_id = t2.trip_id</span></span>
-<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="ss">        WHERE tp2.client_id = tp.client_id</span></span>
-<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a><span class="ss">    )</span></span>
-<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a><span class="ss">ORDER BY tp.client_id;</span></span>
-<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a><span class="ss">"""</span></span>
-<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>cursor.execute(query)</span>
-<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> np.array(cursor.fetchall())</span>
-<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame(results, columns<span class="op">=</span>[<span class="st">'client_id'</span>, <span class="st">'trip_id'</span>])</span>
-<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a><span class="co"># Grupujemy po trip_id i liczymy ilu klientów miało ten trip jako ostatni</span></span>
-<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>summary <span class="op">=</span> df[<span class="st">'trip_id'</span>].value_counts().reset_index()</span>
-<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>summary.columns <span class="op">=</span> [<span class="st">'trip_id'</span>, <span class="st">'num_clients'</span>]</span>
-<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a><span class="co"># Sortujemy malejąco</span></span>
-<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>summary <span class="op">=</span> summary.sort_values(by<span class="op">=</span><span class="st">'num_clients'</span>, ascending<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a><span class="co"># Wyświetlamy ładnie</span></span>
-<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a>top_5_ids <span class="op">=</span> summary.head(<span class="dv">5</span>)[<span class="st">"trip_id"</span>]</span>
-<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a>top_5_ids <span class="op">=</span> [<span class="bu">int</span>(t) <span class="cf">for</span> t <span class="kw">in</span> top_5_ids] </span>
-<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a>placeholders <span class="op">=</span> <span class="st">','</span>.join([<span class="st">'</span><span class="sc">%s</span><span class="st">'</span>] <span class="op">*</span> <span class="bu">len</span>(top_5_ids))</span>
-<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a>query <span class="op">=</span> <span class="ss">f"""</span></span>
-<span id="cb7-42"><a href="#cb7-42" aria-hidden="true" tabindex="-1"></a><span class="ss">    SELECT </span></span>
-<span id="cb7-43"><a href="#cb7-43" aria-hidden="true" tabindex="-1"></a><span class="ss">        t.trip_id,</span></span>
-<span id="cb7-44"><a href="#cb7-44" aria-hidden="true" tabindex="-1"></a><span class="ss">        d.name AS destination,</span></span>
-<span id="cb7-45"><a href="#cb7-45" aria-hidden="true" tabindex="-1"></a><span class="ss">        tt.name AS trip_type,</span></span>
-<span id="cb7-46"><a href="#cb7-46" aria-hidden="true" tabindex="-1"></a><span class="ss">        s.name AS spacecraft_name,</span></span>
-<span id="cb7-47"><a href="#cb7-47" aria-hidden="true" tabindex="-1"></a><span class="ss">        r.name AS rocket_name,</span></span>
-<span id="cb7-48"><a href="#cb7-48" aria-hidden="true" tabindex="-1"></a><span class="ss">        COUNT(tp.client_id) AS one_time_clients</span></span>
-<span id="cb7-49"><a href="#cb7-49" aria-hidden="true" tabindex="-1"></a><span class="ss">    FROM trip_participants tp</span></span>
-<span id="cb7-50"><a href="#cb7-50" aria-hidden="true" tabindex="-1"></a><span class="ss">    JOIN trips t ON tp.trip_id = t.trip_id</span></span>
-<span id="cb7-51"><a href="#cb7-51" aria-hidden="true" tabindex="-1"></a><span class="ss">    JOIN spacecraft s ON t.spacecraft_id = s.spacecraft_id</span></span>
-<span id="cb7-52"><a href="#cb7-52" aria-hidden="true" tabindex="-1"></a><span class="ss">    JOIN rockets r ON t.rocket_id = r.rocket_id</span></span>
-<span id="cb7-53"><a href="#cb7-53" aria-hidden="true" tabindex="-1"></a><span class="ss">    JOIN destinations d ON t.destination_id = d.destination_id</span></span>
-<span id="cb7-54"><a href="#cb7-54" aria-hidden="true" tabindex="-1"></a><span class="ss">    JOIN trip_types tt ON t.trip_type_id = tt.trip_type_id</span></span>
-<span id="cb7-55"><a href="#cb7-55" aria-hidden="true" tabindex="-1"></a><span class="ss">    WHERE tp.trip_id IN (</span><span class="sc">{</span>placeholders<span class="sc">}</span><span class="ss">)</span></span>
-<span id="cb7-56"><a href="#cb7-56" aria-hidden="true" tabindex="-1"></a><span class="ss">    GROUP BY t.trip_id, d.name, tt.name</span></span>
-<span id="cb7-57"><a href="#cb7-57" aria-hidden="true" tabindex="-1"></a><span class="ss">"""</span></span>
-<span id="cb7-58"><a href="#cb7-58" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-59"><a href="#cb7-59" aria-hidden="true" tabindex="-1"></a>cursor.execute(query, top_5_ids)</span>
-<span id="cb7-60"><a href="#cb7-60" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> cursor.fetchall()</span>
-<span id="cb7-61"><a href="#cb7-61" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-62"><a href="#cb7-62" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame(results, columns <span class="op">=</span> [<span class="st">"Id"</span>, <span class="st">"Planeta"</span>, <span class="st">"Rodzaj"</span>, <span class="st">"Spacecraft"</span>, <span class="st">"Rakieta"</span>, <span class="st">"Ilość"</span>])</span>
-<span id="cb7-63"><a href="#cb7-63" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.sort_values(by<span class="op">=</span><span class="st">"Ilość"</span>, ascending<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb7-64"><a href="#cb7-64" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df.to_string(index<span class="op">=</span><span class="va">False</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>placeholders <span class="op">=</span> <span class="st">','</span>.join([<span class="st">'</span><span class="sc">%s</span><span class="st">'</span>] <span class="op">*</span> <span class="bu">len</span>(one_time_ids))</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>one_time_ids <span class="op">=</span> [<span class="bu">int</span>(t) <span class="cf">for</span> t <span class="kw">in</span> one_time_ids] </span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>query_last_trips <span class="op">=</span> <span class="ss">f"""</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="ss">SELECT</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="ss">    tp.client_id,</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="ss">    t.trip_id</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="ss">FROM</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="ss">    trip_participants tp</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="ss">JOIN trips t ON tp.trip_id = t.trip_id</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="ss">WHERE</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="ss">    tp.client_id NOT IN (</span><span class="sc">{</span>placeholders<span class="sc">}</span><span class="ss">)</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="ss">    AND t.departure_datetime = (</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="ss">        SELECT MAX(t2.departure_datetime)</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="ss">        FROM trip_participants tp2</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a><span class="ss">        JOIN trips t2 ON tp2.trip_id = t2.trip_id</span></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a><span class="ss">        WHERE tp2.client_id = tp.client_id</span></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a><span class="ss">    )</span></span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a><span class="ss">ORDER BY tp.client_id;</span></span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a><span class="ss">"""</span></span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>cursor.execute(query_last_trips, one_time_ids)</span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> np.array(cursor.fetchall())</span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame(results, columns<span class="op">=</span>[<span class="st">'client_id'</span>, <span class="st">'trip_id'</span>])</span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>summary <span class="op">=</span> df[<span class="st">'trip_id'</span>].value_counts().reset_index()</span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a>summary.columns <span class="op">=</span> [<span class="st">'trip_id'</span>, <span class="st">'num_clients'</span>]</span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a>summary <span class="op">=</span> summary.sort_values(by<span class="op">=</span><span class="st">'num_clients'</span>, ascending<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a>last_trips_ids <span class="op">=</span> summary[<span class="st">"trip_id"</span>]</span>
+<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a>last_trips_ids <span class="op">=</span> [<span class="bu">int</span>(t) <span class="cf">for</span> t <span class="kw">in</span> last_trips_ids] </span>
+<span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a>placeholders <span class="op">=</span> <span class="st">','</span>.join([<span class="st">'</span><span class="sc">%s</span><span class="st">'</span>] <span class="op">*</span> <span class="bu">len</span>(last_trips_ids))</span>
+<span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-37"><a href="#cb8-37" aria-hidden="true" tabindex="-1"></a>query_trip_info <span class="op">=</span> <span class="ss">f"""</span></span>
+<span id="cb8-38"><a href="#cb8-38" aria-hidden="true" tabindex="-1"></a><span class="ss">    SELECT </span></span>
+<span id="cb8-39"><a href="#cb8-39" aria-hidden="true" tabindex="-1"></a><span class="ss">        t.trip_id,</span></span>
+<span id="cb8-40"><a href="#cb8-40" aria-hidden="true" tabindex="-1"></a><span class="ss">        d.name AS destination,</span></span>
+<span id="cb8-41"><a href="#cb8-41" aria-hidden="true" tabindex="-1"></a><span class="ss">        tt.name AS trip_type,</span></span>
+<span id="cb8-42"><a href="#cb8-42" aria-hidden="true" tabindex="-1"></a><span class="ss">        s.name AS spacecraft_name,</span></span>
+<span id="cb8-43"><a href="#cb8-43" aria-hidden="true" tabindex="-1"></a><span class="ss">        r.name AS rocket_name</span></span>
+<span id="cb8-44"><a href="#cb8-44" aria-hidden="true" tabindex="-1"></a><span class="ss">    FROM trip_participants tp</span></span>
+<span id="cb8-45"><a href="#cb8-45" aria-hidden="true" tabindex="-1"></a><span class="ss">    JOIN trips t ON tp.trip_id = t.trip_id</span></span>
+<span id="cb8-46"><a href="#cb8-46" aria-hidden="true" tabindex="-1"></a><span class="ss">    JOIN spacecraft s ON t.spacecraft_id = s.spacecraft_id</span></span>
+<span id="cb8-47"><a href="#cb8-47" aria-hidden="true" tabindex="-1"></a><span class="ss">    JOIN rockets r ON t.rocket_id = r.rocket_id</span></span>
+<span id="cb8-48"><a href="#cb8-48" aria-hidden="true" tabindex="-1"></a><span class="ss">    JOIN destinations d ON t.destination_id = d.destination_id</span></span>
+<span id="cb8-49"><a href="#cb8-49" aria-hidden="true" tabindex="-1"></a><span class="ss">    JOIN trip_types tt ON t.trip_type_id = tt.trip_type_id</span></span>
+<span id="cb8-50"><a href="#cb8-50" aria-hidden="true" tabindex="-1"></a><span class="ss">    WHERE tp.trip_id IN (</span><span class="sc">{</span>placeholders<span class="sc">}</span><span class="ss">)</span></span>
+<span id="cb8-51"><a href="#cb8-51" aria-hidden="true" tabindex="-1"></a><span class="ss">    GROUP BY t.trip_id, d.name, tt.name</span></span>
+<span id="cb8-52"><a href="#cb8-52" aria-hidden="true" tabindex="-1"></a><span class="ss">"""</span></span>
+<span id="cb8-53"><a href="#cb8-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-54"><a href="#cb8-54" aria-hidden="true" tabindex="-1"></a>cursor.execute(query_trip_info, last_trips_ids)</span>
+<span id="cb8-55"><a href="#cb8-55" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> cursor.fetchall()</span>
+<span id="cb8-56"><a href="#cb8-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-57"><a href="#cb8-57" aria-hidden="true" tabindex="-1"></a>df_last_trips <span class="op">=</span> pd.DataFrame(results, columns <span class="op">=</span> [<span class="st">"Id"</span>, <span class="st">"Planeta"</span>, <span class="st">"Rodzaj"</span>, <span class="st">"Spacecraft"</span>, <span class="st">"Rakieta"</span>])</span>
+<span id="cb8-58"><a href="#cb8-58" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df_last_trips.to_string(index<span class="op">=</span><span class="va">False</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code> Id Planeta                   Rodzaj     Spacecraft     Rakieta  Ilość
- 27 Merkury Obóz Badawczy w Kosmosie      Nova-Edge   Aegis-Eon     59
- 18  Saturn      Manewr Grawitacyjny   Eclipse-Edge  Falcon-Pro     58
- 12    Mars    Ekspedycja Księżycowa      Vortex-NX  Atlas-Edge     55
- 19 Merkury Obóz Badawczy w Kosmosie Celestia-Ultra Zephyr-Edge     55
- 47  Jowisz    Ekspedycja Księżycowa    Celestia-NX    Falcon-V     55</code></pre>
+<pre><code> Id Planeta                   Rodzaj    Spacecraft    Rakieta
+ 18  Saturn      Manewr Grawitacyjny  Eclipse-Edge Falcon-Pro
+ 25    Mars          Misja Orbitalna     Pulsar-VX  Atlas-Pro
+ 33  Jowisz Obóz Badawczy w Kosmosie     Pulsar-NX  Aegis-Eon
+ 47  Jowisz    Ekspedycja Księżycowa   Celestia-NX   Falcon-V
+ 50  Jowisz    Obserwacja Pierścieni Luna-Infinity  Nova-1000</code></pre>
 </div>
 </div>
-<p>Teraz jak już zadalismy jakie wycieczki odstraszają naszych klientów, zobaczmy jakie wycieczki przyciągają ich.</p>
-<div id="b56675f6" class="cell" data-execution_count="7">
+<p>Tutaj mamy podobne info, jednak to są wszystkie tripy, dla których klienci lecieli więcej niż raz.</p>
+<p>Teraz mamy dwa data_frame’y, które nam mówią o tym, które tripy były najczęściej jednorazowe, a które były ostatnimi dal tych co polecieli częściej niż raz. Napiszmy teraz funkcję która zrobi nam podsumowanie tych tabel pod wzlędem: planet, rodzajów wypraw, statków</p>
+<p>Teraz dla odmiany zobaczmy jakie wycieczki są bardziej zachęcające.</p>
+<div id="6c167111" class="cell" data-execution_count="7">
 <details class="code-fold">
 <summary>Rozwiń kod</summary>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>query<span class="op">=</span> <span class="st">"""</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="st">  SELECT tp.client_id, tp.trip_id,t.departure_datetime </span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="st">  FROM trip_participants tp</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="st">  JOIN trips t ON tp.trip_id = t.trip_id</span></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="st">  ORDER BY tp.client_id, t.departure_datetime;"""</span></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>cursor.execute(query)</span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> np.array(cursor.fetchall())</span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame(results,columns<span class="op">=</span>[<span class="st">"client_id"</span>,<span class="st">"trip_id"</span>,<span class="st">"departure"</span>])</span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Tworzymy kolumnę z kolejną wycieczką klienta</span></span>
-<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'next_trip'</span>] <span class="op">=</span> df.groupby(<span class="st">'client_id'</span>)[<span class="st">'trip_id'</span>].shift(<span class="op">-</span><span class="dv">1</span>)</span>
-<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Jeśli klient ma kolejną wycieczkę → oznaczamy TRUE</span></span>
-<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'returned_after'</span>] <span class="op">=</span> df[<span class="st">'next_trip'</span>].notna()</span>
-<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Teraz grupujemy po trip_id i liczymy ilu klientów "wróciło po tej wycieczce"</span></span>
-<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>trip_retention <span class="op">=</span> df[df[<span class="st">'returned_after'</span>]].groupby(<span class="st">'trip_id'</span>).size().reset_index(name<span class="op">=</span><span class="st">'clients_returned'</span>)</span>
-<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Sortujemy od największej retencji</span></span>
-<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>trip_retention <span class="op">=</span> trip_retention.sort_values(by<span class="op">=</span><span class="st">'clients_returned'</span>, ascending<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>top_5_ret_ids <span class="op">=</span> trip_retention.head(<span class="dv">5</span>)[<span class="st">"trip_id"</span>]</span>
-<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>top_5_ret_ids <span class="op">=</span> [<span class="bu">int</span>(t) <span class="cf">for</span> t <span class="kw">in</span> top_5_ret_ids] </span>
-<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a>placeholders <span class="op">=</span> <span class="st">','</span>.join([<span class="st">'</span><span class="sc">%s</span><span class="st">'</span>] <span class="op">*</span> <span class="bu">len</span>(top_5_ret_ids))</span>
-<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a>query <span class="op">=</span> <span class="ss">f"""</span></span>
-<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a><span class="ss">    SELECT </span></span>
-<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a><span class="ss">        t.trip_id,</span></span>
-<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a><span class="ss">        d.name AS destination,</span></span>
-<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a><span class="ss">        tt.name AS trip_type,</span></span>
-<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a><span class="ss">        s.name AS spacecraft_name,</span></span>
-<span id="cb9-35"><a href="#cb9-35" aria-hidden="true" tabindex="-1"></a><span class="ss">        r.name AS rocket_name</span></span>
-<span id="cb9-36"><a href="#cb9-36" aria-hidden="true" tabindex="-1"></a><span class="ss">    FROM trip_participants tp</span></span>
-<span id="cb9-37"><a href="#cb9-37" aria-hidden="true" tabindex="-1"></a><span class="ss">    JOIN trips t ON tp.trip_id = t.trip_id</span></span>
-<span id="cb9-38"><a href="#cb9-38" aria-hidden="true" tabindex="-1"></a><span class="ss">    JOIN spacecraft s ON t.spacecraft_id = s.spacecraft_id</span></span>
-<span id="cb9-39"><a href="#cb9-39" aria-hidden="true" tabindex="-1"></a><span class="ss">    JOIN rockets r ON t.rocket_id = r.rocket_id</span></span>
-<span id="cb9-40"><a href="#cb9-40" aria-hidden="true" tabindex="-1"></a><span class="ss">    JOIN destinations d ON t.destination_id = d.destination_id</span></span>
-<span id="cb9-41"><a href="#cb9-41" aria-hidden="true" tabindex="-1"></a><span class="ss">    JOIN trip_types tt ON t.trip_type_id = tt.trip_type_id</span></span>
-<span id="cb9-42"><a href="#cb9-42" aria-hidden="true" tabindex="-1"></a><span class="ss">    WHERE tp.trip_id IN (</span><span class="sc">{</span>placeholders<span class="sc">}</span><span class="ss">)</span></span>
-<span id="cb9-43"><a href="#cb9-43" aria-hidden="true" tabindex="-1"></a><span class="ss">    GROUP BY t.trip_id, d.name, tt.name</span></span>
-<span id="cb9-44"><a href="#cb9-44" aria-hidden="true" tabindex="-1"></a><span class="ss">"""</span></span>
-<span id="cb9-45"><a href="#cb9-45" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-46"><a href="#cb9-46" aria-hidden="true" tabindex="-1"></a>cursor.execute(query, top_5_ids)</span>
-<span id="cb9-47"><a href="#cb9-47" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> cursor.fetchall()</span>
-<span id="cb9-48"><a href="#cb9-48" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-49"><a href="#cb9-49" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame(results, columns <span class="op">=</span> [<span class="st">"Id"</span>, <span class="st">"Planeta"</span>, <span class="st">"Rodzaj"</span>, <span class="st">"Spacecraft"</span>, <span class="st">"Rakieta"</span>])</span>
-<span id="cb9-50"><a href="#cb9-50" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df.to_string(index<span class="op">=</span><span class="va">False</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>query<span class="op">=</span> <span class="st">"""</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="st">  SELECT tp.client_id, tp.trip_id,t.departure_datetime </span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="st">  FROM trip_participants tp</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="st">  JOIN trips t ON tp.trip_id = t.trip_id</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="st">  ORDER BY tp.client_id, t.departure_datetime;"""</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>cursor.execute(query)</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> np.array(cursor.fetchall())</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame(results,columns<span class="op">=</span>[<span class="st">"client_id"</span>,<span class="st">"trip_id"</span>,<span class="st">"departure"</span>])</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'next_trip'</span>] <span class="op">=</span> df.groupby(<span class="st">'client_id'</span>)[<span class="st">'trip_id'</span>].shift(<span class="op">-</span><span class="dv">1</span>)</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'returned_after'</span>] <span class="op">=</span> df[<span class="st">'next_trip'</span>].notna()</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>trip_retention <span class="op">=</span> df[df[<span class="st">'returned_after'</span>]].groupby(<span class="st">'trip_id'</span>).size().reset_index(name<span class="op">=</span><span class="st">'clients_returned'</span>)</span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>trip_retention <span class="op">=</span> trip_retention.sort_values(by<span class="op">=</span><span class="st">'clients_returned'</span>, ascending<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>top_5_ret_ids <span class="op">=</span> trip_retention.head(<span class="dv">5</span>)[<span class="st">"trip_id"</span>]</span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>top_5_ret_ids <span class="op">=</span> [<span class="bu">int</span>(t) <span class="cf">for</span> t <span class="kw">in</span> top_5_ret_ids] </span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>placeholders <span class="op">=</span> <span class="st">','</span>.join([<span class="st">'</span><span class="sc">%s</span><span class="st">'</span>] <span class="op">*</span> <span class="bu">len</span>(top_5_ret_ids))</span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>query <span class="op">=</span> <span class="ss">f"""</span></span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a><span class="ss">    SELECT </span></span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a><span class="ss">        t.trip_id,</span></span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a><span class="ss">        d.name AS destination,</span></span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a><span class="ss">        tt.name AS trip_type,</span></span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a><span class="ss">        s.name AS spacecraft_name,</span></span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a><span class="ss">        r.name AS rocket_name</span></span>
+<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a><span class="ss">    FROM trip_participants tp</span></span>
+<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a><span class="ss">    JOIN trips t ON tp.trip_id = t.trip_id</span></span>
+<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a><span class="ss">    JOIN spacecraft s ON t.spacecraft_id = s.spacecraft_id</span></span>
+<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a><span class="ss">    JOIN rockets r ON t.rocket_id = r.rocket_id</span></span>
+<span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a><span class="ss">    JOIN destinations d ON t.destination_id = d.destination_id</span></span>
+<span id="cb10-35"><a href="#cb10-35" aria-hidden="true" tabindex="-1"></a><span class="ss">    JOIN trip_types tt ON t.trip_type_id = tt.trip_type_id</span></span>
+<span id="cb10-36"><a href="#cb10-36" aria-hidden="true" tabindex="-1"></a><span class="ss">    WHERE tp.trip_id IN (</span><span class="sc">{</span>placeholders<span class="sc">}</span><span class="ss">)</span></span>
+<span id="cb10-37"><a href="#cb10-37" aria-hidden="true" tabindex="-1"></a><span class="ss">    GROUP BY t.trip_id, d.name, tt.name</span></span>
+<span id="cb10-38"><a href="#cb10-38" aria-hidden="true" tabindex="-1"></a><span class="ss">"""</span></span>
+<span id="cb10-39"><a href="#cb10-39" aria-hidden="true" tabindex="-1"></a>cursor.execute(query, top_5_ret_ids)</span>
+<span id="cb10-40"><a href="#cb10-40" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> cursor.fetchall()</span>
+<span id="cb10-41"><a href="#cb10-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-42"><a href="#cb10-42" aria-hidden="true" tabindex="-1"></a>df_liked_trips <span class="op">=</span> pd.DataFrame(results, columns <span class="op">=</span> [<span class="st">"Id"</span>, <span class="st">"Planeta"</span>, <span class="st">"Rodzaj"</span>, <span class="st">"Spacecraft"</span>, <span class="st">"Rakieta"</span>])</span>
+<span id="cb10-43"><a href="#cb10-43" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df_liked_trips.to_string(index<span class="op">=</span><span class="va">False</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code> Id Planeta                   Rodzaj     Spacecraft     Rakieta
- 12    Mars    Ekspedycja Księżycowa      Vortex-NX  Atlas-Edge
- 18  Saturn      Manewr Grawitacyjny   Eclipse-Edge  Falcon-Pro
- 19 Merkury Obóz Badawczy w Kosmosie Celestia-Ultra Zephyr-Edge
- 27 Merkury Obóz Badawczy w Kosmosie      Nova-Edge   Aegis-Eon
- 47  Jowisz    Ekspedycja Księżycowa    Celestia-NX    Falcon-V</code></pre>
+<pre><code> Id Planeta                        Rodzaj   Spacecraft    Rakieta
+  3    Mars           Manewr Grawitacyjny    Nova-Edge  Atlas-Pro
+ 13  Jowisz           Manewr Grawitacyjny    Nova-Edge Vega-Ultra
+ 40 Merkury Przelot przez Pasy Radiacyjne    Zenith-VX   Falcon-V
+ 43  Saturn           Manewr Grawitacyjny Zenith-Ultra    Atlas-R
+ 48   Wenus         Zejście Atmosferyczne Zenith-Ultra  Talon-Pro</code></pre>
 </div>
 </div>
-<p>Po wykonaniu kodu który na pewno ja sam napisałem możemy zobaczyć jakie wycieczki są najbardziej zachęcające.</p>
-<section id="section" class="level2" data-number="3.1">
-<h2 data-number="3.1" class="anchored" data-anchor-id="section"><span class="header-section-number">3.1</span> </h2>
+<p>Wszystko mamy, możemy teraz napisać ładne podsumowanie.</p>
+</section>
+<section id="zadanie-4" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="zadanie-4"><span class="header-section-number">4.2</span> Zadanie 4</h2>
+<p>Wpływ pracowników na jakość podróży. Czy obecność konkretnego pracownika poprawia jakość podróży? Czy możemy wyznaczyć gwiazdę zespołu? Wyznaczenie pracowników obecnych na wycieczkach o najwyższych ocenach jest proste, ale co dalej?</p>
+<p>Czy można jakoś wyznaczyć korelację pomiędzy pracownikami i oceną?</p>
+<p>Może należy wziąć pracownika pod lupę i sprawdzić czy on naprawdę ma wysoką średnią ocen, czy po prostu jest obecny na wielu lotach.</p>
+<div id="a0e4f97e" class="cell" data-execution_count="8">
+<details class="code-fold">
+<summary>Rozwiń kod</summary>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>query<span class="op">=</span><span class="st">"""</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="st">SELECT</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="st">e.employee_id,</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="st">position,</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="st">COUNT(*) AS success</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="st">FROM trips t</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="st">JOIN feedback f ON f.trip_id = t.trip_id</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="st">JOIN employee_assignments ea ON ea.trip_id = t.trip_id</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="st">JOIN employees e ON ea.employee_id = e.employee_id</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="st">WHERE rating &gt; 3</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a><span class="st">GROUP BY ea.employee_id</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a><span class="st">ORDER BY success DESC</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>cursor.execute(query)</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> cursor.fetchall()</span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame(results, columns <span class="op">=</span> [<span class="st">"Id"</span>, <span class="st">"Pozycja"</span>,<span class="st">"Ilość pozytywnych tripów"</span>])</span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>df</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="8">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Id</th>
+<th data-quarto-table-cell-role="th">Pozycja</th>
+<th data-quarto-table-cell-role="th">Ilość pozytywnych tripów</th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</section>
+<section id="zadanie-5" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="zadanie-5"><span class="header-section-number">4.3</span> Zadanie 5</h2>
+<p>Trend i sezonowość. Czy jest ona związana z incydentami?</p>
+<div id="854f3d38" class="cell" data-execution_count="9">
+<details class="code-fold">
+<summary>Rozwiń kod</summary>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>query <span class="op">=</span> <span class="st">"""</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="st">SELECT</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="st">*</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="st">FROM transactions ta</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="st">WHERE status LIKE "completed"</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<ol start="2" type="1">
+<li>Czasowe trendy i sezonowość. Czy są miesiące z większą liczbą incydentów lub niższymi ocenami?</li>
+<li>Najbardziej pracowity pracownik?</li>
+<li>Pracownik x spacecraft?</li>
+<li>Najbardziej zużyty spacecraft/rocket? Który lata najdłużej i który ma za sobą najwięcej podróży?</li>
+<li>Trend i sezonowość. Czy jest ona związana z incydentami?</li>
+<li>Ulubione metody płatności naszych klientów. Z jakiego źródła wpływa najwięcej pieniędzy. Czy może mamy rozwinąć ten system</li>
+</ol>
+</section>
+<section id="section" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="section"><span class="header-section-number">4.4</span> </h2>
 </section>
 </section>
 
