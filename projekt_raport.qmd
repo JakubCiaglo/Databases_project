@@ -136,11 +136,7 @@ print("\n----------------------------------")
 
 ```{python}
 #| echo: false
-#| label: wyswietl-popularnosc
 
-from IPython.display import Markdown
-
-# --- Obliczenia ---
 top_3_profitability = df_profitability.head(3)
 wnioski_markdown = """
 ### Liderzy Popularności
@@ -158,17 +154,12 @@ for _, row in top_3_profitability.iterrows():
 
 wnioski_markdown += "</ul>"
 
-# --- Wyświetlanie ---
 display(Markdown(wnioski_markdown))
 ```
 
 ```{python}
 #| echo: false
-#| label: wyswietl-rentownosc
 
-from IPython.display import Markdown
-
-# --- Obliczenia ---
 unprofitable_types = df_profitability[df_profitability['Zysk'] < 0]
 
 rentownosc_markdown = """
@@ -191,7 +182,6 @@ else:
         rentownosc_markdown += f"<li><b>{row['Rodzaj wyprawy']}</b>: zanotowano stratę w wysokości {strata_str}.</li>\n"
     rentownosc_markdown += "</ul>"
 
-# --- Wyświetlanie ---
 display(Markdown(rentownosc_markdown))
 ```
 
