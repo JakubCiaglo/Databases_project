@@ -1,26 +1,39 @@
 ---
-title: "Projekt z Baz Danych – Raport Końcowy"
+title: "Gwiezdne Horyzonty 2125"
+subtitle: "Roczna Analiza Strategiczna Space-U"
+author: "Zespół Analiz Biznesowych Space-U"
+lang: pl-PL
+date: "2125-06-13"
+date-format: "long"
 format:
   html:
     toc: true
     number-sections: true
     code-fold: true
-    code-summary: "Rozwiń kod"
     theme:
       light: flatly
       dark: darkly
 page-layout: full
 ---
 
-# Autorzy
+# Wstęp
+W bezkresie kosmosu, podobnie jak w oceanie danych, kluczem do sukcesu jest precyzyjna nawigacja. Od ponad dekady misją Space-U jest nie tylko otwieranie ludzkości drogi do gwiazd, ale również prowadzenie tej ekspansji w sposób mądry, zrównoważony i rentowny. Rok 2034 był kolejnym kamieniem milowym na naszej orbicie sukcesu – rokiem, w którym umocniliśmy naszą pozycję lidera, wysłaliśmy rekordową liczbę pasażerów ku czerwonym piaskom Marsa i zorzom Jowisza, ale także zmierzyliśmy się z nowymi, nieprzewidzianymi wyzwaniami.
 
-- Jakub Ciągło  
-- Mateusz Ćwiek  
-- Marek Dworaczyk  
-- Rafał Głodek
+Niniejszy raport jest naszą mapą nawigacyjną po minionym roku. Z kosmiczną precyzją przeanalizowaliśmy zebrane dane, aby odpowiedzieć na fundamentalne pytania. Które trajektorie lotów przynoszą największe zyski? Jak zmienia się profil demograficzny naszych międzyplanetarnych podróżników? Gdzie leżą ukryte ryzyka operacyjne – czy to w pasie asteroid, czy w awaryjności naszych statków? I wreszcie – jak odczucia i oceny naszych klientów korelują z incydentami napotkanymi w drodze na orbitę?
 
-# Importy
+Celem tego dokumentu nie jest jedynie kronikarski zapis przeszłości. To przede wszystkim kompas, który ma wskazać kierunek przyszłych działań. Wnioski tu zawarte stanowią solidny, oparty na twardych danych fundament pod strategiczne decyzje, które wyznaczą kurs Space-U na kolejne lata. Informacje te pozwolą nam nie tylko optymalizować obecne operacje, ale także odkrywać zupełnie nowe konstelacje możliwości rynkowych.
+
+Zapnijcie pasy. Wyruszamy w podróż po danych, która ukształtuje przyszłość międzyplanetarnych podróży.
+
+Z analitycznym pozdrowieniem,
+
+Zespół Analiz Biznesowych Space-U
+
+# Analiza danych
+
 ```{python}
+#| echo: false
+#| include: false
 import random
 import math
 from datetime import date, datetime, timedelta, time
@@ -36,19 +49,14 @@ from scipy import stats
 from sqlalchemy import create_engine
 from urllib.parse import quote_plus
 from pandas.tseries.offsets import DateOffset 
+import plotly.io as pio
+from IPython.display import Markdown
+pio.templates.default = "plotly_white" 
 ```
 
 ```{python}
-
-con = mysql.connector.connect(
-    host = "giniewicz.it",
-    user = "team13",
-    password = "te@mlie",
-    database = "team13"
-)
-```
-
-```{python}
+#| echo: false
+#| include: false
 host = "giniewicz.it"
 user = "team13"
 password = "te@mlie"
@@ -58,11 +66,12 @@ safe_password = quote_plus(password)
 connection_uri = f"mysql+mysqlconnector://{user}:{safe_password}@{host}/{database}"
 engine = create_engine(connection_uri)
 ```
-# Analiza danych
 
-## Problem pierwszy
+## Analiza rentowności i popularności wypraw
 
-Pytanie: Znajdź najpopularniejsze rodzaje wypraw, porównaj koszta i zyski, czy są opłacalne?
+W tej kluczowej sekcji raportu dokonujemy szczegółowego przeglądu naszego portfolio usług. Naszym celem jest precyzyjne zidentyfikowanie, które rodzaje wypraw stanowią trzon naszej oferty – ciesząc się największym zainteresowaniem klientów – oraz, co najważniejsze, jak popularność ta przekłada się na wyniki finansowe. Zrozumienie rentowności poszczególnych "produktów" jest fundamentem do podejmowania świadomych decyzji o alokacji zasobów, strategii cenowej i przyszłych inwestycjach w rozwój floty oraz nowych tras.
+
+Analiza została przeprowadzona na podstawie pełnych danych operacyjnych i finansowych z czterech lat działalności naszej firmy. Wykorzystaliśmy do tego bezpośrednie zapytanie do naszej centralnej bazy danych, agregując informacje o liczbie lotów, całkowitych kosztach misji oraz skompletowanych transakcjach.
 
 ```{python}
 query = """
@@ -89,15 +98,21 @@ ORDER BY
 """
 ```
 
+Poniższa tabela prezentuje kompleksowe zestawienie kluczowych wskaźników dla każdego typu wyprawy
+
 ```{python}
 df_profitability = pd.read_sql(query, engine)
 
-print("Analiza popularności i opłacalności rodzajów wypraw:")
-print(df_profitability.to_string())
+display(df_profitability.style.format('{:,.2f} zł', subset=['Całkowite koszty', 'Całkowite przychody', 'Zysk'], decimal=',', thousands=' ')\
+                         .format('{}', subset=['Liczba wypraw'])\
+                         .set_caption("Popularność i rentowność typów wypraw")\
+                         .background_gradient(cmap='RdYlGn', subset=['Zysk']))
 ```
 ```{python}
-print("\n\n--- Zautomatyzowana Analiza ---")
-print("\n## 🏆 TOP 3 najpopularniejsze rodzaje wypraw:\n")
+#| echo: false
+#| include: false
+print("\n\n--- Wnioski ---")
+print("\nNajpopularniejsze rodzaje wypraw:\n")
 top_3_profitability = df_profitability.head(3)
 
 for index, row in top_3_profitability.iterrows():
@@ -107,18 +122,79 @@ for index, row in top_3_profitability.iterrows():
         f"które przyniosły {row['Całkowite przychody']:.2f} przychodu."
     )
 
-print("\n## 💰 Analiza rentowności rodzajów wypraw:\n")
+print("\nAnaliza rentowności rodzajów wypraw:\n")
 unprofitable_types = df_profitability[df_profitability['Zysk'] < 0]
 if unprofitable_types.empty:
-    print("✅ Wszystkie rodzaje wypraw są opłacalne i nie przynoszą strat.")
+    print("Wszystkie rodzaje wypraw są opłacalne i nie przynoszą strat.")
 else:
-    print("⚠️ UWAGA! Następujące rodzaje wypraw przynoszą straty:")
+    print("UWAGA! Następujące rodzaje wypraw przynoszą straty:")
     for index, row in unprofitable_types.iterrows():
         print(
             f"- '{row['Rodzaj wyprawy']}': zanotowano stratę w wysokości {-row['Zysk']:.2f}"
         )
 
 print("\n----------------------------------")
+```
+
+```{python}
+#| echo: false
+#| label: wyswietl-popularnosc
+
+from IPython.display import Markdown
+
+# --- Obliczenia ---
+top_3_profitability = df_profitability.head(3)
+wnioski_markdown = """
+### Liderzy Popularności
+Nasze dane jednoznacznie wskazują na grupę flagowych produktów, które stanowią o sile naszej marki. Poniżej przedstawiamy TOP 3 najchętniej wybierane wyprawy:
+<ul>
+"""
+
+for _, row in top_3_profitability.iterrows():
+    liczba_wypraw_str = f"<b>{row['Liczba wypraw']}</b>"
+    przychody_str = f"<b>{row['Całkowite przychody']:,.2f} zł</b>"
+    wnioski_markdown += (
+        f"<li><b>{row['Rodzaj wyprawy']}</b>: zrealizowano {liczba_wypraw_str} wypraw, "
+        f"które przyniosły {przychody_str} przychodu.</li>\n"
+    )
+
+wnioski_markdown += "</ul>"
+
+# --- Wyświetlanie ---
+display(Markdown(wnioski_markdown))
+```
+
+```{python}
+#| echo: false
+#| label: wyswietl-rentownosc
+
+from IPython.display import Markdown
+
+# --- Obliczenia ---
+unprofitable_types = df_profitability[df_profitability['Zysk'] < 0]
+
+rentownosc_markdown = """
+### Analiza Rentowności
+"""
+
+if unprofitable_types.empty:
+    rentownosc_markdown += (
+        "<p style='color: #198754;'><b>Doskonałe wieści:</b> W analizowanym okresie wszystkie oferowane przez Space-U rodzaje wypraw "
+        "okazały się rentowne. To świadczy o zdrowej strukturze kosztów i dobrze skalibrowanej polityce cenowej w całym naszym portfolio.</p>"
+    )
+else:
+    rentownosc_markdown += (
+        "<p style='color: #dc3545;'><b>Uwaga Zarządcza:</b> Zidentyfikowano następujące rodzaje wypraw, które generują straty. "
+        "Rekomendujemy przeprowadzenie dogłębnej analizy ich struktury kosztów oraz efektywności operacyjnej:</p>"
+        "<ul>"
+    )
+    for _, row in unprofitable_types.iterrows():
+        strata_str = f"<b style='color: #dc3545;'>{-row['Zysk']:,.2f} zł</b>"
+        rentownosc_markdown += f"<li><b>{row['Rodzaj wyprawy']}</b>: zanotowano stratę w wysokości {strata_str}.</li>\n"
+    rentownosc_markdown += "</ul>"
+
+# --- Wyświetlanie ---
+display(Markdown(rentownosc_markdown))
 ```
 
 ## Problem drugi
@@ -152,6 +228,29 @@ plt.ylabel('Liczba klientów', fontsize=12)
 plt.xticks(rotation=45, ha='right')
 plt.tight_layout()
 plt.show()
+```
+
+```{python}
+import plotly.express as px
+
+# Jeśli 'miesiac' to np. "3025-01", możesz zamienić go na string typu "2025-01"
+df_clients['miesiac_str'] = df_clients['miesiac'].astype(str)
+df_clients = df_clients.sort_values(by='miesiac_str')  # ręczne sortowanie
+
+# Poprawki układu
+fig = px.bar(df_clients,
+             x='miesiac_str',
+             y='liczba_klientow',
+             text='liczba_klientow',
+             title='Miesięczna liczba obsłużonych klientów',
+             labels={'miesiac_str': 'Miesiąc', 'liczba_klientow': 'Liczba Klientów'},
+             color_discrete_sequence=['#4c6ef5'])
+
+fig.update_layout(xaxis_tickangle=-45)
+fig.update_traces(textposition='outside')
+fig.show()
+
+
 ```
 
 ```{python}
@@ -660,7 +759,7 @@ df_dob = pd.read_sql(query_dob, engine)
 today_real = date.today()
 df_dob['age'] = df_dob['date_of_birth'].apply(
     lambda dob: (today_real - dob).days / 365.25
-) + 1000
+) + 100
 df_dob['age'] = df_dob['age'].astype(int)
 ```
 
@@ -685,7 +784,7 @@ Analiza RFM
 
 ```{python}
 today_real = date.today()
-future_analysis_date = today_real.replace(year=today_real.year + 1000)
+future_analysis_date = today_real.replace(year=today_real.year + 100)
 analysis_date = future_analysis_date.strftime('%Y-%m-%d')
 ```
 
