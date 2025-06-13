@@ -796,8 +796,15 @@ plt.grid(True, linestyle='--', alpha=0.6)
 plt.show()
 ```
 
-## Problem piąty
-Pytanie: Jakie destynacje i rodzaje wycieczek otrzymują najlepsze oceny?
+## Głos klienta - analiza ocen wypraw
+
+Po analizie wskaźników operacyjnych i finansowych, nadszedł czas, aby wsłuchać się w najważniejszy głos w naszym biznesie – głos klienta. Oceny wystawiane po każdej wyprawie są bezcennym źródłem informacji o naszych mocnych i słabych stronach. W tej sekcji zidentyfikujemy, które elementy naszej oferty są najbardziej doceniane, a które wymagają naszej uwagi.
+
+Analiza opiera się na wszystkich zebranych ocenach, z wyłączeniem destynacji i typów wypraw z małą liczbą opinii (poniżej 3), aby zapewnić statystyczną istotność wyników.
+
+### Ranking ocen destynacji
+
+Pierwszym krokiem jest zrozumienie, które lokalizacje w Układzie Słonecznym dostarczają naszym pasażerom najlepszych wrażeń. Poniższy wykres szereguje nasze destynacje od najniżej do najwyżej ocenianych.
 
 ```{python}
 query_dest_ratings = """
@@ -826,6 +833,43 @@ df_dest_ratings = pd.read_sql(query_dest_ratings, engine)
 ```
 
 ```{python}
+fig_dest = px.bar(
+    df_dest_ratings,
+    x='srednia_ocena',
+    y='kierunek',
+    orientation='h',
+    title='Ranking Średnich Ocen dla Poszczególnych Destynacji',
+    labels={'srednia_ocena': 'Średnia ocena (w skali 1-5)', 'kierunek': 'Destynacja'},
+    color='srednia_ocena',
+    color_continuous_scale='Plasma',
+    text='srednia_ocena',
+    height=500
+)
+fig_dest.update_traces(texttemplate='%{text:.2f}', textposition='outside')
+fig_dest.update_layout(xaxis=dict(range=[0, 5.2]), plot_bgcolor='white', yaxis={'categoryorder':'total ascending'})
+fig_dest.update_coloraxes(showscale=False)
+fig_dest.show()
+```
+
+```{python}
+best_dest = df_dest_ratings.iloc[0]
+worst_dest = df_dest_ratings.iloc[1]
+
+wniosek_markdown = f"""
+### Podsumowanie ocen destynacji
+<p>Analiza ocen pozwala zidentyfikować nasze "perełki" oraz obszary wymagające poprawy doświadczeń klienta.</p>
+<ul>
+    <li><b>Najwyżej oceniana:</b> Destynacją, która dostarcza naszym klientom najwięcej satysfakcji, jest <b>{best_dest['kierunek']}</b> ze średnią oceną <b>{best_dest['srednia_ocena']:.2f}</b> (na podstawie {int(best_dest['liczba_ocen'])} opinii).</li>
+    <li style="margin-top: 15px;"><b>Wymaga uwagi:</b> Najniższe oceny otrzymuje <b>{worst_dest['kierunek']}</b> (średnia <b>{worst_dest['srednia_ocena']:.2f}</b> z {int(worst_dest['liczba_ocen'])} opinii). Rekomendujemy analizę feedbacku z tej trasy w celu identyfikacji przyczyn niższej satysfakcji.</li>
+</ul>
+"""
+display(Markdown(wniosek_markdown))
+```
+
+```{python}
+#| include: false
+#| echo: false
+
 print("\n--- ⭐ Ranking Ocen Destynacji ---")
 
 best_dest = df_dest_ratings.iloc[0]
@@ -840,6 +884,9 @@ print(f"   -> Średnia ocena: {worst_dest['srednia_ocena']:.2f} na podstawie {in
 ```
 
 ```{python}
+#| include: false
+#| echo: false
+
 plt.figure(figsize=(12, 7))
 sns.barplot(data=df_dest_ratings, x='srednia_ocena', y='kierunek', palette='coolwarm')
 plt.title('Ranking średnich ocen dla poszczególnych destynacji', fontsize=15)
@@ -849,6 +896,10 @@ plt.xlim(0, 5)
 plt.tight_layout()
 plt.show()
 ```
+
+### Ranking ocen rodzajów wypraw
+
+Następnie sprawdzamy, które typy misji – niezależnie od celu podróży – są najlepiej odbierane przez pasażerów. To pozwala nam ocenić, czy nasze "opakowanie" produktu (luksusowe, badawcze, ekstremalne itd.) trafia w gusta klientów.
 
 ```{python}
 query_type_ratings = """
@@ -875,8 +926,42 @@ ORDER BY
 ```{python}
 df_type_ratings = pd.read_sql(query_type_ratings, engine)
 ```
+```{python}
+fig_type = px.bar(
+    df_type_ratings,
+    x='srednia_ocena',
+    y='typ_wyprawy',
+    orientation='h',
+    title='Ranking Średnich Ocen dla Rodzajów Wypraw',
+    labels={'srednia_ocena': 'Średnia ocena (w skali 1-5)', 'typ_wyprawy': 'Rodzaj wyprawy'},
+    color='srednia_ocena',
+    color_continuous_scale='Viridis',
+    text='srednia_ocena',
+    height=500
+)
+fig_type.update_traces(texttemplate='%{text:.2f}', textposition='outside')
+fig_type.update_layout(xaxis=dict(range=[0, 5.2]), plot_bgcolor='white', yaxis={'categoryorder':'total ascending'})
+fig_type.update_coloraxes(showscale=False)
+fig_type.show()
+```
 
 ```{python}
+best_type = df_type_ratings.iloc[0]
+worst_type = df_type_ratings.iloc[-1]
+
+wniosek_markdown_2 = f"""
+### Podsumowanie ocen rodzajów wypraw
+<ul>
+    <li><b>Ulubiony typ wyprawy:</b> Klienci najwyżej oceniają format <b>{best_type['typ_wyprawy']}</b>, przyznając mu średnią ocenę <b>{best_type['srednia_ocena']:.2f}</b> (na podstawie {int(best_type['liczba_ocen'])} opinii). Warto inwestować w promocję tego segmentu.</li>
+    <li style="margin-top: 15px;"><b>Do przemyślenia:</b> Największe wyzwanie stanowi format <b>{worst_type['typ_wyprawy']}</b> (średnia <b>{worst_type['srednia_ocena']:.2f}</b> z {int(worst_type['liczba_ocen'])} opinii). Należy zastanowić się, czy oczekiwania klientów wobec tego typu wypraw są w pełni zaspokajane.</li>
+</ul>
+"""
+display(Markdown(wniosek_markdown_2))
+```
+```{python}
+#| include: false
+#| echo: false
+
 print("\n--- ⭐ Ranking Ocen Rodzajów Wypraw ---")
 best_type = df_type_ratings.iloc[0]
 worst_type = df_type_ratings.iloc[-1]
@@ -889,6 +974,9 @@ print(f"   -> Średnia ocena: {worst_type['srednia_ocena']:.2f} na podstawie {in
 ```
 
 ```{python}
+#| include: false
+#| echo: false
+
 plt.figure(figsize=(12, 7))
 sns.barplot(data=df_type_ratings, x='srednia_ocena', y='typ_wyprawy', palette='viridis')
 plt.title('Ranking średnich ocen dla poszczególnych rodzajów wypraw', fontsize=15)
@@ -899,8 +987,11 @@ plt.tight_layout()
 plt.show()
 ```
 
-## Problem szósty
-Pytanie: Jaka jest struktura wieku naszych klientów?
+## Profil demograficzny klientów - analiza wieku
+
+Zrozumienie, "kim" jest nasz klient, jest równie ważne, jak wiedza, "dokąd" chce podróżować. Wiek jest jednym z fundamentalnych wymiarów demograficznych, który wpływa na preferencje, możliwości finansowe oraz styl komunikacji. Analiza struktury wiekowej naszej bazy klientów pozwala nam zweryfikować, czy nasza oferta trafia do zamierzonej grupy docelowej i gdzie leżą potencjalne, niewykorzystane jeszcze segmenty rynku.
+
+Poniższa analiza opiera się na datach urodzenia wszystkich naszych zarejestrowanych klientów.
 
 ```{python}
 query_dob = """
@@ -923,6 +1014,52 @@ df_dob['age'] = df_dob['age'].astype(int)
 ```
 
 ```{python}
+fig = px.histogram(
+    df_dob,
+    x='age',
+    nbins=25,
+    title='Rozkład Wieku Klientów Space-U',
+    labels={'age': 'Wiek klienta (w latach)', 'count': 'Liczba klientów'},
+    marginal='rug',
+    template='plotly_white',
+    histnorm='percent'
+)
+fig.update_layout(
+    yaxis_title='Udział procentowy klientów',
+    bargap=0.1,
+    plot_bgcolor='white',
+    yaxis_ticksuffix='%'
+)
+fig.update_traces(
+    marker_color='#3498db',
+    hovertemplate='Wiek: %{x}<br>Udział: %{y:.2f}%'
+)
+fig.show()
+```
+
+```{python}
+stats = df_dob['age'].describe()
+
+# Budowanie bloku Markdown
+analiza_markdown = f"""
+### Kluczowe Statystyki Wieku
+<p>Poniższe dane charakteryzują typowego klienta Space-U pod względem wieku.</p>
+<ul>
+<li><b>Średni wiek:</b> {stats['mean']:.1f} lat</li>
+<li><b>Mediana (wiek środkowy):</b> {stats['50%']:.0f} lat</li>
+<li><b>Przedział wiekowy:</b> od {stats['min']:.0f} do {stats['max']:.0f} lat</li>
+<li><b>Odchylenie standardowe:</b> {stats['std']:.1f} lat</li>
+</ul>
+<hr style='margin: 15px 0;'>
+<p><b>Wnioski biznesowe:</b> Nasza baza klientów jest wyraźnie skoncentrowana wokół osób w wieku <b>od {stats['25%']:.0f} do {stats['75%']:.0f} lat</b> (środkowe 50% klientów), co sugeruje, że nasza oferta najsilniej rezonuje z osobami o ustabilizowanej pozycji zawodowej i finansowej. Niskie odchylenie standardowe potwierdza tę silną koncentrację. Warto rozważyć stworzenie dedykowanych kampanii lub produktów skierowanych do młodszych i starszych grup demograficznych, które są obecnie słabiej reprezentowane.</p>
+"""
+
+display(Markdown(analiza_markdown))
+```
+
+```{python}
+#| include: false
+#| echo: false
 print("\n--- 📊 Statystyki Wieku Klientów ---")
 print(df_dob['age'].describe().round(2).to_string())
 print("\n------------------------------------")
@@ -938,9 +1075,20 @@ plt.grid(axis='y', linestyle='--', alpha=0.7)
 plt.show()
 ```
 
-## Problem siódmy
-Analiza RFM
+## Segmentacja klientów metodą RFM
+Analiza RFM (Recency, Frequency, Monetary) to sprawdzona i potężna technika marketingowa służąca do segmentacji bazy klientów. Zamiast traktować wszystkich klientów jednakowo, grupujemy ich na podstawie ich zachowań transakcyjnych, odpowiadając na trzy kluczowe pytania:
 
+* **Recency** (Kiedy ostatnio podróżowali?) - Jak niedawno klient skorzystał z naszych usług? Im niższa wartość, tym lepiej.
+
+* **Frequency** (Jak często podróżują?) - Jak często klient do nas wraca? Im wyższa wartość, tym lepiej.
+
+* **Monetary** (Ile wydają?) - Jaka jest łączna wartość wszystkich transakcji danego klienta? Im wyższa wartość, tym lepiej.
+
+Dzięki tej analizie możemy zidentyfikować naszych najcenniejszych klientów ("Mistrzów"), tych, o których musimy zawalczyć ("Ryzykowni"), oraz tych, którzy dopiero rozpoczynają swoją przygodę ze Space-U ("Nowi Klienci"). To fundament pod budowę skutecznych, spersonalizowanych kampanii i strategii utrzymania klienta.
+
+### Rozkład klientów w segmentach RFM
+
+Poniższy wykres przedstawia wielkość poszczególnych segmentów w naszej bazie klientów.
 ```{python}
 today_real = date.today()
 future_analysis_date = today_real.replace(year=today_real.year + 100)
@@ -1011,9 +1159,30 @@ def assign_segment(row):
 ```
 ```{python}
 df_rfm['Segment'] = df_rfm.apply(assign_segment, axis=1)
+segment_counts = df_rfm['Segment'].value_counts()
+```
+```{python}
+fig = px.bar(
+    x=segment_counts.index,
+    y=segment_counts.values,
+    title='Rozkład Klientów w Segmentach RFM',
+    labels={'y': 'Liczba Klientów', 'x': 'Segment'},
+    text=segment_counts.values,
+    color=segment_counts.values,
+    color_continuous_scale='Plasma'
+)
+fig.update_traces(textposition='outside')
+fig.update_layout(plot_bgcolor='white', xaxis_tickangle=-45)
+fig.update_coloraxes(showscale=False)
+fig.show()
 ```
 
+### Kluczowe segmenty i rekomendacje strategiczne
 ```{python}
+
+#| include: false
+#| echo: false
+
 print(f"--- 📊 Analiza RFM (stan na dzień: {analysis_date}) ---")
 print("\nPrzykładowe dane po segmentacji:")
 print(df_rfm[['first_name', 'last_name', 'recency_days', 'frequency', 'monetary', 'R_score', 'F_score', 'M_score', 'Segment']].head().to_string())
@@ -1031,20 +1200,12 @@ plt.show()
 ```
 
 ```{python}
-print("\n\n" + "="*60)
-print("--- Zautomatyzowane Podsumowanie Analizy Segmentacji RFM ---")
-print("="*60)
-
-print("\n## Podsumowanie ilościowe segmentów:\n")
-
 segment_counts = df_rfm['Segment'].value_counts()
 total_clients = len(df_rfm)
 
 for segment, count in segment_counts.items():
     percentage = (count / total_clients) * 100
     print(f"- {segment}: \t{count} klientów ({percentage:.1f}% wszystkich)")
-
-print("\n\n## Rekomendacje Biznesowe dla Firmy:\n")
 
 recommendations = {
     'Mistrzowie (Champions)': 
@@ -1078,10 +1239,23 @@ recommendations = {
         "ofertą. Nie inwestuj w nich tyle, co w segment 'Ryzykowni'."
 }
 
-for segment in segment_counts.index:
-    if segment in recommendations:
-        print(f"💡 Segment: {segment}")
-        print(f"   Rekomendacja: {recommendations[segment]}\n")
+```
 
-print("="*60)
+```{python}
+rekomendacje_markdown = ""
+for segment, count in segment_counts.items():
+    if segment in recommendations:
+        percentage = (count / total_clients) * 100
+        
+        rekomendacje_markdown += f"""
+        ### {segment}
+        <p style="margin: 0 0 10px 0; font-weight: bold; color: #34495E;">
+            {count} klientów ({percentage:.1f}% wszystkich)
+        </p>
+        <p style="margin: 0; color: #555;">
+            <b>Rekomendacja strategiczna:</b> {recommendations[segment]}
+        </p>
+        """
+
+display(Markdown(rekomendacje_markdown))
 ```
