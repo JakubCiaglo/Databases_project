@@ -282,12 +282,113 @@ df_summary(df_liked_trips)
 Wszystko mamy, możemy teraz napisać ładne podsumowanie.
 
 ## Zadanie 4
+### Analiza pracowników: najbardziej lubiany i najbardziej pracowity
 
 Wpływ pracowników na jakość podróży. Czy obecność konkretnego pracownika poprawia jakość podróży? Czy możemy wyznaczyć gwiazdę zespołu?
 Wyznaczenie pracowników obecnych na wycieczkach o najwyższych ocenach jest proste, ale co dalej?
 
+```{python}
+query="""
+SELECT DISTINCT(position) from employees
+"""
+
+cursor.execute(query)
+results = cursor.fetchall()
+roles=""
+for i in range(len(results)):
+    roles += results[i][0] +", "
+
+print(roles[:-2])
+```
+
+Inżynier systemów, Administrator IT, Technik pokładowy, Analityk danych, Marketing kosmiczny, Inspektor jakości, Pilot statku, Specjalista ds. bezpieczeństwa, Finanse / Księgowość, Astrogator, Mechanik rakietowy, Lekarz pokładowy, Kontroler lotów, Kucharz orbitalny, Specjalista HR
+
+Pilot statku, Specjalista ds. bezpieczeństwa,Lekarz pokładowy, Kucharz orbitalny
+
+```{python}
+roles_of_interest = ["Pilot statku", "Specjalista ds. bezpieczeństwa","Lekarz pokładowy", "Kucharz orbitalny"]
+```
+
+Zobaczmy
+```{python}
+placeholders = ','.join(['%s'] * len(roles_of_interest))
+query = f"""
+SELECT
+    ea.employee_id,
+    e.first_name,
+    e.last_name,
+    e.position,
+    f.trip_id,
+    f.rating
+FROM employee_assignments ea
+JOIN employees e ON ea.employee_id = e.employee_id
+JOIN feedback f ON ea.trip_id = f.trip_id
+WHERE e.position IN ({placeholders})
+"""
+
+cursor.execute(query, roles_of_interest)
+results = cursor.fetchall()
+```
+
+```{python}
+import pandas as pd
+
+df = pd.DataFrame(results, columns=["employee_id", "first_name", "last_name", "position", "trip_id", "rating"])
+
+# Oblicz średnią ocenę dla każdego pracownika
+avg_ratings = df.groupby(['employee_id', 'first_name', 'last_name', 'position'])['rating'].mean().reset_index()
+
+# Posortuj od najwyższej
+avg_ratings = avg_ratings.sort_values(by="rating", ascending=False)
+
+# Pokaż topowych pracowników
+print(avg_ratings.head(10))
+```
+
+=================================================================
+
+```{python}
+
+query="""
+SELECT
+    ea.employee_id,
+    e.first_name,
+    e.last_name,
+    e.position,
+    COUNT(ea.trip_id) AS trips_assigned
+FROM employee_assignments ea
+JOIN employees e ON ea.employee_id = e.employee_id
+GROUP BY ea.employee_id, e.first_name, e.last_name, e.position
+ORDER BY trips_assigned DESC;
+"""
+cursor.execute(query)
+results = cursor.fetchall()
+# Załaduj dane z SQL do DataFrame
+df_acvitivy = pd.DataFrame(results, columns=["employee_id", "first_name", "last_name", "position", "trips_assigned"])
+
+
+# Filtrowanie po roli
+filtered_df = df_acvitivy[df_acvitivy["position"].isin(roles_of_interest)]
+
+# Posortuj i pokaż najbardziej pracowitych w wybranych rolach
+most_active = df_acvitivy.sort_values(by="trips_assigned", ascending=False)
+most_active_of_interest = filtered_df.sort_values(by="trips_assigned", ascending=False)
+
+print(most_active.head(10))
+print("===================================")
+print(most_active_of_interest.head(10))
+
+```
+
+
+
+
+
 Czy można jakoś wyznaczyć korelację pomiędzy pracownikami i oceną?
 Może należy wziąć pracownika pod lupę i sprawdzić czy on naprawdę ma wysoką średnią ocen, czy po prostu jest obecny na wielu lotach.
+
+
+
 
 ```{python}
 query="""
@@ -333,27 +434,27 @@ df['year_month'] = df['departure_datetime'].apply(lambda x: f"{x.year}-{x.month:
 df['year'] = df['departure_datetime'].apply(lambda x: x.year)
 df['month'] = df['departure_datetime'].apply(lambda x: x.month)
 
-trip_counts = df['year_month'].value_counts().sort_index()
-
-trip_counts.plot(kind='bar', figsize=(15, 5))
-plt.title("Liczba wycieczek w czasie")
-plt.xlabel("Rok-miesiąc")
-plt.ylabel("Liczba wycieczek")
-plt.xticks(rotation=45)
-plt.tight_layout()
-plt.show()
-
-# a może po miesiącach
-
-# trip_counts = df['month'].value_counts().sort_index()
+# trip_counts = df['year_month'].value_counts().sort_index()
 
 # trip_counts.plot(kind='bar', figsize=(15, 5))
 # plt.title("Liczba wycieczek w czasie")
-# plt.xlabel("Miesiąc")
+# plt.xlabel("Rok-miesiąc")
 # plt.ylabel("Liczba wycieczek")
 # plt.xticks(rotation=45)
 # plt.tight_layout()
 # plt.show()
+
+# a może po miesiącach
+
+trip_counts = df['month'].value_counts().sort_index()
+
+trip_counts.plot(kind='bar', figsize=(15, 5))
+plt.title("Liczba wycieczek w czasie")
+plt.xlabel("Miesiąc")
+plt.ylabel("Liczba wycieczek")
+plt.xticks(rotation=45)
+plt.tight_layout()
+plt.show()
 ```
 
 Imo miesiącie lepiej wypadają, spróbujmy zrobić to teraz dla incydentów
@@ -409,10 +510,80 @@ plt.tight_layout()
 plt.show()
 ```
 
+
 2. Czy klienci dokonują płatności za przejazdy z wyprzedzeniem, czy czekają do ostatniej chwili?
+
+```{python}
+query="""SELECT
+    ts.client_id,
+    ts.trip_id,
+    ts.transaction_date,
+    t.departure_datetime,
+    DATEDIFF(t.departure_datetime, ts.transaction_date) AS days_before_trip
+FROM transactions ts
+JOIN trips t ON ts.trip_id = t.trip_id;"""
+
+cursor.execute(query)
+results = cursor.fetchall()
+df = pd.DataFrame(results, columns=["client_id","trip_id","transaction_date","departure_date","diff"])
+
+bins = [-100, 0, 3, 7, 14, 30, 90, 365]
+labels = ['Po czasie', '0-3 dni', '4-7 dni', '8-14 dni', '15-30 dni', '31-90 dni', '91+ dni']
+df['payment_window'] = pd.cut(df['diff'], bins=bins, labels=labels)
+
+summary = df['payment_window'].value_counts().sort_index()
+
+summary.plot(kind='bar', color='skyblue')
+plt.title('Kiedy klienci płacą za wycieczki?')
+plt.xlabel('Ile dni przed wyjazdem dokonano płatności')
+plt.ylabel('Liczba płatności')
+plt.xticks(rotation=45)
+plt.tight_layout()
+plt.show()
+
+```
 
 
 
 3. Ulubione metody płatności naszych klientów. Z jakiego źródła wpływa najwięcej pieniędzy. Czy może mamy rozwinąć ten system
+
+```{python}
+query="""SELECT
+    payment_method,
+    COUNT(*) AS total_transactions,
+    SUM(amount) AS total_amount
+FROM transactions
+WHERE status = 'completed'
+GROUP BY payment_method
+ORDER BY total_amount DESC;"""
+
+cursor.execute(query)
+results = cursor.fetchall()
+df_methods = pd.DataFrame(results, columns=["payment_method","total_transactions","total_amount"])
+
+bins = [-100, 0, 3, 7, 14, 30, 90, 365]
+labels = ['Po czasie', '0-3 dni', '4-7 dni', '8-14 dni', '15-30 dni', '31-90 dni', '91+ dni']
+df['payment_window'] = pd.cut(df['diff'], bins=bins, labels=labels)
+
+plt.figure(figsize=(10,6))
+plt.bar(df_methods["payment_method"], df_methods["total_amount"], color='skyblue')
+plt.xlabel("Metoda płatności")
+plt.ylabel("Łączna kwota (PLN lub waluta)")
+plt.title("Źródła największego przychodu wg metody płatności")
+plt.xticks(rotation=45)
+plt.tight_layout()
+plt.show()
+
+# Drugi wykres - liczba transakcji
+plt.figure(figsize=(10,6))
+plt.bar(df_methods["payment_method"], df_methods["total_transactions"], color='lightgreen')
+plt.xlabel("Metoda płatności")
+plt.ylabel("Liczba transakcji")
+plt.title("Popularność metod płatności wg liczby użyć")
+plt.xticks(rotation=45)
+plt.tight_layout()
+plt.show()
+
+```
 
 ##
