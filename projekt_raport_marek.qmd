@@ -21,6 +21,8 @@ page-layout: full
 
 # Importy
 ```{python}
+#| echo: false
+#| include: false
 import random
 import math
 from datetime import date, datetime, timedelta, time
@@ -32,6 +34,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
 import matplotlib.colors as colors
+from IPython.display import display, Markdown
 from datetime import datetime
 from scipy import stats
 from sqlalchemy import create_engine
@@ -41,7 +44,8 @@ from urllib.parse import quote_plus
 
 # Ustanowienie połączenia
 ```{python}
-
+#| echo: false
+#| include: false
 con = mysql.connector.connect(
     host = "giniewicz.it",
     user = "team13",
@@ -53,12 +57,25 @@ con = mysql.connector.connect(
 
 cursor = con.cursor()
 
+
+# próba uruchomienia połączenia jak rafał ==========================
+# host = "giniewicz.it"
+# user = "team13"
+# password = "te@mlie"
+# database = "team13"
+# safe_password = quote_plus(password)
+
+# connection_uri = f"mysql+mysqlconnector://{user}:{safe_password}@{host}/{database}"
+# engine = create_engine(connection_uri)
+
 ```
 
 # Analiza danych
 
 ## Zadanie 3
 Po których wycieczkach klienci wracają na kolejne, a po których mają dość i więcej ich nie widzicie. Czy są takie, które być może powinny zniknąć z oferty?
+
+
 
 Najpierw zajmiemy się tymi wyprawami, które odstraszają naszych klientów. Wyszukamy na początke dwie rzeczy: wszystkie rodzaje wycieczek, które miały pojedyńczych klientów, a następnie wyszukamy zbiór wycieczek, które były ostatnimi dla klientów.
 
@@ -96,6 +113,50 @@ def df_summary(df):
 ```
 
 ```{python}
+def df_summary_markdown(df):
+    summary_planeta = df['Planeta'].value_counts().reset_index()
+    summary_planeta.columns = ['Planeta', 'liczba']
+
+    summary_typ = df['Rodzaj'].value_counts().reset_index()
+    summary_typ.columns = ['Rodzaj', 'liczba']
+
+    summary_pojazd = df['Spacecraft'].value_counts().reset_index()
+    summary_pojazd.columns = ['Spacecraft', 'liczba']
+
+    markdown = "Podsumowanie \n"
+
+    # 🌍 Planety
+    if summary_planeta["liczba"][0] == 1:
+        markdown += "<p>🔸 Wszystkie planety występują równie często.</p>\n"
+    else:
+        markdown += (
+            f"<p>🌍 Najczęściej występująca planeta to <b>{summary_planeta['Planeta'][0]}</b> "
+            f"z liczbą <b>{summary_planeta['liczba'][0]}</b> wypraw.</p>\n"
+        )
+
+    # 🧭 Typ wyprawy
+    if summary_typ["liczba"][0] == 1:
+        markdown += "<p>🔸 Wszystkie rodzaje wycieczek występują równie często.</p>\n"
+    else:
+        markdown += (
+            f"<p>🧭 Najczęstszy rodzaj wycieczki to <b>{summary_typ['Rodzaj'][0]}</b> "
+            f"({summary_typ['liczba'][0]} razy).</p>\n"
+        )
+
+    # 🚀 Pojazdy
+    if summary_pojazd["liczba"][0] == 1:
+        markdown += "<p>🔸 Wszystkie pojazdy kosmiczne występują równie często.</p>\n"
+    else:
+        markdown += (
+            f"<p>🚀 Najczęściej używany pojazd kosmiczny to <b>{summary_pojazd['Spacecraft'][0]}</b> "
+            f"(użyty {summary_pojazd['liczba'][0]} razy).</p>\n"
+        )
+
+    display(Markdown(markdown))
+```
+
+Najpierw jednorazowe tripy
+```{python}
 query_one_timers = """SELECT 
     client_id, 
     COUNT(trip_id) as trips 
@@ -126,11 +187,11 @@ placeholders = ','.join(['%s'] * len(trip_ids))
 
 query_trip_info = f"""
     SELECT 
-        t.trip_id,
         d.name AS destination,
         tt.name AS trip_type,
         s.name AS spacecraft_name,
-        r.name AS rocket_name
+        r.name AS rocket_name,
+        t.trip_id
     FROM trip_participants tp
     JOIN trips t ON tp.trip_id = t.trip_id
     JOIN spacecraft s ON t.spacecraft_id = s.spacecraft_id
@@ -143,19 +204,17 @@ query_trip_info = f"""
 cursor.execute(query_trip_info, trip_ids)
 results = cursor.fetchall()
 
-df_disliked_trips = pd.DataFrame(results, columns=["Id", "Planeta", "Rodzaj", "Spacecraft", "Rocket"])
+df_disliked_trips = pd.DataFrame(results, columns=["Planeta", "Rodzaj", "Spacecraft", "Rocket","Id"])
+df_disliked_trips.index = pd.RangeIndex(start=1, stop=len(df_disliked_trips)+1)
 
-print(df_disliked_trips.to_string(index=False))
+# print(df_disliked_trips.to_string())
+
+display(df_disliked_trips.style)
+
+df_summary_markdown(df_disliked_trips)
 ```
 
-Jeśli tutaj jest za dużo informacji to możemy zrobić na dole małe podsumowanie 
-
-```{python}
-df_summary(df_disliked_trips)
-```
-
-Zajmijmy się teraz tym problemem z innej strony. Sprawdźmy który rodzaj podróży był ostatnim, dla każdego klienta.
-
+Ostatnie loty
 ```{python}
 placeholders = ','.join(['%s'] * len(one_time_ids))
 one_time_ids = [int(t) for t in one_time_ids] 
@@ -195,11 +254,11 @@ placeholders = ','.join(['%s'] * len(last_trips_ids))
 
 query_trip_info = f"""
     SELECT 
-        t.trip_id,
         d.name AS destination,
         tt.name AS trip_type,
         s.name AS spacecraft_name,
-        r.name AS rocket_name
+        r.name AS rocket_name,
+        t.trip_id
     FROM trip_participants tp
     JOIN trips t ON tp.trip_id = t.trip_id
     JOIN spacecraft s ON t.spacecraft_id = s.spacecraft_id
@@ -214,20 +273,12 @@ cursor.execute(query_trip_info, last_trips_ids)
 results = cursor.fetchall()
 
 df_last_trips = pd.DataFrame(results, columns = ["Id", "Planeta", "Rodzaj", "Spacecraft", "Rakieta"])
-print(df_last_trips.to_string(index=False))
+df_last_trips.index = pd.RangeIndex(start=1, stop=len(df_last_trips)+1)
+display(df_last_trips)
+df_summary_markdown(df_last_trips)
 ```
 
-```{python}
-df_summary(df_last_trips)
-```
-
-Tutaj mamy podobne info, jednak to są wszystkie tripy, dla których klienci lecieli więcej niż raz.
-
-Teraz mamy dwa data_frame'y, które nam mówią o tym, które tripy były najczęściej jednorazowe, a które były ostatnimi dal tych co polecieli częściej niż raz. 
-Napiszmy teraz funkcję która zrobi nam podsumowanie tych tabel pod wzlędem: planet, rodzajów wypraw, statków
-
-
-Teraz dla odmiany zobaczmy jakie wycieczki są bardziej zachęcające.
+Fajne loty
 
 ```{python}
 query= """
@@ -254,11 +305,11 @@ placeholders = ','.join(['%s'] * len(top_5_ret_ids))
 
 query = f"""
     SELECT 
-        t.trip_id,
         d.name AS destination,
         tt.name AS trip_type,
         s.name AS spacecraft_name,
-        r.name AS rocket_name
+        r.name AS rocket_name,
+        t.trip_id
     FROM trip_participants tp
     JOIN trips t ON tp.trip_id = t.trip_id
     JOIN spacecraft s ON t.spacecraft_id = s.spacecraft_id
@@ -272,14 +323,15 @@ cursor.execute(query, top_5_ret_ids)
 results = cursor.fetchall()
 
 df_liked_trips = pd.DataFrame(results, columns = ["Id", "Planeta", "Rodzaj", "Spacecraft", "Rakieta"])
-print(df_liked_trips.to_string(index=False))
+df_liked_trips.index = pd.RangeIndex(start=1, stop=len(df_liked_trips)+1)
+display(df_liked_trips)
+df_summary_markdown(df_liked_trips)
 ```
 
 ```{python}
 df_summary(df_liked_trips)
 ```
 
-Wszystko mamy, możemy teraz napisać ładne podsumowanie.
 
 ## Zadanie 4
 ### Analiza pracowników: najbardziej lubiany i najbardziej pracowity
@@ -335,14 +387,19 @@ import pandas as pd
 
 df = pd.DataFrame(results, columns=["employee_id", "first_name", "last_name", "position", "trip_id", "rating"])
 
+
 # Oblicz średnią ocenę dla każdego pracownika
 avg_ratings = df.groupby(['employee_id', 'first_name', 'last_name', 'position'])['rating'].mean().reset_index()
+
+avg_ratings["rating"] = round(avg_ratings["rating"],2)
 
 # Posortuj od najwyższej
 avg_ratings = avg_ratings.sort_values(by="rating", ascending=False)
 
 # Pokaż topowych pracowników
-print(avg_ratings.head(10))
+display(avg_ratings.head(10).style.hide(axis="index"))
+
+best_employee = avg_ratings.head(1)
 ```
 
 =================================================================
@@ -374,9 +431,15 @@ filtered_df = df_acvitivy[df_acvitivy["position"].isin(roles_of_interest)]
 most_active = df_acvitivy.sort_values(by="trips_assigned", ascending=False)
 most_active_of_interest = filtered_df.sort_values(by="trips_assigned", ascending=False)
 
-print(most_active.head(10))
-print("===================================")
-print(most_active_of_interest.head(10))
+display(most_active.head(10).style.hide(axis="index"))
+print("A teraz bez patrzenia na role")
+display(most_active_of_interest.head(10).style.hide(axis="index"))
+
+print("a jak przy tym wypada nasza gwiazda?")
+
+df_acvitivy[df_acvitivy["employee_id"] == best_employee["employee_id"].iloc[0]]
+
+print("a jaką ocenę ma najaktywniejszy pracownik?")
 
 ```
 
