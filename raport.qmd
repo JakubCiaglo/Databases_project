@@ -1,0 +1,1788 @@
+---
+title: "Gwiezdne Horyzonty 2125"
+subtitle: "Roczna Analiza Strategiczna Space-U"
+author: "Zespół Analiz Biznesowych Space-U"
+lang: pl-PL
+date: "2125-06-13"
+date-format: "long"
+format:
+  html:
+    toc: true
+    number-sections: false
+    code-fold: true
+    theme:
+      light: flatly
+      dark: darkly
+    page-layout: full
+---
+
+# Wstęp
+W bezkresie kosmosu, podobnie jak w oceanie danych, kluczem do sukcesu jest precyzyjna nawigacja. Od ponad dekady misją Space-U jest nie tylko otwieranie ludzkości drogi do gwiazd, ale również prowadzenie tej ekspansji w sposób mądry, zrównoważony i rentowny. Rok 2034 był kolejnym kamieniem milowym na naszej orbicie sukcesu – rokiem, w którym umocniliśmy naszą pozycję lidera, wysłaliśmy rekordową liczbę pasażerów ku czerwonym piaskom Marsa i zorzom Jowisza, ale także zmierzyliśmy się z nowymi, nieprzewidzianymi wyzwaniami.
+
+Niniejszy raport jest naszą mapą nawigacyjną po minionym roku. Z kosmiczną precyzją przeanalizowaliśmy zebrane dane, aby odpowiedzieć na fundamentalne pytania. Które trajektorie lotów przynoszą największe zyski? Jak zmienia się profil demograficzny naszych międzyplanetarnych podróżników? Gdzie leżą ukryte ryzyka operacyjne – czy to w pasie asteroid, czy w awaryjności naszych statków? I wreszcie – jak odczucia i oceny naszych klientów korelują z incydentami napotkanymi w drodze na orbitę?
+
+Celem tego dokumentu nie jest jedynie kronikarski zapis przeszłości. To przede wszystkim kompas, który ma wskazać kierunek przyszłych działań. Wnioski tu zawarte stanowią solidny, oparty na twardych danych fundament pod strategiczne decyzje, które wyznaczą kurs Space-U na kolejne lata. Informacje te pozwolą nam nie tylko optymalizować obecne operacje, ale także odkrywać zupełnie nowe konstelacje możliwości rynkowych.
+
+Zapnijcie pasy. Wyruszamy w podróż po danych, która ukształtuje przyszłość międzyplanetarnych podróży.
+
+# Analiza danych
+
+```{python}
+#| echo: false
+#| include: false
+import random
+import math
+from datetime import date, datetime, timedelta, time
+import numpy as np
+import pandas as pd
+import mysql.connector
+import plotly.express as px
+import seaborn as sns
+import matplotlib.pyplot as plt
+import matplotlib.cm as cm
+import matplotlib.colors as colors
+from scipy import stats
+from sqlalchemy import create_engine, text
+from urllib.parse import quote_plus
+from pandas.tseries.offsets import DateOffset 
+import plotly.io as pio
+from IPython.display import Markdown
+import plotly.graph_objects as go
+pio.templates.default = "plotly_white" 
+```
+
+```{python}
+#| echo: false
+#| include: false
+from sqlalchemy import create_engine
+from urllib.parse import quote_plus
+
+host = "giniewicz.it"           # ← bez 'mlie@'
+user = "team13"
+password = "te@mlie"
+database = "team13"
+
+safe_password = quote_plus(password)
+
+# Jeśli port to 3306 i nie trzeba podawać innego
+connection_uri = f"mysql+pymysql://{user}:{safe_password}@{host}/{database}"
+engine = create_engine(connection_uri)
+```
+
+## Analiza rentowności i popularności wypraw
+
+W tej kluczowej sekcji raportu dokonujemy szczegółowego przeglądu naszego portfolio usług. Naszym celem jest precyzyjne zidentyfikowanie, które rodzaje wypraw stanowią trzon naszej oferty – ciesząc się największym zainteresowaniem klientów – oraz, co najważniejsze, jak popularność ta przekłada się na wyniki finansowe. Zrozumienie rentowności poszczególnych "produktów" jest fundamentem do podejmowania świadomych decyzji o alokacji zasobów, strategii cenowej i przyszłych inwestycjach w rozwój floty oraz nowych tras.
+
+Analiza została przeprowadzona na podstawie pełnych danych operacyjnych i finansowych z czterech lat działalności naszej firmy. Wykorzystaliśmy do tego bezpośrednie zapytanie do naszej centralnej bazy danych, agregując informacje o liczbie lotów, całkowitych kosztach misji oraz skompletowanych transakcjach.
+
+```{python}
+query = """
+SELECT
+    tt.name AS 'Rodzaj wyprawy',
+    COUNT(t.trip_id) AS 'Liczba wypraw',
+    COALESCE(SUM(ac.total_trip_cost), 0) AS 'Całkowite koszty',
+    COALESCE(SUM(ar.total_trip_revenue), 0) AS 'Całkowite przychody',
+    (COALESCE(SUM(ar.total_trip_revenue), 0) - COALESCE(SUM(ac.total_trip_cost), 0)) AS 'Zysk'
+FROM
+    trip_types tt
+LEFT JOIN
+    trips t ON tt.trip_type_id = t.trip_type_id
+LEFT JOIN
+    (SELECT trip_id, SUM(cost_amount) AS total_trip_cost FROM costs GROUP BY trip_id) ac 
+    ON t.trip_id = ac.trip_id
+LEFT JOIN
+    (SELECT trip_id, SUM(amount) AS total_trip_revenue FROM transactions WHERE status = 'Completed' GROUP BY trip_id) ar 
+    ON t.trip_id = ar.trip_id
+GROUP BY
+    tt.name
+ORDER BY
+    `Liczba wypraw` DESC;
+"""
+```
+
+```{python}
+df_profitability = pd.read_sql(query, engine)
+
+display(df_profitability.style.format('{:,.2f} zł', subset=['Całkowite koszty', 'Całkowite przychody', 'Zysk'], decimal=',', thousands=' ')\
+                         .format('{}', subset=['Liczba wypraw'])\
+                         .set_caption("Popularność i rentowność typów wypraw")\
+                         .background_gradient(cmap='RdYlGn', subset=['Zysk']))
+```
+
+
+Poniższa tabela prezentuje kompleksowe zestawienie kluczowych wskaźników dla każdego typu wyprawy
+
+```{python}
+#| echo: false
+#| include: false
+print("\n\n--- Wnioski ---")
+print("\nNajpopularniejsze rodzaje wypraw:\n")
+top_3_profitability = df_profitability.head(3)
+
+for index, row in top_3_profitability.iterrows():
+    print(
+        f"{index + 1}. Rodzaj '{row['Rodzaj wyprawy']}': "
+        f"{row['Liczba wypraw']} wypraw, "
+        f"które przyniosły {row['Całkowite przychody']:.2f} przychodu."
+    )
+
+print("\nAnaliza rentowności rodzajów wypraw:\n")
+unprofitable_types = df_profitability[df_profitability['Zysk'] < 0]
+if unprofitable_types.empty:
+    print("Wszystkie rodzaje wypraw są opłacalne i nie przynoszą strat.")
+else:
+    print("UWAGA! Następujące rodzaje wypraw przynoszą straty:")
+    for index, row in unprofitable_types.iterrows():
+        print(
+            f"- '{row['Rodzaj wyprawy']}': zanotowano stratę w wysokości {-row['Zysk']:.2f}"
+        )
+
+print("\n----------------------------------")
+```
+
+```{python}
+#| echo: false
+
+top_3_profitability = df_profitability.head(3)
+wnioski_markdown = """
+### Liderzy Popularności
+Nasze dane jednoznacznie wskazują na grupę flagowych produktów, które stanowią o sile naszej marki. Poniżej przedstawiamy TOP 3 najchętniej wybierane wyprawy:
+<ul>
+"""
+
+for _, row in top_3_profitability.iterrows():
+    liczba_wypraw_str = f"<b>{row['Liczba wypraw']}</b>"
+    przychody_str = f"<b>{row['Całkowite przychody']:,.2f} zł</b>"
+    wnioski_markdown += (
+        f"<li><b>{row['Rodzaj wyprawy']}</b>: zrealizowano {liczba_wypraw_str} wypraw, "
+        f"które przyniosły {przychody_str} przychodu.</li>\n"
+    )
+
+wnioski_markdown += "</ul>"
+
+display(Markdown(wnioski_markdown))
+```
+
+```{python}
+#| echo: false
+
+unprofitable_types = df_profitability[df_profitability['Zysk'] < 0]
+
+rentownosc_markdown = """
+### Analiza Rentowności
+"""
+
+if unprofitable_types.empty:
+    rentownosc_markdown += (
+        "<p style='color: #198754;'><b>Doskonałe wieści:</b> W analizowanym okresie wszystkie oferowane przez Space-U rodzaje wypraw "
+        "okazały się rentowne. To świadczy o zdrowej strukturze kosztów i dobrze skalibrowanej polityce cenowej w całym naszym portfolio.</p>"
+    )
+else:
+    rentownosc_markdown += (
+        "<p style='color: #dc3545;'><b>Uwaga Zarządcza:</b> Zidentyfikowano następujące rodzaje wypraw, które generują straty. "
+        "Rekomendujemy przeprowadzenie dogłębnej analizy ich struktury kosztów oraz efektywności operacyjnej:</p>"
+        "<ul>"
+    )
+    for _, row in unprofitable_types.iterrows():
+        strata_str = f"<b style='color: #dc3545;'>{-row['Zysk']:,.2f} zł</b>"
+        rentownosc_markdown += f"<li><b>{row['Rodzaj wyprawy']}</b>: zanotowano stratę w wysokości {strata_str}.</li>\n"
+    rentownosc_markdown += "</ul>"
+
+display(Markdown(rentownosc_markdown))
+```
+
+## Analiza Dynamiki Bazy Klientów
+
+Analiza miesięcznej liczby obsłużonych klientów jest jednym z fundamentalnych wskaźników kondycji i tempa rozwoju Space-U. To puls naszej działalności, który pozwala ocenić skuteczność naszych działań marketingowych, atrakcyjność oferty oraz ogólne zainteresowanie podróżami kosmicznymi. W tej sekcji zbadamy, czy w ostatnim roku nasza firma znajdowała się na trajektorii wzrostowej, czy też napotkała na turbulencje.
+
+Aby odpowiedzieć na to pytanie, stworzyliśmy wizualizację przedstawiającą liczbę unikalnych klientów w każdym miesiącu. Zamiast polegać na subiektywnej ocenie, nałożyliśmy na dane linię trendu opartą na regresji liniowej, która w obiektywny sposób wskazuje kierunek, w którym zmierzamy.
+
+```{python}
+query_clients_per_month = text("""
+SELECT
+    DATE_FORMAT(transaction_date, '%Y-%m') AS miesiac,
+    COUNT(DISTINCT client_id) AS liczba_klientow
+FROM transactions
+WHERE transaction_date < '2125-06-13'
+GROUP BY miesiac
+ORDER BY miesiac;
+""")
+
+
+```
+```{python}
+df_clients = pd.read_sql_query(query_clients_per_month, engine)
+df_clients['srednia_kroczaca'] = df_clients['liczba_klientow'].rolling(window=3, center=True, min_periods=1).mean()
+```
+
+```{python}
+#| include: false
+#| echo: false
+plt.figure(figsize=(14, 7))
+sns.barplot(data=df_clients, x='miesiac', y='liczba_klientow', color='steelblue')
+plt.title('Miesięczna liczba obsłużonych klientów', fontsize=16)
+plt.xlabel('Miesiąc', fontsize=12)
+plt.ylabel('Liczba klientów', fontsize=12)
+plt.xticks(rotation=45, ha='right')
+plt.tight_layout()
+plt.show()
+```
+
+```{python}
+x = np.arange(len(df_clients)) 
+y = df_clients['liczba_klientow'] 
+slope, intercept, r_value, p_value, std_err = stats.linregress(x, y)
+stagnation_threshold = 0.5
+
+if slope > stagnation_threshold:
+    wniosek = f"Firma wykazuje wyraźny trend WZROSTOWY."
+    szczegoly = f"Średnio, z każdym miesiącem liczba klientów rośnie o {slope:.2f}."
+elif slope < -stagnation_threshold:
+    wniosek = f"Firma wykazuje wyraźny trend SPADKOWY."
+    szczegoly = f"Średnio, z każdym miesiącem liczba klientów maleje o {-slope:.2f}."
+else:
+    wniosek = "Firma wykazuje STAGNACJĘ."
+    szczegoly = f"Brak wyraźnego trendu wzrostowego lub spadkowego (nachylenie linii trendu wynosi {slope:.2f})."
+```
+
+Poniższy wykres prezentuje miesięczne dane wraz z wygładzoną linią trendu (średnia krocząca), która pomaga zwizualizować ogólną tendencję.
+```{python}
+#| echo: false
+fig = go.Figure()
+fig.add_trace(
+    go.Bar(
+        x=df_clients['miesiac'],
+        y=df_clients['liczba_klientow'],
+        name='Liczba klientów w miesiącu',
+        marker_color='skyblue',
+        opacity=0.7
+    )
+)
+fig.add_trace(
+    go.Scatter(
+        x=df_clients['miesiac'],
+        y=df_clients['srednia_kroczaca'],
+        name='Trend (średnia krocząca)',
+        mode='lines',
+        line=dict(color='crimson', width=3)
+    )
+)
+fig.update_layout(
+    title='Miesięczna liczba obsłużonych klientów i linia trendu',
+    xaxis_title='Miesiąc',
+    yaxis_title='Liczba Klientów',
+    legend_title='Legenda',
+    xaxis_tickangle=-45,
+    bargap=0.2,
+    xaxis={'type': 'category'} 
+)
+
+fig.show()
+```
+
+```{python}
+analiza_markdown = f"""
+### Ocena Linii Trendu 
+<p>Analiza statystyczna oparta na regresji liniowej pozwala nam obiektywnie ocenić kierunek rozwoju firmy. Współczynnik nachylenia linii trendu to matematyczna reprezentacja naszego miesięcznego wzrostu lub spadku.</p>
+<p><b>Wniosek: {wniosek}</b></p>
+<p>{szczegoly}</p>
+"""
+display(Markdown(analiza_markdown))
+```
+
+## Analiza ryzyka operacyjnego
+Zarządzanie ryzykiem w turystyce kosmicznej to nie tylko nasz obowiązek, ale fundament, na którym opiera się zaufanie naszych klientów i partnerów. W tej części raportu dokonujemy dogłębnej analizy dwóch głównych źródeł ryzyka: niebezpieczeństw związanych z celem podróży oraz potencjalnej awaryjności naszych statków kosmicznych. Celem jest identyfikacja "gorących punktów", która pozwoli na wdrożenie działań prewencyjnych i podniesienie standardów bezpieczeństwa.
+
+### Ryzyko związane z destynacja
+Każda destynacja w Układzie Słonecznym posiada unikalną charakterystykę i wiąże się z różnym poziomem wyzwań. Poniższy wykres przedstawia liczbę zarejestrowanych incydentów w podziale na lokalizacje oraz stopień ich powagi (niski, średni, wysoki).
+
+```{python}
+#| include: false
+#| echo: false
+query_risky_destinations = """
+SELECT 
+    destinations.name AS kierunek, 
+    COUNT(*) AS liczba_wypadkow
+FROM
+    incidents
+LEFT JOIN
+    trips
+ON
+    incidents.trip_id = trips.trip_id
+LEFT JOIN
+    destinations
+ON
+    trips.destination_id = destinations.destination_id
+GROUP BY
+    kierunek
+ORDER BY
+    liczba_wypadkow DESC;
+"""
+```
+```{python}
+#| include: false
+#| echo: false
+query_risky_dest2 = """
+SELECT
+    d.name AS kierunek,
+    COALESCE(tpd.total_trips, 0) AS liczba_wypraw,
+    COALESCE(ipd.total_incidents, 0) AS liczba_incydentow,
+    (COALESCE(ipd.total_incidents, 0) * 100.0 / tpd.total_trips) AS wskaznik_ryzyka_procent
+FROM
+    destinations d
+JOIN
+    (
+        SELECT destination_id, COUNT(trip_id) AS total_trips
+        FROM trips
+        GROUP BY destination_id
+    ) AS tpd ON d.destination_id = tpd.destination_id
+LEFT JOIN
+    (
+        SELECT t.destination_id, COUNT(i.incident_id) AS total_incidents
+        FROM incidents i
+        JOIN trips t ON i.trip_id = t.trip_id
+        GROUP BY t.destination_id
+    ) AS ipd ON d.destination_id = ipd.destination_id
+ORDER BY
+    wskaznik_ryzyka_procent DESC;
+"""
+```
+```{python}
+#| include: false
+#| echo: false
+df_risky_destinations = pd.read_sql(query_risky_destinations, engine)
+print(df_risky_destinations.to_string())
+```
+```{python}
+#| include: false
+#| echo: false
+df_risky_destinations2 = pd.read_sql(query_risky_dest2, engine)
+print(df_risky_destinations2.to_string())
+```
+
+```{python}
+query_incidents_graph = """
+SELECT
+    d.name AS kierunek,
+    i.severity,
+    COUNT(i.incident_id) AS liczba_incydentow
+FROM
+    incidents i
+JOIN
+    trips t ON i.trip_id = t.trip_id
+JOIN
+    destinations d ON t.destination_id = d.destination_id
+WHERE
+    i.severity IN ('high', 'medium', 'low')
+GROUP BY
+    d.name, i.severity
+"""
+```
+```{python}
+df_incidents_long = pd.read_sql(query_incidents_graph, engine)
+```
+```{python}
+df_total_incidents = df_incidents_long.groupby('kierunek')['liczba_incydentow'].sum().sort_values(ascending=False)
+df_incidents_long['kierunek_sorted'] = pd.Categorical(df_incidents_long['kierunek'], categories=df_total_incidents.index, ordered=True)
+
+fig = px.bar(
+    df_incidents_long.sort_values('kierunek_sorted'), 
+    x='kierunek_sorted', 
+    y='liczba_incydentow', 
+    color='severity',
+    title='Liczba incydentów ze względu na destynację',
+    labels={'kierunek_sorted': 'Destynacja', 'liczba_incydentow': 'Łączna liczba incydentów', 'severity': 'Poziom zagrożenia'},
+    color_discrete_map={'low': '#5cb85c', 'medium': '#f0ad4e', 'high': '#d9534f'},
+    category_orders={'severity': ['low', 'medium', 'high']}
+)
+fig.show()
+```
+```{python}
+#| include: false
+#| echo: false
+df_incidents_wide = df_incidents_long.pivot_table(
+    index='kierunek', 
+    columns='severity', 
+    values='liczba_incydentow',
+    fill_value=0
+)
+color_map = {'high': '#d9534f', 'medium': '#f0ad4e', 'low': '#5cb85c'}
+desired_order = ['low', 'medium', 'high']
+ordered_columns = [col for col in desired_order if col in df_incidents_wide.columns]
+df_incidents_wide = df_incidents_wide[ordered_columns]
+```
+
+```{python}
+#| include: false
+#| echo: false
+df_incidents_wide.plot(
+    kind='bar', 
+    stacked=True, 
+    color=color_map,
+    figsize=(14, 8)
+)
+plt.title('Liczba incydentów według destynacji', fontsize=16)
+plt.xlabel('Destynacja', fontsize=12)
+plt.ylabel('Łączna liczba incydentów', fontsize=12)
+plt.xticks(rotation=45, ha='right')
+plt.legend(title='Poziom zagrożenia')
+plt.tight_layout()
+plt.show()
+```
+
+Sama liczba incydentów może być jednak myląca – popularna destynacja naturalnie odnotuje więcej zdarzeń. Aby uzyskać bardziej obiektywny obraz, stworzyliśmy ważony wskaźnik ryzyka. Przypisuje on punkty za każdy incydent w zależności od jego wagi (10 pkt za "High", 3 za "Medium", 1 za "Low"), a następnie dzieli sumę punktów przez liczbę wypraw do danej lokalizacji. Wynik pokazuje średnie "obciążenie ryzykiem" na jedną wyprawę.
+
+```{python}
+query_weighted_risk = """
+WITH trips_per_destination AS (
+    SELECT destination_id, COUNT(trip_id) AS total_trips
+    FROM trips
+    GROUP BY destination_id
+),
+weighted_incidents AS (
+    SELECT 
+        t.destination_id,
+        SUM(
+            CASE 
+                WHEN i.severity = 'High' THEN 10
+                WHEN i.severity = 'Medium' THEN 3
+                WHEN i.severity = 'Low' THEN 1
+                ELSE 0 
+            END
+        ) AS risk_score
+    FROM incidents i
+    JOIN trips t ON i.trip_id = t.trip_id
+    GROUP BY t.destination_id
+)
+SELECT 
+    d.name AS Kierunek,
+    COALESCE(tpd.total_trips, 0) AS Liczba_wypraw,
+    COALESCE(wi.risk_score, 0) AS Suma_punktow_ryzyka,
+    COALESCE(wi.risk_score / tpd.total_trips, 0) AS Wazony_wspolczynnik_ryzyka
+FROM 
+    destinations d
+LEFT JOIN 
+    trips_per_destination tpd ON d.destination_id = tpd.destination_id
+LEFT JOIN
+    weighted_incidents wi ON d.destination_id = wi.destination_id
+WHERE
+    tpd.total_trips > 0
+ORDER BY 
+    Wazony_wspolczynnik_ryzyka DESC;
+"""
+```
+
+```{python}
+df_risk = pd.read_sql(query_weighted_risk, engine)
+display(df_risk.style.format('{:.2f}', subset=['Wazony_wspolczynnik_ryzyka'])\
+                 .format('{:,.0f}', subset=['Liczba_wypraw', 'Suma_punktow_ryzyka'])\
+                 .background_gradient(cmap='Reds', subset=['Wazony_wspolczynnik_ryzyka'])\
+                 .set_caption("Tabela 2: Ranking Ryzyka Destynacji (Wskaźnik ważony)"))
+```
+
+```{python}
+most_risky = df_risk.iloc[0]
+least_risky = df_risk.iloc[-1]
+
+wniosek_markdown = f"""
+### Podsumowanie Ryzyka Destynacji
+<p>Nasz ważony wskaźnik pozwala na obiektywną ocenę i priorytetyzację działań mitygujących ryzyko.</p>
+<ul>
+    <li><span style="font-size: 1.5em;"></span> <b>Najwyższe ryzyko:</b> Destynacją o najwyższym wskaźniku ryzyka jest <b>{most_risky['Kierunek']}</b> z wynikiem <b>{most_risky['Wazony_wspolczynnik_ryzyka']:.2f} pkt</b> na wyprawę. Sugeruje to konieczność przeglądu procedur bezpieczeństwa dla tej trasy.</li>
+    <li><span style="font-size: 1.5em;"></span> <b>Najniższe ryzyko:</b> Najbezpieczniejszą z naszych popularnych destynacji okazał/a się <b>{least_risky['Kierunek']}</b> ({least_risky['Wazony_wspolczynnik_ryzyka']:.2f} pkt/wyprawę). Praktyki stosowane na tej trasie mogą stanowić wzór dla innych.</li>
+</ul>
+"""
+display(Markdown(wniosek_markdown))
+```
+
+### Ryzyko związane ze sprzętem
+Nawet najbezpieczniejsza trasa staje się ryzykowna, jeśli statek kosmiczny jest zawodny. W tej części analizujemy dane dotyczące awarii sprzętu (category = 'equipment') w naszej flocie, aby zidentyfikować jednostki wymagające szczególnej uwagi serwisowej. Poniższy wykres szereguje statki według wskaźnika "usterki na wyprawę".
+
+```{python}
+#| include: false
+#| echo: false
+query_spacecraft_incidents = """
+SELECT 
+    spacecraft.name AS nazwa_statku,
+    COUNT(*) AS liczba_usterek
+FROM
+    incidents
+LEFT JOIN
+    trips
+ON
+    incidents.trip_id = trips.trip_id
+LEFT JOIN
+    spacecraft
+ON
+    trips.spacecraft_id = spacecraft.spacecraft_id
+WHERE incidents.category = 'equipment'
+GROUP BY spacecraft.name
+ORDER BY liczba_usterek desc
+
+"""
+```
+
+```{python}
+#| include: false
+#| echo: false
+df_spacecrafts_incidents = pd.read_sql(query_spacecraft_incidents, engine)
+print(df_spacecrafts_incidents.to_string())
+```
+
+```{python}
+query_failure_rate = """
+WITH trips_per_spacecraft AS (
+    SELECT 
+        spacecraft_id, 
+        COUNT(trip_id) AS total_trips
+    FROM trips
+    GROUP BY spacecraft_id
+),
+equipment_failures AS (
+    SELECT 
+        t.spacecraft_id, 
+        COUNT(i.incident_id) AS total_failures
+    FROM incidents i
+    JOIN trips t ON i.trip_id = t.trip_id
+    WHERE i.category = 'equipment'
+    GROUP BY t.spacecraft_id
+)
+SELECT
+    s.name AS nazwa_statku,
+    COALESCE(tps.total_trips, 0) AS liczba_wypraw,
+    COALESCE(ef.total_failures, 0) AS liczba_usterek,
+    CASE
+        WHEN tps.total_trips > 0 THEN COALESCE(ef.total_failures, 0) / CAST(tps.total_trips AS FLOAT)
+        ELSE 0
+    END AS usterki_na_wyprawe
+FROM
+    spacecraft s
+LEFT JOIN
+    trips_per_spacecraft tps ON s.spacecraft_id = tps.spacecraft_id
+LEFT JOIN
+    equipment_failures ef ON s.spacecraft_id = ef.spacecraft_id
+ORDER BY
+    usterki_na_wyprawe DESC;
+"""
+```
+
+```{python}
+df_failure_rate = pd.read_sql(query_failure_rate, engine)
+```
+
+```{python}
+df_plot = df_failure_rate.sort_values('usterki_na_wyprawe', ascending=True).copy()
+df_plot['Status'] = np.where(df_plot['usterki_na_wyprawe'] > 0, 'Wystąpiły usterki', 'Brak usterek')
+
+fig = px.bar(
+    df_plot,
+    y='nazwa_statku',
+    x='usterki_na_wyprawe',
+    orientation='h',
+    title='Usterki sprzętowe naszej floty',
+    labels={'nazwa_statku': 'Statek kosmiczny', 'usterki_na_wyprawe': 'Średnia liczba usterek na wyprawę'},
+    color='Status',
+    color_discrete_map={
+        'Wystąpiły usterki': '#e74c3c',
+        'Brak usterek': '#dfe6e9'
+    },
+    height=600
+)
+
+fig.update_traces(
+    texttemplate='%{x:.3f}',
+    textposition='outside'
+)
+
+max_value = df_plot['usterki_na_wyprawe'].max()
+fig.update_xaxes(range=[0, max_value * 1.15])
+
+fig.update_layout(
+    showlegend=False,
+    plot_bgcolor='white',
+    xaxis_gridcolor='#ecf0f1'
+)
+fig.show()
+```
+
+```{python}
+#| include: false
+#| echo: false
+print("--- Ranking Niezawodności Statków (Usterki na Wyprawę) ---")
+print(df_failure_rate.to_string())
+plt.figure(figsize=(12, 6))
+sns.barplot(data=df_failure_rate, x='usterki_na_wyprawe', y='nazwa_statku', hue="nazwa_statku", palette='Reds_r')
+plt.title('Wskaźnik Usterek Sprzętowych na Wyprawę')
+plt.xlabel('Średnia liczba usterek na jedną wyprawę')
+plt.ylabel('Statek kosmiczny')
+plt.tight_layout()
+plt.show()
+```
+
+
+```{python}
+most_failure_prone = df_failure_rate.iloc[0]
+zero_failure_ships = df_failure_rate[df_failure_rate['usterki_na_wyprawe'] == 0]
+count_zero_failure = len(zero_failure_ships)
+
+wniosek_markdown = """
+### Ocena Niezawodności Floty
+<p>Analiza wskaźnika usterek pozwala na precyzyjne planowanie przeglądów serwisowych i alokację budżetu na utrzymanie floty.</p>
+<ul>
+"""
+
+liczba_usterek_prone = int(most_failure_prone['liczba_usterek'])
+liczba_wypraw_prone = int(most_failure_prone['liczba_wypraw'])
+
+wniosek_markdown += f"""
+<li><b>Wymaga uwagi:</b> Najbardziej podatny na usterki sprzętowe jest statek <b>{most_failure_prone['nazwa_statku']}</b>. 
+Odnotowuje on średnio <b>{most_failure_prone['usterki_na_wyprawe']:.3f} usterki</b> na każdą odbytą wyprawę. <br>
+<small style="color: #6c757d;"><i>(Na podstawie {liczba_usterek_prone} usterek w ciągu {liczba_wypraw_prone} wypraw)</i></small>
+</li>
+"""
+
+workhorse_champion = zero_failure_ships.sort_values('liczba_wypraw', ascending=False).iloc[0]
+liczba_wypraw_champion = int(workhorse_champion['liczba_wypraw'])
+
+wniosek_markdown += f"""
+<li><b>Wzór niezawodności:</b> Aż <b>{count_zero_failure} jednostek</b> w naszej flocie zakończyło wszystkie misje w analizowanym okresie bez żadnej usterki sprzętowej.
+Na szczególne wyróżnienie zasługuje <b>{workhorse_champion['nazwa_statku']}</b>, który jest najczęściej eksploatowaną jednostką w tej grupie.<br>
+<small style="color: #6c757d;"><i>(Wykonał bezawaryjnie aż {liczba_wypraw_champion} misji)</i></small>
+</li>
+"""
+wniosek_markdown += "</ul>"
+
+display(Markdown(wniosek_markdown))
+```
+
+## Wpływ incydentów na satysfakcję klienta
+
+W tej części analizy łączymy "twarde" dane operacyjne z "miękkimi" danymi dotyczącymi odczuć naszych pasażerów. Stawiamy fundamentalne pytanie: czy liczba incydentów zarejestrowanych podczas wyprawy ma statystycznie istotny wpływ na jej końcową ocenę?
+
+Intuicja podpowiada, że każda, nawet drobna usterka czy incydent, może negatywnie wpłynąć na postrzeganie całej, skądinąd udanej, wyprawy. Potwierdzenie lub obalenie tej tezy ma kluczowe znaczenie dla zrozumienia, jak krytyczne jest zapewnienie bezproblemowego przebiegu misji nie tylko dla bezpieczeństwa, ale i dla reputacji oraz siły naszej marki.
+
+Poniższy wykres punktowy przedstawia zależność między średnią oceną danej wyprawy a liczbą odnotowanych w jej trakcie incydentów. Czerwona linia trendu wizualizuje ogólną tendencję tej zależności.
+
+```{python}
+#| include: false
+#| echo: false
+query_feedback_incidents = """
+SELECT 
+    AVG(feedback.rating) AS srednia_ocena,
+    t.liczba_wypadkow
+FROM
+    feedback
+LEFT JOIN
+    trips
+ON
+    feedback.trip_id = trips.trip_id
+LEFT JOIN
+    (SELECT
+    incidents.trip_id, 
+    COUNT(incidents.incident_id) AS liczba_wypadkow
+    FROM incidents
+    GROUP BY trip_id) t
+ON
+    t.trip_id = trips.trip_id
+GROUP BY 
+    feedback.trip_id
+"""
+```
+
+```{python}
+query_correlation = """
+WITH avg_ratings AS (
+    SELECT trip_id, AVG(rating) AS avg_rating
+    FROM feedback
+    GROUP BY trip_id
+),
+incident_counts AS (
+    SELECT trip_id, COUNT(incident_id) AS incident_count
+    FROM incidents
+    GROUP BY trip_id
+)
+SELECT 
+    t.trip_id,
+    ar.avg_rating AS srednia_ocena,
+    COALESCE(ic.incident_count, 0) AS liczba_incydentow
+FROM 
+    trips t
+JOIN 
+    avg_ratings ar ON t.trip_id = ar.trip_id
+LEFT JOIN 
+    incident_counts ic ON t.trip_id = ic.trip_id;
+"""
+```
+
+```{python}
+df_correlation = pd.read_sql(query_correlation, engine)
+```
+
+```{python}
+fig = px.scatter(
+    df_correlation,
+    x='liczba_incydentow',
+    y='srednia_ocena',
+    title='Zależność Oceny Wyprawy od Liczby Incydentów',
+    labels={
+        'liczba_incydentow': 'Liczba incydentów podczas wyprawy',
+        'srednia_ocena': 'Średnia ocena wyprawy (1-5)'
+    },
+    trendline='ols',
+    trendline_color_override='#e74c3c'
+)
+
+fig.update_layout(
+    plot_bgcolor='white',
+    xaxis_gridcolor='#ecf0f1',
+    yaxis_gridcolor='#ecf0f1'
+)
+max_incidents = int(df_correlation['liczba_incydentow'].max())
+fig.update_xaxes(
+    dtick=1,
+    range=[-0.5, max_incidents + 0.5]
+)
+fig.show()
+```
+
+```{python}
+correlation_coeff = df_correlation['srednia_ocena'].corr(df_correlation['liczba_incydentow'])
+
+# Logika wniosków
+if correlation_coeff < -0.5:
+    wniosek = "Istnieje silna korelacja ujemna."
+    szczegoly = "Wzrost liczby incydentów jest silnie powiązany ze spadkiem średniej oceny wyprawy."
+elif correlation_coeff < -0.2:
+    wniosek = "Istnieje zauważalna korelacja ujemna."
+    szczegoly = "Wzrost liczby incydentów ma tendencję do obniżania średniej oceny wyprawy."
+else:
+    wniosek = "Brak silnej korelacji."
+    szczegoly = "Liczba incydentów nie wydaje się mieć decydującego wpływu na ocenę końcową. Klienci prawdopodobnie biorą pod uwagę inne czynniki, takie jak widoki, jakość obsługi czy profesjonalizm załogi w radzeniu sobie z incydentem."
+
+```
+
+```{python}
+analiza_markdown = f"""
+### Analiza korelacji
+<p>Obliczony współczynnik korelacji Pearsona dla badanych zmiennych wynosi: <b>{correlation_coeff:.3f}</b>.</p>
+<p style="font-size: 1.1em;"><b>Wniosek:</b> {wniosek}</p>
+<p>{szczegoly}</p>
+"""
+
+display(Markdown(analiza_markdown))
+```
+```{python}
+#| include: false
+#| echo: false
+correlation_coeff = df_correlation['srednia_ocena'].corr(df_correlation['liczba_incydentow'])
+
+print(f"--- 🤖 Analiza korelacji: Ocena vs. Incydenty ---")
+print(f"Obliczony współczynnik korelacji: {correlation_coeff:.3f}")
+
+if correlation_coeff < -0.3:
+    print("Wniosek: Istnieje zauważalna korelacja ujemna. Wzrost liczby incydentów wiąże się ze spadkiem ocen.")
+elif correlation_coeff > 0.3:
+     print("Wniosek: Istnieje zauważalna korelacja dodatnia (wynik nieoczekiwany).")
+else:
+    print("Wniosek: Brak silnej korelacji. Liczba incydentów nie wydaje się mieć dużego wpływu na ocenę.")
+print("-------------------------------------------------")
+plt.figure(figsize=(10, 6))
+sns.regplot(data=df_correlation, x='liczba_incydentow', y='srednia_ocena',
+            line_kws={"color": "red", "lw": 2}, scatter_kws={"alpha": 0.6})
+
+plt.title('Zależność średniej oceny od liczby incydentów na wyprawie', fontsize=15)
+plt.xlabel('Liczba incydentów podczas wyprawy')
+plt.ylabel('Średnia ocena wyprawy')
+max_incidents = int(df_correlation['liczba_incydentow'].max())
+plt.xticks(range(max_incidents + 1))
+plt.grid(True, linestyle='--', alpha=0.6)
+plt.show()
+```
+
+## Głos klienta - analiza ocen wypraw
+
+Po analizie wskaźników operacyjnych i finansowych, nadszedł czas, aby wsłuchać się w najważniejszy głos w naszym biznesie – głos klienta. Oceny wystawiane po każdej wyprawie są bezcennym źródłem informacji o naszych mocnych i słabych stronach. W tej sekcji zidentyfikujemy, które elementy naszej oferty są najbardziej doceniane, a które wymagają naszej uwagi.
+
+Analiza opiera się na wszystkich zebranych ocenach, z wyłączeniem destynacji i typów wypraw z małą liczbą opinii (poniżej 3), aby zapewnić statystyczną istotność wyników.
+
+### Ranking ocen destynacji
+
+Pierwszym krokiem jest zrozumienie, które lokalizacje w Układzie Słonecznym dostarczają naszym pasażerom najlepszych wrażeń. Poniższy wykres szereguje nasze destynacje od najniżej do najwyżej ocenianych.
+
+```{python}
+query_dest_ratings = """
+SELECT
+    d.name AS kierunek,
+    AVG(f.rating) AS srednia_ocena,
+    COUNT(f.rating) AS liczba_ocen
+FROM
+    feedback f
+JOIN
+    trips t ON f.trip_id = t.trip_id
+JOIN
+    destinations d ON t.destination_id = d.destination_id
+WHERE f.rating IS NOT NULL
+GROUP BY
+    d.name
+HAVING
+    COUNT(f.rating) > 2
+ORDER BY
+    srednia_ocena DESC;
+"""
+```
+
+```{python}
+df_dest_ratings = pd.read_sql(query_dest_ratings, engine)
+```
+
+```{python}
+fig_dest = px.bar(
+    df_dest_ratings,
+    x='srednia_ocena',
+    y='kierunek',
+    orientation='h',
+    title='Ranking Średnich Ocen dla Poszczególnych Destynacji',
+    labels={'srednia_ocena': 'Średnia ocena (w skali 1-5)', 'kierunek': 'Destynacja'},
+    color='srednia_ocena',
+    color_continuous_scale='Plasma',
+    text='srednia_ocena',
+    height=500
+)
+fig_dest.update_traces(texttemplate='%{text:.2f}', textposition='outside')
+fig_dest.update_layout(xaxis=dict(range=[0, 5.2]), plot_bgcolor='white', yaxis={'categoryorder':'total ascending'})
+fig_dest.update_coloraxes(showscale=False)
+fig_dest.show()
+```
+
+```{python}
+best_dest = df_dest_ratings.iloc[0]
+worst_dest = df_dest_ratings.iloc[1]
+
+wniosek_markdown = f"""
+### Podsumowanie ocen destynacji
+<p>Analiza ocen pozwala zidentyfikować nasze "perełki" oraz obszary wymagające poprawy doświadczeń klienta.</p>
+<ul>
+    <li><b>Najwyżej oceniana:</b> Destynacją, która dostarcza naszym klientom najwięcej satysfakcji, jest <b>{best_dest['kierunek']}</b> ze średnią oceną <b>{best_dest['srednia_ocena']:.2f}</b> (na podstawie {int(best_dest['liczba_ocen'])} opinii).</li>
+    <li style="margin-top: 15px;"><b>Wymaga uwagi:</b> Najniższe oceny otrzymuje <b>{worst_dest['kierunek']}</b> (średnia <b>{worst_dest['srednia_ocena']:.2f}</b> z {int(worst_dest['liczba_ocen'])} opinii). Rekomendujemy analizę feedbacku z tej trasy w celu identyfikacji przyczyn niższej satysfakcji.</li>
+</ul>
+"""
+display(Markdown(wniosek_markdown))
+```
+
+```{python}
+#| include: false
+#| echo: false
+
+print("\n--- ⭐ Ranking Ocen Destynacji ---")
+
+best_dest = df_dest_ratings.iloc[0]
+worst_dest = df_dest_ratings.iloc[-1]
+
+print(f"\n🥇 Najwyżej oceniana destynacja: '{best_dest['kierunek']}'")
+print(f"   -> Średnia ocena: {best_dest['srednia_ocena']:.2f} na podstawie {int(best_dest['liczba_ocen'])} opinii.")
+
+print(f"\n📉 Najniżej oceniana destynacja: '{worst_dest['kierunek']}'")
+print(f"   -> Średnia ocena: {worst_dest['srednia_ocena']:.2f} na podstawie {int(worst_dest['liczba_ocen'])} opinii.")
+
+```
+
+```{python}
+#| include: false
+#| echo: false
+
+plt.figure(figsize=(12, 7))
+sns.barplot(data=df_dest_ratings, x='srednia_ocena', y='kierunek', palette='coolwarm')
+plt.title('Ranking średnich ocen dla poszczególnych destynacji', fontsize=15)
+plt.xlabel('Średnia ocena (w skali 1-5)')
+plt.ylabel('Destynacja')
+plt.xlim(0, 5)
+plt.tight_layout()
+plt.show()
+```
+
+### Ranking ocen rodzajów wypraw
+
+Następnie sprawdzamy, które typy misji – niezależnie od celu podróży – są najlepiej odbierane przez pasażerów. To pozwala nam ocenić, czy nasze "opakowanie" produktu (luksusowe, badawcze, ekstremalne itd.) trafia w gusta klientów.
+
+```{python}
+query_type_ratings = """
+SELECT
+    tt.name AS typ_wyprawy,
+    AVG(f.rating) AS srednia_ocena,
+    COUNT(f.rating) AS liczba_ocen
+FROM
+    feedback f
+JOIN
+    trips t ON f.trip_id = t.trip_id
+JOIN
+    trip_types tt ON t.trip_type_id = tt.trip_type_id
+WHERE f.rating IS NOT NULL
+GROUP BY
+    tt.name
+HAVING
+    COUNT(f.rating) > 2
+ORDER BY
+    srednia_ocena DESC;
+"""
+```
+
+```{python}
+df_type_ratings = pd.read_sql(query_type_ratings, engine)
+```
+```{python}
+fig_type = px.bar(
+    df_type_ratings,
+    x='srednia_ocena',
+    y='typ_wyprawy',
+    orientation='h',
+    title='Ranking Średnich Ocen dla Rodzajów Wypraw',
+    labels={'srednia_ocena': 'Średnia ocena (w skali 1-5)', 'typ_wyprawy': 'Rodzaj wyprawy'},
+    color='srednia_ocena',
+    color_continuous_scale='Viridis',
+    text='srednia_ocena',
+    height=500
+)
+fig_type.update_traces(texttemplate='%{text:.2f}', textposition='outside')
+fig_type.update_layout(xaxis=dict(range=[0, 5.2]), plot_bgcolor='white', yaxis={'categoryorder':'total ascending'})
+fig_type.update_coloraxes(showscale=False)
+fig_type.show()
+```
+
+```{python}
+best_type = df_type_ratings.iloc[0]
+worst_type = df_type_ratings.iloc[-1]
+
+wniosek_markdown_2 = f"""
+### Podsumowanie ocen rodzajów wypraw
+<ul>
+    <li><b>Ulubiony typ wyprawy:</b> Klienci najwyżej oceniają format <b>{best_type['typ_wyprawy']}</b>, przyznając mu średnią ocenę <b>{best_type['srednia_ocena']:.2f}</b> (na podstawie {int(best_type['liczba_ocen'])} opinii). Warto inwestować w promocję tego segmentu.</li>
+    <li style="margin-top: 15px;"><b>Do przemyślenia:</b> Największe wyzwanie stanowi format <b>{worst_type['typ_wyprawy']}</b> (średnia <b>{worst_type['srednia_ocena']:.2f}</b> z {int(worst_type['liczba_ocen'])} opinii). Należy zastanowić się, czy oczekiwania klientów wobec tego typu wypraw są w pełni zaspokajane.</li>
+</ul>
+"""
+display(Markdown(wniosek_markdown_2))
+```
+```{python}
+#| include: false
+#| echo: false
+
+print("\n--- ⭐ Ranking Ocen Rodzajów Wypraw ---")
+best_type = df_type_ratings.iloc[0]
+worst_type = df_type_ratings.iloc[-1]
+
+print(f"\n🥇 Najwyżej oceniany typ wyprawy: '{best_type['typ_wyprawy']}'")
+print(f"   -> Średnia ocena: {best_type['srednia_ocena']:.2f} na podstawie {int(best_type['liczba_ocen'])} opinii.")
+
+print(f"\n📉 Najniżej oceniany typ wyprawy: '{worst_type['typ_wyprawy']}'")
+print(f"   -> Średnia ocena: {worst_type['srednia_ocena']:.2f} na podstawie {int(worst_type['liczba_ocen'])} opinii.")
+```
+
+```{python}
+#| include: false
+#| echo: false
+
+plt.figure(figsize=(12, 7))
+sns.barplot(data=df_type_ratings, x='srednia_ocena', y='typ_wyprawy', palette='viridis')
+plt.title('Ranking średnich ocen dla poszczególnych rodzajów wypraw', fontsize=15)
+plt.xlabel('Średnia ocena (w skali 1-5)')
+plt.ylabel('Rodzaj wyprawy')
+plt.xlim(0, 5)
+plt.tight_layout()
+plt.show()
+```
+
+## Profil demograficzny klientów - analiza wieku
+
+Zrozumienie, "kim" jest nasz klient, jest równie ważne, jak wiedza, "dokąd" chce podróżować. Wiek jest jednym z fundamentalnych wymiarów demograficznych, który wpływa na preferencje, możliwości finansowe oraz styl komunikacji. Analiza struktury wiekowej naszej bazy klientów pozwala nam zweryfikować, czy nasza oferta trafia do zamierzonej grupy docelowej i gdzie leżą potencjalne, niewykorzystane jeszcze segmenty rynku.
+
+Poniższa analiza opiera się na datach urodzenia wszystkich naszych zarejestrowanych klientów.
+
+```{python}
+query_dob = """
+SELECT date_of_birth
+FROM clients
+WHERE date_of_birth IS NOT NULL;
+"""
+```
+
+```{python}
+df_dob = pd.read_sql(query_dob, engine)
+```
+
+```{python}
+today_real = date.today()
+df_dob['age'] = df_dob['date_of_birth'].apply(
+    lambda dob: (today_real - dob).days / 365.25
+) + 100
+df_dob['age'] = df_dob['age'].astype(int)
+```
+
+```{python}
+fig = px.histogram(
+    df_dob,
+    x='age',
+    nbins=25,
+    title='Rozkład Wieku Klientów Space-U',
+    labels={'age': 'Wiek klienta (w latach)', 'count': 'Liczba klientów'},
+    marginal='rug',
+    template='plotly_white',
+    histnorm='percent'
+)
+fig.update_layout(
+    yaxis_title='Udział procentowy klientów',
+    bargap=0.1,
+    plot_bgcolor='white',
+    yaxis_ticksuffix='%'
+)
+fig.update_traces(
+    marker_color='#3498db',
+    hovertemplate='Wiek: %{x}<br>Udział: %{y:.2f}%'
+)
+fig.show()
+```
+
+```{python}
+stats = df_dob['age'].describe()
+
+# Budowanie bloku Markdown
+analiza_markdown = f"""
+### Kluczowe Statystyki Wieku
+<p>Poniższe dane charakteryzują typowego klienta Space-U pod względem wieku.</p>
+<ul>
+<li><b>Średni wiek:</b> {stats['mean']:.1f} lat</li>
+<li><b>Mediana (wiek środkowy):</b> {stats['50%']:.0f} lat</li>
+<li><b>Przedział wiekowy:</b> od {stats['min']:.0f} do {stats['max']:.0f} lat</li>
+<li><b>Odchylenie standardowe:</b> {stats['std']:.1f} lat</li>
+</ul>
+<p><b>Wnioski biznesowe:</b> Nasza baza klientów jest wyraźnie skoncentrowana wokół osób w wieku <b>od {stats['25%']:.0f} do {stats['75%']:.0f} lat</b> (środkowe 50% klientów), co sugeruje, że nasza oferta najsilniej rezonuje z osobami o ustabilizowanej pozycji zawodowej i finansowej. Niskie odchylenie standardowe potwierdza tę silną koncentrację. Warto rozważyć stworzenie dedykowanych kampanii lub produktów skierowanych do młodszych i starszych grup demograficznych, które są obecnie słabiej reprezentowane.</p>"""
+
+display(Markdown(analiza_markdown))
+```
+
+```{python}
+#| include: false
+#| echo: false
+print("\n--- 📊 Statystyki Wieku Klientów ---")
+print(df_dob['age'].describe().round(2).to_string())
+print("\n------------------------------------")
+
+plt.figure(figsize=(12, 7))
+sns.histplot(data=df_dob, x='age', bins=20, kde=True, color='dodgerblue')
+
+plt.title('Rozkład wieku klientów', fontsize=16)
+plt.xlabel('Wiek (w latach)', fontsize=12)
+plt.ylabel('Liczba klientów', fontsize=12)
+plt.grid(axis='y', linestyle='--', alpha=0.7)
+
+plt.show()
+```
+
+## Segmentacja klientów metodą RFM
+
+Analiza RFM (Recency, Frequency, Monetary) to sprawdzona i potężna technika marketingowa służąca do segmentacji bazy klientów. Zamiast traktować wszystkich klientów jednakowo, grupujemy ich na podstawie ich zachowań transakcyjnych, odpowiadając na trzy kluczowe pytania:
+
+* **Recency** (Kiedy ostatnio podróżowali?) - Jak niedawno klient skorzystał z naszych usług? Im niższa wartość, tym lepiej.
+
+* **Frequency** (Jak często podróżują?) - Jak często klient do nas wraca? Im wyższa wartość, tym lepiej.
+
+* **Monetary** (Ile wydają?) - Jaka jest łączna wartość wszystkich transakcji danego klienta? Im wyższa wartość, tym lepiej.
+
+Dzięki tej analizie możemy zidentyfikować naszych najcenniejszych klientów ("Mistrzów"), tych, o których musimy zawalczyć ("Ryzykowni"), oraz tych, którzy dopiero rozpoczynają swoją przygodę ze Space-U ("Nowi Klienci"). To fundament pod budowę skutecznych, spersonalizowanych kampanii i strategii utrzymania klienta.
+
+### Rozkład klientów w segmentach RFM
+
+Poniższy wykres przedstawia wielkość poszczególnych segmentów w naszej bazie klientów.
+```{python}
+today_real = date.today()
+future_analysis_date = today_real.replace(year=today_real.year + 100)
+analysis_date = future_analysis_date.strftime('%Y-%m-%d')
+
+query_rfm = f"""
+WITH Monetary AS (
+    SELECT
+        client_id,
+        SUM(amount) AS monetary_value
+    FROM transactions
+    WHERE 
+        status = 'Completed' AND
+        transaction_date <= '{analysis_date}'
+    GROUP BY client_id
+),
+RecencyFrequency AS (
+    SELECT
+        p.client_id,
+        MAX(t.departure_datetime) AS last_trip_date,
+        COUNT(DISTINCT p.trip_id) AS frequency
+    FROM trip_participants p
+    JOIN trips t ON p.trip_id = t.trip_id
+    WHERE 
+        t.departure_datetime <= '{analysis_date}'
+    GROUP BY p.client_id
+)
+SELECT
+    c.client_id,
+    c.first_name,
+    c.last_name,
+    DATEDIFF('{analysis_date}', rf.last_trip_date) AS recency_days,
+    COALESCE(rf.frequency, 0) AS frequency,
+    COALESCE(m.monetary_value, 0) AS monetary
+FROM
+    clients c
+LEFT JOIN
+    RecencyFrequency rf ON c.client_id = rf.client_id
+LEFT JOIN
+    Monetary m ON c.client_id = m.client_id;
+"""
+
+df_rfm = pd.read_sql(query_rfm, engine)
+df_rfm.fillna({'recency_days': 9999}, inplace=True)
+
+df_rfm['R_score'] = 4 - pd.qcut(df_rfm['recency_days'], q=4, labels=False, duplicates='drop')
+df_rfm['F_score'] = pd.qcut(df_rfm['frequency'].rank(method='first'), q=4, labels=False, duplicates='drop') + 1
+df_rfm['M_score'] = pd.qcut(df_rfm['monetary'].rank(method='first'), q=4, labels=False, duplicates='drop') + 1
+
+df_rfm = df_rfm.astype({'R_score': 'int64', 'F_score': 'int64', 'M_score': 'int64'})
+
+def assign_segment(row):
+    if row['R_score'] >= 4 and row['F_score'] >= 4: return 'Mistrzowie (Champions)'
+    if row['R_score'] >= 3 and row['F_score'] >= 3: return 'Lojalni Klienci'
+    if row['R_score'] <= 2 and row['F_score'] >= 3: return 'Ryzykowni (At Risk)'
+    if row['R_score'] >= 3 and row['M_score'] >= 4: return 'Wieloryby (Big Spenders)'
+    if row['R_score'] == 4 and row['F_score'] == 1: return 'Nowi Klienci'
+    if row['R_score'] <= 2 and row['F_score'] <= 2: return 'Hibernujący'
+    return 'Pozostali'
+
+df_rfm['Segment'] = df_rfm.apply(assign_segment, axis=1)
+segment_counts = df_rfm['Segment'].value_counts()
+```
+```{python}
+fig = px.bar(
+    x=segment_counts.index,
+    y=segment_counts.values,
+    title='Rozkład Klientów w Segmentach RFM',
+    labels={'y': 'Liczba Klientów', 'x': 'Segment'},
+    text=segment_counts.values,
+    color=segment_counts.values,
+    color_continuous_scale='Plasma'
+)
+fig.update_traces(textposition='outside')
+fig.update_layout(plot_bgcolor='white', xaxis_tickangle=-45)
+fig.update_coloraxes(showscale=False)
+fig.show()
+```
+```{python}
+
+#| include: false
+#| echo: false
+
+print(f"--- 📊 Analiza RFM (stan na dzień: {analysis_date}) ---")
+print("\nPrzykładowe dane po segmentacji:")
+print(df_rfm[['first_name', 'last_name', 'recency_days', 'frequency', 'monetary', 'R_score', 'F_score', 'M_score', 'Segment']].head().to_string())
+print("\n" + "="*50 + "\n")
+
+plt.figure(figsize=(12, 8))
+segment_counts = df_rfm['Segment'].value_counts()
+sns.barplot(x=segment_counts.index, y=segment_counts.values, palette='viridis')
+plt.title('Rozkład Klientów w Segmentach RFM', fontsize=16)
+plt.xlabel('Segment', fontsize=12)
+plt.ylabel('Liczba Klientów', fontsize=12)
+plt.xticks(rotation=45, ha='right')
+plt.tight_layout()
+plt.show()
+```
+
+```{python}
+segment_counts = df_rfm['Segment'].value_counts()
+total_clients = len(df_rfm)
+
+recommendations = {
+    'Mistrzowie (Champions)': 
+        "To Twoi najcenniejsi klienci. Angażuj ich, proś o opinie i recenzje, "
+        "zaoferuj programy lojalnościowe i dostęp do ekskluzywnych ofert. "
+        "Są ambasadorami Twojej marki.",
+        
+    'Lojalni Klienci': 
+        "Są kręgosłupem Twojej firmy. Podtrzymuj ich zaangażowanie, oferując "
+        "nowe produkty (cross-selling), lepsze wersje wypraw (up-selling) "
+        "i budując z nimi długotrwałą relację.",
+
+    'Ryzykowni (At Risk)': 
+        "KLUCZOWA GRUPA DO REAKTYWACJI! To byli dobrzy klienci, którzy dawno "
+        "nic nie kupili. Skontaktuj się z nimi osobiście, zaoferuj spersonalizowaną "
+        "zniżkę 'na powrót' i dowiedz się, dlaczego przestali podróżować.",
+
+    'Wieloryby (Big Spenders)':
+        "Wydają dużo, ale niekoniecznie często. Upewnij się, że są zadowoleni "
+        "z jakości usług. Mogą być podatni na oferty konkurencji. Warto zadbać "
+        "o ich satysfakcję.",
+
+    'Nowi Klienci':
+        "Pierwsze wrażenie jest kluczowe. Zapewnij im doskonałe doświadczenie "
+        "na pokładzie i stwórz spersonalizowaną ścieżkę komunikacji (np. seria maili), "
+        "aby zachęcić ich do drugiej podróży i zamienić w lojalnych klientów.",
+        
+    'Hibernujący':
+        "Duża grupa nieaktywnych klientów. Jeśli ich liczba jest znacząca, rozważ "
+        "szeroko zakrojoną, ale niskokosztową kampanię 'Tęsknimy za Tobą!' z atrakcyjną "
+        "ofertą. Nie inwestuj w nich tyle, co w segment 'Ryzykowni'."
+}
+
+```
+
+```{python}
+rekomendacje_markdown = "### Kluczowe Segmenty i Rekomendacje Strategiczne\n"
+
+# W pętli tworzymy osobny blok "Callout" dla każdego segmentu
+for segment, count in segment_counts.items():
+    if segment in recommendations:
+        percentage = (count / total_clients) * 100
+        
+        # Tworzymy blok "Callout" w składni Quarto Markdown
+        # Ważne: Całość jest w jednym f-stringu bez wcięć, aby uniknąć błędów formatowania
+        rekomendacje_markdown += f"""
+::: {{.callout-note icon=false}}
+#### {segment}
+
+**{count} klientów** ({percentage:.1f}% wszystkich)
+
+**Rekomendacja strategiczna:** {recommendations[segment]}
+:::
+"""
+
+display(Markdown(rekomendacje_markdown))
+```
+
+## Wyprawy odpychające i przyciągające
+W tej sekcji analizujemy wyprawy, po których klienci najchętniej wracają oraz wyprawy po których już więcej ich nie widzimy. Rozbijemy ten problem na trzy części, by mieć lepszy wgląd w sytuację. Na początek przyjrzymy się wyprawom, na których było najwięcej klientów, co pojechali tylko raz. Chcemy się dowiedzieć, jakie wyprawy poległy w wywarciu dobrego wrażenia na nowych klientach. Otrzymamy informację o cechach wyprawy, a później spojrzymy które z tych cech występują najczęściej. Od góry będziemy wypisywać te loty, co miały najwięcej jednorazowych klientów.
+
+```{python}
+#| echo: false
+#| include: false
+def df_summary_markdown(df):
+    summary_planeta = df['Planeta'].value_counts().reset_index()
+    summary_planeta.columns = ['Planeta', 'liczba']
+
+    summary_typ = df['Typ wyprawy'].value_counts().reset_index()
+    summary_typ.columns = ['Typ wyprawy', 'liczba']
+
+    summary_pojazd = df['Pojazd'].value_counts().reset_index()
+    summary_pojazd.columns = ['Pojazd', 'liczba']
+
+    markdown = "Podsumowanie \n"
+
+    # 🌍 Planety
+    if summary_planeta["liczba"][0] == 1:
+        markdown += "<p>🔸 Wszystkie planety występują równie często.</p>\n"
+    else:
+        markdown += (
+            f"<p>🌍 Najczęściej występująca planeta to <b>{summary_planeta['Planeta'][0]}</b> "
+            f"z liczbą <b>{summary_planeta['liczba'][0]}</b> wypraw.</p>\n"
+        )
+
+    # 🧭 Typ wyprawy
+    if summary_typ["liczba"][0] == 1:
+        markdown += "<p>🔸 Wszystkie rodzaje wycieczek występują równie często.</p>\n"
+    else:
+        markdown += (
+            f"<p>🧭 Najczęstszy rodzaj wycieczki to <b>{summary_typ['Typ wyprawy'][0]}</b> "
+            f"({summary_typ['liczba'][0]} razy).</p>\n"
+        )
+
+    # 🚀 Pojazdy
+    if summary_pojazd["liczba"][0] == 1:
+        markdown += "<p>🔸 Wszystkie pojazdy kosmiczne występują równie często.</p>\n"
+    else:
+        markdown += (
+            f"<p>🚀 Najczęściej używany pojazd kosmiczny to <b>{summary_pojazd['Pojazd'][0]}</b> "
+            f"(użyty {summary_pojazd['liczba'][0]} razy).</p>\n"
+        )
+
+    display(Markdown(markdown))
+```
+```{python}
+query_one_timers = """
+    SELECT 
+        client_id, 
+        COUNT(trip_id) as trips 
+    FROM  trip_participants 
+    GROUP BY client_id
+    HAVING trips = 1
+"""
+df_one_time = pd.read_sql_query(text(query_one_timers), engine)
+client_ids = df_one_time['client_id'].tolist()
+
+# --- Krok 2: podróże tych klientów ---
+if not client_ids:
+    one_time_trips = []
+else:
+    placeholders = ','.join([':id'+str(i) for i in range(len(client_ids))])
+    param_dict = {f'id{i}': cid for i, cid in enumerate(client_ids)}
+
+    query_one_time_trips = f"""
+        SELECT trip_id, COUNT(*) as count
+        FROM trip_participants
+        WHERE client_id IN ({placeholders})
+        GROUP BY trip_id
+        ORDER BY count DESC
+    """
+    df_trips = pd.read_sql_query(text(query_one_time_trips), engine, params=param_dict)
+    trip_ids = df_trips['trip_id'].tolist()
+
+# --- Krok 3: szczegóły podróży ---
+if not trip_ids:
+    df_disliked_trips = pd.DataFrame(columns=["Planeta", "Typ wyprawy", "Pojazd", "Rakieta", "Id"])
+else:
+    placeholders = ','.join([':id'+str(i) for i in range(len(trip_ids))])
+    param_dict = {f'id{i}': tid for i, tid in enumerate(trip_ids)}
+
+    query_trip_info = f"""
+        SELECT 
+            d.name AS destination,
+            tt.name AS trip_type,
+            s.name AS spacecraft_name,
+            r.name AS rocket_name,
+            t.trip_id
+        FROM trip_participants tp
+        JOIN trips t ON tp.trip_id = t.trip_id
+        JOIN spacecraft s ON t.spacecraft_id = s.spacecraft_id
+        JOIN rockets r ON t.rocket_id = r.rocket_id
+        JOIN destinations d ON t.destination_id = d.destination_id
+        JOIN trip_types tt ON t.trip_type_id = tt.trip_type_id
+        WHERE tp.trip_id IN ({placeholders})
+        GROUP BY t.trip_id, d.name, tt.name
+    """
+    df_disliked_trips = pd.read_sql_query(text(query_trip_info), engine, params=param_dict)
+
+# --- Formatowanie końcowe ---
+df_disliked_trips.columns = ["Planeta", "Typ wyprawy", "Pojazd", "Rakieta", "Id"]
+df_disliked_trips.index = pd.RangeIndex(start=1, stop=len(df_disliked_trips)+1)
+
+# Wyświetlenie wyników
+display(df_disliked_trips.head(10))
+df_summary_markdown(df_disliked_trips.head(10))
+```
+
+Teraz zbadamy wyprawy, które zniechęciły klientów, którzy już kilka razy z nami latali. To da nam informację, jakie typy wypraw zmęczyły lub znudziły naszych pasażerów.
+
+```{python}
+one_time_ids = df_one_time['client_id'].tolist()
+
+if not one_time_ids:
+    df = pd.DataFrame(columns=["client_id", "trip_id"])
+else:
+    one_time_ids = [int(t) for t in one_time_ids]
+    placeholders = ','.join([f':id{i}' for i in range(len(one_time_ids))])
+    param_dict = {f'id{i}': val for i, val in enumerate(one_time_ids)}
+
+    query_last_trips = f"""
+    SELECT
+        tp.client_id,
+        t.trip_id
+    FROM
+        trip_participants tp
+    JOIN trips t ON tp.trip_id = t.trip_id
+    WHERE
+        tp.client_id NOT IN ({placeholders})
+        AND t.departure_datetime = (
+            SELECT MAX(t2.departure_datetime)
+            FROM trip_participants tp2
+            JOIN trips t2 ON tp2.trip_id = t2.trip_id
+            WHERE tp2.client_id = tp.client_id
+        )
+    ORDER BY tp.client_id
+    """
+
+    df = pd.read_sql_query(text(query_last_trips), engine, params=param_dict)
+
+# --- Krok 2: Zlicz podróże i sortuj ---
+summary = df['trip_id'].value_counts().reset_index()
+summary.columns = ['trip_id', 'num_clients']
+summary = summary.sort_values(by='num_clients', ascending=False)
+last_trips_ids = summary["trip_id"].tolist()
+
+# --- Krok 3: Szczegóły podróży ---
+if not last_trips_ids:
+    df_last_trips = pd.DataFrame(columns=["Planeta", "Typ wyprawy", "Pojazd", "Rakieta", "Id"])
+else:
+    placeholders = ','.join([f':id{i}' for i in range(len(last_trips_ids))])
+    param_dict = {f'id{i}': tid for i, tid in enumerate(last_trips_ids)}
+
+    query_trip_info = f"""
+        SELECT 
+            d.name AS destination,
+            tt.name AS trip_type,
+            s.name AS spacecraft_name,
+            r.name AS rocket_name,
+            t.trip_id
+        FROM trip_participants tp
+        JOIN trips t ON tp.trip_id = t.trip_id
+        JOIN spacecraft s ON t.spacecraft_id = s.spacecraft_id
+        JOIN rockets r ON t.rocket_id = r.rocket_id
+        JOIN destinations d ON t.destination_id = d.destination_id
+        JOIN trip_types tt ON t.trip_type_id = tt.trip_type_id
+        WHERE tp.trip_id IN ({placeholders})
+        GROUP BY t.trip_id, d.name, tt.name
+    """
+    df_last_trips = pd.read_sql_query(text(query_trip_info), engine, params=param_dict)
+
+# --- Formatowanie końcowe ---
+df_last_trips.columns = ["Planeta", "Typ wyprawy", "Pojazd", "Rakieta", "Id"]
+df_last_trips.index = pd.RangeIndex(start=1, stop=len(df_last_trips)+1)
+
+# Wyświetlenie wyników
+display(df_last_trips.head(10))
+df_summary_markdown(df_last_trips.head(10))
+```
+
+Mamy już omówione te negatywne loty. Pora zatem sprawdzić, po których wyprawach klienci wracają po więcej. To nam pokaże, które loty zostawić w ofercie. W poniższym podsumowaniu bierzemy pod uwagę tylko te wyprawy, po których klienci wrócili i odbyli kolejną wyprawę. Od góry będziemy wypisywać te, które miały najwięcej powracających klientów.
+
+```{python}
+query = """
+  SELECT tp.client_id, tp.trip_id, t.departure_datetime 
+  FROM trip_participants tp
+  JOIN trips t ON tp.trip_id = t.trip_id
+  ORDER BY tp.client_id, t.departure_datetime
+"""
+df = pd.read_sql_query(text(query), engine)
+
+# --- Krok 2: Analiza powrotów klientów ---
+df['next_trip'] = df.groupby('client_id')['trip_id'].shift(-1)
+df['returned_after'] = df['next_trip'].notna()
+
+trip_retention = df[df['returned_after']].groupby('trip_id').size().reset_index(name='clients_returned')
+trip_retention = trip_retention.sort_values(by='clients_returned', ascending=False)
+
+top_5_ret_ids = trip_retention.head(10)["trip_id"].tolist()
+
+# --- Krok 3: Szczegóły dla najczęściej powracanych podróży ---
+if not top_5_ret_ids:
+    df_liked_trips = pd.DataFrame(columns=["Planeta", "Typ wyprawy", "Pojazd", "Rakieta", "Id"])
+else:
+    placeholders = ','.join([f':id{i}' for i in range(len(top_5_ret_ids))])
+    param_dict = {f'id{i}': tid for i, tid in enumerate(top_5_ret_ids)}
+
+    query = f"""
+        SELECT 
+            d.name AS destination,
+            tt.name AS trip_type,
+            s.name AS spacecraft_name,
+            r.name AS rocket_name,
+            t.trip_id
+        FROM trip_participants tp
+        JOIN trips t ON tp.trip_id = t.trip_id
+        JOIN spacecraft s ON t.spacecraft_id = s.spacecraft_id
+        JOIN rockets r ON t.rocket_id = r.rocket_id
+        JOIN destinations d ON t.destination_id = d.destination_id
+        JOIN trip_types tt ON t.trip_type_id = tt.trip_type_id
+        WHERE tp.trip_id IN ({placeholders})
+        GROUP BY t.trip_id, d.name, tt.name
+    """
+    df_liked_trips = pd.read_sql_query(text(query), engine, params=param_dict)
+
+# --- Formatowanie i wyświetlenie ---
+df_liked_trips.columns = ["Planeta", "Typ wyprawy", "Pojazd", "Rakieta", "Id"]
+df_liked_trips.index = pd.RangeIndex(start=1, stop=len(df_liked_trips)+1)
+
+display(df_liked_trips.head(10))
+df_summary_markdown(df_liked_trips)
+```
+
+Mamy teraz przegląd najbardziej wpływowych lotów. Pytanie teraz brzmi, które zostawiamy, a których należy się pozbyć?
+
+## Odnalezienie najlepiej ocenianego oraz najaktywniejszego pracownika
+
+Interesuje nas wpływ naszych pracowników na wyprawy. Chcemy odnaleźć pracownika, który ma najlepszy wpływ na ocenę lotów. Będziemy się głównie skupiać na tych rolach, które mając bezpośredni kontakt z pasażerami lub bezpośrednio wpływają na komfort podróży (np. Pilot, Kucharz). Dalej będziemy chcieli odnaleźć najaktywniejszego pracownika, czyli tego który został przypisany do największej liczby wypraw. Chcemy tutaj znaleźć tego, który najwięcej wnosi do naszych lotów i będziemy tu już badać wszystkie role.
+
+#### Najlepiej oceniani pracownicy
+```{python}
+roles_of_interest = ["Pilot statku", "Specjalista ds. bezpieczeństwa","Lekarz pokładowy", "Kucharz orbitalny"]
+# --- Krok 1: Pobranie ocen przypisanych pracownikom ---
+query = """
+SELECT
+    e.first_name AS Imię,
+    e.last_name AS Nazwisko,
+    e.position AS Pozycja,
+    f.trip_id,
+    ea.employee_id AS ID,
+    f.rating AS Ocena
+FROM employee_assignments ea
+JOIN employees e ON ea.employee_id = e.employee_id
+JOIN feedback f ON ea.trip_id = f.trip_id
+"""
+df_ratings_all = pd.read_sql_query(text(query), engine)
+
+# --- Krok 2: Średnie oceny wszystkich pracowników ---
+avg_ratings_all = df_ratings_all.groupby(['Imię', 'Nazwisko', 'Pozycja','ID'])['Ocena'].mean().reset_index()
+avg_ratings_all["Ocena"] = round(avg_ratings_all["Ocena"], 2)
+avg_ratings_all = avg_ratings_all.sort_values(by="Ocena", ascending=False)
+
+# --- Krok 3: Średnie oceny tylko dla interesujących nas ról ---
+roles_of_interest = ["Pilot statku", "Specjalista ds. bezpieczeństwa", "Lekarz pokładowy", "Kucharz orbitalny"]
+df_ratings_interest = df_ratings_all[df_ratings_all["Pozycja"].isin(roles_of_interest)]
+avg_ratings_interest = df_ratings_interest.groupby(['Imię', 'Nazwisko', 'Pozycja','ID'])['Ocena'].mean().reset_index()
+avg_ratings_interest["Ocena"] = round(avg_ratings_interest["Ocena"], 2)
+avg_ratings_interest = avg_ratings_interest.sort_values(by="Ocena", ascending=False)
+
+# --- Wyświetlenie topowych ---
+display(avg_ratings_interest.head(5).style.hide(axis="index"))
+
+# --- Markdown z najlepszym pracownikiem ---
+best_employee = avg_ratings_interest.iloc[0]
+markmarkdown_text = f"""
+👨‍🚀 Najlepszym pracownikiem okazał jest **{best_employee['Imię']} {best_employee['Nazwisko']}** o ID **{best_employee['ID']}** , który przysłużył nam się pracując jako **{best_employee['Pozycja']}**. Uzyskana ocena wynosi **{best_employee['Ocena']}**.
+"""
+display(Markdown(markmarkdown_text))
+```
+
+#### Najaktywniejsi pracownicy
+```{python}
+query = """
+SELECT
+    e.first_name AS Imię,
+    e.last_name AS Nazwisko,
+    e.position AS Pozycja,
+    ea.employee_id AS ID,
+    COUNT(ea.trip_id) AS Wyprawy
+FROM employee_assignments ea
+JOIN employees e ON ea.employee_id = e.employee_id
+GROUP BY ea.employee_id, e.first_name, e.last_name, e.position
+ORDER BY Wyprawy DESC
+"""
+df_acvitivy = pd.read_sql_query(text(query), engine)
+
+# --- Krok 2: Filtrowanie po interesujących rolach ---
+df_acvitivy_interest = df_acvitivy[df_acvitivy["Pozycja"].isin(roles_of_interest)]
+
+# --- Krok 3: Sortowanie i wyświetlanie ---
+most_active = df_acvitivy.sort_values(by="Wyprawy", ascending=False)
+most_active_of_interest = df_acvitivy_interest.sort_values(by="Wyprawy", ascending=False)
+
+display(most_active.head(5).style.hide(axis="index"))
+
+most_active_employee = most_active.iloc[0]
+
+# --- Markdown z najlepszym pracownikiem pod względem aktywności ---
+markmarkdown_text = f"""
+👨‍🚀 Najbardziej aktywnym pracownikiem okazał jest **{most_active_employee['Imię']} {most_active_employee['Nazwisko']}** o ID {most_active_employee['ID']} , który przysłużył nam się pracując jako **{most_active_employee['Pozycja']}**. Liczba wycieczek, na które miał wpływ ten niesamowity pracownik wynosi **{most_active_employee['Wyprawy']}**.
+"""
+display(Markdown(markmarkdown_text))
+```
+
+Mając informacje o tym kto w której kategorii wypadł najlepiej, chcemy zweryfikować te wyniki w kategorii przeciwnej. To oznacza, że najlepiej ocenianego zbadamy pod kątem jego aktywności, a najaktywniejszego pod kątem jego ocen.
+
+```{python}
+
+def ocena(percent):
+    if percent > 90:
+        return "wyśmienity"
+    elif percent > 75:
+        return "bardzo dobry"
+    elif percent > 50:
+        return "dobry"
+    elif percent > 25:
+        return "umiarkowany"
+    elif percent > 10:
+        return "nie najlepszy"
+    else:
+        return "słaby"                
+
+best_employee_activity = df_acvitivy[df_acvitivy["ID"] == best_employee["ID"]]
+most_active_employee_rating = avg_ratings_all[avg_ratings_all["ID"]== most_active_employee["ID"]]
+
+df_acvitivy = df_acvitivy.reset_index(drop=True)
+position = df_acvitivy.index[df_acvitivy["ID"] == best_employee["ID"]]
+
+
+rank = position[0] + 1  # +1 bo indeksy zaczynają się od 0
+total = len(df_acvitivy)
+percent_rank = 100 * (1 - (rank - 1) / (total - 1)) if total > 1 else   100
+employee_rating = df_acvitivy.loc[position[0]]
+
+markmarkdown_text = f"""
+Najlepiej oceniany pracownik, **{best_employee['Imię']} {best_employee['Nazwisko']}**, wziął udział w {employee_rating["Wyprawy"]} wyprawach, co jest więcej niż {percent_rank:.1f}% pracowników. Jest to {ocena(percent_rank)} wynik.
+"""
+
+display(Markdown(markmarkdown_text))
+
+avg_ratings_all = avg_ratings_all.reset_index(drop=True)
+position = avg_ratings_all.index[avg_ratings_all["ID"] == most_active_employee["ID"]]
+
+
+rank = position[0] + 1  # +1 bo indeksy zaczynają się od 0
+total = len(df_acvitivy)
+percent_rank = 100 * (1 - (rank - 1) / (total - 1)) if total > 1 else   100
+employee_rating = avg_ratings_all.loc[position[0]]
+
+markmarkdown_text = f"""
+Najaktywniejszy pracownik, **{most_active_employee['Imię']} {most_active_employee['Nazwisko']}**, uzyskał Ocena {employee_rating["Ocena"]}, co jest wynikiem lepszym od {percent_rank:.1f}% pracowników. Jest to {ocena(percent_rank)} wynik.
+"""
+display(Markdown(markmarkdown_text))
+```
+
+## Roczna sezonowość wypraw i incydentów.
+W tym podpunkcie będziemy chcieli zbadać dwie rzeczy, które mogą być ze sobą powiązane. Chcemy kiedy w trakcie roku występuje najwięcej lotów, czy są jakieś trendy lub sezonowość. Dokładnie to samo będziemy chcieli sprawdzić w kwestii incydentów, czy są okresy kiedy zdarzają się częściej?
+
+```{python}
+# --- Krok 1: Daty podróży ---
+query = "SELECT trip_id, departure_datetime FROM trips"
+df_trips = pd.read_sql_query(text(query), engine)
+
+df_trips['departure_datetime'] = pd.to_datetime(df_trips['departure_datetime'], format='%Y-%m-%d %H:%M:%S')
+df_trips['year_month'] = df_trips['departure_datetime'].apply(lambda x: f"{x.year}-{x.month:02d}")
+df_trips['year'] = df_trips['departure_datetime'].dt.year
+df_trips['month'] = df_trips['departure_datetime'].dt.month
+
+trip_counts = df_trips['month'].value_counts().sort_index()
+
+# --- Krok 2: Daty incydentów ---
+query = "SELECT incident_id, datetime_occurred FROM incidents"
+df_incidents = pd.read_sql_query(text(query), engine)
+
+df_incidents['datetime'] = pd.to_datetime(df_incidents['datetime_occurred'], format='%Y-%m-%d %H:%M:%S')
+df_incidents['year_month'] = df_incidents['datetime'].apply(lambda x: f"{x.year}-{x.month:02d}")
+df_incidents['year'] = df_incidents['datetime'].dt.year
+df_incidents['month'] = df_incidents['datetime'].dt.month
+
+incidents_counts = df_incidents['month'].value_counts().sort_index()
+
+all_months = list(range(1, 13))
+trip_counts = trip_counts.reindex(all_months, fill_value=0)
+incidents_counts = incidents_counts.reindex(all_months, fill_value=0)
+
+x = np.arange(len(all_months))
+width = 0.35
+
+
+df_plot = pd.DataFrame({
+    "Miesiąc": [f"{m:02d}" for m in all_months],
+    "Liczba wycieczek": trip_counts.values,
+    "Liczba incydentów": incidents_counts.values
+})
+
+# Zmiana na long format (wymagane przez plotly.express do grouped bar chart)
+df_melted = df_plot.melt(id_vars="Miesiąc", var_name="Typ", value_name="Liczba")
+
+# Rysowanie wykresu
+fig = px.bar(
+    df_melted,
+    x="Miesiąc",
+    y="Liczba",
+    color="Typ",
+    barmode="group",
+    title="Porównanie liczby wycieczek i incydentów wg miesiąca"
+)
+
+fig.update_layout(xaxis_title="Miesiąc", yaxis_title="Liczba")
+fig.show()
+```
+
+Na powyższym wykresie możemy zobaczyć obok siebie, jak często występowały loty i incydenty.
+
+## Czy klienci dokonują płatności za przejazdy z wyprzedzeniem, czy czekają do ostatniej chwili?
+
+Interesuje nas prosta, lecz ważna kwestia. Kiedy wpływają zapłaty za wyprawę. Oczywiście dla nas najlepiej byłoby, gdyby klient wypłacał pieniądze jak najwcześniej. Chcemy zbadać, czy dużo klientów ociąga się z płatnością. Może potrzebne będzie pogonienie ich lub nałożenie kar?
+
+```{python}
+query = """
+SELECT
+    ts.client_id,
+    ts.trip_id,
+    ts.transaction_date,
+    t.departure_datetime,
+    DATEDIFF(t.departure_datetime, ts.transaction_date) AS days_before_trip
+FROM transactions ts
+JOIN trips t ON ts.trip_id = t.trip_id
+"""
+df = pd.read_sql_query(text(query), engine)
+
+bins = [-100, 0, 3, 7, 14, 30, 90, 365]
+labels = ['Po czasie', '0-3 dni', '4-7 dni', '8-14 dni', '15-30 dni', '31-90 dni', '91+ dni']
+df['payment_window'] = pd.cut(df['days_before_trip'], bins=bins, labels=labels)
+
+summary = df['payment_window'].value_counts().sort_index()
+df_summary = summary.reset_index()
+df_summary.columns = ['Okno czasowe', 'Liczba płatności']
+
+fig = px.bar(
+    df_summary,
+    x='Okno czasowe',
+    y='Liczba płatności',
+    title='Kiedy klienci płacą za wycieczki?',
+    labels={'Okno czasowe': 'Ile dni przed wyjazdem dokonano płatności'}
+)
+
+fig.update_layout(xaxis_title='Okno czasowe', yaxis_title='Liczba płatności')
+fig.show()
+```
+
+## Ulubione metody płatności naszych klientów. Z jakiego źródła wpływa najwięcej pieniędzy.
+
+W tym podpunckcie zbadamy ważną kwestię finansową. Chcemy poznać preferencje płatnicze naszych klientów. To da nam informacje o tym, ile pieniędzy jest przesyłanych danym sposobem płatności. Będziemy wtedy wiedzieć, czy może warto będzie zainwestować w to, aby korzystanie z niego było prostsze i bardziej opłacalne.
+
+```{python}
+query = """
+SELECT
+    payment_method,
+    COUNT(*) AS total_transactions,
+    SUM(amount) AS total_amount
+FROM transactions
+WHERE status = 'completed'
+GROUP BY payment_method
+ORDER BY total_amount DESC
+"""
+df_methods = pd.read_sql_query(text(query), engine)
+
+# --- Krok 2: (opcjonalne) dodanie okna płatności, jeśli df i diff są zdefiniowane ---
+# Zakładam, że zmienna `df` i kolumna `diff` (days_before_trip) są już wcześniej utworzone.
+
+bins = [-100, 0, 3, 7, 14, 30, 90, 365]
+labels = ['Po czasie', '0-3 dni', '4-7 dni', '8-14 dni', '15-30 dni', '31-90 dni', '91+ dni']
+df['payment_window'] = pd.cut(df['days_before_trip'], bins=bins, labels=labels)
+
+from plotly.subplots import make_subplots
+import plotly.graph_objects as go
+
+fig = make_subplots(
+    rows=2, cols=1,
+    shared_xaxes=True,
+    vertical_spacing=0.15,
+    subplot_titles=(
+        "💰 Źródła największego przychodu wg metody płatności",
+        "📊 Popularność metod płatności wg liczby użyć"
+    )
+)
+
+# Wiersz 1: Łączna kwota
+fig.add_trace(
+    go.Bar(
+        x=df_methods["payment_method"],
+        y=df_methods["total_amount"],
+        name="Łączna kwota",
+        marker_color="skyblue"
+    ),
+    row=1, col=1
+)
+
+# Wiersz 2: Liczba transakcji
+fig.add_trace(
+    go.Bar(
+        x=df_methods["payment_method"],
+        y=df_methods["total_transactions"],
+        name="Liczba transakcji",
+        marker_color="lightgreen"
+    ),
+    row=2, col=1
+)
+
+# Ustawienia osi, tytułu itd.
+fig.update_layout(
+    height=700,
+    showlegend=False,
+    xaxis_tickangle=45
+)
+
+fig.update_xaxes(title_text="Metoda płatności", row=2, col=1)
+fig.update_yaxes(title_text="Kwota", row=1, col=1)
+fig.update_yaxes(title_text="Liczba transakcji", row=2, col=1)
+
+fig.show()
+```
