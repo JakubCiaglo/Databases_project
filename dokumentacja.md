@@ -18,7 +18,7 @@
   - baza_danych.sql (plik z zapytaniami SQL, które tworzą bazę danych)
 
 3. Kolejność i sposób urchamiania plików:
-  Aby uzyskać gotowy projekt należy odpalić plik projekt_raport.qmd
+  Aby uzyskać gotowy projekt należy odpalić stworzyć bazę danych za pomocą zapytań zapisanych w pliku "baza_danych.sql". Następnie wypełniamy bazę korzystając z pliku "skypt.py". Do wygenerowania raportu korzystamy z pliku "projekt_raport.qmd".
 
 4. Schemat projektu:
   Schemat projektu został dołączony jako plik schemat.png
