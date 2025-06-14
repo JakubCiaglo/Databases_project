@@ -26,8 +26,8 @@ Data: 14 czerwca 2025
 | --------------------- | --------------------------------------------------------------------------------- | ------------------------------------------------------------------------- |
 | `baza_danych.sql`     | SQL                                                                               | Skrypt DDL: tworzy tabele, klucze główne i obce oraz indeksy |
 | `skrypt.py`           | Python                                                                            | Funkcja `uruchom()` wypełnia bazę danymi testowymi (employees, clients, trips, …) |
-| `projekt_raport.qmd`  | Quarto                                                                            | Notebook generujący wykresy i opis wyników; kompiluje się do HTML         |
-| `projekt_raport.html` | HTML                                                                              | Wygenerowany raport ‑ gotowy do odczytu w przeglądarce                    |
+| `raport.qmd`  | Quarto                                                                            | Notebook generujący wykresy i opis wyników; kompiluje się do HTML         |
+| `raport.html` | HTML                                                                              | Wygenerowany raport ‑ gotowy do odczytu w przeglądarce                    |
 | `schemat.png`         | PNG                                                                               | Schemat ER wygenerowany z `baza_danych.sql`                               |
 | `dokumentacja.md`     | Markdown                                                                          | Pełna dokumentacja projektu (niniejszy plik)                              |
 
