@@ -166,7 +166,6 @@ CREATE TABLE trips
   PRIMARY KEY (trip_id)
 );
 
--- Poprawiona tabela employee_assignments z pojedynczym kluczem głównym
 CREATE TABLE employee_assignments
 (
   assignment_id INT NOT NULL AUTO_INCREMENT,
@@ -176,7 +175,6 @@ CREATE TABLE employee_assignments
   UNIQUE (trip_id, employee_id)
 );
 
--- Poprawiona tabela trip_participants z pojedynczym kluczem głównym
 CREATE TABLE trip_participants
 (
   participation_id INT NOT NULL AUTO_INCREMENT,
@@ -187,7 +185,6 @@ CREATE TABLE trip_participants
   UNIQUE (trip_id, client_id)
 );
 
--- Dodanie wszystkich ograniczeń klucza obcego
 ALTER TABLE costs
   ADD CONSTRAINT FK_trips_TO_costs
     FOREIGN KEY (trip_id)
