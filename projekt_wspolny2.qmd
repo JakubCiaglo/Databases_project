@@ -1269,30 +1269,28 @@ def df_summary_markdown(df):
 
     markdown = "Podsumowanie \n"
 
-    # 🌍 Planety
     if summary_planeta["liczba"][0] == 1:
-        markdown += "<p>🔸 Wszystkie planety występują równie często.</p>\n"
+        markdown += "<p>Wszystkie planety występują równie często.</p>\n"
     else:
         markdown += (
-            f"<p>🌍 Najczęściej występująca planeta to <b>{summary_planeta['Planeta'][0]}</b> "
+            f"<p>Najczęściej występująca planeta to <b>{summary_planeta['Planeta'][0]}</b> "
             f"z liczbą <b>{summary_planeta['liczba'][0]}</b> wypraw.</p>\n"
         )
 
-    # 🧭 Typ wyprawy
+
     if summary_typ["liczba"][0] == 1:
-        markdown += "<p>🔸 Wszystkie rodzaje wycieczek występują równie często.</p>\n"
+        markdown += "<p>Wszystkie rodzaje wycieczek występują równie często.</p>\n"
     else:
         markdown += (
-            f"<p>🧭 Najczęstszy rodzaj wycieczki to <b>{summary_typ['Typ wyprawy'][0]}</b> "
+            f"<p>Najczęstszy rodzaj wycieczki to <b>{summary_typ['Typ wyprawy'][0]}</b> "
             f"({summary_typ['liczba'][0]} razy).</p>\n"
         )
 
-    # 🚀 Pojazdy
     if summary_pojazd["liczba"][0] == 1:
-        markdown += "<p>🔸 Wszystkie pojazdy kosmiczne występują równie często.</p>\n"
+        markdown += "<p>Wszystkie pojazdy kosmiczne występują równie często.</p>\n"
     else:
         markdown += (
-            f"<p>🚀 Najczęściej używany pojazd kosmiczny to <b>{summary_pojazd['Pojazd'][0]}</b> "
+            f"<p>Najczęściej używany pojazd kosmiczny to <b>{summary_pojazd['Pojazd'][0]}</b> "
             f"(użyty {summary_pojazd['liczba'][0]} razy).</p>\n"
         )
 
@@ -1528,7 +1526,7 @@ display(avg_ratings_interest.head(5).style.hide(axis="index"))
 # --- Markdown z najlepszym pracownikiem ---
 best_employee = avg_ratings_interest.iloc[0]
 markmarkdown_text = f"""
-👨‍🚀 Najlepszym pracownikiem okazał jest **{best_employee['Imię']} {best_employee['Nazwisko']}** o ID **{best_employee['ID']}** , który przysłużył nam się pracując jako **{best_employee['Pozycja']}**. Uzyskana ocena wynosi **{best_employee['Ocena']}**.
+Najlepszym pracownikiem okazał jest **{best_employee['Imię']} {best_employee['Nazwisko']}** o ID **{best_employee['ID']}** , który przysłużył nam się pracując jako **{best_employee['Pozycja']}**. Uzyskana ocena wynosi **{best_employee['Ocena']}**.
 """
 display(Markdown(markmarkdown_text))
 ```
@@ -1562,7 +1560,7 @@ most_active_employee = most_active.iloc[0]
 
 # --- Markdown z najlepszym pracownikiem pod względem aktywności ---
 markmarkdown_text = f"""
-👨‍🚀 Najbardziej aktywnym pracownikiem okazał jest **{most_active_employee['Imię']} {most_active_employee['Nazwisko']}** o ID {most_active_employee['ID']} , który przysłużył nam się pracując jako **{most_active_employee['Pozycja']}**. Liczba wycieczek, na które miał wpływ ten niesamowity pracownik wynosi **{most_active_employee['Wyprawy']}**.
+Najbardziej aktywnym pracownikiem okazał jest **{most_active_employee['Imię']} {most_active_employee['Nazwisko']}** o ID {most_active_employee['ID']} , który przysłużył nam się pracując jako **{most_active_employee['Pozycja']}**. Liczba wycieczek, na które miał wpływ ten niesamowity pracownik wynosi **{most_active_employee['Wyprawy']}**.
 """
 display(Markdown(markmarkdown_text))
 ```
@@ -1746,8 +1744,8 @@ fig = make_subplots(
     shared_xaxes=True,
     vertical_spacing=0.15,
     subplot_titles=(
-        "💰 Źródła największego przychodu wg metody płatności",
-        "📊 Popularność metod płatności wg liczby użyć"
+        "Źródła największego przychodu wg metody płatności",
+        "Popularność metod płatności wg liczby użyć"
     )
 )
 
