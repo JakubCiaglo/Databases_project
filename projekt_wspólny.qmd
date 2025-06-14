@@ -1620,6 +1620,7 @@ display(Markdown(markmarkdown_text))
 ```
 
 ## Roczna sezonowość wypraw i incydentów.
+W tym podpunkcie będziemy chcieli zbadać dwie rzeczy, które mogą być ze sobą powiązane. Chcemy kiedy w trakcie roku występuje najwięcej lotów, czy są jakieś trendy lub sezonowość. Dokładnie to samo będziemy chcieli sprawdzić w kwestii incydentów, czy są okresy kiedy zdarzają się częściej?
 
 ```{python}
 # --- Krok 1: Daty podróży ---
@@ -1673,11 +1674,13 @@ fig = px.bar(
 
 fig.update_layout(xaxis_title="Miesiąc", yaxis_title="Liczba")
 fig.show()
-
-
 ```
 
+Na powyższym wykresie możemy zobaczyć obok siebie, jak często występowały loty i incydenty.
+
 ## Czy klienci dokonują płatności za przejazdy z wyprzedzeniem, czy czekają do ostatniej chwili?
+
+Interesuje nas prosta, lecz ważna kwestia. Kiedy wpływają zapłaty za wyprawę. Oczywiście dla nas najlepiej byłoby, gdyby klient wypłacał pieniądze jak najwcześniej. Chcemy zbadać, czy dużo klientów ociąga się z płatnością. Może potrzebne będzie pogonienie ich lub nałożenie kar?
 
 ```{python}
 query = """
@@ -1692,17 +1695,14 @@ JOIN trips t ON ts.trip_id = t.trip_id
 """
 df = pd.read_sql_query(text(query), engine)
 
-# --- Krok 2: Okno płatności i podział na kategorie ---
 bins = [-100, 0, 3, 7, 14, 30, 90, 365]
 labels = ['Po czasie', '0-3 dni', '4-7 dni', '8-14 dni', '15-30 dni', '31-90 dni', '91+ dni']
 df['payment_window'] = pd.cut(df['days_before_trip'], bins=bins, labels=labels)
 
-# --- Krok 3: Podsumowanie ---
 summary = df['payment_window'].value_counts().sort_index()
 df_summary = summary.reset_index()
 df_summary.columns = ['Okno czasowe', 'Liczba płatności']
 
-# Rysowanie wykresu
 fig = px.bar(
     df_summary,
     x='Okno czasowe',
@@ -1716,6 +1716,8 @@ fig.show()
 ```
 
 ## Ulubione metody płatności naszych klientów. Z jakiego źródła wpływa najwięcej pieniędzy.
+
+W tym podpunckcie zbadamy ważną kwestię finansową. Chcemy poznać preferencje płatnicze naszych klientów. To da nam informacje o tym, ile pieniędzy jest przesyłanych danym sposobem płatności. Będziemy wtedy wiedzieć, czy może warto będzie zainwestować w to, aby korzystanie z niego było prostsze i bardziej opłacalne.
 
 ```{python}
 query = """
