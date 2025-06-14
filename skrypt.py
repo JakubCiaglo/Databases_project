@@ -801,16 +801,16 @@ def uruchom():
     trip_base_prices = cursor.fetchall()
 
     base_cost_templates = [
-        {"description": "paliwo", "min_pct": 0.15, "max_pct": 0.25}, {"description": "obsługa załogi", "min_pct": 0.10, "max_pct": 0.18},
+        {"description": "paliwo", "min_pct": 0.15, "max_pct": 0.25}, {"description": "obsługa załogi", "min_pct": 0.15, "max_pct": 0.25},
         {"description": "zapasy żywności", "min_pct": 0.05, "max_pct": 0.10}, {"description": "utrzymanie statku", "min_pct": 0.08, "max_pct": 0.12},
-        {"description": "ubezpieczenie", "min_pct": 0.03, "max_pct": 0.06}, {"description": "telekomunikacja", "min_pct": 0.02, "max_pct": 0.04},
-        {"description": "amortyzacja sprzętu", "min_pct": 0.05, "max_pct": 0.10}, {"description": "usługi medyczne", "min_pct": 0.02, "max_pct": 0.05},
-        {"description": "utrzymanie stacji startowej", "min_pct": 0.04, "max_pct": 0.08}, {"description": "serwis i naprawy", "min_pct": 0.06, "max_pct": 0.10}
+        {"description": "ubezpieczenie", "min_pct": 0.03, "max_pct": 0.06}, {"description": "telekomunikacja", "min_pct": 0.12, "max_pct": 0.2},
+        {"description": "amortyzacja sprzętu", "min_pct": 0.05, "max_pct": 0.10}, {"description": "usługi medyczne", "min_pct": 0.05, "max_pct": 0.08},
+        {"description": "utrzymanie stacji startowej", "min_pct": 0.04, "max_pct": 0.08}, {"description": "serwis i naprawy", "min_pct": 0.08, "max_pct": 0.15}
     ]
     incident_cost_map = {
         "equipment": {"description": "dodatkowa naprawa sprzętu (z incydentu)", "min_pct": 0.05, "max_pct": 0.10},
         "medical": {"description": "dodatkowe usługi medyczne (z incydentu)", "min_pct": 0.03, "max_pct": 0.07},
-        "security": {"description": "operacje bezpieczeństwa (z incydentu)", "min_pct": 0.005, "max_pct": 0.01},
+        "security": {"description": "operacje bezpieczeństwa (z incydentu)", "min_pct": 0.008, "max_pct": 0.012},
         "navigation": {"description": "korekta kursu (z incydentu)", "min_pct": 0.005, "max_pct": 0.1},
         "communication": {"description": "przywrócenie łączności (z incydentu)", "min_pct": 0.02, "max_pct": 0.06},
     }
