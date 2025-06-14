@@ -1248,14 +1248,14 @@ for segment, count in segment_counts.items():
         percentage = (count / total_clients) * 100
         
         rekomendacje_markdown += f"""
-        ### {segment}
-        <p style="margin: 0 0 10px 0; font-weight: bold; color: #34495E;">
-            {count} klientów ({percentage:.1f}% wszystkich)
-        </p>
-        <p style="margin: 0; color: #555;">
-            <b>Rekomendacja strategiczna:</b> {recommendations[segment]}
-        </p>
-        """
+##### {segment}
+<p>
+    {count} klientów ({percentage:.1f}% wszystkich)
+</p>
+<p>
+    <b>Rekomendacja strategiczna:</b> {recommendations[segment]}
+</p>
+"""
 
 display(Markdown(rekomendacje_markdown))
 ```
