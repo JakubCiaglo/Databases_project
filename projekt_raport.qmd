@@ -1051,8 +1051,7 @@ analiza_markdown = f"""
 <li><b>Odchylenie standardowe:</b> {stats['std']:.1f} lat</li>
 </ul>
 <hr style='margin: 15px 0;'>
-<p><b>Wnioski biznesowe:</b> Nasza baza klientów jest wyraźnie skoncentrowana wokół osób w wieku <b>od {stats['25%']:.0f} do {stats['75%']:.0f} lat</b> (środkowe 50% klientów), co sugeruje, że nasza oferta najsilniej rezonuje z osobami o ustabilizowanej pozycji zawodowej i finansowej. Niskie odchylenie standardowe potwierdza tę silną koncentrację. Warto rozważyć stworzenie dedykowanych kampanii lub produktów skierowanych do młodszych i starszych grup demograficznych, które są obecnie słabiej reprezentowane.</p>
-"""
+<p><b>Wnioski biznesowe:</b> Nasza baza klientów jest wyraźnie skoncentrowana wokół osób w wieku <b>od {stats['25%']:.0f} do {stats['75%']:.0f} lat</b> (środkowe 50% klientów), co sugeruje, że nasza oferta najsilniej rezonuje z osobami o ustabilizowanej pozycji zawodowej i finansowej. Niskie odchylenie standardowe potwierdza tę silną koncentrację. Warto rozważyć stworzenie dedykowanych kampanii lub produktów skierowanych do młodszych i starszych grup demograficznych, które są obecnie słabiej reprezentowane.</p>"""
 
 display(Markdown(analiza_markdown))
 ```
@@ -1076,6 +1075,7 @@ plt.show()
 ```
 
 ## Segmentacja klientów metodą RFM
+
 Analiza RFM (Recency, Frequency, Monetary) to sprawdzona i potężna technika marketingowa służąca do segmentacji bazy klientów. Zamiast traktować wszystkich klientów jednakowo, grupujemy ich na podstawie ich zachowań transakcyjnych, odpowiadając na trzy kluczowe pytania:
 
 * **Recency** (Kiedy ostatnio podróżowali?) - Jak niedawno klient skorzystał z naszych usług? Im niższa wartość, tym lepiej.
@@ -1202,10 +1202,6 @@ plt.show()
 ```{python}
 segment_counts = df_rfm['Segment'].value_counts()
 total_clients = len(df_rfm)
-
-for segment, count in segment_counts.items():
-    percentage = (count / total_clients) * 100
-    print(f"- {segment}: \t{count} klientów ({percentage:.1f}% wszystkich)")
 
 recommendations = {
     'Mistrzowie (Champions)': 
