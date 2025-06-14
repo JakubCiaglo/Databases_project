@@ -59,14 +59,14 @@ cursor = con.cursor()
 
 
 # próba uruchomienia połączenia jak rafał ==========================
-# host = "giniewicz.it"
-# user = "team13"
-# password = "te@mlie"
-# database = "team13"
-# safe_password = quote_plus(password)
+host = "giniewicz.it"
+user = "team13"
+password = "te@mlie"
+database = "team13"
+safe_password = quote_plus(password)
 
-# connection_uri = f"mysql+mysqlconnector://{user}:{safe_password}@{host}/{database}"
-# engine = create_engine(connection_uri)
+connection_uri = f"mysql+mysqlconnector://{user}:{safe_password}@{host}/{database}"
+engine = create_engine(connection_uri)
 
 ```
 
@@ -340,14 +340,6 @@ display(avg_ratings_interest.head(5).style.hide(axis="index"))
 
 best_employee = avg_ratings_interest.iloc[0]
 
-markdown_text = f"""
-### 👨‍🚀 Najlepszy pracownik z listy
-
-**Imię i nazwisko:** {best_employee['first_name']} {best_employee['last_name']}  
-**Stanowisko:** {best_employee['position']}  
-**ID pracownika:** {best_employee['employee_id']}  
-**Ocena:** {best_employee['rating']}
-"""
 
 markmarkdown_text = f"""
 👨‍🚀 Najlepszym pracownikiem okazał jest **{best_employee['first_name']} {best_employee['last_name']}** o ID {best_employee['employee_id']} , który przysłużył nam się pracując jako **{best_employee['position']}**. Uzyskana ocena wynosi **{best_employee['rating']}**.
