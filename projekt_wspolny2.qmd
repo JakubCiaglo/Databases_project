@@ -13,7 +13,7 @@ format:
     theme:
       light: flatly
       dark: darkly
-page-layout: full
+    page-layout: full
 ---
 
 # Wstęp
@@ -198,22 +198,20 @@ Analiza miesięcznej liczby obsłużonych klientów jest jednym z fundamentalnyc
 Aby odpowiedzieć na to pytanie, stworzyliśmy wizualizację przedstawiającą liczbę unikalnych klientów w każdym miesiącu. Zamiast polegać na subiektywnej ocenie, nałożyliśmy na dane linię trendu opartą na regresji liniowej, która w obiektywny sposób wskazuje kierunek, w którym zmierzamy.
 
 ```{python}
-query_clients_per_month = """
+query_clients_per_month = text("""
 SELECT
-    DATE_FORMAT(t.departure_datetime, '%Y-%m') AS miesiac,
-    COUNT(tp.client_id) AS liczba_klientow
-FROM
-    trips t
-JOIN
-    trip_participants tp ON t.trip_id = tp.trip_id
-GROUP BY
-    miesiac
-ORDER BY
-    miesiac ASC;
-"""
+    DATE_FORMAT(transaction_date, '%Y-%m') AS miesiac,
+    COUNT(DISTINCT client_id) AS liczba_klientow
+FROM transactions
+WHERE transaction_date < '2125-06-13'
+GROUP BY miesiac
+ORDER BY miesiac;
+""")
+
+
 ```
 ```{python}
-df_clients = pd.read_sql(query_clients_per_month, engine)
+df_clients = pd.read_sql_query(query_clients_per_month, engine)
 df_clients['srednia_kroczaca'] = df_clients['liczba_klientow'].rolling(window=3, center=True, min_periods=1).mean()
 ```
 
