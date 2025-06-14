@@ -8,6 +8,7 @@ date-format: "long"
 format:
   html:
     toc: true
+    toc-depth: 3 
     number-sections: false
     code-fold: true
     theme:
@@ -16,7 +17,7 @@ format:
 page-layout: full
 ---
 
-# Wstęp
+## Wstęp
 W bezkresie kosmosu, podobnie jak w oceanie danych, kluczem do sukcesu jest precyzyjna nawigacja. Od ponad dekady misją Space-U jest nie tylko otwieranie ludzkości drogi do gwiazd, ale również prowadzenie tej ekspansji w sposób mądry, zrównoważony i rentowny. Rok 2034 był kolejnym kamieniem milowym na naszej orbicie sukcesu – rokiem, w którym umocniliśmy naszą pozycję lidera, wysłaliśmy rekordową liczbę pasażerów ku czerwonym piaskom Marsa i zorzom Jowisza, ale także zmierzyliśmy się z nowymi, nieprzewidzianymi wyzwaniami.
 
 Niniejszy raport jest naszą mapą nawigacyjną po minionym roku. Z kosmiczną precyzją przeanalizowaliśmy zebrane dane, aby odpowiedzieć na fundamentalne pytania. Które trajektorie lotów przynoszą największe zyski? Jak zmienia się profil demograficzny naszych międzyplanetarnych podróżników? Gdzie leżą ukryte ryzyka operacyjne – czy to w pasie asteroid, czy w awaryjności naszych statków? I wreszcie – jak odczucia i oceny naszych klientów korelują z incydentami napotkanymi w drodze na orbitę?
@@ -25,7 +26,7 @@ Celem tego dokumentu nie jest jedynie kronikarski zapis przeszłości. To przede
 
 Zapnijcie pasy. Wyruszamy w podróż po danych, która ukształtuje przyszłość międzyplanetarnych podróży.
 
-# Analiza danych
+## Analiza danych
 
 ```{python}
 #| echo: false
@@ -52,7 +53,8 @@ pio.templates.default = "plotly_white"
 ```
 
 ```{python}
-
+#| echo: false
+#| include: false
 from sqlalchemy import create_engine
 from urllib.parse import quote_plus
 
@@ -68,7 +70,7 @@ connection_uri = f"mysql+pymysql://{user}:{safe_password}@{host}/{database}"
 engine = create_engine(connection_uri)
 ```
 
-## Analiza rentowności i popularności wypraw
+### Analiza rentowności i popularności wypraw
 
 W tej kluczowej sekcji raportu dokonujemy szczegółowego przeglądu naszego portfolio usług. Naszym celem jest precyzyjne zidentyfikowanie, które rodzaje wypraw stanowią trzon naszej oferty – ciesząc się największym zainteresowaniem klientów – oraz, co najważniejsze, jak popularność ta przekłada się na wyniki finansowe. Zrozumienie rentowności poszczególnych "produktów" jest fundamentem do podejmowania świadomych decyzji o alokacji zasobów, strategii cenowej i przyszłych inwestycjach w rozwój floty oraz nowych tras.
 
@@ -144,7 +146,7 @@ print("\n----------------------------------")
 
 top_3_profitability = df_profitability.head(3)
 wnioski_markdown = """
-### Liderzy Popularności
+#### Liderzy Popularności
 Nasze dane jednoznacznie wskazują na grupę flagowych produktów, które stanowią o sile naszej marki. Poniżej przedstawiamy TOP 3 najchętniej wybierane wyprawy:
 <ul>
 """
@@ -168,7 +170,7 @@ display(Markdown(wnioski_markdown))
 unprofitable_types = df_profitability[df_profitability['Zysk'] < 0]
 
 rentownosc_markdown = """
-### Analiza Rentowności
+#### Analiza Rentowności
 """
 
 if unprofitable_types.empty:
@@ -190,7 +192,7 @@ else:
 display(Markdown(rentownosc_markdown))
 ```
 
-## Analiza Dynamiki Bazy Klientów
+### Analiza Dynamiki Bazy Klientów
 
 Analiza miesięcznej liczby obsłużonych klientów jest jednym z fundamentalnych wskaźników kondycji i tempa rozwoju Space-U. To puls naszej działalności, który pozwala ocenić skuteczność naszych działań marketingowych, atrakcyjność oferty oraz ogólne zainteresowanie podróżami kosmicznymi. W tej sekcji zbadamy, czy w ostatnim roku nasza firma znajdowała się na trajektorii wzrostowej, czy też napotkała na turbulencje.
 
@@ -202,6 +204,7 @@ SELECT
     DATE_FORMAT(transaction_date, '%Y-%m') AS miesiac,
     COUNT(DISTINCT client_id) AS liczba_klientow
 FROM transactions
+WHERE transaction_date < '2125-06-13'
 GROUP BY miesiac
 ORDER BY miesiac;
 """)
@@ -280,7 +283,7 @@ fig.show()
 
 ```{python}
 analiza_markdown = f"""
-### Ocena Linii Trendu 
+#### Ocena Linii Trendu 
 <p>Analiza statystyczna oparta na regresji liniowej pozwala nam obiektywnie ocenić kierunek rozwoju firmy. Współczynnik nachylenia linii trendu to matematyczna reprezentacja naszego miesięcznego wzrostu lub spadku.</p>
 <p><b>Wniosek: {wniosek}</b></p>
 <p>{szczegoly}</p>
@@ -288,10 +291,10 @@ analiza_markdown = f"""
 display(Markdown(analiza_markdown))
 ```
 
-## Analiza ryzyka operacyjnego
+### Analiza ryzyka operacyjnego
 Zarządzanie ryzykiem w turystyce kosmicznej to nie tylko nasz obowiązek, ale fundament, na którym opiera się zaufanie naszych klientów i partnerów. W tej części raportu dokonujemy dogłębnej analizy dwóch głównych źródeł ryzyka: niebezpieczeństw związanych z celem podróży oraz potencjalnej awaryjności naszych statków kosmicznych. Celem jest identyfikacja "gorących punktów", która pozwoli na wdrożenie działań prewencyjnych i podniesienie standardów bezpieczeństwa.
 
-### Ryzyko związane z destynacja
+#### Ryzyko związane z destynacja
 Każda destynacja w Układzie Słonecznym posiada unikalną charakterystykę i wiąże się z różnym poziomem wyzwań. Poniższy wykres przedstawia liczbę zarejestrowanych incydentów w podziale na lokalizacje oraz stopień ich powagi (niski, średni, wysoki).
 
 ```{python}
@@ -475,7 +478,7 @@ df_risk = pd.read_sql(query_weighted_risk, engine)
 display(df_risk.style.format('{:.2f}', subset=['Wazony_wspolczynnik_ryzyka'])\
                  .format('{:,.0f}', subset=['Liczba_wypraw', 'Suma_punktow_ryzyka'])\
                  .background_gradient(cmap='Reds', subset=['Wazony_wspolczynnik_ryzyka'])\
-                 .set_caption("Tabela 2: Ranking Ryzyka Destynacji (Wskaźnik ważony)"))
+                 .set_caption("Ranking Ryzyka Destynacji (Wskaźnik ważony)"))
 ```
 
 ```{python}
@@ -483,7 +486,7 @@ most_risky = df_risk.iloc[0]
 least_risky = df_risk.iloc[-1]
 
 wniosek_markdown = f"""
-### Podsumowanie Ryzyka Destynacji
+#### Podsumowanie Ryzyka Destynacji
 <p>Nasz ważony wskaźnik pozwala na obiektywną ocenę i priorytetyzację działań mitygujących ryzyko.</p>
 <ul>
     <li><span style="font-size: 1.5em;"></span> <b>Najwyższe ryzyko:</b> Destynacją o najwyższym wskaźniku ryzyka jest <b>{most_risky['Kierunek']}</b> z wynikiem <b>{most_risky['Wazony_wspolczynnik_ryzyka']:.2f} pkt</b> na wyprawę. Sugeruje to konieczność przeglądu procedur bezpieczeństwa dla tej trasy.</li>
@@ -493,7 +496,7 @@ wniosek_markdown = f"""
 display(Markdown(wniosek_markdown))
 ```
 
-### Ryzyko związane ze sprzętem
+#### Ryzyko związane ze sprzętem
 Nawet najbezpieczniejsza trasa staje się ryzykowna, jeśli statek kosmiczny jest zawodny. W tej części analizujemy dane dotyczące awarii sprzętu (category = 'equipment') w naszej flocie, aby zidentyfikować jednostki wymagające szczególnej uwagi serwisowej. Poniższy wykres szereguje statki według wskaźnika "usterki na wyprawę".
 
 ```{python}
@@ -624,7 +627,7 @@ zero_failure_ships = df_failure_rate[df_failure_rate['usterki_na_wyprawe'] == 0]
 count_zero_failure = len(zero_failure_ships)
 
 wniosek_markdown = """
-### Ocena Niezawodności Floty
+#### Ocena Niezawodności Floty
 <p>Analiza wskaźnika usterek pozwala na precyzyjne planowanie przeglądów serwisowych i alokację budżetu na utrzymanie floty.</p>
 <ul>
 """
@@ -653,7 +656,7 @@ wniosek_markdown += "</ul>"
 display(Markdown(wniosek_markdown))
 ```
 
-## Wpływ incydentów na satysfakcję klienta
+### Wpływ incydentów na satysfakcję klienta
 
 W tej części analizy łączymy "twarde" dane operacyjne z "miękkimi" danymi dotyczącymi odczuć naszych pasażerów. Stawiamy fundamentalne pytanie: czy liczba incydentów zarejestrowanych podczas wyprawy ma statystycznie istotny wpływ na jej końcową ocenę?
 
@@ -761,7 +764,7 @@ else:
 
 ```{python}
 analiza_markdown = f"""
-### Analiza korelacji
+#### Analiza korelacji
 <p>Obliczony współczynnik korelacji Pearsona dla badanych zmiennych wynosi: <b>{correlation_coeff:.3f}</b>.</p>
 <p style="font-size: 1.1em;"><b>Wniosek:</b> {wniosek}</p>
 <p>{szczegoly}</p>
@@ -797,13 +800,13 @@ plt.grid(True, linestyle='--', alpha=0.6)
 plt.show()
 ```
 
-## Głos klienta - analiza ocen wypraw
+### Głos klienta - analiza ocen wypraw
 
 Po analizie wskaźników operacyjnych i finansowych, nadszedł czas, aby wsłuchać się w najważniejszy głos w naszym biznesie – głos klienta. Oceny wystawiane po każdej wyprawie są bezcennym źródłem informacji o naszych mocnych i słabych stronach. W tej sekcji zidentyfikujemy, które elementy naszej oferty są najbardziej doceniane, a które wymagają naszej uwagi.
 
 Analiza opiera się na wszystkich zebranych ocenach, z wyłączeniem destynacji i typów wypraw z małą liczbą opinii (poniżej 3), aby zapewnić statystyczną istotność wyników.
 
-### Ranking ocen destynacji
+#### Ranking ocen destynacji
 
 Pierwszym krokiem jest zrozumienie, które lokalizacje w Układzie Słonecznym dostarczają naszym pasażerom najlepszych wrażeń. Poniższy wykres szereguje nasze destynacje od najniżej do najwyżej ocenianych.
 
@@ -857,7 +860,7 @@ best_dest = df_dest_ratings.iloc[0]
 worst_dest = df_dest_ratings.iloc[1]
 
 wniosek_markdown = f"""
-### Podsumowanie ocen destynacji
+#### Podsumowanie ocen destynacji
 <p>Analiza ocen pozwala zidentyfikować nasze "perełki" oraz obszary wymagające poprawy doświadczeń klienta.</p>
 <ul>
     <li><b>Najwyżej oceniana:</b> Destynacją, która dostarcza naszym klientom najwięcej satysfakcji, jest <b>{best_dest['kierunek']}</b> ze średnią oceną <b>{best_dest['srednia_ocena']:.2f}</b> (na podstawie {int(best_dest['liczba_ocen'])} opinii).</li>
@@ -898,7 +901,7 @@ plt.tight_layout()
 plt.show()
 ```
 
-### Ranking ocen rodzajów wypraw
+#### Ranking ocen rodzajów wypraw
 
 Następnie sprawdzamy, które typy misji – niezależnie od celu podróży – są najlepiej odbierane przez pasażerów. To pozwala nam ocenić, czy nasze "opakowanie" produktu (luksusowe, badawcze, ekstremalne itd.) trafia w gusta klientów.
 
@@ -951,7 +954,7 @@ best_type = df_type_ratings.iloc[0]
 worst_type = df_type_ratings.iloc[-1]
 
 wniosek_markdown_2 = f"""
-### Podsumowanie ocen rodzajów wypraw
+#### Podsumowanie ocen rodzajów wypraw
 <ul>
     <li><b>Ulubiony typ wyprawy:</b> Klienci najwyżej oceniają format <b>{best_type['typ_wyprawy']}</b>, przyznając mu średnią ocenę <b>{best_type['srednia_ocena']:.2f}</b> (na podstawie {int(best_type['liczba_ocen'])} opinii). Warto inwestować w promocję tego segmentu.</li>
     <li style="margin-top: 15px;"><b>Do przemyślenia:</b> Największe wyzwanie stanowi format <b>{worst_type['typ_wyprawy']}</b> (średnia <b>{worst_type['srednia_ocena']:.2f}</b> z {int(worst_type['liczba_ocen'])} opinii). Należy zastanowić się, czy oczekiwania klientów wobec tego typu wypraw są w pełni zaspokajane.</li>
@@ -988,7 +991,7 @@ plt.tight_layout()
 plt.show()
 ```
 
-## Profil demograficzny klientów - analiza wieku
+### Profil demograficzny klientów - analiza wieku
 
 Zrozumienie, "kim" jest nasz klient, jest równie ważne, jak wiedza, "dokąd" chce podróżować. Wiek jest jednym z fundamentalnych wymiarów demograficznych, który wpływa na preferencje, możliwości finansowe oraz styl komunikacji. Analiza struktury wiekowej naszej bazy klientów pozwala nam zweryfikować, czy nasza oferta trafia do zamierzonej grupy docelowej i gdzie leżą potencjalne, niewykorzystane jeszcze segmenty rynku.
 
@@ -1043,7 +1046,7 @@ stats = df_dob['age'].describe()
 
 # Budowanie bloku Markdown
 analiza_markdown = f"""
-### Kluczowe Statystyki Wieku
+#### Kluczowe Statystyki Wieku
 <p>Poniższe dane charakteryzują typowego klienta Space-U pod względem wieku.</p>
 <ul>
 <li><b>Średni wiek:</b> {stats['mean']:.1f} lat</li>
@@ -1051,7 +1054,6 @@ analiza_markdown = f"""
 <li><b>Przedział wiekowy:</b> od {stats['min']:.0f} do {stats['max']:.0f} lat</li>
 <li><b>Odchylenie standardowe:</b> {stats['std']:.1f} lat</li>
 </ul>
-<hr style='margin: 15px 0;'>
 <p><b>Wnioski biznesowe:</b> Nasza baza klientów jest wyraźnie skoncentrowana wokół osób w wieku <b>od {stats['25%']:.0f} do {stats['75%']:.0f} lat</b> (środkowe 50% klientów), co sugeruje, że nasza oferta najsilniej rezonuje z osobami o ustabilizowanej pozycji zawodowej i finansowej. Niskie odchylenie standardowe potwierdza tę silną koncentrację. Warto rozważyć stworzenie dedykowanych kampanii lub produktów skierowanych do młodszych i starszych grup demograficznych, które są obecnie słabiej reprezentowane.</p>"""
 
 display(Markdown(analiza_markdown))
@@ -1075,7 +1077,7 @@ plt.grid(axis='y', linestyle='--', alpha=0.7)
 plt.show()
 ```
 
-## Segmentacja klientów metodą RFM
+### Segmentacja klientów metodą RFM
 
 Analiza RFM (Recency, Frequency, Monetary) to sprawdzona i potężna technika marketingowa służąca do segmentacji bazy klientów. Zamiast traktować wszystkich klientów jednakowo, grupujemy ich na podstawie ich zachowań transakcyjnych, odpowiadając na trzy kluczowe pytania:
 
@@ -1087,16 +1089,14 @@ Analiza RFM (Recency, Frequency, Monetary) to sprawdzona i potężna technika ma
 
 Dzięki tej analizie możemy zidentyfikować naszych najcenniejszych klientów ("Mistrzów"), tych, o których musimy zawalczyć ("Ryzykowni"), oraz tych, którzy dopiero rozpoczynają swoją przygodę ze Space-U ("Nowi Klienci"). To fundament pod budowę skutecznych, spersonalizowanych kampanii i strategii utrzymania klienta.
 
-### Rozkład klientów w segmentach RFM
+#### Rozkład klientów w segmentach RFM
 
 Poniższy wykres przedstawia wielkość poszczególnych segmentów w naszej bazie klientów.
 ```{python}
 today_real = date.today()
 future_analysis_date = today_real.replace(year=today_real.year + 100)
 analysis_date = future_analysis_date.strftime('%Y-%m-%d')
-```
 
-```{python}
 query_rfm = f"""
 WITH Monetary AS (
     SELECT
@@ -1133,22 +1133,16 @@ LEFT JOIN
 LEFT JOIN
     Monetary m ON c.client_id = m.client_id;
 """
-```
 
-```{python}
 df_rfm = pd.read_sql(query_rfm, engine)
-df_rfm['recency_days'].fillna(9999, inplace=True)
-```
+df_rfm.fillna({'recency_days': 9999}, inplace=True)
 
-```{python}
 df_rfm['R_score'] = 4 - pd.qcut(df_rfm['recency_days'], q=4, labels=False, duplicates='drop')
 df_rfm['F_score'] = pd.qcut(df_rfm['frequency'].rank(method='first'), q=4, labels=False, duplicates='drop') + 1
 df_rfm['M_score'] = pd.qcut(df_rfm['monetary'].rank(method='first'), q=4, labels=False, duplicates='drop') + 1
 
 df_rfm = df_rfm.astype({'R_score': 'int64', 'F_score': 'int64', 'M_score': 'int64'})
-```
 
-```{python}
 def assign_segment(row):
     if row['R_score'] >= 4 and row['F_score'] >= 4: return 'Mistrzowie (Champions)'
     if row['R_score'] >= 3 and row['F_score'] >= 3: return 'Lojalni Klienci'
@@ -1157,8 +1151,7 @@ def assign_segment(row):
     if row['R_score'] == 4 and row['F_score'] == 1: return 'Nowi Klienci'
     if row['R_score'] <= 2 and row['F_score'] <= 2: return 'Hibernujący'
     return 'Pozostali'
-```
-```{python}
+
 df_rfm['Segment'] = df_rfm.apply(assign_segment, axis=1)
 segment_counts = df_rfm['Segment'].value_counts()
 ```
@@ -1177,8 +1170,6 @@ fig.update_layout(plot_bgcolor='white', xaxis_tickangle=-45)
 fig.update_coloraxes(showscale=False)
 fig.show()
 ```
-
-### Kluczowe segmenty i rekomendacje strategiczne
 ```{python}
 
 #| include: false
@@ -1239,19 +1230,23 @@ recommendations = {
 ```
 
 ```{python}
-rekomendacje_markdown = ""
+rekomendacje_markdown = "### Kluczowe Segmenty i Rekomendacje Strategiczne\n"
+
+# W pętli tworzymy osobny blok "Callout" dla każdego segmentu
 for segment, count in segment_counts.items():
     if segment in recommendations:
         percentage = (count / total_clients) * 100
         
+        # Tworzymy blok "Callout" w składni Quarto Markdown
+        # Ważne: Całość jest w jednym f-stringu bez wcięć, aby uniknąć błędów formatowania
         rekomendacje_markdown += f"""
+::: {{.callout-note icon=false}}
 ##### {segment}
-<p>
-    {count} klientów ({percentage:.1f}% wszystkich)
-</p>
-<p>
-    <b>Rekomendacja strategiczna:</b> {recommendations[segment]}
-</p>
+
+**{count} klientów** ({percentage:.1f}% wszystkich)
+
+**Rekomendacja strategiczna:** {recommendations[segment]}
+:::
 """
 
 display(Markdown(rekomendacje_markdown))
