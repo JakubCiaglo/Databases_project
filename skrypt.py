@@ -304,15 +304,16 @@ def uruchom():
         ("Jowisz", "Największa planeta w Układzie Słonecznym, gazowy olbrzym", 0.16, "CRITICAL"),
         ("Saturn", "Gazowy olbrzym znany z wyraźnych pierścieni", 0.92, "MEDIUM")
     ]
+    
     trip_types_data = [
-        ("Misja Orbitalna", "Orbita i obserwacja powierzchni planety", 14, 6_000_000),
-        ("Zejście Atmosferyczne", "Zejście w atmosferę i analiza składu chemicznego", 25, 7_500_000),
-        ("Ekspedycja Księżycowa", "Eksploracja naturalnych satelitów", 35, 9_000_000),
-        ("Obóz Badawczy w Kosmosie", "Eksperymenty z pokładu bazy orbitalnej", 45, 16_000_000),
-        ("Przelot przez Pasy Radiacyjne", "Przelot przez pasy radiacyjne i pomiary", 70, 10_000_000),
-        ("Obserwacja Pierścieni", "Obserwacja struktur pierścieni planetarnych", 40, 12_000_000),
-        ("Eksplorator Magnetosfery", "Pomiary pola magnetycznego i zorze", 30, 7_000_000),
-        ("Manewr Grawitacyjny", "Test manewrów grawitacyjnych przy dużych obiektach", 50, 5_500_000)
+        ("Wycieczka Orbitalna", "Rejs wokół planety z panoramicznymi widokami i obserwacją powierzchni", 14, 6_000_000),
+        ("Przygoda Atmosferyczna", "Lot przez atmosferę z możliwością obserwacji zjawisk pogodowych i składników powietrza", 25, 7_500_000),
+        ("Wyprawa Powierzchniowa", "Eksploracja i zwiedzanie charakterystycznych miejsc na powierzchni planety", 35, 9_000_000),
+        ("Baza Kosmiczna - Pobyt", "Pobyt i eksperymenty w zaawansowanej bazie orbitalnej z widokiem na planetę", 45, 16_000_000),
+        ("Przelot Przez Pole Promieniowania", "Ekscytująca trasa przez regiony o unikalnych właściwościach promieniowania", 70, 10_000_000),
+        ("Widokowe Obserwacje Nieba", "Obserwacja nocnego nieba oraz innych ciał niebieskich z unikalnej perspektywy", 40, 12_000_000),
+        ("Eksploracja Magnetosfery", "Przygoda z obserwacją pola magnetycznego planety i zjawisk auroralnych", 30, 7_000_000),
+        ("Manewry Orbitalne", "Uczestnictwo w dynamicznych manewrach wokół planety z doświadczonym pilotem", 50, 5_500_000)
     ]
 
     def insert_many(q, rows):
@@ -425,7 +426,7 @@ def uruchom():
     assignments = []
 
     for trip_id, departure, return_dt, duration in trip_info:
-        new_start = departure
+        new_start = departure + timedelta(days=60) 
         projected_end = departure + timedelta(days=duration)
         new_end = return_dt if return_dt else projected_end
 
@@ -635,7 +636,6 @@ def uruchom():
             random_offset = random.randint(0, diff_seconds)
             transaction_date = start_of_business + timedelta(seconds=random_offset)
         if transaction_date > departure_dt:
-            # cofamy o losowe 1-24 h
             transaction_date = departure_dt - timedelta(
             seconds=random.randint(3600, 24*3600)
             )
