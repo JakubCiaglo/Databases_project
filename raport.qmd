@@ -73,7 +73,7 @@ engine = create_engine(connection_uri)
 
 W tej kluczowej sekcji raportu dokonujemy szczegółowego przeglądu naszego portfolio usług. Naszym celem jest precyzyjne zidentyfikowanie, które rodzaje wypraw stanowią trzon naszej oferty – ciesząc się największym zainteresowaniem klientów – oraz, co najważniejsze, jak popularność ta przekłada się na wyniki finansowe. Zrozumienie rentowności poszczególnych "produktów" jest fundamentem do podejmowania świadomych decyzji o alokacji zasobów, strategii cenowej i przyszłych inwestycjach w rozwój floty oraz nowych tras.
 
-Analiza została przeprowadzona na podstawie pełnych danych operacyjnych i finansowych z czterech lat działalności naszej firmy. Wykorzystaliśmy do tego bezpośrednie zapytanie do naszej centralnej bazy danych, agregując informacje o liczbie lotów, całkowitych kosztach misji oraz skompletowanych transakcjach.
+Analiza została przeprowadzona na podstawie pełnych danych operacyjnych i finansowych z pięciu lat działalności naszej firmy. Wykorzystaliśmy do tego bezpośrednie zapytanie do naszej centralnej bazy danych, agregując informacje o liczbie lotów, całkowitych kosztach misji oraz skompletowanych transakcjach.
 
 ```{python}
 query = """
@@ -100,6 +100,8 @@ ORDER BY
 """
 ```
 
+Poniższa tabela prezentuje kompleksowe zestawienie kluczowych wskaźników dla każdego typu wyprawy
+
 ```{python}
 df_profitability = pd.read_sql(query, engine)
 
@@ -109,8 +111,6 @@ display(df_profitability.style.format('{:,.2f} zł', subset=['Całkowite koszty'
                          .background_gradient(cmap='RdYlGn', subset=['Zysk']))
 ```
 
-
-Poniższa tabela prezentuje kompleksowe zestawienie kluczowych wskaźników dla każdego typu wyprawy
 
 ```{python}
 #| echo: false
@@ -146,7 +146,7 @@ print("\n----------------------------------")
 top_3_profitability = df_profitability.head(3)
 wnioski_markdown = """
 ### Liderzy Popularności
-Nasze dane jednoznacznie wskazują na grupę flagowych produktów, które stanowią o sile naszej marki. Poniżej przedstawiamy TOP 3 najchętniej wybierane wyprawy:
+Nasze dane jednoznacznie wskazują na grupę flagowych produktów, które stanowią o sile naszej marki. Poniżej przedstawiamy TOP 3 najchętniej wybieranych wypraw:
 <ul>
 """
 
@@ -175,7 +175,7 @@ rentownosc_markdown = """
 if unprofitable_types.empty:
     rentownosc_markdown += (
         "<p style='color: #198754;'><b>Doskonałe wieści:</b> W analizowanym okresie wszystkie oferowane przez Space-U rodzaje wypraw "
-        "okazały się rentowne. To świadczy o zdrowej strukturze kosztów i dobrze skalibrowanej polityce cenowej w całym naszym portfolio.</p>"
+        "okazały się rentowne. To świadczy o zdrowej strukturze kosztów i dobrze skalibrowanej polityce cenowej.</p>"
     )
 else:
     rentownosc_markdown += (
@@ -193,9 +193,9 @@ display(Markdown(rentownosc_markdown))
 
 ## Analiza Dynamiki Bazy Klientów
 
-Analiza miesięcznej liczby obsłużonych klientów jest jednym z fundamentalnych wskaźników kondycji i tempa rozwoju Space-U. To puls naszej działalności, który pozwala ocenić skuteczność naszych działań marketingowych, atrakcyjność oferty oraz ogólne zainteresowanie podróżami kosmicznymi. W tej sekcji zbadamy, czy w ostatnim roku nasza firma znajdowała się na trajektorii wzrostowej, czy też napotkała na turbulencje.
+Analiza miesięcznej liczby obsłużonych klientów jest jednym z fundamentalnych wskaźników kondycji i tempa rozwoju Space-U. To część naszej działalności, która pozwala ocenić skuteczność naszych działań marketingowych, atrakcyjność oferty oraz ogólne zainteresowanie podróżami kosmicznymi. W tej sekcji zbadamy, czy w ostatnich latach nasza firma znajdowała się na trajektorii wzrostowej, czy też napotkała na turbulencje.
 
-Aby odpowiedzieć na to pytanie, stworzyliśmy wizualizację przedstawiającą liczbę unikalnych klientów w każdym miesiącu. Zamiast polegać na subiektywnej ocenie, nałożyliśmy na dane linię trendu opartą na regresji liniowej, która w obiektywny sposób wskazuje kierunek, w którym zmierzamy.
+Aby odpowiedzieć na to pytanie, stworzyliśmy wizualizację przedstawiającą liczbę klientów obsużonych w każdym miesiącu. Zamiast polegać na subiektywnej ocenie, nałożyliśmy na dane linię trendu opartą na regresji liniowej, która w obiektywny sposób wskazuje kierunek, w którym zmierzamy.
 
 ```{python}
 query_clients_per_month = text("""
@@ -285,7 +285,7 @@ analiza_markdown = f"""
 ### Ocena Linii Trendu 
 <p>Analiza statystyczna oparta na regresji liniowej pozwala nam obiektywnie ocenić kierunek rozwoju firmy. Współczynnik nachylenia linii trendu to matematyczna reprezentacja naszego miesięcznego wzrostu lub spadku.</p>
 <p><b>Wniosek: {wniosek}</b></p>
-<p>{szczegoly}</p>
+<p>Wyjaśnienie: {szczegoly}</p>
 """
 display(Markdown(analiza_markdown))
 ```
@@ -477,7 +477,7 @@ df_risk = pd.read_sql(query_weighted_risk, engine)
 display(df_risk.style.format('{:.2f}', subset=['Wazony_wspolczynnik_ryzyka'])\
                  .format('{:,.0f}', subset=['Liczba_wypraw', 'Suma_punktow_ryzyka'])\
                  .background_gradient(cmap='Reds', subset=['Wazony_wspolczynnik_ryzyka'])\
-                 .set_caption("Tabela 2: Ranking Ryzyka Destynacji (Wskaźnik ważony)"))
+                 .set_caption("Ranking Ryzyka Destynacji (Wskaźnik ważony)"))
 ```
 
 ```{python}
@@ -486,7 +486,7 @@ least_risky = df_risk.iloc[-1]
 
 wniosek_markdown = f"""
 ### Podsumowanie Ryzyka Destynacji
-<p>Nasz ważony wskaźnik pozwala na obiektywną ocenę i priorytetyzację działań mitygujących ryzyko.</p>
+<p>Nasz ważony wskaźnik pozwala na obiektywną ocenę i priorytetyzację działań redukujących ryzyko.</p>
 <ul>
     <li><span style="font-size: 1.5em;"></span> <b>Najwyższe ryzyko:</b> Destynacją o najwyższym wskaźniku ryzyka jest <b>{most_risky['Kierunek']}</b> z wynikiem <b>{most_risky['Wazony_wspolczynnik_ryzyka']:.2f} pkt</b> na wyprawę. Sugeruje to konieczność przeglądu procedur bezpieczeństwa dla tej trasy.</li>
     <li><span style="font-size: 1.5em;"></span> <b>Najniższe ryzyko:</b> Najbezpieczniejszą z naszych popularnych destynacji okazał/a się <b>{least_risky['Kierunek']}</b> ({least_risky['Wazony_wspolczynnik_ryzyka']:.2f} pkt/wyprawę). Praktyki stosowane na tej trasie mogą stanowić wzór dla innych.</li>
@@ -766,7 +766,7 @@ analiza_markdown = f"""
 ### Analiza korelacji
 <p>Obliczony współczynnik korelacji Pearsona dla badanych zmiennych wynosi: <b>{correlation_coeff:.3f}</b>.</p>
 <p style="font-size: 1.1em;"><b>Wniosek:</b> {wniosek}</p>
-<p>{szczegoly}</p>
+<p>Wyjaśnienie: {szczegoly}</p>
 """
 
 display(Markdown(analiza_markdown))
@@ -841,7 +841,7 @@ fig_dest = px.bar(
     x='srednia_ocena',
     y='kierunek',
     orientation='h',
-    title='Ranking Średnich Ocen dla Poszczególnych Destynacji',
+    title='Ranking średnich ocen dla poszczególnych destynacji',
     labels={'srednia_ocena': 'Średnia ocena (w skali 1-5)', 'kierunek': 'Destynacja'},
     color='srednia_ocena',
     color_continuous_scale='Plasma',
@@ -935,7 +935,7 @@ fig_type = px.bar(
     x='srednia_ocena',
     y='typ_wyprawy',
     orientation='h',
-    title='Ranking Średnich Ocen dla Rodzajów Wypraw',
+    title='Ranking średnich ocen dla rodzajów wypraw',
     labels={'srednia_ocena': 'Średnia ocena (w skali 1-5)', 'typ_wyprawy': 'Rodzaj wyprawy'},
     color='srednia_ocena',
     color_continuous_scale='Viridis',
@@ -1021,7 +1021,7 @@ fig = px.histogram(
     df_dob,
     x='age',
     nbins=25,
-    title='Rozkład Wieku Klientów Space-U',
+    title='Rozkład wieku klientów Space-U',
     labels={'age': 'Wiek klienta (w latach)', 'count': 'Liczba klientów'},
     marginal='rug',
     template='plotly_white',
@@ -1053,7 +1053,7 @@ analiza_markdown = f"""
 <li><b>Przedział wiekowy:</b> od {stats['min']:.0f} do {stats['max']:.0f} lat</li>
 <li><b>Odchylenie standardowe:</b> {stats['std']:.1f} lat</li>
 </ul>
-<p><b>Wnioski biznesowe:</b> Nasza baza klientów jest wyraźnie skoncentrowana wokół osób w wieku <b>od {stats['25%']:.0f} do {stats['75%']:.0f} lat</b> (środkowe 50% klientów), co sugeruje, że nasza oferta najsilniej rezonuje z osobami o ustabilizowanej pozycji zawodowej i finansowej. Niskie odchylenie standardowe potwierdza tę silną koncentrację. Warto rozważyć stworzenie dedykowanych kampanii lub produktów skierowanych do młodszych i starszych grup demograficznych, które są obecnie słabiej reprezentowane.</p>"""
+<p><b>Wnioski biznesowe:</b> Nasza baza klientów jest wyraźnie skoncentrowana wokół osób w wieku <b>od {stats['25%']:.0f} do {stats['75%']:.0f} lat</b> (środkowe 50% klientów), co sugeruje, że nasza oferta najsilniej rezonuje z osobami o ustabilizowanej pozycji zawodowej i finansowej. Warto rozważyć stworzenie dedykowanych kampanii lub produktów skierowanych do młodszych i starszych grup demograficznych, które są obecnie słabiej reprezentowane.</p>"""
 
 display(Markdown(analiza_markdown))
 ```
@@ -1158,7 +1158,7 @@ segment_counts = df_rfm['Segment'].value_counts()
 fig = px.bar(
     x=segment_counts.index,
     y=segment_counts.values,
-    title='Rozkład Klientów w Segmentach RFM',
+    title='Rozkład klientów w segmentach RFM',
     labels={'y': 'Liczba Klientów', 'x': 'Segment'},
     text=segment_counts.values,
     color=segment_counts.values,
