@@ -686,7 +686,7 @@ def uruchom():
             window_end = return_dt
             total_sec = int((window_end - departure_dt).total_seconds())
             if total_sec < 2:
-                continue  # lot trwa < 2 s – pomijamy
+                continue
             offset = random.randint(1, total_sec - 1)
             incident_time = departure_dt + timedelta(seconds=offset)
             incident_rows.append((trip_id, incident_time, reported_by, involved_client, template["category"], template["description"], random.choice(template["possible_severities"])))
@@ -708,9 +708,9 @@ def uruchom():
         WHERE   t.status = 'completed'
         AND   t.return_datetime IS NOT NULL
     """)
-    completed_participants = cursor.fetchall()          # (trip_id, client_id, return_dt)
+    completed_participants = cursor.fetchall()
 
-    # 2. mapa „najgorszej” rangi incydentu dla każdego trip_id
+
     severity_rank = {"low": 1, "medium": 2, "high": 3, "critical": 4}
 
     cursor.execute("""
@@ -723,7 +723,7 @@ def uruchom():
         FROM    incidents
         GROUP BY trip_id
     """)
-    trip_severity = {tid: rank for tid, rank in cursor.fetchall()}   # brak → keyError? nie, .get()
+    trip_severity = {tid: rank for tid, rank in cursor.fetchall()}
 
     penalty_map = {1: 0.0, 2: 0.3, 3: 0.6, 4: 1.0}
 
@@ -766,15 +766,14 @@ def uruchom():
         if random.random() > 0.7:
             continue
 
-        sev_rank  = trip_severity.get(trip_id, 0)          # brak incydentu → 0
+        sev_rank  = trip_severity.get(trip_id, 0)
         penalty   = penalty_map.get(sev_rank, 0.0)
 
-        base      = random.gauss(4.6, 0.5) - penalty       # 1-5 z karą
+        base      = random.gauss(4.6, 0.5) - penalty
         rating    = int(min(max(round(base), 1), 5))
 
         comments  = pick_comment(rating)
 
-        # data wpisu: 1-30 dni po powrocie (nie później niż „teraz”)
         raw_date     = return_dt + timedelta(
             days    = random.randint(1, 30),
             hours   = random.randint(0, 23),
