@@ -179,7 +179,7 @@ Elementary Key Normal Form (EKNF) wymaga, aby dla każdej nietrywialnej zależno
 - **Atrybuty unikalne** – tam, gdzie naturalny identyfikator ma sens (`email`, `name`, para `(trip_id, employee_id)`), dodaliśmy ograniczenia `UNIQUE`; powstają klucze kandydujące.
 - **Tabele łącznikowe** – w `employee_assignments` i `trip_participants` kluczem kandydującym jest zarówno syntetyczne `assignment_id` / `participation_id`, jak i para obcych kluczy.
 - **Zależności funkcyjne** – jedynymi nietrywialnymi zależnościami są te z rozdziału 5; każda ma po lewej stronie klucz kandydujący (spełnia to pierwszy warunek definicji).
-- **Brak zależności między kolumnami nie‑kluczowymi** – np. `salary` nie determinuje `position`, a `first_name` nie determinuje `last_name`.
+- **Brak zależności między kolumnami niekluczowymi** – np. `salary` nie determinuje `position`, a `first_name` nie determinuje `last_name`.
 
 W rezultacie **każda tabela** spełnia kryteria EKNF.
 
@@ -198,5 +198,6 @@ W rezultacie **każda tabela** spełnia kryteria EKNF.
 1. Elmasri & Navathe: *Fundamentals of Database Systems*, 7 ed.
 2. MySQL 8.3 *Reference Manual* – rozdz. 13 („Constraints & Indexes”).
 3. Date, C.J.: *An Introduction to Database Systems* – rozdz. o normalnych formach.
+4. Youtube: "Learn Database Normalization - 1NF, 2NF, 3NF, BCNF, 4NF, 5NF" – https://www.youtube.com/watch?v=GFQaEYEc8_8&t=892s&ab_channel=Decomplexify
 
 ---

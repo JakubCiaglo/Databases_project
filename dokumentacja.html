@@ -97,9 +97,9 @@ Data: 14 czerwca 2025</p>
 <li><code>mysql.connector</code>, <code>sqlalchemy</code>, <code>pymsql</code> – łączenie i operacje na bazie MySQL/MariaDB</li>
 <li><code>faker</code> – sztuczne dane personalne</li>
 <li><code>Plotly</code> - wizualizacje w raporcie</li>
+<li><code>IPython.display</code> - tworzenie zautomatyzowanych Markdownów</li>
 </ul></li>
 <li><strong>SQL (MariaDB/MySQL)</strong> – definicja i tworzenie schematu bazy</li>
-<li><strong>Figura PNG</strong> – <code>schemat.png</code> z diagramem ERD</li>
 </ul>
 <hr>
 </section>
@@ -161,8 +161,8 @@ Data: 14 czerwca 2025</p>
 <li><p><strong>Wypełnienie danymi</strong></p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> skrypt.py</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
 <li><p><strong>Wygenerowanie raportu</strong></p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">quarto</span> render projekt_raport.qmd <span class="at">--to</span> html</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
-<li><p>Otworzyć <code>projekt_raport.html</code> w&nbsp;przeglądarce.</p></li>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">quarto</span> render raport.qmd <span class="at">--to</span> html</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p><strong>Otworzyć <code>raport.html</code> w&nbsp;przeglądarce.</strong></p></li>
 </ol>
 <hr>
 </section>
@@ -182,9 +182,11 @@ Data: 14 czerwca 2025</p>
 <h4 class="anchored" data-anchor-id="clients">5.1&nbsp;<code>clients</code></h4>
 <ul>
 <li><strong>PK</strong>&nbsp;<code>client_id</code></li>
+<li><strong>AK</strong>&nbsp;<code>email</code></li>
 <li><strong>FD</strong>
 <ul>
 <li><code>client_id&nbsp;→&nbsp;first_name, last_name, date_of_birth, email, phone</code></li>
+<li><code>email&nbsp;→&nbsp;client_id, first_name, last_name, date_of_birth, phone</code></li>
 </ul></li>
 </ul>
 </section>
@@ -192,9 +194,11 @@ Data: 14 czerwca 2025</p>
 <h4 class="anchored" data-anchor-id="employees">5.2&nbsp;<code>employees</code></h4>
 <ul>
 <li><strong>PK</strong>&nbsp;<code>employee_id</code></li>
+<li><strong>AK</strong>&nbsp;<code>email</code></li>
 <li><strong>FD</strong>
 <ul>
 <li><code>employee_id&nbsp;→&nbsp;first_name, last_name, position, salary, hire_date, termination_date, email, phone</code></li>
+<li><code>email&nbsp;→&nbsp;employee_id, first_name, last_name, position, salary, hire_date, termination_date, phone</code></li>
 </ul></li>
 </ul>
 </section>
@@ -226,9 +230,11 @@ Data: 14 czerwca 2025</p>
 <h4 class="anchored" data-anchor-id="launch_stations">5.5&nbsp;<code>launch_stations</code></h4>
 <ul>
 <li><strong>PK</strong>&nbsp;<code>launch_station_id</code></li>
+<li><strong>AK</strong>&nbsp;<code>name</code></li>
 <li><strong>FD</strong>
 <ul>
 <li><code>launch_station_id&nbsp;→&nbsp;name, country, city, status</code></li>
+<li><code>name&nbsp;→&nbsp;launch_station_id, country, city, status</code></li>
 </ul></li>
 </ul>
 </section>
@@ -236,9 +242,11 @@ Data: 14 czerwca 2025</p>
 <h4 class="anchored" data-anchor-id="rockets">5.6&nbsp;<code>rockets</code></h4>
 <ul>
 <li><strong>PK</strong>&nbsp;<code>rocket_id</code></li>
+<li><strong>AK</strong>&nbsp;<code>name</code></li>
 <li><strong>FD</strong>
 <ul>
 <li><code>rocket_id&nbsp;→&nbsp;name, manufacturer, status</code></li>
+<li><code>name&nbsp;→&nbsp;rocket_id, manufacturer, status</code></li>
 </ul></li>
 </ul>
 </section>
@@ -246,9 +254,11 @@ Data: 14 czerwca 2025</p>
 <h4 class="anchored" data-anchor-id="spacecraft">5.7&nbsp;<code>spacecraft</code></h4>
 <ul>
 <li><strong>PK</strong>&nbsp;<code>spacecraft_id</code></li>
+<li><strong>AK</strong>&nbsp;<code>name</code></li>
 <li><strong>FD</strong>
 <ul>
 <li><code>spacecraft_id&nbsp;→&nbsp;capacity_passengers, name, manufacturer, service_start_date, service_end_date, status</code></li>
+<li><code>name&nbsp;→&nbsp;spacecraft_id, capacity_passengers, manufacturer, service_start_date, service_end_date, status</code></li>
 </ul></li>
 </ul>
 </section>
@@ -338,7 +348,7 @@ Data: 14 czerwca 2025</p>
 <li><strong>Atrybuty unikalne</strong> – tam, gdzie naturalny identyfikator ma sens (<code>email</code>, <code>name</code>, para <code>(trip_id, employee_id)</code>), dodaliśmy ograniczenia <code>UNIQUE</code>; powstają klucze kandydujące.</li>
 <li><strong>Tabele łącznikowe</strong> – w&nbsp;<code>employee_assignments</code> i&nbsp;<code>trip_participants</code> kluczem kandydującym jest zarówno syntetyczne <code>assignment_id</code> / <code>participation_id</code>, jak i&nbsp;para obcych kluczy.</li>
 <li><strong>Zależności funkcyjne</strong> – jedynymi nietrywialnymi zależnościami są te z&nbsp;rozdziału&nbsp;5; każda ma po&nbsp;lewej stronie klucz kandydujący (spełnia to pierwszy warunek definicji).</li>
-<li><strong>Brak zależności między kolumnami nie‑kluczowymi</strong> – np. <code>salary</code> nie determinuje <code>position</code>, a&nbsp;<code>first_name</code> nie determinuje <code>last_name</code>.</li>
+<li><strong>Brak zależności między kolumnami niekluczowymi</strong> – np. <code>salary</code> nie determinuje <code>position</code>, a&nbsp;<code>first_name</code> nie determinuje <code>last_name</code>.</li>
 </ul>
 <p>W&nbsp;rezultacie <strong>każda tabela</strong> spełnia kryteria EKNF.</p>
 <hr>
@@ -359,6 +369,7 @@ Data: 14 czerwca 2025</p>
 <li>Elmasri&nbsp;&amp;&nbsp;Navathe: <em>Fundamentals of Database Systems</em>, 7 ed.</li>
 <li>MySQL 8.3 <em>Reference Manual</em> – rozdz. 13 („Constraints &amp; Indexes”).</li>
 <li>Date, C.J.: <em>An Introduction to Database Systems</em> – rozdz. o&nbsp;normalnych formach.</li>
+<li>Youtube: “Learn Database Normalization - 1NF, 2NF, 3NF, BCNF, 4NF, 5NF” – https://www.youtube.com/watch?v=GFQaEYEc8_8&amp;t=892s&amp;ab_channel=Decomplexify</li>
 </ol>
 <hr>
 </section>
