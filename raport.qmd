@@ -1891,7 +1891,7 @@ def map(name):
         return name
 
 markmarkdown_text = f"""
-Z powyższych wykresów możemy wywnioskować, że najbardziej popularnym sposobem płatności jest: **{(map(most_popular))}**. Patrząc po kątem kwoty, metodą dzięki której otrzymaliśmy największą sumę pieniędzy jest: **{(map(most_cash))}**. Warto postarać się, aby płatności tymi przepływami były łatwiejsze i przyjemniejsze dla klientów oraz by nie występowały błędy.
+Z powyższych wykresów możemy wywnioskować, że najbardziej popularnym sposobem płatności jest: **{(map(most_popular))}**. Patrząc po kątem kwoty, metodą dzięki której otrzymaliśmy największą sumę pieniędzy jest: **{(map(most_cash))}**. Warto postarać się, aby płatności tymi sposobami były łatwiejsze i przyjemniejsze dla klientów oraz by nie występowały błędy.
 """
 display(Markdown(markmarkdown_text))
 ```
