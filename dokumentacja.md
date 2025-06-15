@@ -16,8 +16,7 @@ Data: 14 czerwca 2025
   - `faker` – sztuczne dane personalne
   - `Plotly` - wizualizacje w raporcie
   - `IPython.display` - tworzenie zautomatyzowanych Markdownów
-- **SQL (MariaDB/MySQL)** – definicja i tworzenie schematu bazy
-- **Figura PNG** – `schemat.png` z diagramem ERD              
+- **SQL (MariaDB/MySQL)** – definicja i tworzenie schematu bazy           
 
 ---
 
@@ -48,7 +47,7 @@ Data: 14 czerwca 2025
    ```bash
    quarto render raport.qmd --to html
    ```
-4. Otworzyć `projekt_raport.html` w przeglądarce.
+4. **Otworzyć `raport.html` w przeglądarce.**
 
 ---
 
@@ -68,14 +67,18 @@ Poniższe podsekcje (5.1 – 5.14) prezentują dla każdej tabeli:
 #### 5.1 `clients`
 
 - **PK** `client_id`
+- **AK** `email`
 - **FD**
   - `client_id → first_name, last_name, date_of_birth, email, phone`
+  - `email → client_id, first_name, last_name, date_of_birth, phone`
 
 #### 5.2 `employees`
 
 - **PK** `employee_id`
+- **AK** `email`
 - **FD**
   - `employee_id → first_name, last_name, position, salary, hire_date, termination_date, email, phone`
+  - `email → employee_id, first_name, last_name, position, salary, hire_date, termination_date, phone`
 
 #### 5.3 `destinations`
 
@@ -96,20 +99,26 @@ Poniższe podsekcje (5.1 – 5.14) prezentują dla każdej tabeli:
 #### 5.5 `launch_stations`
 
 - **PK** `launch_station_id`
+- **AK** `name`
 - **FD**
   - `launch_station_id → name, country, city, status`
+  - `name → launch_station_id, country, city, status`
 
 #### 5.6 `rockets`
 
 - **PK** `rocket_id`
+- **AK** `name`
 - **FD**
   - `rocket_id → name, manufacturer, status`
+  - `name → rocket_id, manufacturer, status`
 
 #### 5.7 `spacecraft`
 
 - **PK** `spacecraft_id`
+- **AK** `name`
 - **FD**
   - `spacecraft_id → capacity_passengers, name, manufacturer, service_start_date, service_end_date, status`
+  - `name → spacecraft_id, capacity_passengers, manufacturer, service_start_date, service_end_date, status`
 
 
 #### 5.8 `trips`
