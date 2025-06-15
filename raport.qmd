@@ -1612,9 +1612,8 @@ Najaktywniejszy pracownik, **{most_active_employee['Imię']} {most_active_employ
 display(Markdown(markmarkdown_text))
 ```
 
-## Roczna sezonowość wypraw i incydentów.
-W tym podpunkcie będziemy chcieli zbadać dwie rzeczy, które mogą być ze sobą powiązane. Chcemy kiedy w trakcie roku występuje najwięcej lotów, czy są jakieś trendy lub sezonowość. Dokładnie to samo będziemy chcieli sprawdzić w kwestii incydentów, czy są okresy kiedy zdarzają się częściej?
-
+## Wyprawy i incydenty.
+W tym podpunkcie będziemy chcieli zbadać dwie rzeczy, które mogą być ze sobą powiązane. Najpierw na wykresie zbadamy to, jakie miesiące zawierają najwięcej lub najmniej wypraw, to samo zbadamy dla incydentów. Następnie postaramy się stwierdzić, czy istnieje pomiędzy tymi danymi korelacja.
 ```{python}
 
 query = "SELECT trip_id, departure_datetime FROM trips"
@@ -1666,13 +1665,72 @@ fig = px.bar(
 
 fig.update_layout(xaxis_title="Miesiąc", yaxis_title="Liczba")
 fig.show()
-```
 
-Na powyższym wykresie możemy zobaczyć obok siebie, jak często występowały loty i incydenty.
+months_map = {
+    '01': "styczniu", '02': "lutym", '03': "marcu", '04': "kwietniu",
+    '05': "maju", '06': "czerwcu", '07': "lipcu", '08': "sierpniu",
+    '09': "wrześniu", '10': "październiku", '11': "listopadzie", '12': "grudniu"
+}
+
+# Zamiana indexów (ints) na str z zerem wiodącym
+max_trips = f"{trip_counts.idxmax():02d}"
+min_trips = f"{trip_counts.idxmin():02d}"
+max_incidents = f"{incidents_counts.idxmax():02d}"
+min_incidents = f"{incidents_counts.idxmin():02d}"
+
+markdown_podsumowanie = f"""
+### Podsumowanie miesięczne
+
+- Najwięcej **wycieczek** odbyło się w  **{months_map[max_trips]}**, a najmniej w  **{months_map[min_trips]}**.
+- Najwięcej **incydentów** miało miejsce w **{months_map[max_incidents]}**, a najmniej w **{months_map[min_incidents]}**.
+"""
+
+display(Markdown(markdown_podsumowanie))
+
+from scipy.stats import spearmanr  # używamy korelacji rang Spearmana
+
+
+# Korelacja między liczbą wycieczek a incydentów
+correlation, p_value = spearmanr(trip_counts.values, incidents_counts.values)
+correlation = round(correlation, 2)
+
+# Progi interpretacji
+if correlation > 0.6:
+    interpretacja = "Istnieje **silna dodatnia korelacja** – miesiące z większą liczbą lotów mają zwykle więcej incydentów."
+elif correlation > 0.3:
+    interpretacja = "Występuje **umiarkowana zależność** – wzrost liczby wycieczek często towarzyszy wzrostowi incydentów."
+elif correlation > 0.1:
+    interpretacja = "Korelacja jest słaba – nie ma jednoznacznej zależności."
+else:
+    interpretacja = "**Brak istotnej zależności** – liczba incydentów nie rośnie razem z liczbą wypraw."
+
+markdown_analiza = f"""
+### Czy istnieje zależność między liczbą wypraw a incydentami?
+
+Sprawdzimy to za pomocą współczynnika korelacji Spearmana który wynosi: **{correlation}**
+
+{interpretacja}
+"""
+
+display(Markdown(markdown_analiza))
+
+```
 
 ## Czy klienci dokonują płatności za przejazdy z wyprzedzeniem, czy czekają do ostatniej chwili?
 
 Interesuje nas prosta, lecz ważna kwestia. Kiedy wpływają zapłaty za wyprawę. Oczywiście dla nas najlepiej byłoby, gdyby klient wypłacał pieniądze jak najwcześniej. Chcemy zbadać, czy dużo klientów ociąga się z płatnością. Może potrzebne będzie pogonienie ich lub nałożenie kar?
+
+Przeanalizujemy to w następujący sposób, wyznaczymy 7 kategorii:
+
+- po czasie
+- 0 - 3 dni
+- 4 - 7 dni
+- 8 - 14 dni
+- 15 - 30 dni
+- 31 - 90 dni 
+- 91+ dni
+
+gdzie "po czasie" jest najmniej chcianą opcją, zaś "91+ dni" najbardziej chcianą. Do każdej kategorii przypiszemy wagi o -3 do 3, i obliczymy średnią ważoną naszego podsumowania. Dzięki temu będziemy mogli ocenić całokształt terminów płatności.
 
 ```{python}
 query = """
@@ -1705,6 +1763,57 @@ fig = px.bar(
 
 fig.update_layout(xaxis_title='Okno czasowe', yaxis_title='Liczba płatności')
 fig.show()
+
+# Punktacja według przedziału
+punkty = {
+    'Po czasie': -3,
+    '0-3 dni': -2,
+    '4-7 dni': -1,
+    '8-14 dni': 0,
+    '15-30 dni': 1,
+    '31-90 dni': 2,
+    '91+ dni': 3
+}
+
+# Przypisz punktację
+df_summary['Punkty'] = df_summary['Okno czasowe'].map(punkty)
+
+df_summary['Liczba płatności'] = df_summary['Liczba płatności'].astype(int)
+df_summary['Punkty'] = df_summary['Punkty'].astype(int)
+
+# Oblicz średnią ważoną
+suma_wag = df_summary['Liczba płatności'].sum()
+srednia_wazona = (df_summary['Punkty'] * df_summary['Liczba płatności']).sum() / suma_wag
+srednia_wazona = round(srednia_wazona, 2)
+
+# Oblicz średnią ważoną
+suma_wag = df_summary['Liczba płatności'].sum()
+srednia_wazona = (df_summary['Punkty'] * df_summary['Liczba płatności']).sum() / suma_wag
+srednia_wazona = round(srednia_wazona, 2)
+
+def interpretuj_srednia(s):
+    if s <= -2:
+        return "Sytuacja kryzysowa – klienci płacą zdecydowanie zbyt późno."
+    elif s <= -1:
+        return "Zła sytuacja – przeważają płatności późne lub po czasie."
+    elif s < 1:
+        return "Umiarkowana sytuacja – potrzebna poprawa."
+    elif s < 2:
+        return "Dobra sytuacja – większość klientów płaci z wyprzedzeniem."
+    else:
+        return "Bardzo dobra sytuacja – klienci płacą wcześnie i planowo."
+
+komentarz = interpretuj_srednia(srednia_wazona)
+
+markdown_podsumowanie = f"""
+### Ogólna ocena zachowania klientów
+
+Średnia ważona punktowa dla sposobu płatności wynosi **{srednia_wazona}**.
+
+{komentarz}
+"""
+
+display(Markdown(markdown_podsumowanie))
 ```
 
 ## Ulubione metody płatności naszych klientów. Z jakiego źródła wpływa najwięcej pieniędzy.
@@ -1724,11 +1833,6 @@ ORDER BY total_amount DESC
 """
 df_methods = pd.read_sql_query(text(query), engine)
 
-
-bins = [-100, 0, 3, 7, 14, 30, 90, 365]
-labels = ['Po czasie', '0-3 dni', '4-7 dni', '8-14 dni', '15-30 dni', '31-90 dni', '91+ dni']
-df['payment_window'] = pd.cut(df['days_before_trip'], bins=bins, labels=labels)
-
 from plotly.subplots import make_subplots
 import plotly.graph_objects as go
 
@@ -1737,8 +1841,8 @@ fig = make_subplots(
     shared_xaxes=True,
     vertical_spacing=0.15,
     subplot_titles=(
-        "Źródła największego przychodu wg metody płatności",
-        "Popularność metod płatności wg liczby użyć"
+        "Źródła największego przychodu według metody płatności",
+        "Popularność metod płatności według liczby użyć"
     )
 )
 
@@ -1773,4 +1877,21 @@ fig.update_yaxes(title_text="Kwota", row=1, col=1)
 fig.update_yaxes(title_text="Liczba transakcji", row=2, col=1)
 
 fig.show()
+
+most_popular = df_methods.loc[df_methods['total_transactions'].idxmax(), 'payment_method']
+most_cash = df_methods.loc[df_methods['total_amount'].idxmax(), 'payment_method']
+
+
+def map(name):
+    if name =="wire_transfer":
+        return "przelew bankowy"
+    elif name =="credit_card":
+        return "karta kreadytowa"
+    else:
+        return name
+
+markmarkdown_text = f"""
+Z powyższych wykresów możemy wywnioskować, że najbardziej popularnym sposobem płatności jest: **{(map(most_popular))}**. Patrząc po kątem kwoty, metodą dzięki której otrzymaliśmy największą sumę pieniędzy jest: **{(map(most_cash))}**. Warto postarać się, aby płatności tymi przepływami były łatwiejsze i przyjemniejsze dla klientów oraz by nie występowały błędy.
+"""
+display(Markdown(markmarkdown_text))
 ```
