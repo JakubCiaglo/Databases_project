@@ -11,11 +11,12 @@ Data: 14 czerwca 2025
 - **Python**
   - `random` – generowanie losowych wartości
   - `datetime`, `dateutil.relativedelta` – operacje na datach
-  - `numpy`, `pandas` – przetwarzanie i analiza danych
-  - `mysql.connector` – łączenie i operacje na bazie MySQL/MariaDB
+  - `numpy`, `pandas`, `scipy` – przetwarzanie i analiza danych
+  - `mysql.connector`, `sqlalchemy`, `pymsql` – łączenie i operacje na bazie MySQL/MariaDB
   - `faker` – sztuczne dane personalne
+  - `Plotly` - wizualizacje w raporcie
+  - `IPython.display` - tworzenie zautomatyzowanych Markdownów
 - **SQL (MariaDB/MySQL)** – definicja i tworzenie schematu bazy
-- **Matplotlib**, **Seaborn** – wizualizacje w raporcie
 - **Figura PNG** – `schemat.png` z diagramem ERD              
 
 ---
@@ -45,7 +46,7 @@ Data: 14 czerwca 2025
    ```
 3. **Wygenerowanie raportu**
    ```bash
-   quarto render projekt_raport.qmd --to html
+   quarto render raport.qmd --to html
    ```
 4. Otworzyć `projekt_raport.html` w przeglądarce.
 

@@ -1,7 +1,12 @@
 ---
 title: "Gwiezdne Horyzonty 2125"
 subtitle: "Roczna Analiza Strategiczna Space-U"
-author: "Zespół Analiz Biznesowych Space-U"
+author:
+  - "**Zespół Analiz Biznesowych Space-U:**"
+  - "<span style='font-size: 0.9em; color: #7f8c8d;'>Jakub Ciągło</span>"
+  - "<span style='font-size: 0.9em; color: #7f8c8d;'>Mateusz Ćwiek</span>"
+  - "<span style='font-size: 0.9em; color: #7f8c8d;'>Marek Dworaczyk</span>"
+  - "<span style='font-size: 0.9em; color: #7f8c8d;'>Rafał Głodek</span>"
 lang: pl-PL
 date: "2125-06-13"
 date-format: "long"
@@ -46,7 +51,7 @@ from sqlalchemy import create_engine, text
 from urllib.parse import quote_plus
 from pandas.tseries.offsets import DateOffset 
 import plotly.io as pio
-from IPython.display import Markdown
+from IPython.display import Markdown, HTML
 import plotly.graph_objects as go
 pio.templates.default = "plotly_white" 
 ```
@@ -237,12 +242,15 @@ stagnation_threshold = 0.5
 if slope > stagnation_threshold:
     wniosek = f"Firma wykazuje wyraźny trend WZROSTOWY."
     szczegoly = f"Średnio, z każdym miesiącem liczba klientów rośnie o {slope:.2f}."
+    color = 'color: #198754;'
 elif slope < -stagnation_threshold:
     wniosek = f"Firma wykazuje wyraźny trend SPADKOWY."
     szczegoly = f"Średnio, z każdym miesiącem liczba klientów maleje o {-slope:.2f}."
+    color = 'color: #dc3545;'
 else:
     wniosek = "Firma wykazuje STAGNACJĘ."
     szczegoly = f"Brak wyraźnego trendu wzrostowego lub spadkowego (nachylenie linii trendu wynosi {slope:.2f})."
+    color = 'color: #dc3545;'
 ```
 
 Poniższy wykres prezentuje miesięczne dane wraz z wygładzoną linią trendu (średnia krocząca), która pomaga zwizualizować ogólną tendencję.
@@ -282,9 +290,9 @@ fig.show()
 
 ```{python}
 analiza_markdown = f"""
-### Ocena Linii Trendu 
+### Ocena Linii Trendu
 <p>Analiza statystyczna oparta na regresji liniowej pozwala nam obiektywnie ocenić kierunek rozwoju firmy. Współczynnik nachylenia linii trendu to matematyczna reprezentacja naszego miesięcznego wzrostu lub spadku.</p>
-<p><b>Wniosek: {wniosek}</b></p>
+<p style='{color}'><b>Wniosek: {wniosek}</b></p>
 <p>Wyjaśnienie: {szczegoly}</p>
 """
 display(Markdown(analiza_markdown))
@@ -488,8 +496,8 @@ wniosek_markdown = f"""
 ### Podsumowanie Ryzyka Destynacji
 <p>Nasz ważony wskaźnik pozwala na obiektywną ocenę i priorytetyzację działań redukujących ryzyko.</p>
 <ul>
-    <li><span style="font-size: 1.5em;"></span> <b>Najwyższe ryzyko:</b> Destynacją o najwyższym wskaźniku ryzyka jest <b>{most_risky['Kierunek']}</b> z wynikiem <b>{most_risky['Wazony_wspolczynnik_ryzyka']:.2f} pkt</b> na wyprawę. Sugeruje to konieczność przeglądu procedur bezpieczeństwa dla tej trasy.</li>
-    <li><span style="font-size: 1.5em;"></span> <b>Najniższe ryzyko:</b> Najbezpieczniejszą z naszych popularnych destynacji okazał/a się <b>{least_risky['Kierunek']}</b> ({least_risky['Wazony_wspolczynnik_ryzyka']:.2f} pkt/wyprawę). Praktyki stosowane na tej trasie mogą stanowić wzór dla innych.</li>
+    <li><span style="font-size: 1.5em;"></span> <b style='color: #dc3545;'>Najwyższe ryzyko:</b> Destynacją o najwyższym wskaźniku ryzyka jest <b>{most_risky['Kierunek']}</b> z wynikiem <b>{most_risky['Wazony_wspolczynnik_ryzyka']:.2f} pkt</b> na wyprawę. Sugeruje to konieczność przeglądu procedur bezpieczeństwa dla tej trasy.</li>
+    <li><span style="font-size: 1.5em;"></span> <b style='color: #198754;'>Najniższe ryzyko:</b> Najbezpieczniejszą z naszych popularnych destynacji okazał/a się <b>{least_risky['Kierunek']}</b> ({least_risky['Wazony_wspolczynnik_ryzyka']:.2f} pkt/wyprawę). Praktyki stosowane na tej trasie mogą stanowić wzór dla innych.</li>
 </ul>
 """
 display(Markdown(wniosek_markdown))
@@ -581,12 +589,10 @@ fig = px.bar(
     orientation='h',
     title='Usterki sprzętowe naszej floty',
     labels={'nazwa_statku': 'Statek kosmiczny', 'usterki_na_wyprawe': 'Średnia liczba usterek na wyprawę'},
-    color='Status',
-    color_discrete_map={
-        'Wystąpiły usterki': '#e74c3c',
-        'Brak usterek': '#dfe6e9'
-    },
-    height=600
+    color='usterki_na_wyprawe',
+    color_continuous_scale='Reds',
+    height=600,
+    text='usterki_na_wyprawe'
 )
 
 fig.update_traces(
@@ -598,9 +604,9 @@ max_value = df_plot['usterki_na_wyprawe'].max()
 fig.update_xaxes(range=[0, max_value * 1.15])
 
 fig.update_layout(
-    showlegend=False,
     plot_bgcolor='white',
-    xaxis_gridcolor='#ecf0f1'
+    xaxis_gridcolor='#ecf0f1',
+    coloraxis_showscale=False 
 )
 fig.show()
 ```
@@ -635,7 +641,7 @@ liczba_usterek_prone = int(most_failure_prone['liczba_usterek'])
 liczba_wypraw_prone = int(most_failure_prone['liczba_wypraw'])
 
 wniosek_markdown += f"""
-<li><b>Wymaga uwagi:</b> Najbardziej podatny na usterki sprzętowe jest statek <b>{most_failure_prone['nazwa_statku']}</b>. 
+<li><b style='color: #dc3545;'>Wymaga uwagi:</b> Najbardziej podatny na usterki sprzętowe jest statek <b>{most_failure_prone['nazwa_statku']}</b>. 
 Odnotowuje on średnio <b>{most_failure_prone['usterki_na_wyprawe']:.3f} usterki</b> na każdą odbytą wyprawę. <br>
 <small style="color: #6c757d;"><i>(Na podstawie {liczba_usterek_prone} usterek w ciągu {liczba_wypraw_prone} wypraw)</i></small>
 </li>
@@ -645,7 +651,7 @@ workhorse_champion = zero_failure_ships.sort_values('liczba_wypraw', ascending=F
 liczba_wypraw_champion = int(workhorse_champion['liczba_wypraw'])
 
 wniosek_markdown += f"""
-<li><b>Wzór niezawodności:</b> Aż <b>{count_zero_failure} jednostek</b> w naszej flocie zakończyło wszystkie misje w analizowanym okresie bez żadnej usterki sprzętowej.
+<li><b style='color: #198754;'>Wzór niezawodności:</b> Aż <b>{count_zero_failure} jednostek</b> w naszej flocie zakończyło wszystkie misje w analizowanym okresie bez żadnej usterki sprzętowej.
 Na szczególne wyróżnienie zasługuje <b>{workhorse_champion['nazwa_statku']}</b>, który jest najczęściej eksploatowaną jednostką w tej grupie.<br>
 <small style="color: #6c757d;"><i>(Wykonał bezawaryjnie aż {liczba_wypraw_champion} misji)</i></small>
 </li>
@@ -843,14 +849,13 @@ fig_dest = px.bar(
     orientation='h',
     title='Ranking średnich ocen dla poszczególnych destynacji',
     labels={'srednia_ocena': 'Średnia ocena (w skali 1-5)', 'kierunek': 'Destynacja'},
-    color='srednia_ocena',
-    color_continuous_scale='Plasma',
+    color='kierunek',
+    color_discrete_sequence=px.colors.qualitative.Vivid,
     text='srednia_ocena',
     height=500
 )
 fig_dest.update_traces(texttemplate='%{text:.2f}', textposition='outside')
-fig_dest.update_layout(xaxis=dict(range=[0, 5.2]), plot_bgcolor='white', yaxis={'categoryorder':'total ascending'})
-fig_dest.update_coloraxes(showscale=False)
+fig_dest.update_layout(showlegend=False,xaxis=dict(range=[0, 5.2]), plot_bgcolor='white', yaxis={'categoryorder':'total ascending'})
 fig_dest.show()
 ```
 
@@ -862,8 +867,8 @@ wniosek_markdown = f"""
 ### Podsumowanie ocen destynacji
 <p>Analiza ocen pozwala zidentyfikować nasze "perełki" oraz obszary wymagające poprawy doświadczeń klienta.</p>
 <ul>
-    <li><b>Najwyżej oceniana:</b> Destynacją, która dostarcza naszym klientom najwięcej satysfakcji, jest <b>{best_dest['kierunek']}</b> ze średnią oceną <b>{best_dest['srednia_ocena']:.2f}</b> (na podstawie {int(best_dest['liczba_ocen'])} opinii).</li>
-    <li style="margin-top: 15px;"><b>Wymaga uwagi:</b> Najniższe oceny otrzymuje <b>{worst_dest['kierunek']}</b> (średnia <b>{worst_dest['srednia_ocena']:.2f}</b> z {int(worst_dest['liczba_ocen'])} opinii). Rekomendujemy analizę feedbacku z tej trasy w celu identyfikacji przyczyn niższej satysfakcji.</li>
+    <li><b style='color: #198754;'>Najwyżej oceniana:</b> Destynacją, która dostarcza naszym klientom najwięcej satysfakcji, jest <b>{best_dest['kierunek']}</b> ze średnią oceną <b>{best_dest['srednia_ocena']:.2f}</b> (na podstawie {int(best_dest['liczba_ocen'])} opinii).</li>
+    <li style="margin-top: 15px;"><b style='color: #dc3545;'>Wymaga uwagi:</b> Najniższe oceny otrzymuje <b>{worst_dest['kierunek']}</b> (średnia <b>{worst_dest['srednia_ocena']:.2f}</b> z {int(worst_dest['liczba_ocen'])} opinii). Rekomendujemy analizę feedbacku z tej trasy w celu identyfikacji przyczyn niższej satysfakcji.</li>
 </ul>
 """
 display(Markdown(wniosek_markdown))
@@ -955,8 +960,8 @@ worst_type = df_type_ratings.iloc[-1]
 wniosek_markdown_2 = f"""
 ### Podsumowanie ocen rodzajów wypraw
 <ul>
-    <li><b>Ulubiony typ wyprawy:</b> Klienci najwyżej oceniają format <b>{best_type['typ_wyprawy']}</b>, przyznając mu średnią ocenę <b>{best_type['srednia_ocena']:.2f}</b> (na podstawie {int(best_type['liczba_ocen'])} opinii). Warto inwestować w promocję tego segmentu.</li>
-    <li style="margin-top: 15px;"><b>Do przemyślenia:</b> Największe wyzwanie stanowi format <b>{worst_type['typ_wyprawy']}</b> (średnia <b>{worst_type['srednia_ocena']:.2f}</b> z {int(worst_type['liczba_ocen'])} opinii). Należy zastanowić się, czy oczekiwania klientów wobec tego typu wypraw są w pełni zaspokajane.</li>
+    <li><b style='color: #198754;'>Ulubiony typ wyprawy:</b> Klienci najwyżej oceniają format <b>{best_type['typ_wyprawy']}</b>, przyznając mu średnią ocenę <b>{best_type['srednia_ocena']:.2f}</b> (na podstawie {int(best_type['liczba_ocen'])} opinii). Warto inwestować w promocję tego segmentu.</li>
+    <li style="margin-top: 15px;"><b style='color: #dc3545;'>Do przemyślenia:</b> Największe wyzwanie stanowi format <b>{worst_type['typ_wyprawy']}</b> (średnia <b>{worst_type['srednia_ocena']:.2f}</b> z {int(worst_type['liczba_ocen'])} opinii). Należy zastanowić się, czy oczekiwania klientów wobec tego typu wypraw są w pełni zaspokajane.</li>
 </ul>
 """
 display(Markdown(wniosek_markdown_2))
@@ -1143,13 +1148,20 @@ df_rfm['M_score'] = pd.qcut(df_rfm['monetary'].rank(method='first'), q=4, labels
 df_rfm = df_rfm.astype({'R_score': 'int64', 'F_score': 'int64', 'M_score': 'int64'})
 
 def assign_segment(row):
-    if row['R_score'] >= 4 and row['F_score'] >= 4: return 'Mistrzowie (Champions)'
-    if row['R_score'] >= 3 and row['F_score'] >= 3: return 'Lojalni Klienci'
-    if row['R_score'] <= 2 and row['F_score'] >= 3: return 'Ryzykowni (At Risk)'
-    if row['R_score'] >= 3 and row['M_score'] >= 4: return 'Wieloryby (Big Spenders)'
-    if row['R_score'] == 4 and row['F_score'] == 1: return 'Nowi Klienci'
-    if row['R_score'] <= 2 and row['F_score'] <= 2: return 'Hibernujący'
-    return 'Pozostali'
+    if row['R_score'] >= 4 and row['F_score'] >= 4: 
+        return 'Mistrzowie (Champions)'
+    if row['R_score'] >= 3 and row['F_score'] >= 3: 
+        return 'Lojalni Klienci'
+    if row['R_score'] <= 2 and row['F_score'] >= 3: 
+        return 'Ryzykowni (At Risk)'
+    if row['R_score'] >= 3 and row['M_score'] >= 4: 
+        return 'Wieloryby (Big Spenders)'
+    if row['R_score'] == 4 and row['F_score'] == 1: 
+        return 'Nowi Klienci'
+    if row['R_score'] <= 2 and row['F_score'] <= 2: 
+        return 'Hibernujący'
+    else:
+        return 'Pozostali'
 
 df_rfm['Segment'] = df_rfm.apply(assign_segment, axis=1)
 segment_counts = df_rfm['Segment'].value_counts()
@@ -1161,12 +1173,11 @@ fig = px.bar(
     title='Rozkład klientów w segmentach RFM',
     labels={'y': 'Liczba Klientów', 'x': 'Segment'},
     text=segment_counts.values,
-    color=segment_counts.values,
-    color_continuous_scale='Plasma'
+    color=segment_counts.index,
+    color_discrete_sequence=px.colors.qualitative.Plotly
 )
 fig.update_traces(textposition='outside')
-fig.update_layout(plot_bgcolor='white', xaxis_tickangle=-45)
-fig.update_coloraxes(showscale=False)
+fig.update_layout(showlegend=False,plot_bgcolor='white', xaxis_tickangle=-45)
 fig.show()
 ```
 ```{python}

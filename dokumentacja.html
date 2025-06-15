@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.32">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>dokumentacja</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="dokumentacja_files/libs/clipboard/clipboard.min.js"></script>
+<script src="dokumentacja_files/libs/quarto-html/quarto.js"></script>
+<script src="dokumentacja_files/libs/quarto-html/popper.min.js"></script>
+<script src="dokumentacja_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="dokumentacja_files/libs/quarto-html/anchor.min.js"></script>
+<link href="dokumentacja_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="dokumentacja_files/libs/quarto-html/quarto-syntax-highlighting-2486e1f0a3ee9ee1fc393803a1361cdb.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="dokumentacja_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="dokumentacja_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="dokumentacja_files/libs/bootstrap/bootstrap-5bdc1ec511977dd36301403cf8f4f68d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+
+
+
+<section id="dokumentacja-projektu-bazy-danych" class="level1">
+<h1>Dokumentacja projektu bazy danych</h1>
+<p>Autorzy: <em>Jakub Ciągło, Mateusz Ćwiek, Marek Dworaczyk, Rafał Głodek</em><br>
+Data: 14 czerwca 2025</p>
+<hr>
+<section id="użyte-technologie" class="level2">
+<h2 class="anchored" data-anchor-id="użyte-technologie">1. Użyte technologie</h2>
+<ul>
+<li><strong>Quarto</strong> – środowisko do generowania raportu</li>
+<li><strong>Python</strong>
+<ul>
+<li><code>random</code> – generowanie losowych wartości</li>
+<li><code>datetime</code>, <code>dateutil.relativedelta</code> – operacje na datach</li>
+<li><code>numpy</code>, <code>pandas</code>, <code>scipy</code> – przetwarzanie i analiza danych</li>
+<li><code>mysql.connector</code>, <code>sqlalchemy</code>, <code>pymsql</code> – łączenie i operacje na bazie MySQL/MariaDB</li>
+<li><code>faker</code> – sztuczne dane personalne</li>
+<li><code>Plotly</code> - wizualizacje w raporcie</li>
+</ul></li>
+<li><strong>SQL (MariaDB/MySQL)</strong> – definicja i tworzenie schematu bazy</li>
+<li><strong>Figura PNG</strong> – <code>schemat.png</code> z diagramem ERD</li>
+</ul>
+<hr>
+</section>
+<section id="struktura-repozytorium" class="level2">
+<h2 class="anchored" data-anchor-id="struktura-repozytorium">2. Struktura repozytorium</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 12%">
+<col style="width: 46%">
+<col style="width: 41%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Ścieżka / plik</th>
+<th>Typ</th>
+<th>Zawartość</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>baza_danych.sql</code></td>
+<td>SQL</td>
+<td>Skrypt DDL: tworzy tabele, klucze główne i&nbsp;obce oraz indeksy</td>
+</tr>
+<tr class="even">
+<td><code>skrypt.py</code></td>
+<td>Python</td>
+<td>Funkcja <code>uruchom()</code> wypełnia bazę danymi testowymi (employees, clients, trips, …)</td>
+</tr>
+<tr class="odd">
+<td><code>raport.qmd</code></td>
+<td>Quarto</td>
+<td>Notebook generujący wykresy i opis wyników; kompiluje się do&nbsp;HTML</td>
+</tr>
+<tr class="even">
+<td><code>raport.html</code></td>
+<td>HTML</td>
+<td>Wygenerowany raport ‑ gotowy do odczytu w&nbsp;przeglądarce</td>
+</tr>
+<tr class="odd">
+<td><code>schemat.png</code></td>
+<td>PNG</td>
+<td>Schemat ER wygenerowany z&nbsp;<code>baza_danych.sql</code></td>
+</tr>
+<tr class="even">
+<td><code>dokumentacja.md</code></td>
+<td>Markdown</td>
+<td>Pełna dokumentacja projektu (niniejszy plik)</td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+<section id="instrukcja-uruchomienia" class="level2">
+<h2 class="anchored" data-anchor-id="instrukcja-uruchomienia">3. Instrukcja uruchomienia</h2>
+<ol type="1">
+<li><p><strong>Utworzenie schematu bazy</strong></p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">mysql</span> <span class="at">-h</span> giniewicz.it <span class="at">-P</span> 3306 <span class="at">-u</span> team13 <span class="at">-p</span> team13 <span class="op">&lt;</span> baza_danych.sql</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p><strong>Wypełnienie danymi</strong></p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> skrypt.py</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p><strong>Wygenerowanie raportu</strong></p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">quarto</span> render projekt_raport.qmd <span class="at">--to</span> html</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p>Otworzyć <code>projekt_raport.html</code> w&nbsp;przeglądarce.</p></li>
+</ol>
+<hr>
+</section>
+<section id="schemat-bazy-danych" class="level2">
+<h2 class="anchored" data-anchor-id="schemat-bazy-danych">4. Schemat bazy danych</h2>
+<p>Diagram ERD w&nbsp;pliku <code>schemat.png</code>. <img src="schemat.png" class="img-fluid" alt="ERD"></p>
+<hr>
+</section>
+<section id="zależności-funkcyjne" class="level2">
+<h2 class="anchored" data-anchor-id="zależności-funkcyjne">5. Zależności funkcyjne</h2>
+<p>Poniższe podsekcje (5.1 – 5.14) prezentują dla każdej tabeli:</p>
+<ul>
+<li><strong>PK / AK</strong> – klucz główny oraz (jeśli istnieje) alternatywny <code>UNIQUE</code></li>
+<li><strong>FD</strong> – nietrywialne zależności funkcyjne</li>
+</ul>
+<section id="clients" class="level4">
+<h4 class="anchored" data-anchor-id="clients">5.1&nbsp;<code>clients</code></h4>
+<ul>
+<li><strong>PK</strong>&nbsp;<code>client_id</code></li>
+<li><strong>FD</strong>
+<ul>
+<li><code>client_id&nbsp;→&nbsp;first_name, last_name, date_of_birth, email, phone</code></li>
+</ul></li>
+</ul>
+</section>
+<section id="employees" class="level4">
+<h4 class="anchored" data-anchor-id="employees">5.2&nbsp;<code>employees</code></h4>
+<ul>
+<li><strong>PK</strong>&nbsp;<code>employee_id</code></li>
+<li><strong>FD</strong>
+<ul>
+<li><code>employee_id&nbsp;→&nbsp;first_name, last_name, position, salary, hire_date, termination_date, email, phone</code></li>
+</ul></li>
+</ul>
+</section>
+<section id="destinations" class="level4">
+<h4 class="anchored" data-anchor-id="destinations">5.3&nbsp;<code>destinations</code></h4>
+<ul>
+<li><strong>PK</strong>&nbsp;<code>destination_id</code></li>
+<li><strong>AK</strong>&nbsp;<code>name</code></li>
+<li><strong>FD</strong>
+<ul>
+<li><code>destination_id&nbsp;→&nbsp;name, description, avg_gravity, hazard_level</code></li>
+<li><code>name&nbsp;→&nbsp;destination_id, description, avg_gravity, hazard_level</code></li>
+</ul></li>
+</ul>
+</section>
+<section id="trip_types" class="level4">
+<h4 class="anchored" data-anchor-id="trip_types">5.4&nbsp;<code>trip_types</code></h4>
+<ul>
+<li><strong>PK</strong>&nbsp;<code>trip_type_id</code></li>
+<li><strong>AK</strong>&nbsp;<code>name</code></li>
+<li><strong>FD</strong>
+<ul>
+<li><code>trip_type_id&nbsp;→&nbsp;name, description, typical_duration_days, base_price</code></li>
+<li><code>name&nbsp;→&nbsp;trip_type_id, description, typical_duration_days, base_price</code></li>
+</ul></li>
+</ul>
+</section>
+<section id="launch_stations" class="level4">
+<h4 class="anchored" data-anchor-id="launch_stations">5.5&nbsp;<code>launch_stations</code></h4>
+<ul>
+<li><strong>PK</strong>&nbsp;<code>launch_station_id</code></li>
+<li><strong>FD</strong>
+<ul>
+<li><code>launch_station_id&nbsp;→&nbsp;name, country, city, status</code></li>
+</ul></li>
+</ul>
+</section>
+<section id="rockets" class="level4">
+<h4 class="anchored" data-anchor-id="rockets">5.6&nbsp;<code>rockets</code></h4>
+<ul>
+<li><strong>PK</strong>&nbsp;<code>rocket_id</code></li>
+<li><strong>FD</strong>
+<ul>
+<li><code>rocket_id&nbsp;→&nbsp;name, manufacturer, status</code></li>
+</ul></li>
+</ul>
+</section>
+<section id="spacecraft" class="level4">
+<h4 class="anchored" data-anchor-id="spacecraft">5.7&nbsp;<code>spacecraft</code></h4>
+<ul>
+<li><strong>PK</strong>&nbsp;<code>spacecraft_id</code></li>
+<li><strong>FD</strong>
+<ul>
+<li><code>spacecraft_id&nbsp;→&nbsp;capacity_passengers, name, manufacturer, service_start_date, service_end_date, status</code></li>
+</ul></li>
+</ul>
+</section>
+<section id="trips" class="level4">
+<h4 class="anchored" data-anchor-id="trips">5.8&nbsp;<code>trips</code></h4>
+<ul>
+<li><strong>PK</strong>&nbsp;<code>trip_id</code></li>
+<li><strong>FD</strong>
+<ul>
+<li><code>trip_id&nbsp;→&nbsp;trip_type_id, destination_id, launch_station_id, spacecraft_id, rocket_id, departure_datetime, return_datetime, status</code></li>
+</ul></li>
+</ul>
+</section>
+<section id="trip_participants" class="level4">
+<h4 class="anchored" data-anchor-id="trip_participants">5.9&nbsp;<code>trip_participants</code></h4>
+<ul>
+<li><strong>PK</strong>&nbsp;<code>participation_id</code></li>
+<li><strong>AK</strong>&nbsp;<code>(trip_id, client_id)</code></li>
+<li><strong>FD</strong>
+<ul>
+<li><code>participation_id&nbsp;→&nbsp;trip_id, client_id, seat_number</code></li>
+<li><code>(trip_id, client_id)&nbsp;→&nbsp;participation_id, seat_number</code></li>
+</ul></li>
+</ul>
+</section>
+<section id="employee_assignments" class="level4">
+<h4 class="anchored" data-anchor-id="employee_assignments">5.10&nbsp;<code>employee_assignments</code></h4>
+<ul>
+<li><strong>PK</strong>&nbsp;<code>assignment_id</code></li>
+<li><strong>AK</strong>&nbsp;<code>(trip_id, employee_id)</code></li>
+<li><strong>FD</strong>
+<ul>
+<li><code>assignment_id&nbsp;→&nbsp;trip_id, employee_id</code></li>
+<li><code>(trip_id, employee_id)&nbsp;→&nbsp;assignment_id</code></li>
+</ul></li>
+</ul>
+</section>
+<section id="transactions" class="level4">
+<h4 class="anchored" data-anchor-id="transactions">5.11&nbsp;<code>transactions</code></h4>
+<ul>
+<li><strong>PK</strong>&nbsp;<code>transaction_id</code></li>
+<li><strong>FD</strong>
+<ul>
+<li><code>transaction_id&nbsp;→&nbsp;trip_id, client_id, transaction_date, amount, payment_method, status</code></li>
+</ul></li>
+</ul>
+</section>
+<section id="costs" class="level4">
+<h4 class="anchored" data-anchor-id="costs">5.12&nbsp;<code>costs</code></h4>
+<ul>
+<li><strong>PK</strong>&nbsp;<code>cost_id</code></li>
+<li><strong>FD</strong>
+<ul>
+<li><code>cost_id&nbsp;→&nbsp;trip_id, description, cost_amount</code></li>
+</ul></li>
+</ul>
+</section>
+<section id="incidents" class="level4">
+<h4 class="anchored" data-anchor-id="incidents">5.13&nbsp;<code>incidents</code></h4>
+<ul>
+<li><strong>PK</strong>&nbsp;<code>incident_id</code></li>
+<li><strong>FD</strong>
+<ul>
+<li><code>incident_id&nbsp;→&nbsp;trip_id, datetime_occurred, reported_by_employee, involved_client_id, category, description, severity</code></li>
+</ul></li>
+</ul>
+</section>
+<section id="feedback" class="level4">
+<h4 class="anchored" data-anchor-id="feedback">5.14&nbsp;<code>feedback</code></h4>
+<ul>
+<li><strong>PK</strong>&nbsp;<code>feedback_id</code></li>
+<li><strong>FD</strong>
+<ul>
+<li><code>feedback_id&nbsp;→&nbsp;trip_id, client_id, rating, comments, submitted_at</code></li>
+</ul></li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="uzasadnienie-formy-eknf" class="level2">
+<h2 class="anchored" data-anchor-id="uzasadnienie-formy-eknf">6. Uzasadnienie formy EKNF</h2>
+<p>Elementary Key Normal Form (EKNF) wymaga, aby dla każdej nietrywialnej zależności funkcyjnej <strong>X → Y</strong> zachodzącej w&nbsp;relacji, zbiór atrybutów <strong>X</strong> był kluczem <em>lub</em> żeby każda składowa <strong>Y</strong> należała do klucza.</p>
+<section id="jak-spełniamy-ten-warunek" class="level4">
+<h4 class="anchored" data-anchor-id="jak-spełniamy-ten-warunek">Jak spełniamy ten warunek</h4>
+<ul>
+<li><strong>Jednoznaczne identyfikatory</strong> – w&nbsp;większości tabel stosujemy proste klucze główne <code>…_id</code> (<code>INT AUTO_INCREMENT</code>).</li>
+<li><strong>Atrybuty unikalne</strong> – tam, gdzie naturalny identyfikator ma sens (<code>email</code>, <code>name</code>, para <code>(trip_id, employee_id)</code>), dodaliśmy ograniczenia <code>UNIQUE</code>; powstają klucze kandydujące.</li>
+<li><strong>Tabele łącznikowe</strong> – w&nbsp;<code>employee_assignments</code> i&nbsp;<code>trip_participants</code> kluczem kandydującym jest zarówno syntetyczne <code>assignment_id</code> / <code>participation_id</code>, jak i&nbsp;para obcych kluczy.</li>
+<li><strong>Zależności funkcyjne</strong> – jedynymi nietrywialnymi zależnościami są te z&nbsp;rozdziału&nbsp;5; każda ma po&nbsp;lewej stronie klucz kandydujący (spełnia to pierwszy warunek definicji).</li>
+<li><strong>Brak zależności między kolumnami nie‑kluczowymi</strong> – np. <code>salary</code> nie determinuje <code>position</code>, a&nbsp;<code>first_name</code> nie determinuje <code>last_name</code>.</li>
+</ul>
+<p>W&nbsp;rezultacie <strong>każda tabela</strong> spełnia kryteria EKNF.</p>
+<hr>
+</section>
+</section>
+<section id="co-było-najtrudniejsze" class="level2">
+<h2 class="anchored" data-anchor-id="co-było-najtrudniejsze">7. Co było najtrudniejsze</h2>
+<ul>
+<li>Zadbanie o&nbsp;pełną EKNF – każda tabela wymagała przemyślenia kluczy i&nbsp;usunięcia nadmiarowych kolumn czy zależności.</li>
+<li>Spójne generowanie dat – przesunięcie całego okresu o&nbsp;100 lat plus 5 lat historii wymagało pilnowania, aby wszystkie daty zachowały realną kolejność.</li>
+<li>Harmonogramowanie zasobów (statki, rakiety, załoga, klienci) bez kolizji – implementacja detekcji konfliktów terminów.</li>
+</ul>
+<hr>
+</section>
+<section id="bibliografia" class="level2">
+<h2 class="anchored" data-anchor-id="bibliografia">8. Bibliografia</h2>
+<ol type="1">
+<li>Elmasri&nbsp;&amp;&nbsp;Navathe: <em>Fundamentals of Database Systems</em>, 7 ed.</li>
+<li>MySQL 8.3 <em>Reference Manual</em> – rozdz. 13 („Constraints &amp; Indexes”).</li>
+<li>Date, C.J.: <em>An Introduction to Database Systems</em> – rozdz. o&nbsp;normalnych formach.</li>
+</ol>
+<hr>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
