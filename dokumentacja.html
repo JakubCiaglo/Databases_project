@@ -94,12 +94,12 @@ Data: 14 czerwca 2025</p>
 <li><code>random</code> – generowanie losowych wartości</li>
 <li><code>datetime</code>, <code>dateutil.relativedelta</code> – operacje na datach</li>
 <li><code>numpy</code>, <code>pandas</code>, <code>scipy</code> – przetwarzanie i analiza danych</li>
-<li><code>mysql.connector</code>, <code>sqlalchemy</code>, <code>pymsql</code> – łączenie i operacje na bazie MySQL/MariaDB</li>
+<li><code>mysql.connector</code>, <code>sqlalchemy</code>, <code>pymsql</code> – łączenie i operacje na bazie MariaDB</li>
 <li><code>faker</code> – sztuczne dane personalne</li>
 <li><code>Plotly</code> - wizualizacje w raporcie</li>
 <li><code>IPython.display</code> - tworzenie zautomatyzowanych Markdownów</li>
 </ul></li>
-<li><strong>SQL (MariaDB/MySQL)</strong> – definicja i tworzenie schematu bazy</li>
+<li><strong>SQL (MariaDB)</strong> – definicja i tworzenie schematu bazy</li>
 </ul>
 <hr>
 </section>
@@ -107,47 +107,57 @@ Data: 14 czerwca 2025</p>
 <h2 class="anchored" data-anchor-id="struktura-repozytorium">2. Struktura repozytorium</h2>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 12%">
-<col style="width: 46%">
-<col style="width: 41%">
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
 </colgroup>
 <thead>
 <tr class="header">
-<th>Ścieżka / plik</th>
-<th>Typ</th>
-<th>Zawartość</th>
+<th style="text-align: left;">Ścieżka / plik</th>
+<th style="text-align: left;">Typ</th>
+<th style="text-align: left;">Zawartość</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>baza_danych.sql</code></td>
-<td>SQL</td>
-<td>Skrypt DDL: tworzy tabele, klucze główne i&nbsp;obce oraz indeksy</td>
+<td style="text-align: left;"><code>baza_danych.sql</code></td>
+<td style="text-align: left;">SQL</td>
+<td style="text-align: left;">Tworzy tabele, klucze główne i obce oraz indeksy</td>
 </tr>
 <tr class="even">
-<td><code>skrypt.py</code></td>
-<td>Python</td>
-<td>Funkcja <code>uruchom()</code> wypełnia bazę danymi testowymi (employees, clients, trips, …)</td>
+<td style="text-align: left;"><code>skrypt.py</code></td>
+<td style="text-align: left;">Python</td>
+<td style="text-align: left;">Funkcja <code>uruchom()</code> wypełnia bazę danymi testowymi (employees, clients, trips, …)</td>
 </tr>
 <tr class="odd">
-<td><code>raport.qmd</code></td>
-<td>Quarto</td>
-<td>Notebook generujący wykresy i opis wyników; kompiluje się do&nbsp;HTML</td>
+<td style="text-align: left;"><code>raport.qmd</code></td>
+<td style="text-align: left;">Quarto</td>
+<td style="text-align: left;">Notebook generujący wykresy i opis wyników; kompiluje się do HTML</td>
 </tr>
 <tr class="even">
-<td><code>raport.html</code></td>
-<td>HTML</td>
-<td>Wygenerowany raport ‑ gotowy do odczytu w&nbsp;przeglądarce</td>
+<td style="text-align: left;"><code>raport.html</code></td>
+<td style="text-align: left;">HTML</td>
+<td style="text-align: left;">Wygenerowany raport ‑ gotowy do odczytu w przeglądarce</td>
 </tr>
 <tr class="odd">
-<td><code>schemat.png</code></td>
-<td>PNG</td>
-<td>Schemat ER wygenerowany z&nbsp;<code>baza_danych.sql</code></td>
+<td style="text-align: left;"><code>schemat.png</code></td>
+<td style="text-align: left;">PNG</td>
+<td style="text-align: left;">Schemat ERD wygenerowany z <code>baza_danych.sql</code></td>
 </tr>
 <tr class="even">
-<td><code>dokumentacja.md</code></td>
-<td>Markdown</td>
-<td>Pełna dokumentacja projektu (niniejszy plik)</td>
+<td style="text-align: left;"><code>dokumentacja.md</code></td>
+<td style="text-align: left;">Markdown</td>
+<td style="text-align: left;">Pełna dokumentacja projektu</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>dokumentacja.html</code></td>
+<td style="text-align: left;">HTML</td>
+<td style="text-align: left;">Zrenderowany plik <code>dokumentacja.md</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>bazy_danych.erd</code></td>
+<td style="text-align: left;">ERD</td>
+<td style="text-align: left;">Plik erd zawierający schemat bazy, utworzony w ERD Editor</td>
 </tr>
 </tbody>
 </table>

@@ -12,25 +12,26 @@ Data: 14 czerwca 2025
   - `random` – generowanie losowych wartości
   - `datetime`, `dateutil.relativedelta` – operacje na datach
   - `numpy`, `pandas`, `scipy` – przetwarzanie i analiza danych
-  - `mysql.connector`, `sqlalchemy`, `pymsql` – łączenie i operacje na bazie MySQL/MariaDB
+  - `mysql.connector`, `sqlalchemy`, `pymsql` – łączenie i operacje na bazie MariaDB
   - `faker` – sztuczne dane personalne
   - `Plotly` - wizualizacje w raporcie
   - `IPython.display` - tworzenie zautomatyzowanych Markdownów
-- **SQL (MariaDB/MySQL)** – definicja i tworzenie schematu bazy           
+- **SQL (MariaDB)** – definicja i tworzenie schematu bazy           
 
 ---
 
 ## 2. Struktura repozytorium
 
-| Ścieżka / plik        | Typ                                                                               | Zawartość                                                                 |
-| --------------------- | --------------------------------------------------------------------------------- | ------------------------------------------------------------------------- |
-| `baza_danych.sql`     | SQL                                                                               | Skrypt DDL: tworzy tabele, klucze główne i obce oraz indeksy |
-| `skrypt.py`           | Python                                                                            | Funkcja `uruchom()` wypełnia bazę danymi testowymi (employees, clients, trips, …) |
-| `raport.qmd`  | Quarto                                                                            | Notebook generujący wykresy i opis wyników; kompiluje się do HTML         |
-| `raport.html` | HTML                                                                              | Wygenerowany raport ‑ gotowy do odczytu w przeglądarce                    |
-| `schemat.png`         | PNG                                                                               | Schemat ER wygenerowany z `baza_danych.sql`                               |
-| `dokumentacja.md`     | Markdown                                                                          | Pełna dokumentacja projektu (niniejszy plik)                              |
-
+| Ścieżka / plik | Typ | Zawartość |
+| :--- | :--- | :--- |
+| `baza_danych.sql` | SQL | Tworzy tabele, klucze główne i obce oraz indeksy |
+| `skrypt.py` | Python | Funkcja `uruchom()` wypełnia bazę danymi testowymi (employees, clients, trips, …) |
+| `raport.qmd` | Quarto | Notebook generujący wykresy i opis wyników; kompiluje się do HTML |
+| `raport.html` | HTML | Wygenerowany raport ‑ gotowy do odczytu w przeglądarce |
+| `schemat.png` | PNG | Schemat ERD wygenerowany z `baza_danych.sql` |
+| `dokumentacja.md` | Markdown | Pełna dokumentacja projektu |
+| `dokumentacja.html` | HTML | Zrenderowany plik `dokumentacja.md` |
+| `bazy_danych.erd` | ERD | Plik erd zawierający schemat bazy, utworzony w ERD Editor |
 ---
 
 ## 3. Instrukcja uruchomienia
