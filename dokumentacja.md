@@ -16,7 +16,7 @@ Data: 14 czerwca 2025
   - `faker` – sztuczne dane personalne
   - `Plotly` - wizualizacje w raporcie
   - `IPython.display` - tworzenie zautomatyzowanych Markdownów
-- **SQL (MariaDB/MySQL)** – definicja i tworzenie schematu bazy           
+- **SQL (MariaDB)** – definicja i tworzenie schematu bazy           
 
 ---
 

@@ -1207,34 +1207,34 @@ total_clients = len(df_rfm)
 
 recommendations = {
     'Mistrzowie (Champions)': 
-        "To Twoi najcenniejsi klienci. Angażuj ich, proś o opinie i recenzje, "
-        "zaoferuj programy lojalnościowe i dostęp do ekskluzywnych ofert. "
-        "Są ambasadorami Twojej marki.",
+        "To nasi najcenniejsi klienci. Angażujmy ich, prośmy o opinie i recenzje, "
+        "zaoferujmy programy lojalnościowe i dostęp do ekskluzywnych ofert. "
+        "Są ambasadorami naszej marki.",
         
     'Lojalni Klienci': 
-        "Są kręgosłupem Twojej firmy. Podtrzymuj ich zaangażowanie, oferując "
-        "nowe produkty (cross-selling), lepsze wersje wypraw (up-selling) "
+        "Są kręgosłupem naszej firmy. Podtrzymujmy ich zaangażowanie, oferując "
+        "nowe produkty, lepsze wersje wypraw "
         "i budując z nimi długotrwałą relację.",
 
     'Ryzykowni (At Risk)': 
         "KLUCZOWA GRUPA DO REAKTYWACJI! To byli dobrzy klienci, którzy dawno "
-        "nic nie kupili. Skontaktuj się z nimi osobiście, zaoferuj spersonalizowaną "
-        "zniżkę 'na powrót' i dowiedz się, dlaczego przestali podróżować.",
+        "nic nie kupili. Skontaktujmy się z nimi osobiście, zaoferujmy spersonalizowaną "
+        "zniżkę 'na powrót' i dowiedzmy się, dlaczego przestali podróżować.",
 
     'Wieloryby (Big Spenders)':
-        "Wydają dużo, ale niekoniecznie często. Upewnij się, że są zadowoleni "
+        "Wydają dużo, ale niekoniecznie często. Upewnijmy się, że są zadowoleni "
         "z jakości usług. Mogą być podatni na oferty konkurencji. Warto zadbać "
         "o ich satysfakcję.",
 
     'Nowi Klienci':
-        "Pierwsze wrażenie jest kluczowe. Zapewnij im doskonałe doświadczenie "
-        "na pokładzie i stwórz spersonalizowaną ścieżkę komunikacji (np. seria maili), "
+        "Pierwsze wrażenie jest kluczowe. Zapewnijmy im doskonałe doświadczenie "
+        "na pokładzie i stwórzmy spersonalizowaną ścieżkę komunikacji (np. seria maili), "
         "aby zachęcić ich do drugiej podróży i zamienić w lojalnych klientów.",
         
     'Hibernujący':
-        "Duża grupa nieaktywnych klientów. Jeśli ich liczba jest znacząca, rozważ "
+        "Duża grupa nieaktywnych klientów. Jeśli ich liczba jest znacząca, rozważmy "
         "szeroko zakrojoną, ale niskokosztową kampanię 'Tęsknimy za Tobą!' z atrakcyjną "
-        "ofertą. Nie inwestuj w nich tyle, co w segment 'Ryzykowni'."
+        "ofertą. Nie inwestujmy w nich tyle, co w segment 'Ryzykowni'."
 }
 
 ```
@@ -1278,7 +1278,7 @@ def df_summary_markdown(df):
     summary_pojazd = df['Pojazd'].value_counts().reset_index()
     summary_pojazd.columns = ['Pojazd', 'liczba']
 
-    markdown = "Podsumowanie \n"
+    markdown = "### Podsumowanie \n"
 
     if summary_planeta["liczba"][0] == 1:
         markdown += "<p>Wszystkie planety występują równie często.</p>\n"
@@ -1489,7 +1489,7 @@ Mamy teraz przegląd najbardziej wpływowych lotów. Pytanie teraz brzmi, które
 
 Interesuje nas wpływ naszych pracowników na wyprawy. Chcemy odnaleźć pracownika, który ma najlepszy wpływ na ocenę lotów. Będziemy się głównie skupiać na tych rolach, które mając bezpośredni kontakt z pasażerami lub bezpośrednio wpływają na komfort podróży (np. Pilot, Kucharz). Dalej będziemy chcieli odnaleźć najaktywniejszego pracownika, czyli tego który został przypisany do największej liczby wypraw. Chcemy tutaj znaleźć tego, który najwięcej wnosi do naszych lotów i będziemy tu już badać wszystkie role.
 
-#### Najlepiej oceniani pracownicy
+### Najlepiej oceniani pracownicy
 ```{python}
 roles_of_interest = ["Pilot statku", "Specjalista ds. bezpieczeństwa","Lekarz pokładowy", "Kucharz orbitalny"]
 query = """
@@ -1527,7 +1527,7 @@ Najlepszym pracownikiem okazał jest **{best_employee['Imię']} {best_employee['
 display(Markdown(markmarkdown_text))
 ```
 
-#### Najaktywniejsi pracownicy
+### Najaktywniejsi pracownicy
 ```{python}
 query = """
 SELECT
