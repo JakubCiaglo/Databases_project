@@ -179,12 +179,12 @@ rentownosc_markdown = """
 
 if unprofitable_types.empty:
     rentownosc_markdown += (
-        "<p style='color: #198754;'><b>Doskonałe wieści:</b> W analizowanym okresie wszystkie oferowane przez Space-U rodzaje wypraw "
+        "<p><b style='color: #198754;'>Doskonałe wieści:</b> W analizowanym okresie wszystkie oferowane przez Space-U rodzaje wypraw "
         "okazały się rentowne. To świadczy o zdrowej strukturze kosztów i dobrze skalibrowanej polityce cenowej.</p>"
     )
 else:
     rentownosc_markdown += (
-        "<p style='color: #dc3545;'><b>Uwaga Zarządcza:</b> Zidentyfikowano następujące rodzaje wypraw, które generują straty. "
+        "<p><b style='color: #dc3545;'>Uwaga Zarządcza:</b> Zidentyfikowano następujące rodzaje wypraw, które generują straty. "
         "Rekomendujemy przeprowadzenie dogłębnej analizy ich struktury kosztów oraz efektywności operacyjnej:</p>"
         "<ul>"
     )
@@ -196,7 +196,7 @@ else:
 display(Markdown(rentownosc_markdown))
 ```
 
-## Analiza Dynamiki Bazy Klientów
+## Analiza dynamiki bazy klientów
 
 Analiza miesięcznej liczby obsłużonych klientów jest jednym z fundamentalnych wskaźników kondycji i tempa rozwoju Space-U. To część naszej działalności, która pozwala ocenić skuteczność naszych działań marketingowych, atrakcyjność oferty oraz ogólne zainteresowanie podróżami kosmicznymi. W tej sekcji zbadamy, czy w ostatnich latach nasza firma znajdowała się na trajektorii wzrostowej, czy też napotkała na turbulencje.
 
@@ -1240,7 +1240,7 @@ recommendations = {
 ```
 
 ```{python}
-rekomendacje_markdown = "### Kluczowe Segmenty i Rekomendacje Strategiczne\n"
+rekomendacje_markdown = "### Kluczowe segmenty i rekomendacje strategiczne\n"
 
 # W pętli tworzymy osobny blok "Callout" dla każdego segmentu
 for segment, count in segment_counts.items():
