@@ -1280,30 +1280,27 @@ def df_summary_markdown(df):
 
     markdown = "Podsumowanie \n"
 
-    # 🌍 Planety
     if summary_planeta["liczba"][0] == 1:
-        markdown += "<p>🔸 Wszystkie planety występują równie często.</p>\n"
+        markdown += "<p>Wszystkie planety występują równie często.</p>\n"
     else:
         markdown += (
-            f"<p>🌍 Najczęściej występująca planeta to <b>{summary_planeta['Planeta'][0]}</b> "
+            f"<p>Najczęściej występująca planeta to <b>{summary_planeta['Planeta'][0]}</b> "
             f"z liczbą <b>{summary_planeta['liczba'][0]}</b> wypraw.</p>\n"
         )
 
-    # 🧭 Typ wyprawy
     if summary_typ["liczba"][0] == 1:
-        markdown += "<p>🔸 Wszystkie rodzaje wycieczek występują równie często.</p>\n"
+        markdown += "<p>Wszystkie rodzaje wycieczek występują równie często.</p>\n"
     else:
         markdown += (
-            f"<p>🧭 Najczęstszy rodzaj wycieczki to <b>{summary_typ['Typ wyprawy'][0]}</b> "
+            f"<p>Najczęstszy rodzaj wycieczki to <b>{summary_typ['Typ wyprawy'][0]}</b> "
             f"({summary_typ['liczba'][0]} razy).</p>\n"
         )
 
-    # 🚀 Pojazdy
     if summary_pojazd["liczba"][0] == 1:
-        markdown += "<p>🔸 Wszystkie pojazdy kosmiczne występują równie często.</p>\n"
+        markdown += "<p>Wszystkie pojazdy kosmiczne występują równie często.</p>\n"
     else:
         markdown += (
-            f"<p>🚀 Najczęściej używany pojazd kosmiczny to <b>{summary_pojazd['Pojazd'][0]}</b> "
+            f"<p>Najczęściej używany pojazd kosmiczny to <b>{summary_pojazd['Pojazd'][0]}</b> "
             f"(użyty {summary_pojazd['liczba'][0]} razy).</p>\n"
         )
 
@@ -1321,7 +1318,6 @@ query_one_timers = """
 df_one_time = pd.read_sql_query(text(query_one_timers), engine)
 client_ids = df_one_time['client_id'].tolist()
 
-# --- Krok 2: podróże tych klientów ---
 if not client_ids:
     one_time_trips = []
 else:
@@ -1338,7 +1334,6 @@ else:
     df_trips = pd.read_sql_query(text(query_one_time_trips), engine, params=param_dict)
     trip_ids = df_trips['trip_id'].tolist()
 
-# --- Krok 3: szczegóły podróży ---
 if not trip_ids:
     df_disliked_trips = pd.DataFrame(columns=["Planeta", "Typ wyprawy", "Pojazd", "Rakieta", "Id"])
 else:
@@ -1363,11 +1358,9 @@ else:
     """
     df_disliked_trips = pd.read_sql_query(text(query_trip_info), engine, params=param_dict)
 
-# --- Formatowanie końcowe ---
 df_disliked_trips.columns = ["Planeta", "Typ wyprawy", "Pojazd", "Rakieta", "Id"]
 df_disliked_trips.index = pd.RangeIndex(start=1, stop=len(df_disliked_trips)+1)
 
-# Wyświetlenie wyników
 display(df_disliked_trips.head(10))
 df_summary_markdown(df_disliked_trips.head(10))
 ```
@@ -1404,13 +1397,11 @@ else:
 
     df = pd.read_sql_query(text(query_last_trips), engine, params=param_dict)
 
-# --- Krok 2: Zlicz podróże i sortuj ---
 summary = df['trip_id'].value_counts().reset_index()
 summary.columns = ['trip_id', 'num_clients']
 summary = summary.sort_values(by='num_clients', ascending=False)
 last_trips_ids = summary["trip_id"].tolist()
 
-# --- Krok 3: Szczegóły podróży ---
 if not last_trips_ids:
     df_last_trips = pd.DataFrame(columns=["Planeta", "Typ wyprawy", "Pojazd", "Rakieta", "Id"])
 else:
@@ -1435,11 +1426,9 @@ else:
     """
     df_last_trips = pd.read_sql_query(text(query_trip_info), engine, params=param_dict)
 
-# --- Formatowanie końcowe ---
 df_last_trips.columns = ["Planeta", "Typ wyprawy", "Pojazd", "Rakieta", "Id"]
 df_last_trips.index = pd.RangeIndex(start=1, stop=len(df_last_trips)+1)
 
-# Wyświetlenie wyników
 display(df_last_trips.head(10))
 df_summary_markdown(df_last_trips.head(10))
 ```
@@ -1455,7 +1444,6 @@ query = """
 """
 df = pd.read_sql_query(text(query), engine)
 
-# --- Krok 2: Analiza powrotów klientów ---
 df['next_trip'] = df.groupby('client_id')['trip_id'].shift(-1)
 df['returned_after'] = df['next_trip'].notna()
 
@@ -1464,7 +1452,6 @@ trip_retention = trip_retention.sort_values(by='clients_returned', ascending=Fal
 
 top_5_ret_ids = trip_retention.head(10)["trip_id"].tolist()
 
-# --- Krok 3: Szczegóły dla najczęściej powracanych podróży ---
 if not top_5_ret_ids:
     df_liked_trips = pd.DataFrame(columns=["Planeta", "Typ wyprawy", "Pojazd", "Rakieta", "Id"])
 else:
@@ -1489,7 +1476,6 @@ else:
     """
     df_liked_trips = pd.read_sql_query(text(query), engine, params=param_dict)
 
-# --- Formatowanie i wyświetlenie ---
 df_liked_trips.columns = ["Planeta", "Typ wyprawy", "Pojazd", "Rakieta", "Id"]
 df_liked_trips.index = pd.RangeIndex(start=1, stop=len(df_liked_trips)+1)
 
@@ -1506,7 +1492,6 @@ Interesuje nas wpływ naszych pracowników na wyprawy. Chcemy odnaleźć pracown
 #### Najlepiej oceniani pracownicy
 ```{python}
 roles_of_interest = ["Pilot statku", "Specjalista ds. bezpieczeństwa","Lekarz pokładowy", "Kucharz orbitalny"]
-# --- Krok 1: Pobranie ocen przypisanych pracownikom ---
 query = """
 SELECT
     e.first_name AS Imię,
@@ -1521,25 +1506,23 @@ JOIN feedback f ON ea.trip_id = f.trip_id
 """
 df_ratings_all = pd.read_sql_query(text(query), engine)
 
-# --- Krok 2: Średnie oceny wszystkich pracowników ---
 avg_ratings_all = df_ratings_all.groupby(['Imię', 'Nazwisko', 'Pozycja','ID'])['Ocena'].mean().reset_index()
 avg_ratings_all["Ocena"] = round(avg_ratings_all["Ocena"], 2)
 avg_ratings_all = avg_ratings_all.sort_values(by="Ocena", ascending=False)
 
-# --- Krok 3: Średnie oceny tylko dla interesujących nas ról ---
 roles_of_interest = ["Pilot statku", "Specjalista ds. bezpieczeństwa", "Lekarz pokładowy", "Kucharz orbitalny"]
 df_ratings_interest = df_ratings_all[df_ratings_all["Pozycja"].isin(roles_of_interest)]
 avg_ratings_interest = df_ratings_interest.groupby(['Imię', 'Nazwisko', 'Pozycja','ID'])['Ocena'].mean().reset_index()
 avg_ratings_interest["Ocena"] = round(avg_ratings_interest["Ocena"], 2)
 avg_ratings_interest = avg_ratings_interest.sort_values(by="Ocena", ascending=False)
 
-# --- Wyświetlenie topowych ---
+
 display(avg_ratings_interest.head(5).style.hide(axis="index"))
 
-# --- Markdown z najlepszym pracownikiem ---
+
 best_employee = avg_ratings_interest.iloc[0]
 markmarkdown_text = f"""
-👨‍🚀 Najlepszym pracownikiem okazał jest **{best_employee['Imię']} {best_employee['Nazwisko']}** o ID **{best_employee['ID']}** , który przysłużył nam się pracując jako **{best_employee['Pozycja']}**. Uzyskana ocena wynosi **{best_employee['Ocena']}**.
+Najlepszym pracownikiem okazał jest **{best_employee['Imię']} {best_employee['Nazwisko']}** o ID **{best_employee['ID']}** , który przysłużył nam się pracując jako **{best_employee['Pozycja']}**. Uzyskana ocena wynosi **{best_employee['Ocena']}**.
 """
 display(Markdown(markmarkdown_text))
 ```
@@ -1560,10 +1543,10 @@ ORDER BY Wyprawy DESC
 """
 df_acvitivy = pd.read_sql_query(text(query), engine)
 
-# --- Krok 2: Filtrowanie po interesujących rolach ---
+
 df_acvitivy_interest = df_acvitivy[df_acvitivy["Pozycja"].isin(roles_of_interest)]
 
-# --- Krok 3: Sortowanie i wyświetlanie ---
+
 most_active = df_acvitivy.sort_values(by="Wyprawy", ascending=False)
 most_active_of_interest = df_acvitivy_interest.sort_values(by="Wyprawy", ascending=False)
 
@@ -1571,9 +1554,9 @@ display(most_active.head(5).style.hide(axis="index"))
 
 most_active_employee = most_active.iloc[0]
 
-# --- Markdown z najlepszym pracownikiem pod względem aktywności ---
+
 markmarkdown_text = f"""
-👨‍🚀 Najbardziej aktywnym pracownikiem okazał jest **{most_active_employee['Imię']} {most_active_employee['Nazwisko']}** o ID {most_active_employee['ID']} , który przysłużył nam się pracując jako **{most_active_employee['Pozycja']}**. Liczba wycieczek, na które miał wpływ ten niesamowity pracownik wynosi **{most_active_employee['Wyprawy']}**.
+Najbardziej aktywnym pracownikiem okazał jest **{most_active_employee['Imię']} {most_active_employee['Nazwisko']}** o ID {most_active_employee['ID']} , który przysłużył nam się pracując jako **{most_active_employee['Pozycja']}**. Liczba wycieczek, na które miał wpływ ten niesamowity pracownik wynosi **{most_active_employee['Wyprawy']}**.
 """
 display(Markdown(markmarkdown_text))
 ```
@@ -1633,7 +1616,7 @@ display(Markdown(markmarkdown_text))
 W tym podpunkcie będziemy chcieli zbadać dwie rzeczy, które mogą być ze sobą powiązane. Chcemy kiedy w trakcie roku występuje najwięcej lotów, czy są jakieś trendy lub sezonowość. Dokładnie to samo będziemy chcieli sprawdzić w kwestii incydentów, czy są okresy kiedy zdarzają się częściej?
 
 ```{python}
-# --- Krok 1: Daty podróży ---
+
 query = "SELECT trip_id, departure_datetime FROM trips"
 df_trips = pd.read_sql_query(text(query), engine)
 
@@ -1644,7 +1627,6 @@ df_trips['month'] = df_trips['departure_datetime'].dt.month
 
 trip_counts = df_trips['month'].value_counts().sort_index()
 
-# --- Krok 2: Daty incydentów ---
 query = "SELECT incident_id, datetime_occurred FROM incidents"
 df_incidents = pd.read_sql_query(text(query), engine)
 
@@ -1669,10 +1651,10 @@ df_plot = pd.DataFrame({
     "Liczba incydentów": incidents_counts.values
 })
 
-# Zmiana na long format (wymagane przez plotly.express do grouped bar chart)
+
 df_melted = df_plot.melt(id_vars="Miesiąc", var_name="Typ", value_name="Liczba")
 
-# Rysowanie wykresu
+
 fig = px.bar(
     df_melted,
     x="Miesiąc",
@@ -1742,8 +1724,6 @@ ORDER BY total_amount DESC
 """
 df_methods = pd.read_sql_query(text(query), engine)
 
-# --- Krok 2: (opcjonalne) dodanie okna płatności, jeśli df i diff są zdefiniowane ---
-# Zakładam, że zmienna `df` i kolumna `diff` (days_before_trip) są już wcześniej utworzone.
 
 bins = [-100, 0, 3, 7, 14, 30, 90, 365]
 labels = ['Po czasie', '0-3 dni', '4-7 dni', '8-14 dni', '15-30 dni', '31-90 dni', '91+ dni']
@@ -1757,12 +1737,11 @@ fig = make_subplots(
     shared_xaxes=True,
     vertical_spacing=0.15,
     subplot_titles=(
-        "💰 Źródła największego przychodu wg metody płatności",
-        "📊 Popularność metod płatności wg liczby użyć"
+        "Źródła największego przychodu wg metody płatności",
+        "Popularność metod płatności wg liczby użyć"
     )
 )
 
-# Wiersz 1: Łączna kwota
 fig.add_trace(
     go.Bar(
         x=df_methods["payment_method"],
@@ -1773,7 +1752,6 @@ fig.add_trace(
     row=1, col=1
 )
 
-# Wiersz 2: Liczba transakcji
 fig.add_trace(
     go.Bar(
         x=df_methods["payment_method"],
@@ -1784,7 +1762,6 @@ fig.add_trace(
     row=2, col=1
 )
 
-# Ustawienia osi, tytułu itd.
 fig.update_layout(
     height=700,
     showlegend=False,
