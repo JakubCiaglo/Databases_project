@@ -12,7 +12,7 @@ Data: 14 czerwca 2025
   - `random` – generowanie losowych wartości
   - `datetime`, `dateutil.relativedelta` – operacje na datach
   - `numpy`, `pandas`, `scipy` – przetwarzanie i analiza danych
-  - `mysql.connector`, `sqlalchemy`, `pymsql` – łączenie i operacje na bazie MySQL/MariaDB
+  - `mysql.connector`, `sqlalchemy`, `pymsql` – łączenie i operacje na bazie MariaDB
   - `faker` – sztuczne dane personalne
   - `Plotly` - wizualizacje w raporcie
   - `IPython.display` - tworzenie zautomatyzowanych Markdownów
