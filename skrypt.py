@@ -668,9 +668,9 @@ def uruchom():
 
     incident_templates = [
         {"description": "Problemy z ciśnieniem w module medycznym, szybka reakcja lekarza.", "category": "medical", "requires_client": True, "possible_severities": ["medium", "high"]},
-        {"description": "Awaria systemu orientacji – konieczne ręczne sterowanie przez pilota.", "category": "navigation", "requires_client": False, "possible_severities": ["medium", "high", "critical"]},
+        {"description": "Awaria systemu orientacji – konieczne ręczne sterowanie przez pilota.", "category": "navigation", "requires_client": False, "possible_severities": ["medium", "high"]},
         {"description": "Utrata łączności z Ziemią na krótki okres, przywrócono po 15 minutach.", "category": "communication", "requires_client": False, "possible_severities": ["low", "medium"]},
-        {"description": "Niewielki pożar w komorze silnikowej, ugaszono systemami automatycznymi.", "category": "equipment", "requires_client": False, "possible_severities": ["high", "critical"]},
+        {"description": "Niewielki pożar w komorze silnikowej, ugaszono systemami automatycznymi.", "category": "equipment", "requires_client": False, "possible_severities": ["high"]},
         {"description": "Podejrzenie choroby lokomocyjnej u jednego z pasażerów, interwencja medyczna.", "category": "medical", "requires_client": True, "possible_severities": ["low", "medium"]},
         {"description": "Nieprawidłowy odczyt czujnika paliwa – wymagana weryfikacja inżynierska.", "category": "equipment", "requires_client": False, "possible_severities": ["medium", "high"]},
         {"description": "Zauważono podejrzany obiekt kosmiczny, wykonano dodatkową analizę.", "category": "navigation", "requires_client": False, "possible_severities": ["low", "medium"]},
@@ -711,12 +711,11 @@ def uruchom():
     completed_participants = cursor.fetchall()
 
 
-    severity_rank = {"low": 1, "medium": 2, "high": 3, "critical": 4}
+    severity_rank = {"low": 1, "medium": 2, "high": 3}
 
     cursor.execute("""
         SELECT  trip_id,
                 MAX(CASE severity
-                        WHEN 'critical' THEN 4
                         WHEN 'high'     THEN 3
                         WHEN 'medium'   THEN 2
                         ELSE 1 END)
@@ -725,7 +724,7 @@ def uruchom():
     """)
     trip_severity = {tid: rank for tid, rank in cursor.fetchall()}
 
-    penalty_map = {1: 0.0, 2: 0.3, 3: 0.6, 4: 1.0}
+    penalty_map = {1: 0.05, 2: 0.35, 3: 0.8}
 
     negative_comments = [
         "Lot był bardzo niewygodny, a obsługa niezbyt pomocna.",
