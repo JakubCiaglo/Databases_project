@@ -68,18 +68,14 @@ Poniższe podsekcje (5.1 – 5.14) prezentują dla każdej tabeli:
 #### 5.1 `clients`
 
 - **PK** `client_id`
-- **AK** `email`
 - **FD**
   - `client_id → first_name, last_name, date_of_birth, email, phone`
-  - `email → client_id, first_name, last_name, date_of_birth, phone`
 
 #### 5.2 `employees`
 
 - **PK** `employee_id`
-- **AK** `email`
 - **FD**
   - `employee_id → first_name, last_name, position, salary, hire_date, termination_date, email, phone`
-  - `email → employee_id, first_name, last_name, position, salary, hire_date, termination_date, phone`
 
 #### 5.3 `destinations`
 
